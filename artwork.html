@@ -32,14 +32,14 @@ title: artwork
     </div>
   </section>
 
-  {% assign sorted = site.artwork %}
+  {% assign sorted = site.artwork | sort: "date" | reverse %}
   <!-- Images Section -->
   <section class="container" style="height: 100rem;">
-    <div id="artwork-container" class="grid">
+    <div class="grid" id="artwork-container" >
       {% for image in sorted %}
-        <button data-toggle="modal" data-target="#modal-{{ image.index  }}">
+        <button data-toggle="modal" data-target="#modal-{{ forloop.index  }}">
           <div class="grid-item">
-            <img src="{{ image.path }}" alt="Artwork" class="image">
+            <img src="{{ image.location }}" alt="Artwork" class="image">
           </div>
         </button>
       {% endfor %}
@@ -48,7 +48,7 @@ title: artwork
 
   {% for image in sorted %}
     <!-- Modal Section -->
-    <div class="modal fade px-0" id="modal-{{ image.index }}" tabindex="-1" role="dialog" aria-labelledby="artwork-modal-title" aria-hidden="true">
+    <div class="modal fade px-0" id="modal-{{ forloop.index }}" tabindex="-1" role="dialog" aria-labelledby="artwork-modal-title" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
         <div class="modal-content">
           <!-- Header -->
@@ -70,7 +70,7 @@ title: artwork
           <!-- Body -->
           <div class="modal-body p-1">
             <div class="d-flex mx-auto" style="width: 100%">
-              <img id="artwork-img-field" class="artwork-modal-img" src="{{ image.path }}"/>
+              <img id="artwork-img-field" class="artwork-modal-img" src="{{ image.location }}"/>
             </div>
           </div>
           
@@ -90,7 +90,8 @@ title: artwork
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
     integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
     crossorigin="anonymous"></script>
-    
+  
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <script src="/assets/js/showcase/artwork.js"></script>
   <script src="/assets/js/showcase/script.js"></script>
 </body>

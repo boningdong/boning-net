@@ -1,5 +1,5 @@
 ---
-path: /assets/img/artwork/skyrim.jpg
+location: /assets/img/artwork/skyrim.jpg
 title: The Elder Scroll V
 date: 2017-09-24
 tags: 
