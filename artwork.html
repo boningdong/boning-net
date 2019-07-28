@@ -1,0 +1,96 @@
+---
+title: artwork
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Framework-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/showcase/artwork.css">
+  <link rel="stylesheet" href="/assets/css/showcase/style.css">
+  <link rel="stylesheet" href="/assets/css/showcase/navbar.css">
+  <title>Boning's Artwork</title>
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css?family=PT+Serif:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  {% include showcase/navbar.html %}
+
+  <!-- Banner Section -->
+  <section id="banner" class="banner" style="background-image: url('/assets/img/showcase/artwork-banner.jpg');">
+    <div class="title-section">
+      <h1 class="title mb-2">Artwork</h1>
+      <h2 class="subtitle">drawings | paintings | designs</h2>
+    </div>
+  </section>
+
+  {% assign sorted = site.artwork %}
+  <!-- Images Section -->
+  <section class="container" style="height: 100rem;">
+    <div id="artwork-container" class="grid">
+      {% for image in sorted %}
+        <button data-toggle="modal" data-target="#modal-{{ image.index  }}">
+          <div class="grid-item">
+            <img src="{{ image.path }}" alt="Artwork" class="image">
+          </div>
+        </button>
+      {% endfor %}
+    </div>
+  </section>
+
+  {% for image in sorted %}
+    <!-- Modal Section -->
+    <div class="modal fade px-0" id="modal-{{ image.index }}" tabindex="-1" role="dialog" aria-labelledby="artwork-modal-title" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+          <!-- Header -->
+          <div class="py-2" style="border-bottom: 1px solid #dee2e6;">
+            <div class="modal-header py-1" style="border-bottom: 0px;">
+              <h1 class="modal-title artwork-modal-title" id="artwork-title-field">
+                {{ image.title }}
+              </h1>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="artwork-modal-info" >
+              <h2 id="artwork-info-field" class="pr-4">
+                Date: {{ image.date | date_to_string: "ordinal", "US" }}
+              </h2>
+            </div>
+          </div>
+          <!-- Body -->
+          <div class="modal-body p-1">
+            <div class="d-flex mx-auto" style="width: 100%">
+              <img id="artwork-img-field" class="artwork-modal-img" src="{{ image.path }}"/>
+            </div>
+          </div>
+          
+          <!-- Footer -->
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+    
+  <script src="/assets/js/showcase/artwork.js"></script>
+  <script src="/assets/js/showcase/script.js"></script>
+</body>

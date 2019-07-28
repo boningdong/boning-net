@@ -1,0 +1,136 @@
+---
+title: home
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Framework-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/index/navbar.css">
+  <link rel="stylesheet" href="/assets/css/index/style.css">
+  <link rel="stylesheet" href="/assets/css/index/timeline.css">
+  <link rel="stylesheet" href="/assets/css/index/showcase.css">
+  <link rel="stylesheet" href="/assets/css/index/skills.css">
+  <title>Boning's Page</title>
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css?family=PT+Serif:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Navigation Bar Section -->
+  {% include index/navbar.html %}
+
+  <!-- Page Banner Section -->
+  <section id="banner" class="banner">
+    <div class="title-section">
+      <div style="top: 40%; position: absolute;">
+        <h1 class="title mb-4">Boning Dong</h1>
+        <p class="subtitle my-1">Computer Engineering | Art & Technology Student</p>
+        <p class="subtitle">University of California, Santa Barbara</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Me Section -->
+  <section id='about'>
+    <div class="about-section" style="text-align: center;">
+
+
+      <div class="container">
+
+        <div class="row justify-content-end">
+          <div class="col-md-4" style="background-color: transparent;">
+            <img class="portrait" src="/assets/img/index/me.png" alt="">
+          </div>
+          <div class="col-md-8 py-md-5 pt-4 p-md-5">
+            <h2 class="section-title">Engineer, Programmer, Hobbyist Painter & Designer</h2>
+            <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the
+              blind texts. Separated they live in Bookmarksgrove right at the coast of the Semantics, a large language
+              ocean.</p>
+            <p><a class="general-button">Contact Me</a></p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Experiences Section -->
+  <section id='experience'>
+    {% include index/timeline.html %}
+  </section>
+
+  <section id='showcase'>
+    {% include index/showcase.html %}
+  </section>
+
+  <section id="skills">
+    {% include index/skills.html %}
+  </section>
+
+  <!-- Footer Section -->
+  <!-- Footer -->
+  <footer id="footer" class="page-footer">
+    <div class="text-center">
+      <!-- Footer Elements -->
+
+      <div class="footer-wrapper px-4 py-4">
+        <div class="footer-body">
+
+          <div class="d-block text-center">
+            <h1 class="footer-title">Let's connect!</h1>
+            <p class="footer-subline">Feel free to connect and talk with me about any interesting ideas about projects,
+              artwork or just life!</p>
+          </div>
+
+          <div class="footer-icon-bar">
+            <div class="container">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="my-1 text-center">
+                    <a class="icon d-inline-flex">
+                      <img src="/assets//img/index/icon-fb.svg" alt="">
+                    </a>
+                    <a class="icon d-inline-flex">
+                      <img src="/assets//img/index/icon-git.svg" alt="">
+                    </a>
+                    <a class="icon d-inline-flex">
+                      <img src="/assets//img/index/icon-ins.svg" alt="">
+                    </a>
+                    <a class="icon d-inline-flex">
+                      <img src="/assets//img/index/icon-link.svg" alt="">
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer-copyright text-center" style="color: #606368;">
+        © Designed by: Boning Dong
+      </div>
+      <!-- Copyright -->
+    </div>
+  </footer>
+  <!-- Footer -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <script src="/assets/js/index/main.js"></script>
+</body>
