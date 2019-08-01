@@ -1,0 +1,32 @@
+.content-area h1 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #3e4758;
+  margin: 2rem 0rem 1rem 0rem;
+}
+.content-area h2 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: #3e4758;
+  margin: 2rem 0rem 1rem 0rem;
+}
+.content-area h3 {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #3e4758;
+  margin: 2rem 0rem 1rem 0rem;
+}
+.content-area p {
+  padding: 0.2rem 0;
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.1rem;
+  color: #252b38;
+}
+.content-area li {
+  font-family: "Open Sans", sans-serif;
+  font-size: 1.1rem;
+  color: #252b38;
+}

@@ -1,0 +1,73 @@
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--Framework-->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <!-- CSS -->
+  <link rel="stylesheet" href="/assets/css/showcase/projects.css">
+  <link rel="stylesheet" href="/assets/css/showcase/style.css">
+  <link rel="stylesheet" href="/assets/css/showcase/navbar.css">
+  <link rel="stylesheet" href="/assets/sass/project-posts.css">
+  {% if page.title %}
+  <title>Project - {{ page.title }}</title>
+  {% else %}
+  <title>Project</title>
+  {% endif %}
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css?family=PT+Serif:700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700&display=swap" rel="stylesheet">
+</head>
+
+
+
+<body>
+  <!-- Navigation bar -->
+  {% include showcase/navbar.html %}
+  
+
+  <!-- Banner Section -->
+  {% if page.banner %}
+    {% assign banner_src = page.banner %}
+  {% else %}
+    {% assign banner_src = '/assets/img/showcase/projects-banner.jpg' %}
+  {% endif %}
+  <section id="banner" class="banner" style="background-image: url({{banner_src}});">
+    <div class="title-section">
+      {% if page.title %}
+      <h1 class="title mb-2">{{ page.title }}</h1>
+      {% else %}
+      <h1 class="title mb-2">Project</h1>
+      {% endif %}
+
+      {% if page.subtitle %}
+      <h2 class="subtitle">Engineering | Coding | Science</h2>
+      {% endif %}
+    </div>
+  </section>
+
+  
+  <!-- Cards Section -->
+  <section class="container">
+    <div class="px-3 px-md-5">
+      <div class="px-md-5 content-area">
+        {{ content }}
+      </div>
+    </div>
+  </section>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+    crossorigin="anonymous"></script>
+  
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+  <script src="/assets/js/showcase/projects.js"></script>
+  <script src="/assets/js/showcase/script.js"></script>
+
+</body>
