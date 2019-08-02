@@ -1,5 +1,5 @@
 p {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Merriweather', serif;
 }
 
 .banner {
@@ -12,10 +12,10 @@ p {
 }
 
 .section-title {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Merriweather', serif;
     font-size: 40px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: bold;
 }
 
 /* Title Section */
@@ -27,7 +27,7 @@ p {
 }
 
 .title {
-    font-family: 'PT Serif', serif;
+    font-family: 'Merriweather', serif;
     font-weight: bold;
     font-size: 2.5rem;
     color: rgb(242, 242, 242);
@@ -35,7 +35,7 @@ p {
 }
 
 .subtitle {
-    font-family: 'PT Serif', serif;
+    font-family: 'Merriweather', serif;
     font-weight: bold;
     font-size: 1rem;
     color: rgb(242, 242, 242);
@@ -82,14 +82,14 @@ p {
 
 .footer-title {
     color: #f1f1f1;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Merriweather', serif;
     font-style: normal;
     font-weight: 700;
 }
 
 .footer-subline {
     color: #f1f1f1;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Merriweather', serif;
 }
 
 @media only screen and (max-width: 468px){

@@ -1,32 +1,53 @@
+.post-title {
+  font-family: "Merriweather", serif;
+  font-weight: bold;
+  font-size: 2.6rem;
+  text-shadow: 1px 1px 4px black;
+  color: #f2f2f2;
+}
+.post-subtitle {
+  font-family: "Merriweather", serif;
+  font-style: normal;
+  font-size: 1.2rem;
+  text-shadow: 1px 1px 4px black;
+  color: #f2f2f2;
+}
+.project-photo {
+  width: 100%;
+  height: auto;
+  margin: auto;
+  border-radius: 3px;
+  box-shadow: 2px 2px 7px -1px rgba(0, 0, 5, 0.5);
+}
 .content-area h1 {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 2rem;
-  font-weight: 700;
+  font-weight: 900;
   color: #3e4758;
   margin: 2rem 0rem 1rem 0rem;
 }
 .content-area h2 {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 1.6rem;
-  font-weight: 700;
+  font-weight: 900;
   color: #3e4758;
   margin: 2rem 0rem 1rem 0rem;
 }
 .content-area h3 {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 1.3rem;
-  font-weight: 700;
+  font-weight: 900;
   color: #3e4758;
   margin: 2rem 0rem 1rem 0rem;
 }
 .content-area p {
   padding: 0.2rem 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 1.1rem;
   color: #252b38;
 }
 .content-area li {
-  font-family: "Open Sans", sans-serif;
+  font-family: "Merriweather", serif;
   font-size: 1.1rem;
   color: #252b38;
 }

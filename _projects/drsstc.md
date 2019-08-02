@@ -1,6 +1,7 @@
 ---
 layout: project-post
 title: Dual Resonant Solid State Tesla Coil
+update-date: 2018-05-21
 ---
 
 # Descriptions

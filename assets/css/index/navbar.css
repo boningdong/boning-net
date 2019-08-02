@@ -6,7 +6,7 @@
 }
 
 .navbar-normal a {
-    font-family: 'PT Serif', serif;
+    font-family: 'Merriweather', serif;
     font-weight: bold;
     color: rgb(245, 245, 245);
     transition-duration: 0.5s;
@@ -26,7 +26,7 @@
 }
 
 .navbar-scroll a {
-    font-family: 'PT Serif', serif;
+    font-family: 'Merriweather', serif;
     font-weight: bold;
     color: rgb(180, 180, 180);
     transition-duration: 0.5s;
