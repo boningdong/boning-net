@@ -10,10 +10,7 @@
     margin: auto;
 }
 
-.card-img-top {
-    height: 160px;
-    border-radius: inherit inherit 0px 0px;
-}
+
 
 .project-modal-title {
     font-size: 24px;
@@ -47,14 +44,19 @@
         transition-duration: 0.25s;
     }
 
+    .card-img-top {
+        height: 160px;
+        border-radius: inherit inherit 0px 0px;
+    }
+
     .card-body {
         font-family: 'Open Sans', sans-serif;
     }
 
     .card-title {
         color: rgb(41, 36, 68);
-        font-weight: 600;
-        font-size: 0.85rem;
+        font-weight: 700;
+        font-size: 0.80rem;
     }
 
     .card-subtitle {

@@ -3,6 +3,7 @@ layout: project-post
 title: Kossel 3D Printer
 subtitle: A self-made high precision 3D printer.
 date: 2016-08-18
+cover: "/assets/img/projects/kossel_cover.jpg"
 tags:
     - hardware
     - 3dprinter

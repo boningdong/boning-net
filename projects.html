@@ -42,7 +42,11 @@ title: projects
       {% for project in sorted %}
       <a href="{{ project.url }}" style="text-decoration: none;">
         <div class="card">
+            {% if project.cover %}
+            <img class="card-img-top" src="{{ project.cover | prepend: site.baseurl }}" alt="Card image cap">
+            {% else %}
             <img class="card-img-top" src="https://images.unsplash.com/photo-1492546643178-96d64f3fd824?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+            {% endif %}
             <div class="card-body">
               <h5 class="card-title">{{ project.title }}</h5>
               {% if project.subtitle %}
