@@ -1,6 +1,16 @@
 ---
 layout: project-post
 title: Simple Watch
+subtitle: A self-designed smartwatch.
+date: 2018-08-25
+external-link: 'https://github.com/boningdong/SimpleWatch'
+tags:
+    - hardware
+    - system-design
+    - firmware
+    - embedded
+    - c
+    - pcb
 ---
 
 # Description
@@ -17,3 +27,12 @@ As its name indicates, I tried to build a "product level" smartwatch from scratc
 
 # Progress
 Currently, I finished designing and assembling the prototype board for developing firmware and validating my design. On the board, different subsystems are connected using 0 Ohm resistors, which eases the process of the board modularly. (Updated 07/28/2019)
+
+<div class="row justify-content-center">
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/smartwatch_2.jpg">
+    </div>
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/smartwatch_3.jpg">
+    </div>
+</div>

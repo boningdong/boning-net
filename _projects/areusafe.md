@@ -1,7 +1,8 @@
 ---
 layout: project-post
 title: AreUSafe
-update-date: 2017-5-1
+subtitle: A safety information App.
+date: 2017-5-1
 tags:
     - software
     - java

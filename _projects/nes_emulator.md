@@ -1,6 +1,16 @@
 ---
 layout: project-post
 title: NES Emulator Project
+subtitle: A game console that can run NES games.
+date: 2019-05-08
+external-link: 'https://github.com/boningdong/STM32-NES-Console-Hardware'
+tags:
+    - hardware
+    - system-design
+    - firmware
+    - embedded
+    - c
+    - pcb
 ---
 
 # Description
@@ -24,3 +34,18 @@ My partner Jeff and I designed and built this project for UCSB ECE153B class. Th
 
 # Progress
 Currently, we finished the PCB board design and assembly work. The driver-level firmware has been completed and tested. CPU and PPU are almost finished but still need to solve bugs and proceed more tests. (Updated 07/28/2019)
+
+<div class="row justify-content-center">
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/nes_emulator_1.jpg">
+    </div>
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/nes_emulator_4.jpg">
+    </div>
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/nes_emulator_2.jpg">
+    </div>
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/nes_emulator_3.jpg">
+    </div>
+</div>

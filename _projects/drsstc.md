@@ -1,7 +1,8 @@
 ---
 layout: project-post
 title: Dual Resonant Solid State Tesla Coil
-update-date: 2018-05-21
+subtitle: High frequnecy HV transformer capable of playing music with lightning.
+date: 2018-05-21
 external-link: "https://github.com/boningdong/DRSSTC"
 tags:
     - hardware

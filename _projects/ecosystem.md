@@ -1,7 +1,8 @@
 ---
 layout: project-post
-title: Java Based Ecosystem Simulator
-update-date: 2018-07-24
+title: Java Ecosystem Simulator
+subtitle: An ecosystem simulator for exploring individual-group relationship.
+date: 2018-07-24
 external-link: "https://github.com/boningdong/JavaEcoSimulator"
 tags:
     - software

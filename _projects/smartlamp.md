@@ -1,7 +1,29 @@
 ---
 layout: project-post
 title: Smart Lamp
+subtitle: A Bluetooth controlled smart lamp.
+date: 2016-07-21
+external-link: 'https://github.com/boningdong/Smart-Lamp'
+tags:
+    - hardware
+    - system-design
+    - firmware
+    - embedded
+    - c
+    - pcb
 ---
+
+<div class="row justify-content-center">
+    <div class="col-lg-4 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/smartlamp_5.jpg">
+    </div>
+    <div class="col-lg-4 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/smartlamp_3.jpg">
+    </div>
+    <div class="col-lg-4 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/smartlamp_6.jpg">
+    </div>
+</div>
 
 # Description
 I planned to build this project as a gift to my high school friends and teachers before I went to the US for my Bachelor's' degree. But unfortunately, I couldn't produce enough of them because of the limitation of time.
@@ -24,3 +46,12 @@ As usual, I tried to build a "product-level" product and design everything from 
 - choosing the components
 - designing, manufacturing and assembling the  PCBs
 - developing the firmware
+
+<div class="row justify-content-center">
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/smartlamp_1.jpg">
+    </div>
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/smartlamp_4.jpg">
+    </div>
+</div>
