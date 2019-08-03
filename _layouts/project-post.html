@@ -35,16 +35,38 @@
     {% assign banner_src = '/assets/img/showcase/projects-banner.jpg' %}
   {% endif %}
   <section id="banner" class="banner" style="background-image: url({{banner_src}});">
+    {% if page.external-link %}
+    <div class="title-section" style="position: relative; top: 10px;">
+    {% else %}
     <div class="title-section">
+    {% endif %}
       {% if page.title %}
-      <h1 class="post-title mb-3">{{ page.title }}</h1>
+      <h1 class="post-title mb-1">{{ page.title }}</h1>
       {% else %}
-      <h1 class="post-title mb-3">Project</h1>
+      <h1 class="post-title mb-1">Project</h1>
       {% endif %}
 
       
       {% if page.update-date %}
       <h2 class="post-subtitle">Updated: {{ page.update-date | date: "%B %Y"}}</h2>
+      {% endif %}
+
+      {% if page.tags %}
+      <div class="row d-flex justify-content-center">
+        {% for t in page.tags  %}
+          {% assign tag = site.tags | where:"tag-id", t | first %}
+          <span class="badge project-tag" 
+            style="background-image: linear-gradient(to right, {{tag.tag-color.top}} 5%, {{tag.tag-color.bottom}} 100%);">
+            {{ tag.tag-title }}
+          </span>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      {% if page.external-link %}
+        <div class="row d-block justify-content-center">
+            <a class="btn btn-dark external-link" role="button" href="{{ page.external-link }}">Project Link</a>
+        </div>
       {% endif %}
     </div>
   </section>
@@ -56,18 +78,6 @@
       <div class="px-md-5 content-area">
         
         {{ content }}
-
-        <div class="row my-4">
-          <div class="col-md-4 d-flex my-3 my-md-0">
-            <img class="mx-auto project-photo" src="/assets/img/projects/testcoil_2.jpg"/>
-          </div>
-          <div class="col-md-4 d-flex my-3 my-md-0">
-            <img class="mx-auto project-photo" src="/assets/img/projects/testcoil_3.jpg"/>
-          </div>
-          <div class="col-md-4 d-flex my-3 my-md-0">
-            <img class="mx-auto project-photo" src="/assets/img/projects/testcoil_4.jpg"/>
-          </div>
-        </div>
 
       </div>
     </div>

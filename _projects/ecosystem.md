@@ -1,6 +1,11 @@
 ---
 layout: project-post
 title: Java Based Ecosystem Simulator
+update-date: 2018-07-24
+external-link: "https://github.com/boningdong/JavaEcoSimulator"
+tags:
+    - software
+    - java
 ---
 
 # Description

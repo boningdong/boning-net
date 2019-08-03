@@ -30,6 +30,8 @@ collections:
   projects:
     output: true
     permalink: /:collection/:name
+  tags:
+    relative_directory: '_tags/'
 
 # Build settings
 markdown: kramdown
