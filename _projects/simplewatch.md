@@ -3,6 +3,7 @@ layout: project-post
 title: Simple Watch
 subtitle: A self-designed smartwatch.
 date: 2018-08-25
+cover: "/assets/img/projects/smartwatch_cover.jpg"
 external-link: 'https://github.com/boningdong/SimpleWatch'
 tags:
     - hardware
@@ -30,9 +31,15 @@ Currently, I finished designing and assembling the prototype board for developin
 
 <div class="row justify-content-center">
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/smartwatch_2.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartwatch_2.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/smartwatch_3.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartwatch_3.jpg">
+    </div>
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartwatch_4.jpg">
+    </div>
+    <div class="col-lg-6 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartwatch_5.jpg">
     </div>
 </div>

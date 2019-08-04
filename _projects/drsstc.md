@@ -11,13 +11,13 @@ tags:
 ---
 <div class="row">
     <div class="col-lg-4 d-flex ">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/teslacoil_2.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_2.jpg">
     </div>
     <div class="col-lg-4 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/teslacoil_3.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_3.jpg">
     </div>
     <div class="col-lg-4 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/teslacoil_4.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_4.jpg">
     </div>
 </div>
 
@@ -46,16 +46,16 @@ Our DRSSTC can generate 1.3 meters long arch under 800W (80V 10A) input power, a
 ### photos:
 <div class="row justify-content-center">
     <div class="col-md-9 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/teslacoil_6.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_6.jpg">
     </div>
 </div>
 <div class="row justify-content-center">
     <div class="col-md-9 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/teslacoil_1.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_1.jpg">
     </div>
 </div>
 <div class="row justify-content-center">
     <div class="col-md-9 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/teslacoil_5.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_5.jpg">
     </div>
 </div>

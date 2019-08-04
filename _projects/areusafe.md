@@ -3,6 +3,7 @@ layout: project-post
 title: AreUSafe
 subtitle: A safety information App.
 date: 2017-5-1
+cover: "/assets/img/projects/areusafe_cover.jpg"
 tags:
     - software
     - java
@@ -18,10 +19,10 @@ You can still download this app here:
 
 <div class="row">
     <div class="col-md-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/areusafe_1.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe_1.jpg">
     </div>
     <div class="col-md-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/areusafe_2.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe_2.jpg">
     </div>
 </div>
 

@@ -12,9 +12,9 @@ title: artwork
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <!-- CSS -->
-  <link rel="stylesheet" href="/assets/css/showcase/artwork.css">
-  <link rel="stylesheet" href="/assets/css/showcase/style.css">
-  <link rel="stylesheet" href="/assets/css/showcase/navbar.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/artwork.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/style.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/navbar.css">
   <title>Boning's Artwork</title>
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css?family=PT+Serif:700&display=swap" rel="stylesheet">
@@ -26,7 +26,7 @@ title: artwork
   {% include showcase/navbar.html %}
 
   <!-- Banner Section -->
-  <section id="banner" class="banner" style="background-image: url('/assets/img/showcase/artwork-banner.jpg');">
+  <section id="banner" class="banner" style="background-image: url('{{ site.baseurl }}/assets/img/showcase/artwork-banner.jpg');">
     <div class="title-section">
       <h1 class="title mb-2">Artwork</h1>
       <h2 class="subtitle">drawings | paintings | designs</h2>
@@ -40,7 +40,7 @@ title: artwork
       {% for image in sorted %}
         <button data-toggle="modal" data-target="#modal-{{ forloop.index  }}">
           <div class="grid-item">
-            <img src="{{ image.location }}" alt="Artwork" class="image">
+            <img src="{{ image.cover | prepend: site.baseurl }}" alt="Artwork" class="image">
           </div>
         </button>
       {% endfor %}
@@ -71,7 +71,7 @@ title: artwork
           <!-- Body -->
           <div class="modal-body p-1">
             <div class="d-flex mx-auto" style="width: 100%">
-              <img id="artwork-img-field" class="artwork-modal-img" src="{{ image.location }}"/>
+              <img id="artwork-img-field" class="artwork-modal-img" src="{{ image.location | prepend: site.baseurl }}"/>
             </div>
           </div>
           
@@ -93,6 +93,6 @@ title: artwork
     crossorigin="anonymous"></script>
   
   <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-  <script src="/assets/js/showcase/artwork.js"></script>
-  <script src="/assets/js/showcase/script.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/showcase/artwork.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/showcase/script.js"></script>
 </body>

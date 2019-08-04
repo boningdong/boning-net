@@ -3,6 +3,7 @@ layout: project-post
 title: NES Emulator Project
 subtitle: A game console that can run NES games.
 date: 2019-05-08
+cover: "/assets/img/projects/nes_emulator_cover.jpg"
 external-link: 'https://github.com/boningdong/STM32-NES-Console-Hardware'
 tags:
     - hardware
@@ -37,15 +38,15 @@ Currently, we finished the PCB board design and assembly work. The driver-level 
 
 <div class="row justify-content-center">
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/nes_emulator_1.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_1.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/nes_emulator_4.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_4.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/nes_emulator_2.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_2.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/nes_emulator_3.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_3.jpg">
     </div>
 </div>

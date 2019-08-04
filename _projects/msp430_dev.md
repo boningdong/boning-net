@@ -17,10 +17,10 @@ The project is an MSP430F2132 development board with an RGB LED controller and e
 
 <div class="row justify-content-center">
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/msp430_devboard_3.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_3.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/msp430_devboard_2.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_2.jpg">
     </div>
 </div>
 
@@ -38,6 +38,6 @@ The whole project can be divided into the following phrases:
 
 <div class="row justify-content-center">
     <div class="col-lg-11 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/msp430_devboard_1.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_1.jpg">
     </div>
 </div>

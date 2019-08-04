@@ -17,10 +17,10 @@ Kossel is a parametric delta robot 3D printer, built-in 2012 by Johann in Seattl
 
 <div class="row">
     <div class="col-lg-6 d-flex ">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/kossel_1.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_1.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/kossel_9.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_9.jpg">
     </div>
 </div>
 
@@ -30,21 +30,21 @@ Here are some of the parts I modeled and printed:
 
 <div class="row">
     <div class="col-lg-6 d-flex ">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/kossel_2.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_2.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/kossel_4.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_4.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/kossel_5.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_5.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/kossel_3.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_3.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/kossel_7.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_7.jpg">
     </div>
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="/assets/img/projects/kossel_6.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_6.jpg">
     </div>
 </div>

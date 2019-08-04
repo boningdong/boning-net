@@ -10,9 +10,9 @@ title: projects
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <!-- CSS -->
-  <link rel="stylesheet" href="/assets/css/showcase/projects.css">
-  <link rel="stylesheet" href="/assets/css/showcase/style.css">
-  <link rel="stylesheet" href="/assets/css/showcase/navbar.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/projects.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/style.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/navbar.css">
   <title>Boning's Projects</title>
   <!-- Font -->
   <link href="https://fonts.googleapis.com/css?family=PT+Serif:700&display=swap" rel="stylesheet">
@@ -27,7 +27,7 @@ title: projects
   {% include showcase/navbar.html %}
   
   <!-- Banner Section -->
-  <section id="banner" class="banner" style="background-image: url('/assets/img/showcase/projects-banner.jpg');">
+  <section id="banner" class="banner" style="background-image: url('{{ site.baseurl }}/assets/img/showcase/projects-banner.jpg');">
     <div class="title-section">
       <h1 class="title mb-2">Projects</h1>
       <h2 class="subtitle">Engineering | Coding | Science</h2>
@@ -40,7 +40,7 @@ title: projects
     <div class="showcase">
 
       {% for project in sorted %}
-      <a href="{{ project.url }}" style="text-decoration: none;">
+      <a href="{{ project.url | prepend: site.baseurl }}" style="text-decoration: none;">
         <div class="card">
             {% if project.cover %}
             <img class="card-img-top" src="{{ project.cover | prepend: site.baseurl }}" alt="Card image cap">
@@ -78,7 +78,7 @@ title: projects
     crossorigin="anonymous"></script>
   
   <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-  <script src="/assets/js/showcase/projects.js"></script>
-  <script src="/assets/js/showcase/script.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/showcase/projects.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/showcase/script.js"></script>
 
 </body>

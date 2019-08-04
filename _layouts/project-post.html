@@ -6,10 +6,10 @@
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <!-- CSS -->
-  <link rel="stylesheet" href="/assets/css/showcase/projects.css">
-  <link rel="stylesheet" href="/assets/css/showcase/style.css">
-  <link rel="stylesheet" href="/assets/css/showcase/navbar.css">
-  <link rel="stylesheet" href="/assets/sass/project-posts.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/projects.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/style.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/navbar.css">
+  <link rel="stylesheet" href="{{ site.baseurl }}/assets/sass/project-posts.css">
   {% if page.title %}
   <title>Project - {{ page.title }}</title>
   {% else %}
@@ -30,11 +30,10 @@
 
   <!-- Banner Section -->
   {% if page.banner %}
-    {% assign banner_src = page.banner %}
+  <section id="banner" class="banner" style="background-image: url({{banner_src | prepend: site.baseurl }});">
   {% else %}
-    {% assign banner_src = '/assets/img/showcase/projects-banner.jpg' %}
+  <section id="banner" class="banner" style="background-image: url('{{ site.baseurl }}/assets/img/showcase/projects-banner.jpg');">
   {% endif %}
-  <section id="banner" class="banner" style="background-image: url({{banner_src}});">
     {% if page.external-link %}
     <div class="title-section" style="position: relative; top: 10px;">
     {% else %}
@@ -92,7 +91,7 @@
     crossorigin="anonymous"></script>
   
   <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-  <script src="/assets/js/showcase/projects.js"></script>
-  <script src="/assets/js/showcase/script.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/showcase/projects.js"></script>
+  <script src="{{ site.baseurl }}/assets/js/showcase/script.js"></script>
 
 </body>

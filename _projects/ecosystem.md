@@ -3,6 +3,7 @@ layout: project-post
 title: Java Ecosystem Simulator
 subtitle: An ecosystem simulator for exploring individual-group relationship.
 date: 2018-07-24
+cover: "/assets/img/projects/ecosystem_cover.jpg"
 external-link: "https://github.com/boningdong/JavaEcoSimulator"
 tags:
     - software
@@ -31,3 +32,14 @@ It's also worth to mention that my friend Tian Gao inspired this project. I buil
 
 # Results
 The simulator functions correctly, and a sheep-wolves relationship can be seen from the diagram result.
+
+<div class="row justify-content-center">
+    <div class="col-md-9 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/ecosystem_1.gif">
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-md-9 d-flex">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/ecosystem_2.gif">
+    </div>
+</div>
