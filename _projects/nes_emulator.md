@@ -38,7 +38,7 @@ Currently, we finished the PCB board design and assembly work. The driver-level 
 
 <div class="row justify-content-center">
     <div class="col-lg-6 d-flex">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_1.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_5.jpg">
     </div>
     <div class="col-lg-6 d-flex">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_4.jpg">
