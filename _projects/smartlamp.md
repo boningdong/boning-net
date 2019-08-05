@@ -14,14 +14,14 @@ tags:
     - pcb
 ---
 
-<div class="row justify-content-center">
-    <div class="col-lg-4 d-flex">
+<div class="row d-flex">
+    <div class="col-lg-4">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_5.jpg">
     </div>
-    <div class="col-lg-4 d-flex">
+    <div class="col-lg-4">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_3.jpg">
     </div>
-    <div class="col-lg-4 d-flex">
+    <div class="col-lg-4">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_6.jpg">
     </div>
 </div>
@@ -48,11 +48,11 @@ As usual, I tried to build a "product-level" product and design everything from 
 - designing, manufacturing and assembling the  PCBs
 - developing the firmware
 
-<div class="row justify-content-center">
-    <div class="col-lg-6 d-flex">
+<div class="row d-flex">
+    <div class="col-lg-6">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_1.jpg">
     </div>
-    <div class="col-lg-6 d-flex">
+    <div class="col-lg-6">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_4.jpg">
     </div>
 </div>

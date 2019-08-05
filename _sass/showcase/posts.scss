@@ -7,6 +7,10 @@ $text-color: #252b38;
     font-size: 2.3rem;
     text-shadow: 1px 1px 4px black;
     color: rgb(242, 242, 242);
+
+    @media screen and (max-width: 768px) {
+        font-size: 1.8rem;
+    }
 }
 
 .post-subtitle {
@@ -20,10 +24,10 @@ $text-color: #252b38;
 
 .video-container {
     position: relative;
-    width: 100%;
+    padding-top: 30px;
     height: 0;
     padding-bottom: 56.25%;
-    margin: 1rem auto 2rem auto;
+    overflow: hidden;
 
     .video {
         position: absolute;
@@ -34,9 +38,17 @@ $text-color: #252b38;
         border-radius: 5px;
         box-shadow: 1px 2px 5px 0px rgba(0, 0, 5, 0.65);
     }
+
+    iframe,
+    object,
+    embed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
 }
-
-
 
 .project-photo {
     width: 100%;
@@ -51,6 +63,12 @@ $text-color: #252b38;
     font-size: 0.9rem;
     color: white;
     box-shadow: 1px 2px 5px 0px rgba(0, 0, 5, 0.65);
+
+    @media screen and (max-width: 768px) {
+        font-size: 0.7rem;
+        padding: 0.25rem 0.6rem;
+        margin: 0.2rem 0.2rem;
+    }
 }
 
 .external-link {
@@ -82,6 +100,11 @@ $text-color: #252b38;
         font-weight: 900;
         color: $title-color;
         margin: 2rem 0rem 1rem 0rem;
+
+        @media screen and (max-width: 768px) {
+            font-size: 1.8rem;
+            margin: 1.8rem 0rem 1rem 0rem;
+        }
     }
 
     h2 {
@@ -91,6 +114,11 @@ $text-color: #252b38;
         font-weight: 900;
         color: $title-color;
         margin: 2rem 0rem 1rem 0rem;
+
+        @media screen and (max-width: 768px) {
+            font-size: 1.4rem;
+            margin: 1.8rem 0rem 1rem 0rem;
+        }
     }
 
     h3 {
@@ -100,6 +128,11 @@ $text-color: #252b38;
         font-weight: 900;
         color: $title-color;
         margin: 2rem 0rem 1rem 0rem;
+
+        @media screen and (max-width: 768px) {
+            font-size: 1.2rem;
+            margin: 1.8rem 0rem 1rem 0rem;
+        }
     }
 
     p {
@@ -107,12 +140,20 @@ $text-color: #252b38;
         font-family: 'Merriweather', serif;
         font-size: 1.1rem;
         color: $text-color;
+
+        @media screen and (max-width: 768px) {
+            font-size: 1rem;
+        }
     }
 
     li {
         font-family: 'Merriweather', serif;
         font-size: 1.1rem;
         color: $text-color;
+
+        @media screen and (max-width: 768px) {
+            font-size: 1rem;
+        }
     }
 
     

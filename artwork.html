@@ -38,11 +38,11 @@ title: artwork
   <section class="container" style="height: 100rem;">
     <div class="grid" id="artwork-container" >
       {% for image in sorted %}
-        <button data-toggle="modal" data-target="#modal-{{ forloop.index  }}">
+        <a data-toggle="modal" data-target="#modal-{{ forloop.index  }}">
           <div class="grid-item">
             <img src="{{ image.cover | prepend: site.baseurl }}" alt="Artwork" class="image">
           </div>
-        </button>
+        </a>
       {% endfor %}
     </div>
   </section>
@@ -69,8 +69,8 @@ title: artwork
             </div>
           </div>
           <!-- Body -->
-          <div class="modal-body p-1">
-            <div class="d-flex mx-auto" style="width: 100%">
+          <div class="modal-body p-1 d-flex">
+            <div class="mx-auto" style="width: 100%">
               <img id="artwork-img-field" class="artwork-modal-img" src="{{ image.location | prepend: site.baseurl }}"/>
             </div>
           </div>

@@ -9,14 +9,14 @@ tags:
     - hardware
     - pcb
 ---
-<div class="row">
-    <div class="col-lg-4 d-flex ">
+<div class="row d-flex">
+    <div class="col-lg-4">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_2.jpg">
     </div>
-    <div class="col-lg-4 d-flex">
+    <div class="col-lg-4">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_3.jpg">
     </div>
-    <div class="col-lg-4 d-flex">
+    <div class="col-lg-4">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_4.jpg">
     </div>
 </div>
@@ -37,25 +37,28 @@ We determined to build a Dual Resonant Solid State Tesla Coil (DRSSTC) because i
 Our DRSSTC can generate 1.3 meters long arch under 800W (80V 10A) input power, and is capable of generating music with the help of the music interrupter.
 
 ### Video:
-<div class="row justify-content-center">
-    <div class="col-md-9  video-container d-flex" >
-        <iframe class="video" src="https://www.youtube.com/embed/fd-R-8HahTA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+<div class="row justify-content-center d-flex">
+    <div class="col-md-9" >
+        <div class="video-container">
+            <iframe class="video" width="320" height="180" src="https://www.youtube.com/embed/fd-R-8HahTA" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
     </div>
 </div>
 
 ### photos:
-<div class="row justify-content-center">
-    <div class="col-md-9 d-flex">
+<div class="row justify-content-center d-flex">
+    <div class="col-md-9">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_6.jpg">
     </div>
 </div>
-<div class="row justify-content-center">
-    <div class="col-md-9 d-flex">
+<div class="row justify-content-center d-flex">
+    <div class="col-md-9">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_1.jpg">
     </div>
 </div>
-<div class="row justify-content-center">
-    <div class="col-md-9 d-flex">
+<div class="row justify-content-center d-flex">
+    <div class="col-md-9">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_5.jpg">
     </div>
 </div>

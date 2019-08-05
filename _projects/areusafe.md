@@ -17,13 +17,11 @@ Tesla Coil is an Android App that can provide users' safety information of diffe
 You can still download this app here:
 [Play Store](https://play.google.com/store/apps/details?id=edu.ucsb.boning.jsontest)
 
-<div class="row">
-    <div class="col-md-6 d-flex">
+<div class="row d-flex">
+    <div class="col-md-6">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe_1.jpg">
     </div>
-    <div class="col-md-6 d-flex">
+    <div class="col-md-6">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe_2.jpg">
     </div>
 </div>
-
-

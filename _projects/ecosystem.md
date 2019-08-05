@@ -33,13 +33,13 @@ It's also worth to mention that my friend Tian Gao inspired this project. I buil
 # Results
 The simulator functions correctly, and a sheep-wolves relationship can be seen from the diagram result.
 
-<div class="row justify-content-center">
-    <div class="col-md-9 d-flex">
+<div class="row justify-content-center d-flex">
+    <div class="col-md-9">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/ecosystem_1.gif">
     </div>
 </div>
 <div class="row justify-content-center">
-    <div class="col-md-9 d-flex">
+    <div class="col-md-9">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/ecosystem_2.gif">
     </div>
 </div>

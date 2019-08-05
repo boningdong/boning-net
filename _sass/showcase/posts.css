@@ -5,6 +5,11 @@
   text-shadow: 1px 1px 4px black;
   color: #f2f2f2;
 }
+@media screen and (max-width: 768px) {
+  .post-title {
+    font-size: 1.8rem;
+  }
+}
 .post-subtitle {
   font-family: "Merriweather", serif;
   font-style: normal;
@@ -14,10 +19,10 @@
 }
 .video-container {
   position: relative;
-  width: 100%;
+  padding-top: 30px;
   height: 0;
   padding-bottom: 56.25%;
-  margin: 1rem auto 2rem auto;
+  overflow: hidden;
 }
 .video-container .video {
   position: absolute;
@@ -27,6 +32,15 @@
   height: 100%;
   border-radius: 5px;
   box-shadow: 1px 2px 5px 0px rgba(0, 0, 5, 0.65);
+}
+.video-container iframe,
+.video-container object,
+.video-container embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }
 .project-photo {
   width: 100%;
@@ -40,6 +54,13 @@
   font-size: 0.9rem;
   color: white;
   box-shadow: 1px 2px 5px 0px rgba(0, 0, 5, 0.65);
+}
+@media screen and (max-width: 768px) {
+  .project-tag {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.6rem;
+    margin: 0.2rem 0.2rem;
+  }
 }
 .external-link {
   border-radius: 50vh;
@@ -65,12 +86,24 @@
   color: #3e4758;
   margin: 2rem 0rem 1rem 0rem;
 }
+@media screen and (max-width: 768px) {
+  .content-area h1 {
+    font-size: 1.8rem;
+    margin: 1.8rem 0rem 1rem 0rem;
+  }
+}
 .content-area h2 {
   font-family: "Merriweather", serif;
   font-size: 1.6rem;
   font-weight: 900;
   color: #3e4758;
   margin: 2rem 0rem 1rem 0rem;
+}
+@media screen and (max-width: 768px) {
+  .content-area h2 {
+    font-size: 1.4rem;
+    margin: 1.8rem 0rem 1rem 0rem;
+  }
 }
 .content-area h3 {
   font-family: "Merriweather", serif;
@@ -79,14 +112,30 @@
   color: #3e4758;
   margin: 2rem 0rem 1rem 0rem;
 }
+@media screen and (max-width: 768px) {
+  .content-area h3 {
+    font-size: 1.2rem;
+    margin: 1.8rem 0rem 1rem 0rem;
+  }
+}
 .content-area p {
   padding: 0.2rem 0;
   font-family: "Merriweather", serif;
   font-size: 1.1rem;
   color: #252b38;
 }
+@media screen and (max-width: 768px) {
+  .content-area p {
+    font-size: 1rem;
+  }
+}
 .content-area li {
   font-family: "Merriweather", serif;
   font-size: 1.1rem;
   color: #252b38;
+}
+@media screen and (max-width: 768px) {
+  .content-area li {
+    font-size: 1rem;
+  }
 }

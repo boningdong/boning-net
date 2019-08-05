@@ -35,10 +35,11 @@
   <section id="banner" class="banner" style="background-image: url('{{ site.baseurl }}/assets/img/showcase/projects-banner.jpg');">
   {% endif %}
     {% if page.external-link %}
-    <div class="title-section" style="position: relative; top: 10px;">
+    <div class="title-section container" style="position: relative; top: 10px;">
     {% else %}
-    <div class="title-section">
+    <div class="title-section container">
     {% endif %}
+      
       {% if page.title %}
       <h1 class="post-title mb-1">{{ page.title }}</h1>
       {% else %}
@@ -52,13 +53,15 @@
 
       {% if page.tags %}
       <div class="row d-flex justify-content-center">
-        {% for t in page.tags  %}
-          {% assign tag = site.tags | where:"tag-id", t | first %}
-          <span class="badge project-tag" 
-            style="background-image: linear-gradient(to right, {{tag.tag-color.top}} 5%, {{tag.tag-color.bottom}} 100%);">
-            {{ tag.tag-title }}
-          </span>
-        {% endfor %}
+        <div class="col-12">
+          {% for t in page.tags  %}
+            {% assign tag = site.tags | where:"tag-id", t | first %}
+            <span class="badge project-tag" 
+              style="background-image: linear-gradient(to right, {{tag.tag-color.top}} 5%, {{tag.tag-color.bottom}} 100%);">
+              {{ tag.tag-title }}
+            </span>
+          {% endfor %}
+        </div>
       </div>
       {% endif %}
 

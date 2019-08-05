@@ -29,17 +29,17 @@ As its name indicates, I tried to build a "product level" smartwatch from scratc
 # Progress
 Currently, I finished designing and assembling the prototype board for developing firmware and validating my design. On the board, different subsystems are connected using 0 Ohm resistors, which eases the process of the board modularly. (Updated 07/28/2019)
 
-<div class="row justify-content-center">
-    <div class="col-lg-6 d-flex">
+<div class="row justify-content-center d-flex">
+    <div class="col-lg-6">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartwatch_2.jpg">
     </div>
-    <div class="col-lg-6 d-flex">
+    <div class="col-lg-6">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartwatch_3.jpg">
     </div>
-    <div class="col-lg-6 d-flex">
+    <div class="col-lg-6">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartwatch_4.jpg">
     </div>
-    <div class="col-lg-6 d-flex">
+    <div class="col-lg-6">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartwatch_5.jpg">
     </div>
 </div>

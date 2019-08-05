@@ -2,6 +2,8 @@ $(document).ready(function(){
     format_showcase();
 });
 
+$('.image').on('load', format_showcase);
+
 function format_showcase() {
     $('.grid').masonry({
         itemSelector: '.grid-item',
