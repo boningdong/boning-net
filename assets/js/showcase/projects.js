@@ -1,4 +1,10 @@
 $(document).ready(function(){
+    format_showcase();
+});
+
+$('.card').on('load', format_showcase);
+
+function format_showcase() {
     $('.showcase').masonry({
         itemSelector: '.card',
         columnWidth: 280,
@@ -7,4 +13,4 @@ $(document).ready(function(){
         fitWidth: true,
         transitionDuration: '0.35s'
     });
-});
+}
