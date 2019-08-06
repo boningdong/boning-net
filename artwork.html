@@ -36,7 +36,7 @@ title: artwork
 
   {% assign sorted = site.artwork | sort: "date" | reverse %}
   <!-- Images Section -->
-  <section class="container" style="height: 100rem;">
+  <section class="container mb-5">
     <div class="grid" id="artwork-container" >
       {% for image in sorted %}
         <a data-toggle="modal" data-target="#modal-{{ forloop.index  }}">
