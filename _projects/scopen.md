@@ -164,9 +164,9 @@ We also designed a case for our product using Autodesk Fusion 360, 3D printed it
 </div>
 
 # Issues & Improvements
-- We can rewrote the front-end software in JavaScript using React and Electron framework to improve the design and make it portable to different platforms.
-- Current the sampling accuracy is not high and the resolution is not high enough (8 bit). We probably can tweak the parameters to sacrifice portion of the speed to improve the accuracy, probably by enabling oversampling or simply increasing the sampling period.
-- Touch sensor works from an prove-of-concept pespective but not good enough; it's not sensitive enough to response to the user input.
+- We can rewrite the front-end software in JavaScript using React and Electron framework to improve the design and make it portable to different platforms.
+- Current the sampling accuracy is not high and the resolution is not high enough (8 bit). We probably can tweak the parameters to sacrifice a portion of the speed to improve the accuracy, probably by enabling oversampling or simply increasing the sampling period.
+- The touch sensor works from a prove-of-concept perspective but not good enough; it's not sensitive enough to respond to the user input.
 
 # Acknowledgment
 We want to give special thanks to **Prof. Yogananda Isukapalli** for managing the UCSB CE capstone program. We also want to thank our TAs **Kyle Douglas** and **Aditya Wadaskar** for giving us valuable advice, and **Jeff Longo** for helping us develop our mobile end app.
