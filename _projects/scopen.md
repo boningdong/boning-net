@@ -60,7 +60,7 @@ To minimize the size of the board, we determined to place components on both sid
 Here are the diagrams of all the layers.
 <div class="row justify-content-center">
     <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/scopen_pcb_layers.png">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/scopen_pcb_6_layers.png">
     </div>
 </div>
 
