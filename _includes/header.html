@@ -1,3 +1,5 @@
+<!-- The header component includes the header used by all pages.
+Page specific header components are defined in the page file. -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,30 +10,20 @@
     <!-- CSS -->
     <link rel="icon" href="{{ site.baseurl }}/assets/img/icon.png">
     
-     <!-- Conditional Include -->
-    {% if page.title == "home" %}
-        <title>Boning's Page</title>
+    <!-- Append Page Type -->
+    {% assign page_type = page.type %}
+
+    {% if page.layout == "project-post" %}
+    {% assign page_type = "showcase" %}
+    {% endif %}
+
+    <!-- Conditional Include -->
+    {% if page_type == "index" %}
         <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/index/navbar.css">
         <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/index/style.css">
-        <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/index/timeline.css">
-        <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/index/showcase.css">
-        <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/index/skills.css">
-
-    {% elsif page.title == "projects" %}
-        <title>Boning's Projects</title>
+    {% elsif page_type == "showcase" %}
         <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/style.css">
         <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/navbar.css">
-        <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/projects.css">
-
-    {% elsif page.title == "artwork" %}
-        <title>Boning's Artwork</title>
-        <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/style.css">
-        <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/navbar.css">
-        <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/artwork.css">
-
-    {% elsif page.title == "resume" %}
-        <title>Boning's Resume</title>
-
     {% endif %}
 
     <!-- Font -->
