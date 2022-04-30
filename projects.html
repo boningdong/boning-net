@@ -2,36 +2,18 @@
 title: projects
 ---
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <!--Framework-->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <!-- CSS -->
-  <link rel="icon" href="{{ site.baseurl }}/assets/img/icon.png">
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/projects.css">
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/style.css">
-  <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/navbar.css">
-  <title>Boning's Projects</title>
-  <!-- Font -->
-  <link href="https://fonts.googleapis.com/css?family=PT+Serif:700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
-</head>
-
-
+{% include header.html %}
 
 <body>
   <!-- Navigation bar -->
   {% include showcase/navbar.html %}
-  
+
   <!-- Banner Section -->
   <section id="banner" class="banner" style="background-image: url('{{ site.baseurl }}/assets/img/showcase/projects-banner.jpg');">
     <div class="title-section">
       <h1 class="title mb-2">Projects</h1>
       <h2 class="subtitle">Engineering | Coding | Science</h2>
+      <h1 class="title mb-2">{{page.title}}</h1>
     </div>
   </section>
 
