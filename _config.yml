@@ -32,6 +32,9 @@ collections:
     permalink: /:collection/:name
   tags:
     relative_directory: '_tags/'
+  experiences:
+    relative_directory: '_experiences/'
+  
 
 # Build settings
 markdown: kramdown

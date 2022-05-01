@@ -32,46 +32,59 @@ type: showcase
         </div>
     </section> -->
 
+    {% assign sorted_jobs = site.experiences | sort: "start-date" | reverse %}
+
     <!-- Experiences Section -->
     <section class="container mb-5" >
         <div class="showcase">
             <!-- <h1>Section 2</h1> -->
-            
-            <div class="row job-card" >
-                <div class="d-flex flex-column flex-md-row w-100" style="height: 200px;">
+
+            {% for job in sorted_jobs %}
+            <div class="row job-card mx-2 mx-md-0 mt-4" >
+                <div class="d-flex w-100 flex-column flex-md-row">
                     <!-- Left -->
                     <div class="logo-cover h-100" style="min-width: 180px; max-width: 180px;">
                         <!-- Logo Background -->
                         <div class="mx-auto h-100 d-flex">
-                            <img class="m-auto card-img-top w-75" src="{{ site.baseurl }}/assets/img/index/apple.png" alt="Card image cap">
+                            <img class="m-auto card-img-top w-50" src="{{ job.logo }}" alt="Card image cap">
                         </div>
                     </div>
                     
                     <!-- Right -->
                     <div class="job-details d-flex flex-column flex-fill">
                         <!-- <div class="flex-column" style=" background-color: gold;" > -->
-                            <div class="job-header d-flex flex-row">
-                                <span class="job-title" >AIRTIST - Product Design Contributor</span>
-                                <span class="job-date" >07.2021 - Current</span>
+                            <div class="job-header d-flex d-md-block">
+                                <div class="logo-min d-flex d-md-none">
+                                    <img class="my-auto" src="{{ job.logo }}" alt="Card image cap">
+                                </div>
+
+                                <div class="d-flex flex-column flex-md-row justify-content-between">
+                                    <div class="d-flex flex-column flex-md-row">
+                                        <span class="company-name"">{{ job.company }}</span>
+                                        <span class="job-title ml-md-2" >{{ job.job-title }}</span>
+                                    </div>
+                                    {% if job.end-date %}
+                                    {% assign end-date = job.end-date | date: "%b %Y" %}
+                                    {% else %}
+                                    {% assign end-date = "Now" %}
+                                    {% endif %}
+                                    <span class="job-date">{{ job.start-date | date: "%b %Y"}} - {{ end-date }}</span>
+                                </div>
                             </div>
-                            <div class="job-description d-flex h-100">
-                                <ul>
-                                    <!-- <li class="">Worked a UEFI toolset to improve the UEFI tuning efficiency by 95%, reduce the tunning time from days to minutes</li>
-                                    <li class="">Developed a UEFI Policy Parser using Python to parse UEFI policies from C structs in header files.</li>
-                                    <li class="">Designed a WDF (Window Driver Framework) driver using C to enable the communication between the toolset and the hardware.</li>
-                                    <li class="">Programmed the CLI Tool using C++ to enable the automation of the UEFI setting deployment.</li>
-                                    <li class="">Integrated the UI layer, driver layer, and the firmware layer of the project.</li>
-                                    <li class="">Drafted a 40 pages documentation for team collaboration and future maintenance.</li> -->
+                            <div class="job-description d-flex flex-column h-100">
+                                {{ job.content }}
+                                <!-- <ul>
                                     <li class="">Support the development work for AIRTIST product features.</li>
                                     <li class="">Design and optimize product features, UI/UX and usage workflows.</li>
                                     <li class="">Provide feedbacks regarding product features and user experiences.</li>
                                     <li class="">Communicate with and collect market feedbacks from our user communities.</li>
-                                </ul>
+                                </ul> -->
                             </div>
                     </div>
 
                 </div>
             </div>
+            {% endfor %}
             
         </div>
     </section>

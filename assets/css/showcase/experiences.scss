@@ -1,12 +1,15 @@
 ---
 ---
+$medium: 768px;
+
 .job-card {
-    $header-font-size: 1rem;
+    $header-font-size: 0.9rem;
     $description-font-size: 0.9rem;
     $text-padding-horiz: 1rem;
 
+    border-radius: 6px;
+    
     // DEBUG:
-    // border-radius: 6px;
     // border-width: 1px;
     // border-style: solid;
     // border-color: gray;
@@ -21,6 +24,10 @@
     }
 
     .logo-cover {
+        display: none;
+        @media screen and (min-width: $medium) {
+            display: block;
+        }
         background-image: linear-gradient(120deg, #fefefe 0%, #eceff0 100%);
     }
 
@@ -47,17 +54,26 @@
             
             margin: 0rem;
 
-            .job-title {
-                font-size: $header-font-size;
-                font-weight: bold;
+            font-weight: bold;
+            font-size: $header-font-size;
+            text-align: right;
+            @media screen and (min-width: $medium) {
+                text-align: left;
+            }
+
+            
+            .logo-min {
+                img {
+                    width: 50px;
+                }
             }
 
             .job-date {
-                font-size: $header-font-size;
-                font-weight: bold;
-
+                font-size: 0.85rem;
+                @media screen and (min-width: $medium) {
+                    font-size: $header-font-size;
+                }
             }
-
         }
         
 
@@ -68,6 +84,7 @@
             padding: 0rem;
             padding-left: $text-padding-horiz;
             margin-top: 1rem;
+            margin-bottom: 1rem;
 
             p {
                 margin: 0rem;
