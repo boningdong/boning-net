@@ -1,0 +1,79 @@
+---
+title: resume
+type: showcase
+---
+
+<!-- General header -->
+{% include header.html %}
+<!-- Page specific header -->
+
+<head>
+    <title>Boning's Projects</title>
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/experiences.css">
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    {% include showcase/navbar.html %}
+
+    <!-- Banner Section -->
+    <section id="banner" class="banner"
+        style="background-image: url('{{ site.baseurl }}/assets/img/showcase/projects-banner.jpg');">
+        <div class="title-section">
+            <h1 class="title mb-2">Experiences</h1>
+            <h2 class="subtitle">Education | Jobs | Awards</h2>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <!-- <section class="container mb-5" style="background-color: grey;">
+        <div class="showcase">
+            <h1>Section 1</h1>
+        </div>
+    </section> -->
+
+    <!-- Experiences Section -->
+    <section class="container mb-5" >
+        <div class="showcase">
+            <!-- <h1>Section 2</h1> -->
+            
+            <div class="row job-card" >
+                <div class="d-flex flex-column flex-md-row w-100" style="height: 200px;">
+                    <!-- Left -->
+                    <div class="logo-cover h-100" style="min-width: 180px; max-width: 180px;">
+                        <!-- Logo Background -->
+                        <div class="mx-auto h-100 d-flex">
+                            <img class="m-auto card-img-top w-75" src="{{ site.baseurl }}/assets/img/index/apple.png" alt="Card image cap">
+                        </div>
+                    </div>
+                    
+                    <!-- Right -->
+                    <div class="job-details d-flex flex-column flex-fill">
+                        <!-- <div class="flex-column" style=" background-color: gold;" > -->
+                            <div class="job-header d-flex flex-row">
+                                <span class="job-title" >AIRTIST - Product Design Contributor</span>
+                                <span class="job-date" >07.2021 - Current</span>
+                            </div>
+                            <div class="job-description d-flex h-100">
+                                <ul>
+                                    <!-- <li class="">Worked a UEFI toolset to improve the UEFI tuning efficiency by 95%, reduce the tunning time from days to minutes</li>
+                                    <li class="">Developed a UEFI Policy Parser using Python to parse UEFI policies from C structs in header files.</li>
+                                    <li class="">Designed a WDF (Window Driver Framework) driver using C to enable the communication between the toolset and the hardware.</li>
+                                    <li class="">Programmed the CLI Tool using C++ to enable the automation of the UEFI setting deployment.</li>
+                                    <li class="">Integrated the UI layer, driver layer, and the firmware layer of the project.</li>
+                                    <li class="">Drafted a 40 pages documentation for team collaboration and future maintenance.</li> -->
+                                    <li class="">Support the development work for AIRTIST product features.</li>
+                                    <li class="">Design and optimize product features, UI/UX and usage workflows.</li>
+                                    <li class="">Provide feedbacks regarding product features and user experiences.</li>
+                                    <li class="">Communicate with and collect market feedbacks from our user communities.</li>
+                                </ul>
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+            
+        </div>
+    </section>
+
+</body>

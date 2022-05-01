@@ -1,0 +1,86 @@
+---
+---
+.job-card {
+    $header-font-size: 1rem;
+    $description-font-size: 0.9rem;
+    $text-padding-horiz: 1rem;
+
+    // DEBUG:
+    // border-radius: 6px;
+    // border-width: 1px;
+    // border-style: solid;
+    // border-color: gray;
+    overflow: hidden;
+
+    box-shadow: 1px 5px 10px 1px rgba(0, 0, 5, 0.15);
+    transition-duration: 0.2s;
+
+    &:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 1px 5px 15px 1px rgba(0, 0, 5, 0.2);
+    }
+
+    .logo-cover {
+        background-image: linear-gradient(120deg, #fefefe 0%, #eceff0 100%);
+    }
+
+
+    .job-details {
+        margin: 0;
+        margin-left: 1rem;
+        margin-right: 1rem;
+
+        font-family: "Open Sans";
+
+        .job-header {
+            color: rgb(80, 80, 80);
+
+            justify-content: space-between;
+
+            border-bottom: 1px solid rgba($color: #ececec, $alpha: 1.0) ;
+
+            padding: 0rem;
+            padding-left: $text-padding-horiz;
+            padding-right: $text-padding-horiz;
+            padding-top: 1rem;
+            padding-bottom: 0.5rem;
+            
+            margin: 0rem;
+
+            .job-title {
+                font-size: $header-font-size;
+                font-weight: bold;
+            }
+
+            .job-date {
+                font-size: $header-font-size;
+                font-weight: bold;
+
+            }
+
+        }
+        
+
+        .job-description {
+            font-family: "Open Sans";
+            font-size: $description-font-size;
+            
+            padding: 0rem;
+            padding-left: $text-padding-horiz;
+            margin-top: 1rem;
+
+            p {
+                margin: 0rem;
+                margin-top: 0.1rem;
+            }
+            
+            ul {
+                padding: 0rem;
+                padding-left: 1rem;
+
+                margin: 0rem;
+                margin-top: 0.1rem;
+            }
+        }
+    }
+}
