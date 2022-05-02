@@ -1,0 +1,92 @@
+---
+title: resume
+type: showcase
+---
+
+<!-- General header -->
+{% include header.html %}
+<!-- Page specific header -->
+
+<head>
+    <title>Boning's Projects</title>
+    <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/experiences.css">
+</head>
+
+<body>
+    <!-- Navigation bar -->
+    {% include showcase/navbar.html %}
+
+    <!-- Banner Section -->
+    <section id="banner" class="banner"
+        style="background-image: url('{{ site.baseurl }}/assets/img/showcase/experience-banner.jpg');">
+        <div class="title-section">
+            <h1 class="title mb-2">Experiences</h1>
+            <h2 class="subtitle">Education | Jobs | Awards</h2>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <!-- <section class="container mb-5" style="background-color: grey;">
+        <div class="showcase">
+            <h1>Section 1</h1>
+        </div>
+    </section> -->
+
+    {% assign sorted_jobs = site.experiences | sort: "start-date" | reverse %}
+
+    <!-- Experiences Section -->
+    <section class="container mb-5" >
+        <div class="showcase">
+            <!-- <h1>Section 2</h1> -->
+
+            {% for job in sorted_jobs %}
+            <div class="row job-card mx-2 mx-md-0 mt-4" >
+                <div class="d-flex w-100 flex-column flex-md-row">
+                    <!-- Left -->
+                    <div class="logo-cover h-100" style="min-width: 180px; max-width: 180px;">
+                        <!-- Logo Background -->
+                        <div class="mx-auto h-100 d-flex">
+                            <img class="m-auto card-img-top w-50" src="{{ job.logo }}" alt="Card image cap">
+                        </div>
+                    </div>
+                    
+                    <!-- Right -->
+                    <div class="job-details d-flex flex-column flex-fill">
+                        <!-- <div class="flex-column" style=" background-color: gold;" > -->
+                            <div class="job-header d-flex d-md-block">
+                                <div class="logo-min d-flex d-md-none">
+                                    <img class="my-auto" src="{{ job.logo }}" alt="Card image cap">
+                                </div>
+
+                                <div class="d-flex flex-column flex-md-row justify-content-between">
+                                    <div class="d-flex flex-column flex-md-row">
+                                        <span class="company-name"">{{ job.company }}</span>
+                                        <span class="job-title ml-md-2" >{{ job.job-title }}</span>
+                                    </div>
+                                    {% if job.end-date %}
+                                    {% assign end-date = job.end-date | date: "%b %Y" %}
+                                    {% else %}
+                                    {% assign end-date = "Now" %}
+                                    {% endif %}
+                                    <span class="job-date">{{ job.start-date | date: "%b %Y"}} - {{ end-date }}</span>
+                                </div>
+                            </div>
+                            <div class="job-description d-flex flex-column h-100">
+                                {{ job.content }}
+                                <!-- <ul>
+                                    <li class="">Support the development work for AIRTIST product features.</li>
+                                    <li class="">Design and optimize product features, UI/UX and usage workflows.</li>
+                                    <li class="">Provide feedbacks regarding product features and user experiences.</li>
+                                    <li class="">Communicate with and collect market feedbacks from our user communities.</li>
+                                </ul> -->
+                            </div>
+                    </div>
+
+                </div>
+            </div>
+            {% endfor %}
+            
+        </div>
+    </section>
+
+</body>
