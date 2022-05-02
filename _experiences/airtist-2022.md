@@ -2,7 +2,7 @@
 company: AIRTIST
 job-title: Product Expert
 start-date: 2022-5-1
-logo: "/assets/img/experiences/apple.png"
+logo: "/assets/img/experiences/airtist.png"
 ---
 
 * Support the development work for AIRTIST product features.

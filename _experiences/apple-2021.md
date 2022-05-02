@@ -7,7 +7,6 @@ logo: "/assets/img/experiences/apple.png"
 
 Work under Apple Core OS Embedded Sensors team to support software development work for various Apple products, including iPhone iPad, Mac, etc. My main responsibilities:
 
+* Support SoC bringups and driver integrations for various Apple hardware products.
 * Develop sensor drivers per sensor specs and engineering requirements.
-* Lead firmware design, architecture, and implementation for key components of Meta Reality Labs custom silicon SoCs
-* Collaborate closely with silicon architects, the OS team, and algorithm and model development teams
-* Develop OS custom kernel drivers and APIs for hardware accelerators and peripherals
+* Collaborate with cross functional teams for feature definition and development.
