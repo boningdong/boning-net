@@ -37,8 +37,6 @@ type: showcase
     <!-- Experiences Section -->
     <section class="container mb-5" >
         <div class="showcase">
-            <!-- <h1>Section 2</h1> -->
-
             {% for job in sorted_jobs %}
             <div class="row job-card mx-2 mx-md-0 mt-4" >
                 <div class="d-flex w-100 flex-column flex-md-row">
@@ -73,15 +71,8 @@ type: showcase
                             </div>
                             <div class="job-description d-flex flex-column h-100">
                                 {{ job.content }}
-                                <!-- <ul>
-                                    <li class="">Support the development work for AIRTIST product features.</li>
-                                    <li class="">Design and optimize product features, UI/UX and usage workflows.</li>
-                                    <li class="">Provide feedbacks regarding product features and user experiences.</li>
-                                    <li class="">Communicate with and collect market feedbacks from our user communities.</li>
-                                </ul> -->
                             </div>
                     </div>
-
                 </div>
             </div>
             {% endfor %}
@@ -89,4 +80,9 @@ type: showcase
         </div>
     </section>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+      integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+      crossorigin="anonymous"></script>
+      
 </body>
