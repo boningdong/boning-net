@@ -5,8 +5,8 @@ subtitle: An 3D AI chatbot avatar to facilitate interactive story creation.
 date: 2022-04-21
 cover: "/assets/img/projects/chatbot/chatbot_cover.jpg"
 tags:
-    - ai
     - unity
+    - ai
     - game
     - software
 ---

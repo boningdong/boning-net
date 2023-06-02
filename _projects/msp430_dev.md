@@ -37,7 +37,7 @@ The whole project can be divided into the following phrases:
     - designing, manufacturing and assembling the  PCBs
 
 <div class="row d-flex">
-    <div class="col-lg-11 ">
+    <div class="col-lg-11">
         <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_1.jpg">
     </div>
 </div>
