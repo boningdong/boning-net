@@ -38,6 +38,7 @@ type: showcase
     <section class="container mb-5" >
         <div class="showcase">
             {% for job in sorted_jobs %}
+            {% if job.shown %}
             <div class="row job-card mx-2 mx-md-0 mt-4" >
                 <div class="d-flex w-100 flex-column flex-md-row">
                     <!-- Left -->
@@ -75,6 +76,7 @@ type: showcase
                     </div>
                 </div>
             </div>
+            {% endif %}
             {% endfor %}
             
         </div>

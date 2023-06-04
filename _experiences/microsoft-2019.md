@@ -4,6 +4,7 @@ job-title: Hardware Intern
 start-date: 2019-6-1
 end-date: 2019-9-1
 logo: "/assets/img/experiences/microsoft.png"
+shown: true
 ---
 
 Joined Microsoft device team to work on varias Surface products, job responsibilities include software/hardware design and verifications, specifically:

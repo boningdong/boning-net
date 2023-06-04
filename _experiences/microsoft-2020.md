@@ -4,6 +4,7 @@ job-title: Embedded Software Intern
 start-date: 2020-6-1
 end-date: 2020-9-1
 logo: "/assets/img/experiences/microsoft.png"
+shown: true
 ---
 
 Returned to Microsoft device team again as an embedded software engineer. Job responsibilities include developing embedded software and drivers for surface devices, specifically:

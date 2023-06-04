@@ -4,6 +4,7 @@ job-title: Hardware Intern
 start-date: 2017-7-1
 end-date: 2017-9-1
 logo: "/assets/img/experiences/transphorm.png"
+shown: true
 ---
 
 Transphorm Inc. is a semiconductor company focused on producing transistors made from gallium nitride for use in switched-mode power supplies. Here are my responsibilities:

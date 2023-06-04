@@ -4,6 +4,7 @@ job-title: Component Eng. Intern
 start-date: 2018-6-1
 end-date: 2018-12-1
 logo: "/assets/img/experiences/karlstorz.png"
+shown: true
 ---
 
 Karl Storz is a leading endoscope manufacturer – offers systems for human and veterinary medicine as well as for industrial applications. Here are my responsibilities:
