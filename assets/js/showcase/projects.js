@@ -1,14 +1,19 @@
-$(document).ready(function(){
+document.addEventListener('DOMContentLoaded', function(){
     format_showcase();
 });
-$('.card').on('load', format_showcase);
+document.querySelectorAll('.card').forEach(function(card) {
+    card.addEventListener('load', format_showcase);
+});
 function format_showcase() {
-    $('.showcase').masonry({
-        itemSelector: '.card',
-        columnWidth: 280,
-        gutter: 40,
-        horizontalOrder: true,
-        fitWidth: true,
-        transitionDuration: '0.35s'
-    });
+    var showcaseElement = document.querySelector('.showcase');
+    if (showcaseElement) {
+        new Masonry(showcaseElement, {
+            itemSelector: '.card',
+            columnWidth: 280,
+            gutter: 40,
+            horizontalOrder: true,
+            fitWidth: true,
+            transitionDuration: '0.35s'
+        });
+    }
 }
