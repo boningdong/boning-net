@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: MSP430 Development Board
 subtitle: A development board for MSP430.
 date: 2016-04-24

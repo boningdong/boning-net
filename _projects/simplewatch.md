@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: Simple Watch
 subtitle: A self-designed smartwatch.
 date: 2018-08-25

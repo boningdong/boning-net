@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: Dual Resonant Solid State Tesla Coil
 subtitle: High frequnecy HV transformer capable of playing music with lightning.
 date: 2018-05-21

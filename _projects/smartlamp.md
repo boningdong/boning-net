@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: Smart Lamp
 subtitle: A Bluetooth controlled smart lamp.
 date: 2016-07-21
