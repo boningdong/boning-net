@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: Scopen - A wireless oscilloscope
 subtitle: UCSB CE 2020 Capstone Projec
 date: 2020-6-15

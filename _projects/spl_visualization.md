@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: Programming Languages Trend
 subtitle: Seattle Library Data Visualization.
 date: 2020-2-12

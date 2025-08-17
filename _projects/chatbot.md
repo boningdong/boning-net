@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: AI Chatbot Avatar
 subtitle: An 3D AI chatbot avatar to facilitate interactive story creation.
 date: 2022-04-21

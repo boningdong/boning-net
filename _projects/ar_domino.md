@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: AR Domino
 # subtitle: A self-made high precision 3D printer.
 subtitle: An AR domino game developed using Unity

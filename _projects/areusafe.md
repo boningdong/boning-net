@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: AreUSafe
 subtitle: A safety information App.
 date: 2017-5-1

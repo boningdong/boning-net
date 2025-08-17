@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: NES Emulator Projec
 subtitle: A game console that can run NES games.
 date: 2019-05-08

@@ -1,5 +1,5 @@
 ---
-layout: project-pos
+layout: project-post
 title: Java Ecosystem Simulator
 subtitle: An ecosystem simulator for exploring individual-group relationship.
 date: 2018-07-24
