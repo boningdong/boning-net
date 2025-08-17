@@ -94,3 +94,17 @@ The `_config.yml` contains:
 - JavaScript handles interactive elements like project/artwork showcase toggles
 - Responsive design optimized for mobile and desktop viewing
 - Images are served locally from the assets directory
+
+## Code Style Guidelines
+
+When editing files in this repository, follow these formatting standards:
+
+### Line Endings and Whitespace
+- **Remove all trailing whitespace** from lines
+- **Use Unix/macOS line endings** (LF `\n`) not Windows line endings (CRLF `\r\n`)
+- Avoid leaving blank lines with only whitespace characters
+
+### General Formatting
+- Maintain consistent indentation within each file type
+- Remove any stray `^M` characters (Windows carriage returns)
+- Keep files clean and properly formatted
