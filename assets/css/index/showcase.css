@@ -1,11 +1,9 @@
 #skills {
     background-color: #f6f7f8;
 }
-
 .skills-showcase {
 	background-color: white	;
 }
-
 .showcase-item img {
 	width: 100%;
 	max-width: 350px;
@@ -14,11 +12,9 @@
     border-radius: 4px;
     transition-duration: 0.2s;
 }
-
 .showcase-item img:hover {
     transform: translate(-2px, -2px);
 }
-
 .showcase-button {
 	-moz-box-shadow: 1px 4px 12px -2px #b3b3b3;
 	-webkit-box-shadow: 1px 4px 12px -2px #b3b3b3;
@@ -42,7 +38,6 @@
 	padding:4px 24px;
 	transition-duration: 0.2s;
 }
-
 .showcase-button:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ebf0f0), color-stop(1, #f7f7f7));
 	background:-moz-linear-gradient(top, #ebf0f0 5%, #f7f7f7 100%);
@@ -53,7 +48,6 @@
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ebf0f0', endColorstr='#f7f7f7',GradientType=0);
 	background-color:#ebf0f0;
 }
-
 .showcase-button-activate {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1878c2), color-stop(1, #37b6c7));
 	box-shadow: 1px 4px 12px -2px #b3b3b3;
@@ -76,7 +70,6 @@
 	padding:4px 24px;
 	transition-duration: 0.2s;
 }
-
 .showcase-button-activate:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #708085), color-stop(1, #7c8a8f));
 	background:-moz-linear-gradient(top, #708085 5%, #7c8a8f 100%);
@@ -87,14 +80,9 @@
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#708085', endColorstr='#7c8a8f',GradientType=0);
 	background-color:#708085;
 }
-
 .showcase-icon-group .icon {
     width: 15px;
     height: 15px;
     padding: 0px;
     object-fit: scale-down;
 }
-
-
-
-

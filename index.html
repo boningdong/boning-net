@@ -4,7 +4,6 @@ type: index
 ---
 <!DOCTYPE html>
 <html lang="en">
-
 <!-- General header -->
 {% include header.html %}
 <!-- Page specific header -->
@@ -14,11 +13,9 @@ type: index
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/index/showcase.css">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/index/skills.css">
 </head>
-
 <body>
   <!-- Navigation Bar Section -->
   {% include index/navbar.html %}
-
   <!-- Page Banner Section -->
   <section id="banner" class="banner">
     <div class="title-section">
@@ -29,14 +26,10 @@ type: index
       </div>
     </div>
   </section>
-
   <!-- About Me Section -->
   <section id='about'>
     <div class="about-section" style="text-align: center;">
-
-
       <div class="container">
-
         <div class="row justify-content-end">
           <div class="col-md-4" style="background-color: transparent;">
             <img class="portrait" src="{{ site.baseurl }}/assets/img/index/me5.jpg" alt="">
@@ -48,38 +41,30 @@ type: index
           </div>
         </div>
       </div>
-
     </div>
   </section>
-
   <!-- Experiences Section -->
   <section id='experience'>
     {% include index/timeline.html %}
   </section>
-
   <section id='showcase'>
     {% include index/showcase.html %}
   </section>
-
   <section id="skills">
     {% include index/skills.html %}
   </section>
-
   <!-- Footer Section -->
   <!-- Footer -->
   <footer id="footer" class="page-footer">
     <div class="text-center">
       <!-- Footer Elements -->
-
       <div class="footer-wrapper px-4 py-4">
         <div class="footer-body">
-
           <div class="d-block text-center">
             <h1 class="footer-title">Let's connect!</h1>
             <p class="footer-subline">Feel free to connect and talk with me about any interesting ideas about projects,
               artwork or just life!</p>
           </div>
-
           <div class="footer-icon-bar">
             <div class="container">
               <div class="row">
@@ -105,10 +90,8 @@ type: index
               </div>
             </div>
           </div>
-
         </div>
       </div>
-
       <!-- Copyright -->
       <div class="footer-copyright text-center" style="color: #606368;">
         © Designed by: Boning Dong
@@ -117,7 +100,7 @@ type: index
     </div>
   </footer>
   <!-- Footer -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
+  <!-- jQuery removed from main.js - using vanilla JS -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
     integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>

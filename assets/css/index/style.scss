@@ -1,7 +1,6 @@
 p {
     font-family: 'Merriweather', serif;
 }
-
 .banner {
     height: 100vh;
     background: url("../../img/index/banner.jpg");
@@ -10,7 +9,6 @@ p {
     background-size: cover;
     box-shadow: 0px 1px 10px rgba(10, 10, 10, 0.95);
 }
-
 .section-title {
     font-family: 'Merriweather', serif;
     font-size: 2.3rem;
@@ -21,7 +19,6 @@ p {
         padding: 0 0.3rem;
     }
 }
-
 /* Title Section */
 .title-section {
     height: 100%;
@@ -29,7 +26,6 @@ p {
     justify-content: center;
     text-align: center;
 }
-
 .title {
     font-family: 'Merriweather', serif;
     font-weight: bold;
@@ -37,7 +33,6 @@ p {
     color: rgb(242, 242, 242);
     text-shadow: 1px 1px 4px black;
 }
-
 .subtitle {
     font-family: 'Merriweather', serif;
     font-weight: bold;
@@ -45,22 +40,18 @@ p {
     color: rgb(242, 242, 242);
     text-shadow: 1px 1px 4px black;
 }
-
 @media only screen and (max-width: 468px){
     .title {
         font-size: 2.0em;
     }
     .subtitle {
-        font-size: 0.8em; 
+        font-size: 0.8em;
     }
 }
-
 /* About me Section */
-
 #about {
     padding-top: 100px;
 }
-
 .portrait {
     object-fit: cover;
     border-radius: 50%;
@@ -71,40 +62,34 @@ p {
 	-webkit-box-shadow: 1px 4px 6px -2px #b3b3b3;
 	box-shadow: 1px 4px 6px -2px #b3b3b3;
 }
-
 .self-intro {
     text-align: left;
     font-size: 17px;
     max-width: 512px;
 }
-
 /* Footer Section */
 .footer-description {
     text-align: center;
     height: 30vh;
 }
-
 .footer-title {
     color: #f1f1f1;
     font-family: 'Merriweather', serif;
     font-style: normal;
     font-weight: 700;
 }
-
 .footer-subline {
     color: #f1f1f1;
     font-family: 'Merriweather', serif;
 }
-
 @media only screen and (max-width: 468px){
     .footer-title {
         font-size: 30px;
     }
     .footer-subline {
-        font-size: 12px; 
+        font-size: 12px;
     }
 }
-
 .footer-wrapper {
     display: flex;
     justify-content: center;
@@ -112,20 +97,17 @@ p {
     height: 50vh;
     background-color: rgb(55, 60, 65);
 }
-
 .footer-copyright {
     background-color: rgb(15, 20, 20);
     padding-top: 20px;
     padding-bottom: 20px;
     font-size: 16px;
 }
-
 .icon img {
     width: 35px;
     height: auto;
     margin: 0px 10px;
 }
-
 .general-button {
 	-moz-box-shadow: 0px 5px 15px -6px #acb4b5;
 	-webkit-box-shadow: 0px 5px 15px -6px #acb4b5;
@@ -161,4 +143,3 @@ p {
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#718487', endColorstr='#8ca4ad',GradientType=0);
 	background-color:#718487;
 }
-

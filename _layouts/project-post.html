@@ -10,11 +10,9 @@
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/projects.css">
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/sass/project-posts.css">
 </head>
-
 <body>
   <!-- Navigation bar -->
   {% include showcase/navbar.html %}
-  
   <!-- Banner Section -->
   {% if page.banner %}
   <section id="banner" class="banner" style="background-image: url({{banner_src | prepend: site.baseurl }});">
@@ -26,24 +24,20 @@
     {% else %}
     <div class="title-section container">
     {% endif %}
-      
       {% if page.title %}
       <h1 class="post-title mb-1">{{ page.title }}</h1>
       {% else %}
       <h1 class="post-title mb-1">Project</h1>
       {% endif %}
-
-      
       {% if page.date %}
       <h2 class="post-subtitle">Updated: {{ page.date | date: "%B %Y"}}</h2>
       {% endif %}
-
       {% if page.tags %}
       <div class="row d-flex justify-content-center">
         <div class="col-12">
           {% for t in page.tags  %}
             {% assign tag = site.tags | where:"tag-id", t | first %}
-            <span class="badge project-tag" 
+            <span class="badge project-tag"
               style="background-image: linear-gradient(to right, {{tag.tag-color.top}} 5%, {{tag.tag-color.bottom}} 100%);">
               {{ tag.tag-title }}
             </span>
@@ -51,7 +45,6 @@
         </div>
       </div>
       {% endif %}
-
       {% if page.external-link %}
         <div class="row d-block justify-content-center">
             <a class="btn btn-dark external-link" role="button" href="{{ page.external-link }}">Project Link</a>
@@ -59,19 +52,14 @@
       {% endif %}
     </div>
   </section>
-
-  
   <!-- Cards Section -->
   <section class="container mb-5 pb-4">
     <div class="px-3 px-md-5">
       <div class="px-md-5 content-area">
-        
         {{ content }}
-
       </div>
     </div>
   </section>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
     integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
@@ -79,9 +67,7 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
     integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
     crossorigin="anonymous"></script>
-  
   <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <script src="{{ site.baseurl }}/assets/js/showcase/projects.js"></script>
   <script src="{{ site.baseurl }}/assets/js/showcase/script.js"></script>
-
 </body>
