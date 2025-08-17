@@ -2,20 +2,16 @@
 title: resume
 type: showcase
 ---
-
 <!-- General header -->
 {% include header.html %}
 <!-- Page specific header -->
-
 <head>
     <title>Boning's Projects</title>
     <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/experiences.css">
 </head>
-
 <body>
     <!-- Navigation bar -->
     {% include showcase/navbar.html %}
-
     <!-- Banner Section -->
     <section id="banner" class="banner"
         style="background-image: url('{{ site.baseurl }}/assets/img/showcase/experience-banner.jpg');">
@@ -24,16 +20,13 @@ type: showcase
             <h2 class="subtitle">Education | Jobs | Awards</h2>
         </div>
     </section>
-
     <!-- Education Section -->
     <!-- <section class="container mb-5" style="background-color: grey;">
         <div class="showcase">
             <h1>Section 1</h1>
         </div>
     </section> -->
-
     {% assign sorted_jobs = site.experiences | sort: "start-date" | reverse %}
-
     <!-- Experiences Section -->
     <section class="container mb-5" >
         <div class="showcase">
@@ -48,7 +41,6 @@ type: showcase
                             <img class="m-auto card-img-top w-50" src="{{ job.logo }}" alt="Card image cap">
                         </div>
                     </div>
-                    
                     <!-- Right -->
                     <div class="job-details d-flex flex-column flex-fill">
                         <!-- <div class="flex-column" style=" background-color: gold;" > -->
@@ -56,7 +48,6 @@ type: showcase
                                 <div class="logo-min d-flex d-md-none">
                                     <img class="my-auto" src="{{ job.logo }}" alt="Card image cap">
                                 </div>
-
                                 <div class="d-flex flex-column flex-md-row justify-content-between">
                                     <div class="d-flex flex-column flex-md-row">
                                         <span class="company-name"">{{ job.company }}</span>
@@ -78,13 +69,10 @@ type: showcase
             </div>
             {% endif %}
             {% endfor %}
-            
         </div>
     </section>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
       integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
       crossorigin="anonymous"></script>
-      
 </body>

@@ -7,7 +7,6 @@
 #
 # For technical reasons, this file is *NOT* reloaded automatically when you use
 # 'bundle exec jekyll serve'. If you change this file, please restart the server process.
-
 # Site settings
 # These are used to personalize your new site. If you look in the HTML files,
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
@@ -23,7 +22,6 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "https://imboning.com" # the base hostname & protocol for your site, e.g. http://example.com
 twitter_username: jekyllrb
 github_username:  jekyll
-
 collections:
   artwork:
     relative_directory: '_artwork/'
@@ -34,20 +32,16 @@ collections:
     relative_directory: '_tags/'
   experiences:
     relative_directory: '_experiences/'
-  
-
 # Build settings
 markdown: kramdown
 theme: minima
 plugins:
   - jekyll-feed
-
 sass:
   sass-dir: _sass
   compressed: true
-
 # Exclude from processing.
-# The following items will not be processed, by default. Create a custom list
+# The following items will not be processed, by default. Create a custom lis
 # to override the default setting.
 # exclude:
 #   - Gemfile

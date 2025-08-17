@@ -2,7 +2,6 @@
 title: projects
 type: showcase
 ---
-
 <!-- General header -->
 {% include header.html %}
 <!-- Page specific header -->
@@ -10,11 +9,9 @@ type: showcase
   <title>Boning's Projects</title>
   <link rel="stylesheet" href="{{ site.baseurl }}/assets/css/showcase/projects.css">
 </head>
-
 <body>
   <!-- Navigation bar -->
   {% include showcase/navbar.html %}
-
   <!-- Banner Section -->
   <section id="banner" class="banner" style="background-image: url('{{ site.baseurl }}/assets/img/showcase/projects-banner.jpg');">
     <div class="title-section">
@@ -22,12 +19,10 @@ type: showcase
       <h2 class="subtitle">Engineering | Coding | Science</h2>
     </div>
   </section>
-
   {% assign sorted = site.projects | sort: "date" | reverse %}
   <!-- Cards Section -->
   <section class="container mb-5">
     <div class="showcase">
-
       {% for project in sorted %}
       <a href="{{ project.url | prepend: site.baseurl }}" style="text-decoration: none;">
         <div class="card">
@@ -42,7 +37,6 @@ type: showcase
                 <p class="card-subtitle">{{ project.subtitle }}</p>
               {% endif %}
             </div>
-
             <div class="card-footer justify-content-bottom">
                 {% for t in project.tags  %}
                   {% assign tag = site.tags | where:"tag-id", t | first %}
@@ -54,10 +48,8 @@ type: showcase
         </div>
       </a>
       {% endfor %}
-
     </div>
   </section>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
     integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
@@ -65,9 +57,7 @@ type: showcase
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
     integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
     crossorigin="anonymous"></script>
-  
   <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <script src="{{ site.baseurl }}/assets/js/showcase/projects.js"></script>
   <script src="{{ site.baseurl }}/assets/js/showcase/script.js"></script>
-
 </body>
