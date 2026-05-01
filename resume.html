@@ -10,16 +10,11 @@ styles:
 {% include showcase/navbar.html %}
 <!-- Banner Section -->
 {% include showcase/banner.html
-  image="/assets/img/showcase/experience-banner.jpg"
+  banner_class="experience-banner"
   title="Experiences"
   subtitle="Education | Jobs | Awards"
+  label="Experiences"
 %}
-<!-- Education Section -->
-<!-- <section class="container mb-5" style="background-color: grey;">
-    <div class="showcase">
-        <h1>Section 1</h1>
-    </div>
-</section> -->
 {% assign sorted_jobs = site.experiences | sort: "start-date" | reverse %}
 <!-- Experiences Section -->
 <section class="container mb-5" >

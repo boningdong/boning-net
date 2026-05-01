@@ -18,6 +18,9 @@
 .showcase-item img:hover {
     transform: translate(-2px, -2px);
 }
+.work-showcase-panel {
+    display: none;
+}
 .showcase-button {
 	-moz-box-shadow: 1px 4px 12px -2px #b3b3b3;
 	-webkit-box-shadow: 1px 4px 12px -2px #b3b3b3;

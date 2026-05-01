@@ -9,14 +9,14 @@
       </div>
     </div>
     {% for showcase in site.data.home.work_showcases %}
-    <div id="{{ showcase[0] }}-showcase" style="display: none;">
+    <div id="{{ showcase[0] }}-showcase" class="work-showcase-panel">
       <div class="description text-center">
         <p>{{ showcase[1].quote }}</p>
       </div>
       <div class="row text-center">
         {% for image in showcase[1].images %}
         <div class="col-12 col-md-4 px-2 py-3 px-md-1 showcase-item">
-          <img src="{{ image | relative_url }}" alt="" class="work-itme">
+          <img src="{{ image | relative_url }}" alt="{{ showcase[1].button_label }} work sample" class="work-itme">
         </div>
         {% endfor %}
       </div>

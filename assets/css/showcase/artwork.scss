@@ -19,6 +19,12 @@
     transform: translate(-2px, -2px);
     transition-duration: 0.25s;
 }
+.artwork-modal-header-wrapper {
+    border-bottom: 1px solid #dee2e6;
+}
+.artwork-modal-header {
+    border-bottom: 0;
+}
 .artwork-modal-title {
     font-size: 24px;
 }
@@ -34,4 +40,7 @@
 .artwork-modal-img {
     max-width: 100%;
     margin: auto !important;
+}
+.artwork-modal-img-wrapper {
+    width: 100%;
 }

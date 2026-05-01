@@ -15,13 +15,13 @@ tags:
 ---
 <div class="row d-flex">
     <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_5.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_5.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_3.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_3.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_6.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_6.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 # Description
@@ -44,9 +44,9 @@ As usual, I tried to build a "product-level" product and design everything from 
 - developing the firmware
 <div class="row d-flex">
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_1.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_1.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_4.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_4.jpg" alt="{{ page.title }} image">
     </div>
 </div>

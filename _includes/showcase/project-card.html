@@ -1,9 +1,9 @@
-<a href="{{ include.project.url | prepend: site.baseurl }}" style="text-decoration: none;">
+<a class="project-card-link" href="{{ include.project.url | prepend: site.baseurl }}" aria-label="View {{ include.project.title }}">
   <div class="card">
     {% if include.project.cover %}
-    <img class="card-img-top" src="{{ include.project.cover | prepend: site.baseurl }}" alt="Card image cap">
+    <img class="card-img-top" src="{{ include.project.cover | prepend: site.baseurl }}" alt="{{ include.project.title }}">
     {% else %}
-    <img class="card-img-top" src="https://images.unsplash.com/photo-1492546643178-96d64f3fd824?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+    <img class="card-img-top" src="https://images.unsplash.com/photo-1492546643178-96d64f3fd824?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="{{ include.project.title }}">
     {% endif %}
     <div class="card-body">
       <h5 class="card-title">{{ include.project.title }}</h5>

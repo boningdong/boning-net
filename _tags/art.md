@@ -1,6 +1,6 @@
 ---
-tag-id: ar
-tag-title: Ar
+tag-id: art
+tag-title: Art
 tag-color:
     top: '#F2466E'
     bottom: '#FF688B'

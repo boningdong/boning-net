@@ -13,9 +13,22 @@
     background-size: cover;
     box-shadow: 0px 1px 8px rgba(5, 30, 60, 0.85);
 }
+.projects-banner {
+    background-image: url("../../img/showcase/projects-banner.jpg");
+}
+.artwork-banner {
+    background-image: url("../../img/showcase/artwork-banner.jpg");
+}
+.experience-banner {
+    background-image: url("../../img/showcase/experience-banner.jpg");
+}
 .title-section {
     color: white;
     text-align: center;
+}
+.project-banner-title-with-link {
+    position: relative;
+    top: 10px;
 }
 .title {
     font-family: 'PT Serif', serif;
@@ -37,3 +50,8 @@
         font-size: 1rem;
     }
 }
+{% for tag in site.tags %}
+.project-tag-{{ tag.tag-id }} {
+    background-image: linear-gradient(to right, {{ tag.tag-color.top }} 5%, {{ tag.tag-color.bottom }} 100%);
+}
+{% endfor %}

@@ -13,9 +13,10 @@ scripts:
 {% include showcase/navbar.html %}
 <!-- Banner Section -->
 {% include showcase/banner.html
-  image="/assets/img/showcase/projects-banner.jpg"
+  banner_class="projects-banner"
   title="Projects"
   subtitle="Engineering | Coding | Science"
+  label="Projects"
 %}
 {% assign sorted = site.projects | sort: "date" | reverse %}
 <!-- Cards Section -->

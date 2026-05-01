@@ -29,7 +29,7 @@ The project can be logically divided into four categories: User Input, AR Detect
 The following figure illustrates the user interface layout of our app. At the center of the screen, a semi-transparent place indicator provides users with a visual reference for the domino's placement. In the bottom-right corner, a rotation ring allows users to adjust the face direction of the domino. Tapping the place button initiates the placement action.
 <div class="row d-flex">
     <div class="col-lg-12">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/ar_domino/domino_storytelling.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/ar_domino/domino_storytelling.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 # Challenges

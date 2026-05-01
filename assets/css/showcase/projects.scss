@@ -10,6 +10,10 @@
 .showcase {
     margin: auto;
 }
+.project-card-link,
+.project-card-link:hover {
+    text-decoration: none;
+}
 .project-modal-title {
     font-size: 24px;
 }
