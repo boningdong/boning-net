@@ -19,10 +19,10 @@ $medium: 768px;
     }
     .logo-cover {
         display: none;
+        background-image: linear-gradient(120deg, #fefefe 0%, #eceff0 100%);
         @media screen and (min-width: $medium) {
             display: block;
         }
-        background-image: linear-gradient(120deg, #fefefe 0%, #eceff0 100%);
     }
     .job-details {
         margin: 0;

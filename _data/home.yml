@@ -1,0 +1,39 @@
+featured_experiences:
+  - company: Apple
+    title: Embedded Software Engineer
+    description: Working as an embedded software engineer under Core OS - Embedded Sensor team to support various products.
+    logo: /assets/img/index/apple.png
+    url: https://www.apple.com/
+    cta: Visit Apple
+  - company: Microsoft
+    title: Firmware Engineering Intern
+    description: Developed an UEFI toolset - SmartUEFI - to boost the UEFI development and optimize the parameter tuning work flow.
+    logo: /assets/img/index/microsoft.png
+    url: https://www.microsoft.com/en-us/
+    cta: Visit Microsoft
+  - company: Karl Storz
+    title: Component Engineering Intern
+    description: Assisted with PCB boards debugging. Classified and documented electrical and mechanical components.
+    logo: /assets/img/index/karlstorz.png
+    url: https://www.karlstorz.com/us/en/
+    cta: Visit Karlstorz
+
+work_showcases:
+  artwork:
+    button_label: Artwork
+    quote: '"We must never forget that art is not a form of propaganda; it is a form of truth." — John F. Kennedy'
+    href: /artwork.html
+    cta: More Artwork
+    images:
+      - /assets/img/index/drawing-1.jpg
+      - /assets/img/index/drawing-2.jpg
+      - /assets/img/index/drawing-3.jpg
+  project:
+    button_label: Projects
+    quote: '"As engineers, we were going to be in a position to change the world – not just study it." — Henry Petroski'
+    href: /projects.html
+    cta: More Projects
+    images:
+      - /assets/img/index/project-1.jpg
+      - /assets/img/index/project-2.jpg
+      - /assets/img/index/project-3.jpg

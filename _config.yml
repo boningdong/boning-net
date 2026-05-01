@@ -19,7 +19,6 @@ collections:
     output: false
 
 markdown: kramdown
-theme: minima
 plugins:
   - jekyll-feed
 

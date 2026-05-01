@@ -4,41 +4,19 @@
   </div>
   <!-- Title -->
   <div class="row text-center py-3 py-md-4">
+    {% for experience in site.data.home.featured_experiences %}
     <div class="col-12 col-md-4 px-0 py-3 px-md-2 py-md-0">
       <div class="card mx-auto company-card">
         <div class="company-logo d-flex">
-          <img class="card-img-top" src="{{ site.baseurl }}/assets/img/index/apple.png" alt="Card image cap">
+          <img class="card-img-top" src="{{ experience.logo | relative_url }}" alt="Card image cap">
         </div>
         <div class="card-body">
-          <h5 class="card-title job-title">Embedded Software Engineer</h5>
-          <p class="card-text">Working as an embedded software engineer under Core OS - Embedded Sensor team to support various products.</p>
-          <a href="https://www.apple.com/" class="general-button">Visit Apple</a>
+          <h5 class="card-title job-title">{{ experience.title }}</h5>
+          <p class="card-text">{{ experience.description }}</p>
+          <a href="{{ experience.url }}" class="general-button">{{ experience.cta }}</a>
         </div>
       </div>
     </div>
-    <div class="col-12 col-md-4 px-0 py-3 px-md-2 py-md-0">
-      <div class="card mx-auto company-card">
-        <div class="company-logo d-flex">
-          <img class="card-img-top" src="{{ site.baseurl }}/assets/img/index/microsoft.png" alt="Card image cap">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title job-title">Firmware Engineering Intern</h5>
-          <p class="card-text">Developed an UEFI toolset - SmartUEFI - to boost the UEFI development and optimize the parameter tuning work flow.</p>
-          <a href="https://www.microsoft.com/en-us/" class="general-button">Visit Microsoft</a>
-        </div>
-      </div>
-    </div>
-    <div class="col-12 col-md-4 px-0 py-3 px-md-2 py-md-0">
-      <div class="card mx-auto company-card">
-        <div class="company-logo d-flex">
-          <img class="card-img-top" src="{{ site.baseurl }}/assets/img/index/karlstorz.png" alt="Card image cap">
-        </div>
-        <div class="card-body">
-          <h5 class="card-title job-title">Component Engineering Intern</h5>
-          <p class="card-text">Assisted with PCB boards debugging. Classified and documented electrical and mechanical components.</p>
-          <a href="https://www.karlstorz.com/us/en/" class="general-button">Visit Karlstorz</a>
-        </div>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </div>
