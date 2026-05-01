@@ -1,0 +1,12 @@
+{% assign banner_image = include.image %}
+<section id="banner" class="banner"{% if banner_image %} style="background-image: url('{{ banner_image | relative_url }}');"{% endif %}>
+  <div class="title-section{% if include.container %} container{% endif %}"{% if include.title_style != blank %} style="{{ include.title_style }}"{% endif %}>
+    <h1 class="{{ include.title_class | default: 'title' }} mb-{{ include.title_margin | default: '2' }}">{{ include.title }}</h1>
+    {% if include.subtitle %}
+    <h2 class="{{ include.subtitle_class | default: 'subtitle' }}">{{ include.subtitle }}</h2>
+    {% endif %}
+    {% if include.content %}
+      {{ include.content }}
+    {% endif %}
+  </div>
+</section>
