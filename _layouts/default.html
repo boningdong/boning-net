@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  {% include header.html %}
+  {% if page.browser_title %}
+    <title>{{ page.browser_title }}</title>
+  {% elsif page.layout == "project-post" and page.title %}
+    <title>Project - {{ page.title }}</title>
+  {% elsif page.title %}
+    <title>{{ page.title | capitalize }} | {{ site.title }}</title>
+  {% else %}
+    <title>{{ site.title }}</title>
+  {% endif %}
+
+  {% if page.layout == "project-post" %}
+    <link rel="stylesheet" href="{{ '/assets/css/showcase/projects.css' | relative_url }}">
+    <link rel="stylesheet" href="{{ '/assets/sass/project-posts.css' | relative_url }}">
+  {% endif %}
+  {% for stylesheet in page.styles %}
+    {% if stylesheet contains '://' %}
+      <link rel="stylesheet" href="{{ stylesheet }}">
+    {% else %}
+      <link rel="stylesheet" href="{{ stylesheet | relative_url }}">
+    {% endif %}
+  {% endfor %}
+</head>
+<body>
+  {{ content }}
+
+  {% if page.layout == "project-post" %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+    <script src="{{ '/assets/js/showcase/projects.js' | relative_url }}"></script>
+    <script src="{{ '/assets/js/showcase/script.js' | relative_url }}"></script>
+  {% endif %}
+  {% for script in page.scripts %}
+    {% if script contains '://' %}
+      <script src="{{ script }}"></script>
+    {% else %}
+      <script src="{{ script | relative_url }}"></script>
+    {% endif %}
+  {% endfor %}
+</body>
+</html>
