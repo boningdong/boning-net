@@ -1,7 +1,6 @@
 {% assign tag = site.tags | where:"tag-id", include.tag_id | first %}
 {% if tag %}
-<span class="badge project-tag"
-  style="background-image: linear-gradient(to right, {{ tag.tag-color.top }} 5%, {{ tag.tag-color.bottom }} 100%);">
+<span class="badge project-tag project-tag-{{ tag.tag-id }}">
   {{ tag.tag-title }}
 </span>
 {% endif %}

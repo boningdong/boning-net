@@ -20,6 +20,8 @@ $medium: 768px;
     .logo-cover {
         display: none;
         background-image: linear-gradient(120deg, #fefefe 0%, #eceff0 100%);
+        min-width: 180px;
+        max-width: 180px;
         @media screen and (min-width: $medium) {
             display: block;
         }

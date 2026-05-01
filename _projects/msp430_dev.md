@@ -15,10 +15,10 @@ tags:
 The project is an MSP430F2132 development board with an RGB LED controller and extension connectors on it. I designed this development as a development tool board to fulfill my requirement of testing tasks of my Smart Lamp at Tsinghua University.
 <div class="row d-flex">
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_3.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_3.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_2.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_2.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 This board has the following features:
@@ -33,6 +33,6 @@ The whole project can be divided into the following phrases:
     - designing, manufacturing and assembling the  PCBs
 <div class="row d-flex">
     <div class="col-lg-11">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_1.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_1.jpg" alt="{{ page.title }} image">
     </div>
 </div>

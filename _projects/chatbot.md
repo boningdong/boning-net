@@ -11,7 +11,7 @@ tags:
     - software
 ---
 <div class="col-lg-12 p-3">
-    <img class="project-photo" src="{{ site.baseurl }}/assets/img/projects/chatbot/chatbot_demo_1.jpg">
+    <img class="project-photo" src="{{ site.baseurl }}/assets/img/projects/chatbot/chatbot_demo_1.jpg" alt="{{ page.title }} image">
 </div>
 # Description
 ChatGPT has undoubtedly revolutionized the world and introduced us to the fascinating realm of generative AI. Alongside this emerging trend, we have witnessed the rise of numerous startups exploring this field.
@@ -24,16 +24,16 @@ By working on this project, I strived to expand my knowledge and skills in Unity
 # Screenshots
 <div class="row justify-content-center">
     <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/chatbot/chatbot_demo_2.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/chatbot/chatbot_demo_2.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 <div class="row justify-content-center">
     <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/chatbot/chatbot_demo_4.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/chatbot/chatbot_demo_4.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 <div class="row justify-content-center">
     <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/chatbot/chatbot_demo_3.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/chatbot/chatbot_demo_3.jpg" alt="{{ page.title }} image">
     </div>
 </div>

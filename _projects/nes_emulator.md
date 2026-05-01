@@ -32,15 +32,15 @@ My partner Jeff and I designed and built this project for UCSB ECE153B class. Th
 Currently, we finished the PCB board design and assembly work. The driver-level firmware has been completed and tested. CPU and PPU are almost finished but still need to solve bugs and proceed more tests. (Updated 07/28/2019)
 <div class="row justify-content-center d-flex">
     <div class="col-12 col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_5.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_5.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-12 col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_4.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_4.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-12 col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_2.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_2.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-12 col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_3.jpg">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/nes_emulator_3.jpg" alt="{{ page.title }} image">
     </div>
 </div>

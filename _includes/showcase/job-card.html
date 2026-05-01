@@ -1,14 +1,14 @@
 <div class="row job-card mx-2 mx-md-0 mt-4">
   <div class="d-flex w-100 flex-column flex-md-row">
-    <div class="logo-cover h-100" style="min-width: 180px; max-width: 180px;">
+    <div class="logo-cover h-100">
       <div class="mx-auto h-100 d-flex">
-        <img class="m-auto card-img-top w-50" src="{{ include.job.logo }}" alt="Card image cap">
+        <img class="m-auto card-img-top w-50" src="{{ include.job.logo }}" alt="{{ include.job.company }} logo">
       </div>
     </div>
     <div class="job-details d-flex flex-column flex-fill">
       <div class="job-header d-flex d-md-block">
         <div class="logo-min d-flex d-md-none">
-          <img class="my-auto" src="{{ include.job.logo }}" alt="Card image cap">
+          <img class="my-auto" src="{{ include.job.logo }}" alt="{{ include.job.company }} logo">
         </div>
         <div class="d-flex flex-column flex-md-row justify-content-between">
           <div class="d-flex flex-column flex-md-row">

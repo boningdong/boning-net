@@ -29,6 +29,10 @@ p {
     justify-content: center;
     text-align: center;
 }
+.hero-title-content {
+    position: absolute;
+    top: 40%;
+}
 .title {
     font-family: 'Merriweather', serif;
     font-weight: bold;
@@ -54,6 +58,12 @@ p {
 /* About me Section */
 #about {
     padding-top: 100px;
+}
+.about-section {
+    text-align: center;
+}
+.about-portrait-column {
+    background-color: transparent;
 }
 .portrait {
     object-fit: cover;
@@ -102,6 +112,7 @@ p {
 }
 .footer-copyright {
     background-color: rgb(15, 20, 20);
+    color: #606368;
     padding-top: 20px;
     padding-bottom: 20px;
     font-size: 16px;
