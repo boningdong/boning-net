@@ -14,24 +14,33 @@ function slideDown(elementId) {
 document.addEventListener('DOMContentLoaded', function() {
     resizeSkillsContainer();
     initArtworkShowcase();
+    initShowcaseButtons();
 });
 window.addEventListener('scroll', function() {
-    if(window.scrollY <= 40) {
-        document.getElementById('navbar').classList.remove('navbar-scroll');
+    var navbar = document.getElementById('navbar');
+    if (!navbar) return;
+    if (window.scrollY <= 40) {
+        navbar.classList.remove('navbar-scroll');
     } else {
-        document.getElementById('navbar').classList.add('navbar-scroll');
+        navbar.classList.add('navbar-scroll');
     }
 });
 // Showcase functions
 function initProjectShowcase() {
-    document.getElementById("button-project").classList.add("showcase-button-activate");
-    document.getElementById("art-showcase").style.display = "none";
+    var projectButton = document.getElementById("button-project");
+    var artworkShowcase = document.getElementById("artwork-showcase");
+    if (!projectButton || !artworkShowcase) return;
+    projectButton.classList.add("showcase-button-activate");
+    artworkShowcase.style.display = "none";
     slideDown("project-showcase");
 }
 function initArtworkShowcase() {
-    document.getElementById("button-artwork").classList.add("showcase-button-activate");
-    document.getElementById("project-showcase").style.display = "none";
-    slideDown("art-showcase");
+    var artworkButton = document.getElementById("button-artwork");
+    var projectShowcase = document.getElementById("project-showcase");
+    if (!artworkButton || !projectShowcase) return;
+    artworkButton.classList.add("showcase-button-activate");
+    projectShowcase.style.display = "none";
+    slideDown("artwork-showcase");
 }
 // Resize skills showcase
 function resizeSkillsContainer() {
@@ -59,16 +68,24 @@ function resizeSkillsContainer() {
     }
 }
 window.addEventListener('resize', resizeSkillsContainer);
-// Showcase buttos event listeners
-document.getElementById("button-artwork").addEventListener('click', function() {
-    document.getElementById("button-artwork").classList.add("showcase-button-activate");
-    document.getElementById("button-project").classList.remove("showcase-button-activate");
-    document.getElementById("project-showcase").style.display = "none";
-    slideDown("art-showcase");
-});
-document.getElementById("button-project").addEventListener('click', function() {
-    document.getElementById("button-project").classList.add("showcase-button-activate");
-    document.getElementById("button-artwork").classList.remove("showcase-button-activate");
-    document.getElementById("art-showcase").style.display = "none";
-    slideDown("project-showcase");
-});
+// Showcase button event listeners
+function initShowcaseButtons() {
+    var artworkButton = document.getElementById("button-artwork");
+    var projectButton = document.getElementById("button-project");
+    var artworkShowcase = document.getElementById("artwork-showcase");
+    var projectShowcase = document.getElementById("project-showcase");
+    if (!artworkButton || !projectButton || !artworkShowcase || !projectShowcase) return;
+
+    artworkButton.addEventListener('click', function() {
+        artworkButton.classList.add("showcase-button-activate");
+        projectButton.classList.remove("showcase-button-activate");
+        projectShowcase.style.display = "none";
+        slideDown("artwork-showcase");
+    });
+    projectButton.addEventListener('click', function() {
+        projectButton.classList.add("showcase-button-activate");
+        artworkButton.classList.remove("showcase-button-activate");
+        artworkShowcase.style.display = "none";
+        slideDown("project-showcase");
+    });
+}

@@ -3,46 +3,26 @@
     <div class="text-center section-title">
       <h1 class="section-title">Works</h1>
       <div class="d-inline-flex mt-3 mb-4 showcase-icon-group">
-        <a id="button-artwork" class="mx-2 showcase-button">Artwork</a>
-        <a id="button-project" class="mx-2 showcase-button">Projects</a>
+        {% for showcase in site.data.home.work_showcases %}
+          <a id="button-{{ showcase[0] }}" class="mx-2 showcase-button">{{ showcase[1].button_label }}</a>
+        {% endfor %}
       </div>
     </div>
-    <div id="art-showcase" style="display: none;">
+    {% for showcase in site.data.home.work_showcases %}
+    <div id="{{ showcase[0] }}-showcase" style="display: none;">
       <div class="description text-center">
-        <p>"We must never forget that art is not a form of propaganda; it is a form of truth." — John F. Kennedy</p>
+        <p>{{ showcase[1].quote }}</p>
       </div>
       <div class="row text-center">
+        {% for image in showcase[1].images %}
         <div class="col-12 col-md-4 px-2 py-3 px-md-1 showcase-item">
-          <img src="{{ site.baseurl }}/assets/img/index/drawing-1.jpg" alt="" class="work-itme">
+          <img src="{{ image | relative_url }}" alt="" class="work-itme">
         </div>
-        <div class="col-12 col-md-4 px-2 py-3 px-md-1 showcase-item">
-          <img src="{{ site.baseurl }}/assets/img/index/drawing-2.jpg" alt="" class="work-itme">
-        </div>
-        <div class="col-12 col-md-4 px-2 py-3 px-md-1 showcase-item">
-          <img src="{{ site.baseurl }}/assets/img/index/drawing-3.jpg" alt="" class="work-itme">
-        </div>
+        {% endfor %}
       </div>
       <div class="text-center">
-        <a href="{{ site.baseurl }}/artwork.html" class="d-inline-flex mt-3 general-button">More Artwork</a>
+        <a href="{{ showcase[1].href | relative_url }}" class="d-inline-flex mt-3 general-button">{{ showcase[1].cta }}</a>
       </div>
     </div>
-    <div id="project-showcase" style="display: none;">
-      <div class="description text-center">
-        <p>"As engineers, we were going to be in a position to change the world – not just study it." — Henry Petroski</p>
-      </div>
-      <div class="row text-center">
-        <div class="col-12 col-md-4 px-2 py-3 px-md-1 showcase-item">
-          <img src="{{ site.baseurl }}/assets/img/index/project-1.jpg" alt="" class="work-itme">
-        </div>
-        <div class="col-12 col-md-4 px-2 py-3 px-md-1 showcase-item">
-          <img src="{{ site.baseurl }}/assets/img/index/project-2.jpg" alt="" class="work-itme">
-        </div>
-        <div class="col-12 col-md-4 px-2 py-3 px-md-1 showcase-item">
-          <img src="{{ site.baseurl }}/assets/img/index/project-3.jpg" alt="" class="work-itme">
-        </div>
-      </div>
-      <div class="text-center">
-        <a href="{{ site.baseurl }}/projects.html" class="d-inline-flex mt-3 general-button">More Projects</a>
-      </div>
-    </div>
+    {% endfor %}
   </div>
