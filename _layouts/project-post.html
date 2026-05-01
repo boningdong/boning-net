@@ -5,36 +5,40 @@ layout: default
 {% include showcase/navbar.html %}
 <!-- Banner Section -->
 {% assign banner_image = page.banner | default: "/assets/img/showcase/projects-banner.jpg" %}
-<section id="banner" class="banner" style="background-image: url('{{ banner_image | relative_url }}');">
-  <div class="title-section container"{% if page.external-link %} style="position: relative; top: 10px;"{% endif %}>
-    {% if page.title %}
-    <h1 class="post-title mb-1">{{ page.title }}</h1>
-    {% else %}
-    <h1 class="post-title mb-1">Project</h1>
-    {% endif %}
-    {% if page.date %}
-    <h2 class="post-subtitle">Updated: {{ page.date | date: "%B %Y"}}</h2>
-    {% endif %}
-    {% if page.tags %}
+{% assign project_title = page.title | default: "Project" %}
+{% if page.external-link %}
+  {% assign title_style = "position: relative; top: 10px;" %}
+{% else %}
+  {% assign title_style = "" %}
+{% endif %}
+{% capture project_banner_content %}
+  {% if page.date %}
+  <h2 class="post-subtitle">Updated: {{ page.date | date: "%B %Y"}}</h2>
+  {% endif %}
+  {% if page.tags %}
     <div class="row d-flex justify-content-center">
       <div class="col-12">
-        {% for t in page.tags  %}
-          {% assign tag = site.tags | where:"tag-id", t | first %}
-          <span class="badge project-tag"
-            style="background-image: linear-gradient(to right, {{tag.tag-color.top}} 5%, {{tag.tag-color.bottom}} 100%);">
-            {{ tag.tag-title }}
-          </span>
+        {% for tag_id in page.tags %}
+          {% include showcase/tag-badge.html tag_id=tag_id %}
         {% endfor %}
       </div>
     </div>
-    {% endif %}
-    {% if page.external-link %}
-      <div class="row d-block justify-content-center">
-          <a class="btn btn-dark external-link" role="button" href="{{ page.external-link }}">Project Link</a>
-      </div>
-    {% endif %}
-  </div>
-</section>
+  {% endif %}
+  {% if page.external-link %}
+    <div class="row d-block justify-content-center">
+      <a class="btn btn-dark external-link" role="button" href="{{ page.external-link }}">Project Link</a>
+    </div>
+  {% endif %}
+{% endcapture %}
+{% include showcase/banner.html
+  image=banner_image
+  title=project_title
+  title_class="post-title"
+  title_margin="1"
+  container=true
+  title_style=title_style
+  content=project_banner_content
+%}
 <!-- Cards Section -->
 <section class="container mb-5 pb-4">
   <div class="px-3 px-md-5">

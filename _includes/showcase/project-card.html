@@ -1,0 +1,20 @@
+<a href="{{ include.project.url | prepend: site.baseurl }}" style="text-decoration: none;">
+  <div class="card">
+    {% if include.project.cover %}
+    <img class="card-img-top" src="{{ include.project.cover | prepend: site.baseurl }}" alt="Card image cap">
+    {% else %}
+    <img class="card-img-top" src="https://images.unsplash.com/photo-1492546643178-96d64f3fd824?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
+    {% endif %}
+    <div class="card-body">
+      <h5 class="card-title">{{ include.project.title }}</h5>
+      {% if include.project.subtitle %}
+        <p class="card-subtitle">{{ include.project.subtitle }}</p>
+      {% endif %}
+    </div>
+    <div class="card-footer justify-content-bottom">
+      {% for tag_id in include.project.tags %}
+        {% include showcase/tag-badge.html tag_id=tag_id %}
+      {% endfor %}
+    </div>
+  </div>
+</a>

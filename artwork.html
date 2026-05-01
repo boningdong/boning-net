@@ -16,12 +16,11 @@ scripts:
 <!-- Navigation bar -->
 {% include showcase/navbar.html %}
 <!-- Banner Section -->
-<section id="banner" class="banner" style="background-image: url('{{ site.baseurl }}/assets/img/showcase/artwork-banner.jpg');">
-  <div class="title-section">
-    <h1 class="title mb-2">Artwork</h1>
-    <h2 class="subtitle">drawings | paintings | designs</h2>
-  </div>
-</section>
+{% include showcase/banner.html
+  image="/assets/img/showcase/artwork-banner.jpg"
+  title="Artwork"
+  subtitle="drawings | paintings | designs"
+%}
 {% assign sorted = site.artwork | sort: "date" | reverse %}
 <!-- Images Section -->
 <section class="container mb-5">

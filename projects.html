@@ -15,40 +15,17 @@ scripts:
 <!-- Navigation bar -->
 {% include showcase/navbar.html %}
 <!-- Banner Section -->
-<section id="banner" class="banner" style="background-image: url('{{ site.baseurl }}/assets/img/showcase/projects-banner.jpg');">
-  <div class="title-section">
-    <h1 class="title mb-2">Projects</h1>
-    <h2 class="subtitle">Engineering | Coding | Science</h2>
-  </div>
-</section>
+{% include showcase/banner.html
+  image="/assets/img/showcase/projects-banner.jpg"
+  title="Projects"
+  subtitle="Engineering | Coding | Science"
+%}
 {% assign sorted = site.projects | sort: "date" | reverse %}
 <!-- Cards Section -->
 <section class="container mb-5">
   <div class="showcase">
     {% for project in sorted %}
-    <a href="{{ project.url | prepend: site.baseurl }}" style="text-decoration: none;">
-      <div class="card">
-          {% if project.cover %}
-          <img class="card-img-top" src="{{ project.cover | prepend: site.baseurl }}" alt="Card image cap">
-          {% else %}
-          <img class="card-img-top" src="https://images.unsplash.com/photo-1492546643178-96d64f3fd824?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60" alt="Card image cap">
-          {% endif %}
-          <div class="card-body">
-            <h5 class="card-title">{{ project.title }}</h5>
-            {% if project.subtitle %}
-              <p class="card-subtitle">{{ project.subtitle }}</p>
-            {% endif %}
-          </div>
-          <div class="card-footer justify-content-bottom">
-              {% for t in project.tags  %}
-                {% assign tag = site.tags | where:"tag-id", t | first %}
-                <span class="badge project-tag" style="background-image: linear-gradient(to right, {{tag.tag-color.top}} 5%, {{tag.tag-color.bottom}} 100%);">
-                  {{ tag.tag-title }}
-                </span>
-              {% endfor %}
-          </div>
-      </div>
-    </a>
+      {% include showcase/project-card.html project=project %}
     {% endfor %}
   </div>
 </section>
