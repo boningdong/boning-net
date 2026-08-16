@@ -65,11 +65,58 @@ tests = {
     assert_includes html, 'href="/projects/scopen"'
     assert_includes html, '/assets/img/projects/scopen_cover.png'
   end,
+  "Artwork page uses the modern collection-backed shell" => lambda do
+    html = built("artwork.html")
+
+    assert_includes html, '<body class="modern-page artwork-page">'
+    assert_includes html, '/assets/css/main.css'
+    assert_includes html, 'data-navigation'
+    assert_includes html, 'href="/artwork" class="active" aria-current="page">Artwork</a>'
+    assert_includes html, 'data-artwork-page'
+    assert(html.scan("data-collection-artwork-card").length == 10, "expected 10 collection-backed artwork cards")
+    assert_includes html, 'data-full="/assets/img/artwork/snow_scene.jpg"'
+    refute_includes html, 'masonry.pkgd.min.js'
+    refute_includes html, 'bootstrap.min.css'
+    refute_includes html, 'jquery'
+  end,
+  "Artwork page preserves the approved hierarchy and content data" => lambda do
+    html = built("artwork.html")
+    highlights_position = html.index('id="artwork-highlights-title"')
+    collection_position = html.index('id="artwork-collection-title"')
+
+    assert_includes html, "Artwork</span>"
+    assert_includes html, "Studies in light &amp; character"
+    assert_includes html, "Graphite"
+    assert_includes html, "Charcoal"
+    assert_includes html, "Watercolor"
+    assert_includes html, "10 works / 2015—2020"
+    assert(highlights_position && collection_position && highlights_position < collection_position, "expected Highlights before The Collection")
+    assert(html.scan('data-highlight-artwork-card').length == 4, "expected four interactive Highlights cards")
+    assert(html.scan('data-highlight-artwork-duplicate').length == 4, "expected four duplicated rail cards")
+    assert(html.scan('data-highlight-artwork-duplicate aria-hidden="true"').length == 4, "expected every duplicated rail card to be hidden from assistive technology")
+    assert_includes html, "Snow Scene"
+    assert_includes html, "Terminator"
+    assert_includes html, "Watercolor Scenery"
+    assert_includes html, "Captain America"
+  end,
+  "Artwork filters and viewer expose accessible state" => lambda do
+    html = built("artwork.html")
+
+    assert_includes html, 'role="group" aria-label="Filter artwork by medium"'
+    assert(html.scan('data-artwork-filter').length == 4, "expected four medium filters")
+    assert_includes html, 'data-filter="all" aria-pressed="true"'
+    assert_includes html, 'role="status" aria-live="polite"'
+    assert_includes html, '<dialog class="artwork-viewer" id="artwork-viewer"'
+    assert_includes html, 'aria-labelledby="artwork-viewer-title"'
+    assert_includes html, 'aria-describedby="artwork-viewer-description"'
+    assert_includes html, 'data-artwork-viewer-image'
+    assert_includes html, 'data-artwork-viewer-close>Close viewer</button>'
+  end,
   "modern pages omit mock paths and design-lab tools" => lambda do
-    html = [built("index.html"), built("projects.html")].join("\n")
+    html = [built("index.html"), built("projects.html"), built("artwork.html")].join("\n")
 
     refute_includes html, "/files/"
-    assert(!html.match?(/>Tune<|Import JSON|Export JSON|Save default|Reset tuning/), "expected no design-lab controls")
+    assert(!html.match?(/>Tune<|Tune Artwork|Import JSON|Export JSON|View JSON|Download JSON|Save default|Reset tuning/), "expected no design-lab controls")
   end
 }
 
