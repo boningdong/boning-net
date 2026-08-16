@@ -2,7 +2,7 @@
 
 This file is the cross-page design contract for the homepage and the Projects, Artwork, Album, Notes, and Experiences pages.
 
-Use it together with `finalized-style.json` and `homepage-mock-v3.html`. When values disagree, the finalized JSON has precedence over hard-coded control defaults in the mock.
+Use it together with `finalized-main-style.json` and `homepage-mock-v3.html`. When values disagree, the finalized JSON has precedence over hard-coded control defaults in the mock.
 
 ## Design intent
 
@@ -125,6 +125,18 @@ These variations must consume the shared tokens above rather than redefining nea
 - Large screens can expose three to six filter controls before More; smaller screens expose fewer without changing component style.
 - Gallery cards use Split Card with a default height of `450px`, footer padding `22px`, and description-to-tags gap `16px`.
 - Mist is the recommended Projects background and uses the continuity rule above.
+
+## Current Artwork decisions
+
+- Hero: `Artwork — Studies in light & character`, with `Graphite / Charcoal / Watercolor` metadata and the shared content-page overlay treatment.
+- Content hierarchy: `Highlights` followed by `The Collection`, with no explanatory paragraph beneath either section heading.
+- Highlights use a single horizontal rail at `330px` image height; image width is derived from each work's intrinsic aspect ratio and images are never cropped.
+- The Highlights rail drifts automatically, pauses on hover or keyboard focus, supports direct horizontal scrolling, and becomes manual when reduced motion is requested.
+- The Collection uses three aspect-ratio-preserving masonry columns by default, with the shared `28px` desktop and `21px` mobile gaps.
+- Default captions use the Museum label treatment below the image rather than covering the artwork.
+- Medium filters are visible by default and offer All, Pencil, Charcoal, and Watercolor.
+- The default artwork viewer is a glass dialog that displays the full-resolution image without cropping.
+- Mist is the approved continuous background across Highlights and The Collection, using the shared `80px` internal transition.
 
 ## Checklist for Artwork and Experiences
 
