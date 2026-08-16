@@ -50,6 +50,10 @@
         return !state.reducedMotion && !state.paused;
     }
 
+    function measureRailCycle(firstOriginalOffset, firstDuplicateOffset) {
+        return Math.max(0, firstDuplicateOffset - firstOriginalOffset);
+    }
+
     function wrapRailPosition(position, cycleWidth) {
         if (cycleWidth <= 0) return position;
         return ((position % cycleWidth) + cycleWidth) % cycleWidth;
@@ -124,6 +128,7 @@
         if (!rail || typeof window.requestAnimationFrame !== 'function') return;
 
         var track = rail.querySelector('[data-artwork-track]');
+        var firstOriginal = track.querySelector('[data-highlight-artwork-card]');
         var firstDuplicate = track.querySelector('[data-highlight-artwork-duplicate]');
         var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
         var hovering = false;
@@ -137,7 +142,8 @@
         }
 
         function cycleWidth() {
-            return firstDuplicate ? firstDuplicate.offsetLeft - track.offsetLeft : 0;
+            if (!firstOriginal || !firstDuplicate) return 0;
+            return measureRailCycle(firstOriginal.offsetLeft, firstDuplicate.offsetLeft);
         }
 
         function frame(timestamp) {
@@ -179,6 +185,7 @@
         init: init,
         isViewerCloseKey: isViewerCloseKey,
         matchesMedium: matchesMedium,
+        measureRailCycle: measureRailCycle,
         shouldAutoDrift: shouldAutoDrift,
         wrapRailPosition: wrapRailPosition
     };

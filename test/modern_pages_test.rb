@@ -95,6 +95,7 @@ tests = {
     assert(html.scan('data-highlight-artwork-card').length == 4, "expected four interactive Highlights cards")
     assert(html.scan('data-highlight-artwork-duplicate').length == 4, "expected four duplicated rail cards")
     assert(html.scan('data-highlight-artwork-duplicate aria-hidden="true"').length == 4, "expected every duplicated rail card to be hidden from assistive technology")
+    assert_includes html, 'role="region" aria-label="Highlighted artwork"'
     assert_includes html, "Snow Scene"
     assert_includes html, "Terminator"
     assert_includes html, "Watercolor Scenery"

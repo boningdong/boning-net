@@ -7,7 +7,7 @@
     </div>
     <span class="section-number">01 / 02</span>
   </div>
-  <div class="artwork-rail" aria-label="Highlighted artwork" data-artwork-rail tabindex="0">
+  <div class="artwork-rail" role="region" aria-label="Highlighted artwork" data-artwork-rail tabindex="0">
     <div class="artwork-rail-track" data-artwork-track>
       {% for artwork in featured_artwork %}
         {% include pages/artwork/artwork-card.html artwork=artwork context="highlight" %}
