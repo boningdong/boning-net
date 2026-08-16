@@ -42,6 +42,10 @@
         };
     }
 
+    function isViewerCloseKey(key) {
+        return key === 'Escape';
+    }
+
     function shouldAutoDrift(state) {
         return !state.reducedMotion && !state.paused;
     }
@@ -104,6 +108,11 @@
         });
         viewer.addEventListener('click', function(event) {
             if (event.target === viewer) viewer.close();
+        });
+        viewer.addEventListener('keydown', function(event) {
+            if (!isViewerCloseKey(event.key) || !viewer.open) return;
+            event.preventDefault();
+            viewer.close();
         });
         viewer.addEventListener('close', function() {
             if (lastTrigger && lastTrigger.isConnected) lastTrigger.focus();
@@ -168,6 +177,7 @@
         createViewerContent: createViewerContent,
         formatArtworkCount: formatArtworkCount,
         init: init,
+        isViewerCloseKey: isViewerCloseKey,
         matchesMedium: matchesMedium,
         shouldAutoDrift: shouldAutoDrift,
         wrapRailPosition: wrapRailPosition

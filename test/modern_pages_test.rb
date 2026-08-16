@@ -83,6 +83,7 @@ tests = {
     html = built("artwork.html")
     highlights_position = html.index('id="artwork-highlights-title"')
     collection_position = html.index('id="artwork-collection-title"')
+    highlights_html = html[highlights_position...collection_position]
 
     assert_includes html, "Artwork</span>"
     assert_includes html, "Studies in light &amp; character"
@@ -98,6 +99,8 @@ tests = {
     assert_includes html, "Terminator"
     assert_includes html, "Watercolor Scenery"
     assert_includes html, "Captain America"
+    refute_includes highlights_html, 'loading="lazy"'
+    assert_includes html[collection_position..], 'loading="lazy"'
   end,
   "Artwork filters and viewer expose accessible state" => lambda do
     html = built("artwork.html")

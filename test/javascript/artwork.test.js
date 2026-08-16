@@ -42,6 +42,14 @@ test('viewer content uses the full-resolution source and complete text', () => {
   });
 });
 
+test('viewer recognizes Escape as its keyboard close command', () => {
+  assert.equal(fs.existsSync(modulePath), true, 'artwork module should exist');
+  const { isViewerCloseKey } = require(modulePath);
+
+  assert.equal(isViewerCloseKey('Escape'), true);
+  assert.equal(isViewerCloseKey('Enter'), false);
+});
+
 test('rail motion stops for reduced motion or interaction and wraps seamlessly', () => {
   assert.equal(fs.existsSync(modulePath), true, 'artwork module should exist');
   const { shouldAutoDrift, wrapRailPosition } = require(modulePath);
