@@ -1,68 +1,17 @@
 ---
-layout: default
-title: artwork
+layout: modern
+title: Artwork
 browser_title: Boning's Artwork
-type: showcase
-styles:
-  - /assets/css/showcase/artwork.css
+body_class: artwork-page
+nav_active: artwork
+footer_variant: compact
 scripts:
-  - https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js
-  - /assets/js/showcase/masonry.js
+  - /assets/js/pages/artwork.js
 ---
-<!-- Navigation bar -->
-{% include showcase/navbar.html %}
-<!-- Banner Section -->
-{% include showcase/banner.html
-  banner_class="artwork-banner"
-  title="Artwork"
-  subtitle="drawings | paintings | designs"
-  label="Artwork"
-%}
-{% assign sorted = site.artwork | sort: "date" | reverse %}
-<!-- Images Section -->
-<section class="container mb-5">
-  <div class="grid" id="artwork-container" >
-    {% for image in sorted %}
-      <a href="#modal-{{ forloop.index }}" data-toggle="modal" data-target="#modal-{{ forloop.index  }}" aria-label="View {{ image.title }}">
-        <div class="grid-item">
-          <img src="{{ image.cover | prepend: site.baseurl }}" alt="{{ image.title }}" class="image">
-        </div>
-      </a>
-    {% endfor %}
-  </div>
-</section>
-{% for image in sorted %}
-  <!-- Modal Section -->
-  <div class="modal fade px-0" id="modal-{{ forloop.index }}" tabindex="-1" role="dialog" aria-labelledby="artwork-title-{{ forloop.index }}" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
-      <div class="modal-content">
-        <!-- Header -->
-        <div class="artwork-modal-header-wrapper py-2">
-          <div class="modal-header artwork-modal-header py-1">
-            <h1 class="modal-title artwork-modal-title" id="artwork-title-{{ forloop.index }}">
-              {{ image.title }}
-            </h1>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="artwork-modal-info" >
-            <h2 id="artwork-info-field" class="pr-4">
-              Date: {{ image.date | date_to_string: "ordinal", "US" }}
-            </h2>
-          </div>
-        </div>
-        <!-- Body -->
-        <div class="modal-body p-1 d-flex">
-          <div class="artwork-modal-img-wrapper mx-auto">
-            <img class="artwork-modal-img" src="{{ image.location | prepend: site.baseurl }}" alt="{{ image.title }}"/>
-          </div>
-        </div>
-        <!-- Footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-{% endfor %}
+{% assign sorted_artwork = site.artwork | sort: "date" | reverse %}
+{% include pages/artwork/hero.html artworks=sorted_artwork %}
+<main class="artwork-content" data-artwork-page>
+  {% include pages/artwork/highlights.html %}
+  {% include pages/artwork/collection.html artworks=sorted_artwork %}
+</main>
+{% include pages/artwork/viewer.html %}

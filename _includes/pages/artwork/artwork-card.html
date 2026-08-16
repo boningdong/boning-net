@@ -1,0 +1,24 @@
+{% assign artwork = include.artwork %}
+{% assign medium = artwork.tags | first %}
+{% capture artwork_meta %}{{ medium | capitalize }} · {{ artwork.date | date: "%Y" }}{% endcapture %}
+{% if include.duplicate %}
+  <div class="artwork-card artwork-rail-card" data-highlight-artwork-duplicate aria-hidden="true">
+    <picture class="artwork-card-media">
+      <img src="{{ artwork.cover | relative_url }}" alt="" loading="lazy">
+    </picture>
+    <span class="artwork-label">
+      <b>{{ artwork.title }}</b>
+      <span>{{ medium }}<br>{{ artwork.date | date: "%Y" }}</span>
+    </span>
+  </div>
+{% else %}
+  <button class="artwork-card{% if include.context == 'highlight' %} artwork-rail-card{% else %} artwork-collection-card{% endif %}" type="button" data-artwork-trigger{% if include.context == 'highlight' %} data-highlight-artwork-card{% else %} data-collection-artwork-card data-medium="{{ medium }}"{% endif %} data-full="{{ artwork.location | relative_url }}" data-title="{{ artwork.title | escape }}" data-meta="{{ artwork_meta | strip | escape }}" aria-label="View {{ artwork.title | escape }}">
+    <picture class="artwork-card-media">
+      <img src="{{ artwork.cover | relative_url }}" alt="{{ artwork.title | escape }}" loading="lazy">
+    </picture>
+    <span class="artwork-label">
+      <b>{{ artwork.title }}</b>
+      <span>{{ medium }}<br>{{ artwork.date | date: "%Y" }}</span>
+    </span>
+  </button>
+{% endif %}

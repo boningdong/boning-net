@@ -71,7 +71,7 @@ tests = {
     assert_includes html, '<body class="modern-page artwork-page">'
     assert_includes html, '/assets/css/main.css'
     assert_includes html, 'data-navigation'
-    assert_includes html, 'href="/artwork" class="active" aria-current="page">Artwork</a>'
+    assert_includes html, 'href="/artwork.html" class="active" aria-current="page">Artwork</a>'
     assert_includes html, 'data-artwork-page'
     assert(html.scan("data-collection-artwork-card").length == 10, "expected 10 collection-backed artwork cards")
     assert_includes html, 'data-full="/assets/img/artwork/snow_scene.jpg"'

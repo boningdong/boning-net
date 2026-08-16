@@ -1,0 +1,20 @@
+{% assign featured_artwork = site.artwork | where: "featured", true | sort: "featured-order" %}
+<section class="artwork-highlights" aria-labelledby="artwork-highlights-title">
+  <div class="design-wrap section-head-row">
+    <div>
+      <span class="section-kicker">A closer look</span>
+      <h2 class="section-heading" id="artwork-highlights-title">Highlights</h2>
+    </div>
+    <span class="section-number">01 / 02</span>
+  </div>
+  <div class="artwork-rail" aria-label="Highlighted artwork" data-artwork-rail tabindex="0">
+    <div class="artwork-rail-track" data-artwork-track>
+      {% for artwork in featured_artwork %}
+        {% include pages/artwork/artwork-card.html artwork=artwork context="highlight" %}
+      {% endfor %}
+      {% for artwork in featured_artwork %}
+        {% include pages/artwork/artwork-card.html artwork=artwork context="highlight" duplicate=true %}
+      {% endfor %}
+    </div>
+  </div>
+</section>

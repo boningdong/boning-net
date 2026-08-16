@@ -1,0 +1,14 @@
+{% assign newest_artwork = include.artworks | first %}
+{% assign oldest_artwork = include.artworks | last %}
+<header class="artwork-hero" id="top">
+  <img class="artwork-hero-image" src="{{ '/assets/img/showcase/artwork-banner.jpg' | relative_url }}" alt="A colorful digital artwork scene" fetchpriority="high">
+  <div class="artwork-hero-copy">
+    <h1>
+      <span>Artwork</span>
+      <span class="artwork-hero-separator" aria-hidden="true">—</span>
+      <span>Studies in light &amp; character</span>
+    </h1>
+    <p><span>Graphite</span><span>Charcoal</span><span>Watercolor</span></p>
+  </div>
+  <span class="artwork-hero-index">{{ include.artworks.size }} works / {{ oldest_artwork.date | date: "%Y" }}—{{ newest_artwork.date | date: "%Y" }}</span>
+</header>
