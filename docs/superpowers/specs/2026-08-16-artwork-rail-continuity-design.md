@@ -1,6 +1,6 @@
 # Artwork Rail Continuity Design
 
-**Status:** Approved on August 16, 2026
+**Status:** Approved on August 16, 2026; edge treatment corrected after browser review
 
 ## Goal
 
@@ -38,15 +38,15 @@ This is a focused refinement of the approved Artwork modernization. It does not 
 
 - Wrap the scroll viewport in a noninteractive edge-treatment container.
 - Render left and right overlay fades outside the scrolling element so they remain fixed while the track moves.
-- Each fade is materially wider than the current `24px` mask, with a gradual multi-stop transition from Mist to transparent.
-- Apply a stronger backdrop blur to soften artwork entering and leaving the viewport.
+- Each fade is materially wider than the current `24px` mask, with a continuous transition from Mist to transparent matching the first approved mock treatment.
+- Do not use `blur` or `backdrop-filter`; the artwork must fade into the background color without exposing a rectangular filter region.
 - Edge overlays use `pointer-events: none` and must not obstruct viewer triggers, rail focus, or reduced-motion manual scrolling.
-- Mobile uses a narrower proportional fade than desktop while remaining visibly softer than the current treatment.
+- Mobile uses a narrower proportional fade than desktop while preserving the same continuous color transition.
 
 ## Structure
 
 - `_includes/pages/artwork/highlights.html` adds one rail-shell wrapper around the existing accessible rail region.
-- `_sass/pages/_artwork.scss` owns the Projects-matched Mist recipe, rail overflow policy, hidden-scrollbar rules, edge fades, blur, and responsive/reduced-motion behavior.
+- `_sass/pages/_artwork.scss` owns the Projects-matched Mist recipe, rail overflow policy, hidden-scrollbar rules, unblurred edge fades, and responsive/reduced-motion behavior.
 - `assets/js/pages/artwork.js` keeps its existing automatic-motion detection and drift implementation; JavaScript changes are only required if browser verification reveals that default manual input can still move an `overflow: hidden` rail.
 
 ## Verification

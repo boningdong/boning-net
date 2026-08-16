@@ -17,7 +17,7 @@
 - Default mode permits only automatic drift; horizontal wheel, trackpad, touch, scrollbar, and keyboard input must not manually move the rail.
 - `prefers-reduced-motion: reduce` disables automatic drift and restores manual horizontal scrolling while keeping the scrollbar visually hidden.
 - Hover and keyboard focus continue to pause automatic drift.
-- Edge fades are fixed outside the scrolling element, wider and softer than the current `24px` mask, use stronger blur, and never intercept pointer or focus input.
+- Edge fades are fixed outside the scrolling element, wider than the current `24px` mask, transition continuously from Mist to transparent without blur, and never intercept pointer or focus input.
 - Preserve every artwork's intrinsic aspect ratio and existing viewer/filter behavior.
 - Do not add controls or other UI.
 - Do not push or merge.
@@ -144,7 +144,7 @@ Do not alter the existing JavaScript motion policy: it reads `matchMedia('(prefe
 
 - [ ] **Step 5: Add wider fixed edge fades**
 
-Make `.artwork-rail-shell` positioned and add pointer-transparent pseudo-elements above the rail. Desktop overlays use a responsive width around `clamp(72px, 10vw, 168px)`, a gradual multi-stop Mist-to-transparent gradient, and approximately `14px` backdrop blur. Mobile overlays use approximately `56px` width and `10px` blur. Left and right gradients mirror each other.
+Make `.artwork-rail-shell` positioned and add pointer-transparent pseudo-elements above the rail. Desktop overlays use a responsive width around `clamp(72px, 10vw, 168px)` and a continuous Mist-to-transparent gradient with no blur or backdrop filter. Mobile overlays use approximately `56px` width. Left and right gradients mirror each other.
 
 - [ ] **Step 6: Build and run automated suites**
 
@@ -169,11 +169,11 @@ Expected: Jekyll succeeds, all Ruby contracts pass, and all JavaScript tests pas
 
 - [ ] **Step 1: Verify desktop default mode**
 
-At approximately `1440×1000`, confirm one continuous Projects-matched Mist surface, no scrollbar or hard section divider, wider fixed blurred edge fades, automatic drift, hover/focus pause, no manual movement from wheel/trackpad-equivalent or keyboard input, intact image ratios, no page overflow, and no console errors.
+At approximately `1440×1000`, confirm one continuous Projects-matched Mist surface, no scrollbar or hard section divider, wider fixed color fades without rectangular filter regions, automatic drift, hover/focus pause, no manual movement from wheel/trackpad-equivalent or keyboard input, intact image ratios, no page overflow, and no console errors.
 
 - [ ] **Step 2: Verify mobile default mode**
 
-At approximately `390×844`, confirm the responsive edge width/blur, automatic-only rail, hidden scrollbar, correct image ratios, intact filters/viewer, no page overflow, and no console errors.
+At approximately `390×844`, confirm the responsive unblurred edge fade, automatic-only rail, hidden scrollbar, correct image ratios, intact filters/viewer, no page overflow, and no console errors.
 
 - [ ] **Step 3: Verify reduced-motion mode where browser tooling permits**
 
@@ -204,6 +204,6 @@ Do not stage `.superpowers/`, push, or merge.
 
 ## Self-Review
 
-- Spec coverage: Mist parity, semantic section continuity, automatic-only default overflow, reduced-motion manual fallback, hidden scrollbars, wider blurred overlays, preserved aspect ratios, no new UI, automated tests, and desktop/mobile verification all map to explicit steps.
+- Spec coverage: Mist parity, semantic section continuity, automatic-only default overflow, reduced-motion manual fallback, hidden scrollbars, wider unblurred color fades, preserved aspect ratios, no new UI, automated tests, and desktop/mobile verification all map to explicit steps.
 - Placeholder scan: every task names exact files, selectors, values, commands, expected outcomes, and fallback reporting behavior.
 - Interface consistency: the Liquid wrapper class matches the SCSS selector; existing JavaScript data hooks remain unchanged; reduced-motion CSS and JavaScript use the same media query.

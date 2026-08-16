@@ -124,18 +124,16 @@
   width: clamp(72px, 10vw, 168px);
   content: "";
   pointer-events: none;
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
 }
 
 .artwork-rail-shell::before {
   left: 0;
-  background: linear-gradient(90deg, var(--mist) 0%, rgb(240 243 244 / 0.88) 28%, rgb(240 243 244 / 0.44) 64%, transparent 100%);
+  background: linear-gradient(90deg, var(--mist), transparent);
 }
 
 .artwork-rail-shell::after {
   right: 0;
-  background: linear-gradient(270deg, var(--mist) 0%, rgb(240 243 244 / 0.88) 28%, rgb(240 243 244 / 0.44) 64%, transparent 100%);
+  background: linear-gradient(270deg, var(--mist), transparent);
 }
 
 .artwork-rail {
@@ -456,8 +454,6 @@ button.artwork-card:hover {
   .artwork-rail-shell::before,
   .artwork-rail-shell::after {
     width: 56px;
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
   }
 
   .artwork-rail-track {
