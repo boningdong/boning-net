@@ -98,7 +98,7 @@
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(circle at 78% 15%, rgb(255 255 255 / 0.72), transparent 34%),
+    radial-gradient(circle at 76% 22%, rgb(255 255 255 / 0.68), transparent 36%),
     var(--mist);
 }
 
@@ -110,18 +110,52 @@
   padding-top: var(--section-space);
 }
 
+.artwork-rail-shell {
+  position: relative;
+  isolation: isolate;
+}
+
+.artwork-rail-shell::before,
+.artwork-rail-shell::after {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  bottom: 0;
+  width: clamp(72px, 10vw, 168px);
+  content: "";
+  pointer-events: none;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+
+.artwork-rail-shell::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--mist) 0%, rgb(240 243 244 / 0.88) 28%, rgb(240 243 244 / 0.44) 64%, transparent 100%);
+}
+
+.artwork-rail-shell::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--mist) 0%, rgb(240 243 244 / 0.88) 28%, rgb(240 243 244 / 0.44) 64%, transparent 100%);
+}
+
 .artwork-rail {
   position: relative;
   width: 100%;
-  overflow-x: auto;
+  overflow-x: hidden;
   overflow-y: hidden;
   padding: 12px 0 34px;
-  scrollbar-color: #a7b5ba transparent;
-  scrollbar-width: thin;
-  touch-action: pan-x pan-y;
+  scrollbar-width: none;
+  touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
-  -webkit-mask-image: linear-gradient(90deg, transparent, black 24px, black calc(100% - 24px), transparent);
-  mask-image: linear-gradient(90deg, transparent, black 24px, black calc(100% - 24px), transparent);
+}
+
+.artwork-rail::-webkit-scrollbar {
+  display: none;
+}
+
+.artwork-rail:focus-visible {
+  outline: 0;
+  background: linear-gradient(90deg, transparent, rgb(91 119 129 / 0.72), transparent) 50% 2px / min(96px, 28vw) 3px no-repeat;
 }
 
 .artwork-rail-track {
@@ -419,9 +453,11 @@ button.artwork-card:hover {
     padding-top: var(--mobile-section-space);
   }
 
-  .artwork-rail {
-    -webkit-mask-image: linear-gradient(90deg, transparent, black 14px, black calc(100% - 14px), transparent);
-    mask-image: linear-gradient(90deg, transparent, black 14px, black calc(100% - 14px), transparent);
+  .artwork-rail-shell::before,
+  .artwork-rail-shell::after {
+    width: 56px;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   .artwork-rail-track {
@@ -477,6 +513,21 @@ button.artwork-card:hover {
 
   .artwork-viewer-copy {
     padding: 22px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .artwork-rail {
+    overflow-x: auto;
+    touch-action: pan-x pan-y;
+  }
+}
+
+@media (forced-colors: active) {
+  .artwork-rail:focus-visible {
+    outline: 2px solid CanvasText;
+    outline-offset: -2px;
+    background: none;
   }
 }
 

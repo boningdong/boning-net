@@ -95,6 +95,11 @@ tests = {
     assert(html.scan('data-highlight-artwork-card').length == 4, "expected four interactive Highlights cards")
     assert(html.scan('data-highlight-artwork-duplicate').length == 4, "expected four duplicated rail cards")
     assert(html.scan('data-highlight-artwork-duplicate aria-hidden="true"').length == 4, "expected every duplicated rail card to be hidden from assistive technology")
+    assert_includes html, '<div class="artwork-rail-shell" data-artwork-rail-shell>'
+    shell_position = html.index('data-artwork-rail-shell')
+    rail_position = html.index('data-artwork-rail tabindex="0"')
+    track_position = html.index('data-artwork-track')
+    assert(shell_position < rail_position && rail_position < track_position, "expected shell to wrap the accessible rail and track")
     assert_includes html, 'role="region" aria-label="Highlighted artwork"'
     assert_includes html, "Snow Scene"
     assert_includes html, "Terminator"
@@ -122,6 +127,13 @@ tests = {
 
     assert_includes css, ".artwork-page"
     assert_includes css, ".artwork-rail-card"
+    assert_includes css, ".artwork-rail{position:relative;width:100%;overflow-x:hidden"
+    assert_includes css, ".artwork-rail::-webkit-scrollbar{display:none}"
+    assert_includes css, ".artwork-rail:focus-visible"
+    assert_includes css, ".artwork-rail-shell::before,.artwork-rail-shell::after"
+    assert_includes css, "width:clamp(72px,10vw,168px);content:\"\";pointer-events:none;backdrop-filter:blur(14px)"
+    assert_includes css, "@media(prefers-reduced-motion: reduce){.artwork-rail{overflow-x:auto;touch-action:pan-x pan-y}}"
+    assert_includes css, "@media(forced-colors: active){.artwork-rail:focus-visible{outline:2px solid CanvasText;outline-offset:-2px;background:none}}"
     assert_includes css, ".artwork-collection-grid"
     assert_includes css, ".artwork-viewer"
   end,
