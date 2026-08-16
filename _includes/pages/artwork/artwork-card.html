@@ -2,7 +2,7 @@
 {% assign medium = artwork.tags | first %}
 {% capture artwork_meta %}{{ medium | capitalize }} · {{ artwork.date | date: "%Y" }}{% endcapture %}
 {% if include.duplicate %}
-  <div class="artwork-card artwork-rail-card" data-highlight-artwork-duplicate aria-hidden="true">
+  <div class="artwork-card artwork-rail-card" data-highlight-artwork-duplicate aria-hidden="true" data-highlight-artwork-copy="{{ include.duplicate_group }}">
     <picture class="artwork-card-media">
       <img src="{{ artwork.cover | relative_url }}" alt="">
     </picture>

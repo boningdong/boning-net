@@ -4,7 +4,7 @@
 
 **Goal:** Make Artwork Highlights and The Collection read as one continuous Projects-style Mist gallery, with an automatic-only default rail, a reduced-motion manual fallback, and wider softer edge fades.
 
-**Architecture:** Keep the existing collection data, duplicated seamless track, and JavaScript drift engine. Add one noninteractive rail-shell wrapper so fixed edge overlays are independent of the scrolling viewport, and express default versus reduced-motion overflow entirely in page SCSS.
+**Architecture:** Keep the existing collection data and JavaScript drift engine. Render previous, original, and next rail cycles; initialize and wrap within the middle cycle; and keep fixed edge overlays independent of the scrolling viewport through a noninteractive rail-shell wrapper.
 
 **Tech Stack:** Jekyll 4.4.1, Liquid, SCSS/Sass, vanilla JavaScript, Ruby generated-page contracts, Node's built-in test runner, in-app browser verification.
 
@@ -22,6 +22,14 @@
 - Do not add controls or other UI.
 - Do not push or merge.
 
+## Approved Follow-up Corrections
+
+- Keep `10vw` as the preferred desktop edge-fade width.
+- Render previous and next duplicate cycles around the four interactive originals, initialize at the middle cycle after image sizing, and wrap within that middle coordinate range so the last work is immediately visible to the left of the first after refresh.
+- Keep all eight duplicate cards `aria-hidden` and noninteractive.
+- Give rail shadows enough vertical decay space to remove the hard clipping trace, offsetting the extra internal space so the approved section rhythm does not change.
+- Align rail end padding with the edge-fade width, including the `56px` mobile treatment.
+
 ---
 
 ## File Structure
@@ -29,7 +37,7 @@
 - Modify `_includes/pages/artwork/highlights.html`: add one `artwork-rail-shell` wrapper while preserving the named rail region and track hooks.
 - Modify `_sass/pages/_artwork.scss`: match Projects Mist, define default/reduced-motion overflow, hide scrollbars, and render fixed responsive edge overlays.
 - Modify `test/modern_pages_test.rb`: assert the rail-shell contract in generated HTML.
-- Do not modify `assets/js/pages/artwork.js` unless browser verification proves hidden overflow still accepts manual input; the existing `matchMedia` policy already stops automatic drift under reduced motion.
+- Modify `assets/js/pages/artwork.js`: initialize the three-cycle track at the middle cycle, keep automatic and reduced-motion manual positions normalized to that cycle, wait for settled image geometry, and rebase on resize.
 
 ---
 

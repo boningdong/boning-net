@@ -52,7 +52,7 @@ test('viewer recognizes Escape as its keyboard close command', () => {
 
 test('rail motion stops for reduced motion or interaction and wraps seamlessly', () => {
   assert.equal(fs.existsSync(modulePath), true, 'artwork module should exist');
-  const { measureRailCycle, shouldAutoDrift, wrapRailPosition } = require(modulePath);
+  const { measureRailCycle, normalizeManualRailPosition, shouldAutoDrift, wrapRailPosition } = require(modulePath);
 
   assert.equal(shouldAutoDrift({ reducedMotion: true, paused: false }), false);
   assert.equal(shouldAutoDrift({ reducedMotion: false, paused: true }), false);
@@ -60,5 +60,16 @@ test('rail motion stops for reduced motion or interaction and wraps seamlessly',
   assert.equal(wrapRailPosition(420, 400), 20);
   assert.equal(wrapRailPosition(180, 400), 180);
   assert.equal(wrapRailPosition(40, 0), 40);
+  assert.equal(wrapRailPosition(820, 400, 400), 420);
+  assert.equal(wrapRailPosition(380, 400, 400), 780);
+  assert.equal(normalizeManualRailPosition(380, 400, 400, true), 780);
+  assert.equal(normalizeManualRailPosition(380, 400, 400, false), 380);
   assert.equal(measureRailCycle(160, 960), 800);
+});
+
+test('rail initialization waits for settled images but accepts failed images', () => {
+  const { areRailImagesSettled } = require(modulePath);
+
+  assert.equal(areRailImagesSettled([{ complete: true, naturalWidth: 400 }, { complete: false, naturalWidth: 0 }]), false);
+  assert.equal(areRailImagesSettled([{ complete: true, naturalWidth: 400 }, { complete: true, naturalWidth: 0 }]), true);
 });

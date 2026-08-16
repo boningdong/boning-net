@@ -93,8 +93,14 @@ tests = {
     assert_includes html, "10 works / 2015—2020"
     assert(highlights_position && collection_position && highlights_position < collection_position, "expected Highlights before The Collection")
     assert(html.scan('data-highlight-artwork-card').length == 4, "expected four interactive Highlights cards")
-    assert(html.scan('data-highlight-artwork-duplicate').length == 4, "expected four duplicated rail cards")
-    assert(html.scan('data-highlight-artwork-duplicate aria-hidden="true"').length == 4, "expected every duplicated rail card to be hidden from assistive technology")
+    assert(html.scan('data-highlight-artwork-duplicate').length == 8, "expected previous and next duplicate sets around the interactive cards")
+    assert(html.scan('data-highlight-artwork-duplicate aria-hidden="true"').length == 8, "expected every duplicated rail card to be hidden from assistive technology")
+    assert(html.scan('data-highlight-artwork-copy="previous"').length == 4, "expected four previous-cycle cards")
+    assert(html.scan('data-highlight-artwork-copy="next"').length == 4, "expected four next-cycle cards")
+    previous_cycle_position = html.index('data-highlight-artwork-copy="previous"')
+    original_cycle_position = html.index('data-highlight-artwork-card')
+    next_cycle_position = html.index('data-highlight-artwork-copy="next"')
+    assert(previous_cycle_position < original_cycle_position && original_cycle_position < next_cycle_position, "expected previous, interactive, and next rail cycles in order")
     assert_includes html, '<div class="artwork-rail-shell" data-artwork-rail-shell>'
     shell_position = html.index('data-artwork-rail-shell')
     rail_position = html.index('data-artwork-rail tabindex="0"')
@@ -128,11 +134,16 @@ tests = {
     assert_includes css, ".artwork-page"
     assert_includes css, ".artwork-rail-card"
     assert_includes css, ".artwork-rail{position:relative;width:100%;overflow-x:hidden"
+    assert_includes css, "padding:12px 0 80px;margin-bottom:-46px"
     assert_includes css, ".artwork-rail::-webkit-scrollbar{display:none}"
     assert_includes css, ".artwork-rail:focus-visible"
     assert_includes css, ".artwork-rail-shell::before,.artwork-rail-shell::after{position:absolute;z-index:1;top:0;bottom:0;width:clamp(72px,10vw,168px);content:\"\";pointer-events:none}"
     assert_includes css, ".artwork-rail-shell::before{left:0;background:linear-gradient(90deg, var(--mist), transparent)}"
     assert_includes css, ".artwork-rail-shell::after{right:0;background:linear-gradient(270deg, var(--mist), transparent)}"
+    assert_includes css, ".artwork-rail-track{display:flex;visibility:hidden"
+    assert_includes css, "padding-inline:max(clamp(72px,10vw,168px),(100vw - 1120px)/2)"
+    assert_includes css, ".artwork-rail-track{gap:var(--mobile-card-gap);padding-inline:56px}"
+    assert_includes css, ".artwork-rail[data-artwork-rail-ready] .artwork-rail-track{visibility:visible}"
     assert_includes css, "@media(prefers-reduced-motion: reduce){.artwork-rail{overflow-x:auto;touch-action:pan-x pan-y}}"
     assert_includes css, "@media(forced-colors: active){.artwork-rail:focus-visible{outline:2px solid CanvasText;outline-offset:-2px;background:none}}"
     assert_includes css, ".artwork-collection-grid"

@@ -54,9 +54,20 @@
         return Math.max(0, firstDuplicateOffset - firstOriginalOffset);
     }
 
-    function wrapRailPosition(position, cycleWidth) {
+    function wrapRailPosition(position, cycleWidth, cycleStart) {
         if (cycleWidth <= 0) return position;
-        return ((position % cycleWidth) + cycleWidth) % cycleWidth;
+        var start = cycleStart || 0;
+        return start + ((((position - start) % cycleWidth) + cycleWidth) % cycleWidth);
+    }
+
+    function normalizeManualRailPosition(position, cycleWidth, cycleStart, reducedMotion) {
+        return reducedMotion ? wrapRailPosition(position, cycleWidth, cycleStart) : position;
+    }
+
+    function areRailImagesSettled(images) {
+        return Array.from(images).every(function(image) {
+            return image.complete;
+        });
     }
 
     function initFilters(rootElement) {
@@ -128,11 +139,14 @@
         if (!rail || typeof window.requestAnimationFrame !== 'function') return;
 
         var track = rail.querySelector('[data-artwork-track]');
+        var firstPrevious = track.querySelector('[data-highlight-artwork-copy="previous"]');
         var firstOriginal = track.querySelector('[data-highlight-artwork-card]');
-        var firstDuplicate = track.querySelector('[data-highlight-artwork-duplicate]');
+        var firstNext = track.querySelector('[data-highlight-artwork-copy="next"]');
+        var railImages = Array.from(track.querySelectorAll('img'));
         var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
         var hovering = false;
         var focused = false;
+        var initialized = false;
         var manualPauseUntil = 0;
         var lastFrame = 0;
         var driftSpeed = 18;
@@ -142,16 +156,36 @@
         }
 
         function cycleWidth() {
-            if (!firstOriginal || !firstDuplicate) return 0;
-            return measureRailCycle(firstOriginal.offsetLeft, firstDuplicate.offsetLeft);
+            if (!firstOriginal || !firstNext) return 0;
+            return measureRailCycle(firstOriginal.offsetLeft, firstNext.offsetLeft);
+        }
+
+        function cycleStart() {
+            if (!firstPrevious || !firstOriginal) return 0;
+            return measureRailCycle(firstPrevious.offsetLeft, firstOriginal.offsetLeft);
+        }
+
+        function railReady() {
+            return areRailImagesSettled(railImages);
         }
 
         function frame(timestamp) {
             var elapsed = lastFrame ? Math.min(timestamp - lastFrame, 50) : 0;
             var paused = hovering || focused || timestamp < manualPauseUntil;
+            var width = cycleWidth();
+            var start = cycleStart();
 
-            if (shouldAutoDrift({ reducedMotion: motionQuery.matches, paused: paused })) {
-                rail.scrollLeft = wrapRailPosition(rail.scrollLeft + driftSpeed * elapsed / 1000, cycleWidth());
+            if (!initialized && railReady() && width > 0 && start > 0) {
+                rail.scrollLeft = start;
+                initialized = true;
+                rail.setAttribute('data-artwork-rail-ready', '');
+                lastFrame = timestamp;
+                window.requestAnimationFrame(frame);
+                return;
+            }
+
+            if (initialized && shouldAutoDrift({ reducedMotion: motionQuery.matches, paused: paused })) {
+                rail.scrollLeft = wrapRailPosition(rail.scrollLeft + driftSpeed * elapsed / 1000, width, start);
             }
             lastFrame = timestamp;
             window.requestAnimationFrame(frame);
@@ -166,6 +200,15 @@
         rail.addEventListener('wheel', pauseForManualInput, { passive: true });
         rail.addEventListener('pointerdown', pauseForManualInput, { passive: true });
         rail.addEventListener('touchstart', pauseForManualInput, { passive: true });
+        rail.addEventListener('scroll', function() {
+            if (!initialized || !motionQuery.matches) return;
+            var normalized = normalizeManualRailPosition(rail.scrollLeft, cycleWidth(), cycleStart(), true);
+            if (Math.abs(normalized - rail.scrollLeft) > 0.5) rail.scrollLeft = normalized;
+        }, { passive: true });
+        window.addEventListener('resize', function() {
+            initialized = false;
+            rail.removeAttribute('data-artwork-rail-ready');
+        });
         window.requestAnimationFrame(frame);
     }
 
@@ -179,6 +222,7 @@
     }
 
     return {
+        areRailImagesSettled: areRailImagesSettled,
         createFilterState: createFilterState,
         createViewerContent: createViewerContent,
         formatArtworkCount: formatArtworkCount,
@@ -186,6 +230,7 @@
         isViewerCloseKey: isViewerCloseKey,
         matchesMedium: matchesMedium,
         measureRailCycle: measureRailCycle,
+        normalizeManualRailPosition: normalizeManualRailPosition,
         shouldAutoDrift: shouldAutoDrift,
         wrapRailPosition: wrapRailPosition
     };

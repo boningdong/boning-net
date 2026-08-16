@@ -141,7 +141,8 @@
   width: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
-  padding: 12px 0 34px;
+  padding: 12px 0 80px;
+  margin-bottom: -46px;
   scrollbar-width: none;
   touch-action: pan-y;
   -webkit-overflow-scrolling: touch;
@@ -158,10 +159,15 @@
 
 .artwork-rail-track {
   display: flex;
+  visibility: hidden;
   align-items: flex-start;
   width: max-content;
   gap: var(--card-gap);
-  padding-inline: max(24px, calc((100vw - 1120px) / 2));
+  padding-inline: max(clamp(72px, 10vw, 168px), calc((100vw - 1120px) / 2));
+}
+
+.artwork-rail[data-artwork-rail-ready] .artwork-rail-track {
+  visibility: visible;
 }
 
 .artwork-card {
@@ -458,7 +464,7 @@ button.artwork-card:hover {
 
   .artwork-rail-track {
     gap: var(--mobile-card-gap);
-    padding-inline: 14px;
+    padding-inline: 56px;
   }
 
   .artwork-rail-card .artwork-card-media,
