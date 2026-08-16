@@ -111,6 +111,15 @@ tests = {
     assert_includes html, 'aria-describedby="artwork-viewer-description"'
     assert_includes html, 'data-artwork-viewer-image'
     assert_includes html, 'data-artwork-viewer-close>Close viewer</button>'
+    refute_includes html, '<img src=""'
+  end,
+  "Artwork visual module is compiled into the modern stylesheet" => lambda do
+    css = built("assets/css/main.css")
+
+    assert_includes css, ".artwork-page"
+    assert_includes css, ".artwork-rail-card"
+    assert_includes css, ".artwork-collection-grid"
+    assert_includes css, ".artwork-viewer"
   end,
   "modern pages omit mock paths and design-lab tools" => lambda do
     html = [built("index.html"), built("projects.html"), built("artwork.html")].join("\n")
