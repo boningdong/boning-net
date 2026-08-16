@@ -1,0 +1,24 @@
+<section class="home-skills design-section" id="skills">
+  <div class="design-wrap">
+    <div class="section-head-row">
+      <div>
+        <span class="section-kicker">Tools and practices</span>
+        <h2 class="section-heading">Skills</h2>
+      </div>
+      <span class="section-number">03 / 0{{ include.total }}</span>
+    </div>
+    <div class="skills-grid">
+      {% for skill in site.data.home.skills %}
+        <article class="skill-card glass-card">
+          <div class="skill-top">
+            <h3>{{ skill.title }}</h3>
+            <img src="{{ skill.icon | relative_url }}" alt="" aria-hidden="true" loading="lazy">
+          </div>
+          <div class="skill-list">
+            {% for item in skill.items %}<span>{{ item }}</span>{% endfor %}
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

@@ -6,6 +6,8 @@ subtitle: An AR domino game developed using Unity
 date: 2021-05-01
 cover: "/assets/img/projects/ar_domino/domino_cover.jpg"
 external-link: "https://github.com/boningdong/AR-Domino"
+featured: true
+featured-order: 3
 tags:
     - unity
     - ar

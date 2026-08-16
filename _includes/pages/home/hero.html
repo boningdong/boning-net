@@ -1,0 +1,13 @@
+<header class="home-hero" id="home">
+  <img class="home-hero-image" src="{{ '/assets/img/index/banner.jpg' | relative_url }}" alt="Mountain landscape" fetchpriority="high">
+  <div class="home-hero-copy">
+    <h1>
+      <span>{{ site.data.home.hero.title-primary }}</span>
+      <span>{{ site.data.home.hero.title-secondary }}</span>
+    </h1>
+    <p class="home-hero-meta">
+      {% for item in site.data.home.hero.meta %}<span>{{ item }}</span>{% endfor %}
+    </p>
+  </div>
+  <a class="scroll-cue" href="#about">Explore</a>
+</header>

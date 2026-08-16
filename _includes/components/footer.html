@@ -1,0 +1,19 @@
+{% if include.variant == "compact" %}
+<footer class="site-footer site-footer--compact">
+  <p>Engineering, artwork, and ideas—made carefully.</p>
+  <a class="footer-home-link" href="{{ '/' | relative_url }}">Return home</a>
+</footer>
+{% else %}
+<footer class="site-footer" id="footer">
+  <div class="footer-main design-wrap">
+    <h2>Let's connect.</h2>
+    <p>Projects, artwork, and ideas—or simply something interesting worth talking about.</p>
+    <nav class="footer-links" aria-label="Social links">
+      {% for item in site.data.social %}
+        <a href="{{ item.url }}">{{ item.label }}</a>
+      {% endfor %}
+    </nav>
+  </div>
+  <div class="footer-copyright">Designed by Boning Dong</div>
+</footer>
+{% endif %}

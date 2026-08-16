@@ -1,0 +1,15 @@
+{% assign featured_projects = site.projects | where: "featured", true | sort: "featured-order" %}
+<section class="projects-highlights design-wrap" aria-labelledby="projects-highlights-title">
+  <div class="section-head-row">
+    <div>
+      <span class="section-kicker">A closer look</span>
+      <h2 class="section-heading" id="projects-highlights-title">Highlights</h2>
+    </div>
+    <span class="section-number">01 / 02</span>
+  </div>
+  <div class="highlights-grid">
+    {% for project in featured_projects %}
+      {% include pages/projects/highlight-card.html project=project primary=forloop.first %}
+    {% endfor %}
+  </div>
+</section>

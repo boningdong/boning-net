@@ -9,10 +9,7 @@
 {% if page.layout == "project-post" %}
   {% assign page_type = "showcase" %}
 {% endif %}
-{% if page_type == "index" %}
-  <link rel="stylesheet" href="{{ '/assets/css/index/navbar.css' | relative_url }}">
-  <link rel="stylesheet" href="{{ '/assets/css/index/style.css' | relative_url }}">
-{% elsif page_type == "showcase" %}
+{% if page_type == "showcase" %}
   <link rel="stylesheet" href="{{ '/assets/css/showcase/style.css' | relative_url }}">
   <link rel="stylesheet" href="{{ '/assets/css/showcase/navbar.css' | relative_url }}">
 {% endif %}

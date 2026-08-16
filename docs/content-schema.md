@@ -116,15 +116,20 @@ featured_experiences:
     cta: Visit Company
 ```
 
-`work_showcases` drives the homepage artwork/projects toggle:
+The homepage hero and about copy are stored in `hero` and `about`. Projects and Artwork are read directly from their Jekyll collections.
+
+`notes_preview` controls the temporary Notes preview. Set `enabled: false` to omit it and automatically restore three-part section numbering before deployment:
 
 ```yaml
-work_showcases:
-  artwork:
-    button_label: Artwork
-    quote: Quote shown above the images.
-    href: /artwork.html
-    cta: More Artwork
-    images:
-      - /assets/img/index/example.jpg
+notes_preview:
+  enabled: true
+  kicker: Ideas in progress
+  badge: Future module
+  title: Notes
+  intro: Preview introduction.
+  items:
+    - type: Technology
+      title: Sample note
+      description: Placeholder summary.
+      date: Sample article
 ```

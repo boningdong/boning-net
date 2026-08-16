@@ -1,0 +1,19 @@
+<div class="site-nav-shell" data-navigation>
+  <nav class="site-nav" aria-label="Primary navigation" data-navigation-bar>
+    <a class="site-name" href="{{ '/' | relative_url }}" aria-label="Boning Dong home">Boning Dong</a>
+    <div class="nav-links">
+      {% for item in site.data.navigation %}
+        <a href="{{ item.url | relative_url }}"{% if include.active == item.key %} class="active" aria-current="page"{% endif %}>{{ item.label }}</a>
+      {% endfor %}
+    </div>
+    <button class="mobile-menu-trigger" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-haspopup="true" data-menu-trigger>
+      <span>Menu</span>
+      <i aria-hidden="true"></i>
+    </button>
+  </nav>
+  <div class="mobile-menu-panel" id="mobile-navigation" aria-hidden="true" data-menu-panel>
+    {% for item in site.data.navigation %}
+      <a href="{{ item.url | relative_url }}"{% if include.active == item.key %} class="active" aria-current="page"{% endif %}>{{ item.label }}</a>
+    {% endfor %}
+  </div>
+</div>

@@ -1,29 +1,30 @@
 ---
-layout: default
-title: projects
+layout: modern
+title: Projects
 browser_title: Boning's Projects
-type: showcase
-styles:
-  - /assets/css/showcase/projects.css
+body_class: projects-page
+nav_active: projects
+footer_variant: compact
 scripts:
-  - https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js
-  - /assets/js/showcase/masonry.js
+  - /assets/js/pages/projects.js
 ---
-<!-- Navigation bar -->
-{% include showcase/navbar.html %}
-<!-- Banner Section -->
-{% include showcase/banner.html
-  banner_class="projects-banner"
-  title="Projects"
-  subtitle="Engineering | Coding | Science"
-  label="Projects"
-%}
-{% assign sorted = site.projects | sort: "date" | reverse %}
-<!-- Cards Section -->
-<section class="container mb-5">
-  <div class="showcase">
-    {% for project in sorted %}
-      {% include showcase/project-card.html project=project %}
-    {% endfor %}
-  </div>
-</section>
+{% assign sorted_projects = site.projects | sort: "date" | reverse %}
+{% include pages/projects/hero.html projects=sorted_projects %}
+<main class="projects-content" data-project-filters>
+  {% include pages/projects/highlights.html %}
+  <section class="projects-archive design-wrap" aria-labelledby="projects-archive-title">
+    <div class="section-head-row projects-archive-head">
+      <div>
+        <span class="section-kicker">The archive</span>
+        <h2 class="section-heading" id="projects-archive-title">Projects</h2>
+      </div>
+      <span class="section-number">02 / 02</span>
+    </div>
+    {% include pages/projects/filters.html project_count=sorted_projects.size %}
+    <div class="archive-grid">
+      {% for project in sorted_projects %}
+        {% include pages/projects/archive-card.html project=project %}
+      {% endfor %}
+    </div>
+  </section>
+</main>

@@ -1,0 +1,21 @@
+<a class="archive-card" href="{{ include.project.url | relative_url }}" data-project-card data-tags="{{ include.project.tags | join: ' ' }}">
+  <div class="archive-image">
+    <img src="{{ include.project.cover | relative_url }}" alt="{{ include.project.title }}" loading="lazy">
+  </div>
+  <div class="archive-copy">
+    <div class="archive-meta">
+      <span>{{ include.project.tags | first | replace: "-", " " }}</span>
+      <span>{{ include.project.date | date: "%Y" }}</span>
+    </div>
+    <h3>{{ include.project.title }}</h3>
+    <p>{{ include.project.subtitle }}</p>
+    <div class="archive-tags">
+      {% for tag_id in include.project.tags limit: 3 %}
+        {% assign tag = site.tags | where: "tag-id", tag_id | first %}
+        <span class="archive-tag">{{ tag.tag-title | default: tag_id }}</span>
+      {% endfor %}
+      {% assign remaining_tags = include.project.tags.size | minus: 3 %}
+      {% if remaining_tags > 0 %}<span class="archive-tag archive-tag--more">+{{ remaining_tags }}</span>{% endif %}
+    </div>
+  </div>
+</a>

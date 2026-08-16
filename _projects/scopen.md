@@ -4,6 +4,8 @@ title: Scopen - A wireless oscilloscope
 subtitle: UCSB CE 2020 Capstone Projec
 date: 2020-6-15
 cover: "/assets/img/projects/scopen_cover.png"
+featured: true
+featured-order: 1
 tags:
     - hardware
     - system-design

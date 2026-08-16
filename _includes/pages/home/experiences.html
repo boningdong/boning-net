@@ -1,0 +1,26 @@
+<section class="home-experiences design-section" id="experience">
+  <div class="design-wrap">
+    <div class="section-head-row">
+      <div>
+        <span class="section-kicker">Where I have worked</span>
+        <h2 class="section-heading">Experiences</h2>
+      </div>
+      <span class="section-number">01 / 0{{ include.total }}</span>
+    </div>
+    <div class="experience-grid">
+      {% for experience in site.data.home.featured_experiences %}
+        <article class="experience-card glass-card">
+          <div class="experience-logo">
+            <img src="{{ experience.logo | relative_url }}" alt="{{ experience.company }}" loading="lazy">
+          </div>
+          <div class="experience-body">
+            <span class="experience-company">{{ experience.company }}</span>
+            <h3>{{ experience.title }}</h3>
+            <p>{{ experience.description }}</p>
+            <a class="experience-link" href="{{ experience.url }}">{{ experience.cta }} →</a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

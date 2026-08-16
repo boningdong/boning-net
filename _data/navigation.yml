@@ -1,0 +1,9 @@
+- label: Projects
+  key: projects
+  url: /projects.html
+- label: Artwork
+  key: artwork
+  url: /artwork.html
+- label: Experiences
+  key: experiences
+  url: /resume.html

@@ -1,0 +1,25 @@
+<section class="home-notes design-section" id="notes">
+  <div class="design-wrap">
+    <div class="section-head-row">
+      <div>
+        <span class="section-kicker">
+          {{ site.data.home.notes_preview.kicker }}
+          <span class="notes-preview-badge">{{ site.data.home.notes_preview.badge }}</span>
+        </span>
+        <h2 class="section-heading">{{ site.data.home.notes_preview.title }}</h2>
+        <p class="section-intro">{{ site.data.home.notes_preview.intro }}</p>
+      </div>
+      <span class="section-number">04 / 0{{ include.total }}</span>
+    </div>
+    <div class="notes-grid">
+      {% for note in site.data.home.notes_preview.items %}
+        <article class="note-card">
+          <span class="note-type">{{ note.type }}</span>
+          <h3>{{ note.title }}</h3>
+          <p>{{ note.description }}</p>
+          <span class="note-date">{{ note.date }}</span>
+        </article>
+      {% endfor %}
+    </div>
+  </div>
+</section>

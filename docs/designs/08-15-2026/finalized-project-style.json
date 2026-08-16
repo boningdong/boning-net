@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "kind": "boning-net-projects-style-preset",
+  "source": "projects-list-hierarchy-v4",
+  "exportedAt": "2026-08-16T02:37:55.342Z",
+  "tuning": {
+    "background": "mist",
+    "visibleTags": 6,
+    "ranges": {
+      "cardHeight": "400",
+      "footerPadding": "22",
+      "descriptionTagsGap": "16"
+    }
+  }
+}
