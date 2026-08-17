@@ -161,7 +161,7 @@ Expected: one reference in each corresponding hero include and no unrelated matc
 **Files:**
 - Verify: `_site/projects.html`
 - Verify: `_site/artwork.html`
-- Verify: `_site/experiences.html`
+- Verify: `_site/resume.html`
 
 **Interfaces:**
 - Consumes: updated includes and enhanced image files.
@@ -195,7 +195,7 @@ Run:
 bundle exec jekyll serve
 ```
 
-Inspect `/projects/`, `/artwork/`, and `/experiences/` at approximately 1440-pixel and 390-pixel viewport widths. Confirm sharp imagery, title readability, balanced crop, no visible extension seams, and no broken asset requests.
+Inspect `/projects.html`, `/artwork.html`, and `/resume.html` at approximately 1440-pixel and 390-pixel viewport widths. Confirm sharp imagery, title readability, balanced crop, no visible extension seams, and no broken asset requests.
 
 - [ ] **Step 4: Review the final diff and working-tree scope**
 
