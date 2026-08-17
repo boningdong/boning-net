@@ -1,5 +1,5 @@
 .experiences-page {
-  --experience-summary-height: 122px;
+  --experience-summary-height: 148px;
   --experience-card-gap: 20px;
   overflow-x: hidden;
   background: var(--mist);
@@ -534,10 +534,6 @@
     grid-column: 3;
   }
 
-  .role-summary-text p {
-    white-space: normal;
-  }
-
   .role-detail-copy {
     grid-template-columns: 1fr;
     gap: 14px;
@@ -621,7 +617,10 @@
   }
 
   .role-summary-text p {
-    display: none;
+    display: block;
+    margin-top: 6px;
+    font-size: 11px;
+    white-space: nowrap;
   }
 
   .degree-card {

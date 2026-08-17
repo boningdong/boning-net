@@ -5,7 +5,6 @@
 {% endif %}
 {% assign detail_id = "experience-details-" | append: include.index %}
 {% assign trigger_id = "experience-toggle-" | append: include.index %}
-{% assign summary_text = include.job.content | strip_html | strip_newlines | truncatewords: 14 %}
 <article class="role-card is-open" data-experience-card>
   <div class="role-summary">
     <div class="role-logo">
@@ -18,7 +17,7 @@
     <div class="role-summary-text">
       <span class="role-company">{{ include.job.company }}</span>
       <h3 class="role-title">{{ include.job.job-title }}</h3>
-      <p>{{ summary_text }}</p>
+      <p class="role-description">{{ include.job.description }}</p>
     </div>
     <span class="role-date">{{ include.job.start-date | date: "%b %Y" }}—{{ end_date }}</span>
     <button class="role-toggle" id="{{ trigger_id }}" type="button" aria-expanded="true" aria-controls="{{ detail_id }}" data-experience-toggle>
@@ -30,7 +29,10 @@
     <div class="role-details-inner">
       <div class="role-detail-copy">
         <span class="role-detail-eyebrow">Role details</span>
-        <div class="role-detail-body">{{ include.job.content }}</div>
+        <div class="role-detail-body">
+          <p class="role-detail-description">{{ include.job.description }}</p>
+          {{ include.job.content }}
+        </div>
       </div>
     </div>
   </div>

@@ -182,6 +182,8 @@ tests = {
     work_position = html.index('id="work-experience-title"')
     education_position = html.index('id="education-title"')
     role_cards = html.scan(/<article class="role-card is-open" data-experience-card>(.*?)<\/article>/m).flatten
+    apple_description = "Work under Apple Core OS Embedded Sensors team to support software development work for various Apple products, including iPhone iPad, Mac, etc."
+    apple_summary, apple_details = role_cards.first.split('<div class="role-details"', 2)
     rendered_roles = role_cards.map do |card|
       company = card[/<span class="role-company">([^<]+)<\/span>/, 1]
       date = card[/<span class="role-date">([^<]+)<\/span>/, 1]
@@ -211,10 +213,15 @@ tests = {
     relationships.each do |trigger_id, panel_id|
       assert_includes html, "id=\"#{panel_id}\" role=\"region\" aria-labelledby=\"#{trigger_id}\""
     end
+    assert_includes apple_summary, %(<p class="role-description">#{apple_description}</p>)
+    assert_includes apple_details, %(<p class="role-detail-description">#{apple_description}</p>)
+    refute_includes apple_summary, "Support SoC bringups and driver integrations"
+    assert_includes apple_details, "Support SoC bringups and driver integrations"
     assert_includes html, "Master’s degree"
     assert_includes html, "Bachelor’s degree"
+    assert_includes html, "GPA 3.88"
     assert_includes html, "GPA 3.95"
-    assert_includes html, "IEEE Student Branch"
+    refute_includes html, "IEEE Student Branch"
     assert_includes html, 'aria-expanded="true"'
     assert_includes html, 'aria-controls="experience-details-1"'
     assert_includes html, 'id="experience-details-1"'
@@ -230,7 +237,7 @@ tests = {
     css = built("assets/css/main.css")
 
     assert_includes css, ".experiences-page"
-    assert_includes css, "--experience-summary-height: 122px"
+    assert_includes css, "--experience-summary-height: 148px"
     assert_includes css, "--experience-card-gap: 20px"
     assert(css.match?(/\.projects-hero\{[^}]*min-height:400px/), "expected Projects hero to compile at 400px")
     assert(css.match?(/\.artwork-hero\{[^}]*min-height:400px/), "expected Artwork hero to compile at 400px")

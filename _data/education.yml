@@ -3,7 +3,8 @@
   degree: Master’s degree
   field: Computer Engineering
   period: "2021"
-  details: []
+  details:
+    - GPA 3.88
 
 - institution: UC Santa Barbara
   mark: UCSB
@@ -12,4 +13,3 @@
   period: 2016–2020
   details:
     - GPA 3.95
-    - IEEE Student Branch
