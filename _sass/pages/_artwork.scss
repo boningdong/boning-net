@@ -433,6 +433,10 @@ button.artwork-card:hover {
 }
 
 @media (max-width: 640px) {
+  .artwork-page {
+    --artwork-collection-columns: 1;
+  }
+
   .artwork-hero {
     min-height: 54svh;
   }

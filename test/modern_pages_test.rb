@@ -132,6 +132,7 @@ tests = {
     css = built("assets/css/main.css")
 
     assert_includes css, ".artwork-page"
+    assert_includes css, ".artwork-page{--artwork-highlight-height: 330px;--artwork-collection-columns: 3"
     assert_includes css, ".artwork-rail-card"
     assert_includes css, ".artwork-rail{position:relative;width:100%;overflow-x:hidden"
     assert_includes css, "padding:12px 0 80px;margin-bottom:-46px"
@@ -144,9 +145,13 @@ tests = {
     assert_includes css, "padding-inline:max(clamp(72px,10vw,168px),(100vw - 1120px)/2)"
     assert_includes css, ".artwork-rail-track{gap:var(--mobile-card-gap);padding-inline:56px}"
     assert_includes css, ".artwork-rail[data-artwork-rail-ready] .artwork-rail-track{visibility:visible}"
+    assert_includes css, ".artwork-collection-grid{columns:var(--artwork-collection-columns);column-gap:var(--card-gap)}"
+    assert_includes css, ".artwork-collection-card .artwork-card-media,.artwork-collection-card img{width:100%;height:auto}"
+    assert_includes css, "@media(max-width: 850px){.artwork-page{--artwork-collection-columns: 2}"
+    assert_includes css, "@media(max-width: 640px){.artwork-page{--artwork-collection-columns: 1}"
+    assert_includes css, ".artwork-collection-grid{column-gap:var(--mobile-card-gap)}"
     assert_includes css, "@media(prefers-reduced-motion: reduce){.artwork-rail{overflow-x:auto;touch-action:pan-x pan-y}}"
     assert_includes css, "@media(forced-colors: active){.artwork-rail:focus-visible{outline:2px solid CanvasText;outline-offset:-2px;background:none}}"
-    assert_includes css, ".artwork-collection-grid"
     assert_includes css, ".artwork-viewer"
   end,
   "modern pages omit mock paths and design-lab tools" => lambda do
