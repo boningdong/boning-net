@@ -1,5 +1,5 @@
 ---
-company: Microsof
+company: Microsoft
 job-title: Hardware Intern
 start-date: 2019-6-1
 end-date: 2019-9-1

@@ -1,6 +1,6 @@
 # Frontend architecture
 
-The modern homepage and Projects page use Jekyll collections, data files, Liquid includes, one SCSS entry point, and dependency-free JavaScript.
+The modern homepage, Projects, Artwork, and Experiences pages use Jekyll collections, data files, Liquid includes, one SCSS entry point, and dependency-free JavaScript.
 
 ## Boundaries
 
@@ -13,7 +13,7 @@ Promote a page rule to `components` only after another page actually reuses the 
 ## Jekyll structure
 
 - `_layouts/modern.html` is the dependency-free document shell for modern pages.
-- `_layouts/default.html` remains the legacy shell for Artwork, Experiences, and project-detail pages until they are redesigned.
+- `_layouts/default.html` remains the legacy shell for project-detail pages until they are redesigned.
 - `_includes/components` contains reusable Liquid UI.
 - `_includes/pages/<page>` contains page-specific Liquid sections.
 - `_data` contains navigation, social links, and homepage data.

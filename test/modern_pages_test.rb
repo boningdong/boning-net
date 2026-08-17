@@ -154,8 +154,76 @@ tests = {
     assert_includes css, "@media(forced-colors: active){.artwork-rail:focus-visible{outline:2px solid CanvasText;outline-offset:-2px;background:none}}"
     assert_includes css, ".artwork-viewer"
   end,
+  "Experiences page uses the modern collection-backed shell" => lambda do
+    html = built("resume.html")
+
+    assert_includes html, '<body class="modern-page experiences-page">'
+    assert_includes html, 'href="/resume.html" class="active" aria-current="page">Experiences</a>'
+    assert_includes html, "/assets/js/pages/experiences.js"
+    assert(html.scan("data-experience-card").length == 5, "expected five visible work entries")
+    assert(html.scan("data-education-card").length == 2, "expected two education entries")
+    refute_includes html, "bootstrap.min.css"
+    refute_includes html, "jquery"
+  end,
+  "Experiences page preserves the approved hierarchy and readable details" => lambda do
+    html = built("resume.html")
+    work_position = html.index('id="work-experience-title"')
+    education_position = html.index('id="education-title"')
+    role_cards = html.scan(/<article class="role-card is-open" data-experience-card>(.*?)<\/article>/m).flatten
+    rendered_roles = role_cards.map do |card|
+      company = card[/<span class="role-company">([^<]+)<\/span>/, 1]
+      date = card[/<span class="role-date">([^<]+)<\/span>/, 1]
+      [company, date]
+    end
+    expected_roles = [
+      ["Apple", "Aug 2021—Now"],
+      ["Microsoft", "Jun 2020—Sep 2020"],
+      ["Microsoft", "Jun 2019—Sep 2019"],
+      ["Karl Storz", "Jun 2018—Dec 2018"],
+      ["Transphorm", "Jul 2017—Sep 2017"]
+    ]
+    relationships = html.scan(/<button class="role-toggle" id="([^"]+)"[^>]*aria-controls="([^"]+)"/)
+
+    assert(work_position && education_position && work_position < education_position, "expected Work Experience before Education")
+    assert(rendered_roles == expected_roles, "expected complete reverse chronological work order")
+    assert(relationships.length == 5, "expected five accordion trigger relationships")
+    assert(relationships.flatten.uniq.length == 10, "expected unique accordion trigger and panel IDs")
+    relationships.each do |trigger_id, panel_id|
+      assert_includes html, "id=\"#{panel_id}\" role=\"region\" aria-labelledby=\"#{trigger_id}\""
+    end
+    assert_includes html, "Master’s degree"
+    assert_includes html, "Bachelor’s degree"
+    assert_includes html, "GPA 3.95"
+    assert_includes html, "IEEE Student Branch"
+    assert_includes html, 'aria-expanded="true"'
+    assert_includes html, 'aria-controls="experience-details-1"'
+    assert_includes html, 'id="experience-details-1"'
+    refute_includes html, "Microsof<"
+    refute_includes html, "AIRTIST"
+    refute_includes html, "Career Path"
+    refute_includes html, "Awards"
+    refute_includes html, "Tune"
+    refute_includes html, "preset"
+    refute_includes html, "Detail Dock"
+  end,
+  "content-list heroes and Experiences timeline compile approved geometry" => lambda do
+    css = built("assets/css/main.css")
+
+    assert_includes css, ".experiences-page"
+    assert_includes css, "--experience-summary-height: 122px"
+    assert_includes css, "--experience-card-gap: 20px"
+    assert(css.match?(/\.projects-hero\{[^}]*min-height:400px/), "expected Projects hero to compile at 400px")
+    assert(css.match?(/\.artwork-hero\{[^}]*min-height:400px/), "expected Artwork hero to compile at 400px")
+    assert(css.match?(/\.experiences-hero\{[^}]*min-height:400px/), "expected Experiences hero to compile at 400px")
+    assert_includes css, "top:calc(var(--experience-summary-height)/2 - 10px)"
+    assert_includes css, ".role-card:not(:last-child)::after"
+    assert_includes css, "bottom:calc(-1*(var(--experience-card-gap) + var(--experience-summary-height)/2))"
+    assert_includes css, ".role-card:hover:not(:last-child)::after"
+    assert_includes css, ".role-card:has(+.role-card:hover)::after"
+    refute_includes css, ".experience-timeline::before{"
+  end,
   "modern pages omit mock paths and design-lab tools" => lambda do
-    html = [built("index.html"), built("projects.html"), built("artwork.html")].join("\n")
+    html = [built("index.html"), built("projects.html"), built("artwork.html"), built("resume.html")].join("\n")
 
     refute_includes html, "/files/"
     assert(!html.match?(/>Tune<|Tune Artwork|Import JSON|Export JSON|View JSON|Download JSON|Save default|Reset tuning/), "expected no design-lab controls")

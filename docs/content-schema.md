@@ -78,7 +78,30 @@ end-date: 2024-12-01
 
 Notes:
 - `shown: true` controls whether the entry appears on the experiences page.
+- The experiences page filters to `shown: true` and sorts entries by `start-date` in descending order.
 - If `end-date` is omitted, the page displays `Now`.
+- The Markdown body is rendered as the role detail and remains readable when JavaScript is unavailable.
+
+## Education Data
+
+Location: `_data/education.yml`
+
+Required fields:
+
+```yaml
+- institution: UC Santa Barbara
+  mark: UCSB
+  degree: Master’s degree
+  field: Computer Engineering
+  period: "2021"
+  details: []
+```
+
+Notes:
+- `mark` is the short institution label shown in the card's brand mark.
+- `period` is display text and may be a single year or a range.
+- `details` is an array of optional credential notes such as GPA or student organizations.
+- Education entries are rendered in data-file order and do not create detail pages or permalinks.
 
 ## Tags
 

@@ -9,7 +9,7 @@
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 60svh;
+  min-height: 400px;
   overflow: hidden;
   background: #27343a;
   color: white;
@@ -435,10 +435,6 @@ button.artwork-card:hover {
 @media (max-width: 640px) {
   .artwork-page {
     --artwork-collection-columns: 1;
-  }
-
-  .artwork-hero {
-    min-height: 54svh;
   }
 
   .artwork-hero-copy h1 {

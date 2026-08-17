@@ -1,0 +1,28 @@
+<section class="education-section design-wrap" aria-labelledby="education-title">
+  <div class="section-head-row experiences-section-head">
+    <div>
+      <span class="section-kicker">Foundation</span>
+      <h2 class="section-heading" id="education-title">Education</h2>
+    </div>
+    <span class="section-number">02 / 02</span>
+  </div>
+  <div class="education-grid">
+    {% for item in include.education %}
+      <article class="degree-card" data-education-card>
+        <div class="degree-top">
+          <span class="degree-mark" aria-hidden="true">{{ item.mark }}</span>
+          <span class="degree-period">{{ item.period }}</span>
+        </div>
+        <h3>{{ item.degree }},<br>{{ item.field }}</h3>
+        <p>{{ item.institution }}</p>
+        {% if item.details.size > 0 %}
+          <ul class="degree-notes" aria-label="Education details">
+            {% for detail in item.details %}
+              <li>{{ detail }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </article>
+    {% endfor %}
+  </div>
+</section>

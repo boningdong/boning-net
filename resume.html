@@ -1,28 +1,16 @@
 ---
-layout: default
-title: resume
+layout: modern
+title: Experiences
 browser_title: Boning's Experiences
-type: showcase
-styles:
-  - /assets/css/showcase/experiences.css
+body_class: experiences-page
+nav_active: experiences
+footer_variant: compact
+scripts:
+  - /assets/js/pages/experiences.js
 ---
-<!-- Navigation bar -->
-{% include showcase/navbar.html %}
-<!-- Banner Section -->
-{% include showcase/banner.html
-  banner_class="experience-banner"
-  title="Experiences"
-  subtitle="Education | Jobs | Awards"
-  label="Experiences"
-%}
-{% assign sorted_jobs = site.experiences | sort: "start-date" | reverse %}
-<!-- Experiences Section -->
-<section class="container mb-5" >
-    <div class="showcase">
-        {% for job in sorted_jobs %}
-        {% if job.shown %}
-        {% include showcase/job-card.html job=job %}
-        {% endif %}
-        {% endfor %}
-    </div>
-</section>
+{% assign visible_experiences = site.experiences | where: "shown", true | sort: "start-date" | reverse %}
+{% include pages/experiences/hero.html experiences=visible_experiences %}
+<main class="experiences-content" data-experiences-page>
+  {% include pages/experiences/work.html experiences=visible_experiences %}
+  {% include pages/experiences/education.html education=site.data.education %}
+</main>

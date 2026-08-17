@@ -1,0 +1,14 @@
+<section class="work-experience-section design-wrap" aria-labelledby="work-experience-title">
+  <div class="section-head-row experiences-section-head">
+    <div>
+      <span class="section-kicker">Career timeline</span>
+      <h2 class="section-heading" id="work-experience-title">Work Experience</h2>
+    </div>
+    <span class="section-number">01 / 02</span>
+  </div>
+  <div class="experience-timeline">
+    {% for job in include.experiences %}
+      {% include pages/experiences/work-card.html job=job index=forloop.index %}
+    {% endfor %}
+  </div>
+</section>

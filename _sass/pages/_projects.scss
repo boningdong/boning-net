@@ -9,7 +9,7 @@
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 60svh;
+  min-height: 400px;
   overflow: hidden;
   background: #26343a;
   color: white;
@@ -408,10 +408,6 @@
 }
 
 @media (max-width: 640px) {
-  .projects-hero {
-    min-height: 54svh;
-  }
-
   .projects-hero-image {
     object-position: 44% center;
   }
