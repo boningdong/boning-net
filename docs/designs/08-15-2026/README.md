@@ -4,9 +4,9 @@ This directory is the durable design reference for the homepage, Projects list p
 
 ## Status
 
-- The homepage, Projects list-page, and Artwork list-page design and tuning choices are finalized.
+- The homepage, Projects, Artwork, and Experiences list-page design and tuning choices are finalized.
 - The files in this directory describe a mock only.
-- The production homepage and Projects page implement their approved designs; the production Artwork page has not been refactored yet.
+- The production homepage, Projects, and Artwork pages implement their approved designs; the production Experiences page has not been refactored yet.
 - Future implementation should preserve the existing large-scale layout and content structure unless Boning explicitly requests otherwise.
 
 ## Shared source of truth
@@ -34,6 +34,14 @@ Use the Projects JSON and mock together. Values from `finalized-project-style.js
 
 Use the Artwork JSON and mock together. Values from `finalized-artwork-style.json` take precedence over the mock's hard-coded control defaults.
 
+## Experiences source of truth
+
+1. `finalized-experiences-style.json` contains the approved Experiences defaults: Balanced composition, Inline accordion, Comfortable density, Paired education cards, Ice tint, `400px` shared content-page hero height, `122px` collapsed summaries, `26px` radius, and `20px` timeline spacing.
+2. `experiences-timeline-mock-v1.html` defines the approved single Mist surface, Work-to-Education hierarchy, horizontal brand/content cards, timeline axis and node geometry, expansion behavior, responsive design, and tuning controls.
+3. `experiences-timeline-design.md` defines the production architecture, content boundary, accessibility behavior, and verification contract.
+
+Use the three Experiences references together. The JSON is authoritative for numeric tuning, while the design document identifies which mock-only controls must not ship.
+
 ## Preset field semantics
 
 - `activeOptions`: selected design modes. Values containing `:` match a control's `data-preset`; other values match the visible option label.
@@ -51,6 +59,8 @@ For the homepage, maintain the production page against `homepage-mock-v3.html`, 
 For the Projects list page, maintain the production page against `projects-list-mock-v4.html`, applying `finalized-project-style.json` as the final tuning state.
 
 For the Artwork list page, refactor the production page to match `artwork-list-mock-v1.html`, applying `finalized-artwork-style.json` as the final tuning state.
+
+For the Experiences page, refactor the production page to match `experiences-timeline-mock-v1.html`, applying `finalized-experiences-style.json` and `experiences-timeline-design.md`. As part of that implementation, standardize the Projects and Artwork content-page heroes to the approved `400px` minimum height.
 
 Treat these files and `shared-design-invariants.md` as the approved design baseline; do not redesign the pages or materially change their layouts without explicit approval.
 

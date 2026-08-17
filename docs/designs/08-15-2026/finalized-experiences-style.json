@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "kind": "boning-net-experiences-style-preset",
+  "source": "experiences-timeline-mock-v1",
+  "exportedAt": "2026-08-17T02:04:02Z",
+  "tuning": {
+    "scheme": "balanced",
+    "detailMode": "inline",
+    "density": "comfortable",
+    "educationLayout": "paired",
+    "tint": "ice",
+    "heroHeight": 400,
+    "collapsedHeight": 122,
+    "cardRadius": 26,
+    "cardGap": 20
+  },
+  "fixedInvariants": {
+    "singleContinuousMistSurface": true,
+    "timelineNodeAnchorsToCollapsedSummary": true,
+    "productionShipsTuneControls": false
+  }
+}

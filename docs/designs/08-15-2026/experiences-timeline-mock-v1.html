@@ -1,0 +1,565 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boning Dong · Experiences Timeline Design Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400..700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #202a30;
+      --ink-soft: #59666d;
+      --steel: #617b86;
+      --steel-dark: #405861;
+      --paper: #fbfcfc;
+      --mist: #f0f3f4;
+      --line: #dbe1e3;
+      --line-dark: #c7d0d4;
+      --surface: 255 255 255;
+      --hero-height: 400px;
+      --card-radius: 26px;
+      --card-gap: 20px;
+      --collapsed-height: 122px;
+      --wrap: 1120px;
+      --display: "Instrument Sans", "Avenir Next", sans-serif;
+      --body: "Source Sans 3", "Helvetica Neue", sans-serif;
+      --utility: "IBM Plex Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      background: var(--mist);
+      color: var(--ink);
+      font-family: var(--body);
+    }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    a { color: inherit; text-decoration: none; }
+
+    body[data-tint="pearl"] { --mist: #f5f5f3; --line: #dedfdd; --line-dark: #caccca; --surface: 255 255 254; }
+    body[data-tint="smoke"] { --mist: #e9edef; --line: #d1dadd; --line-dark: #bac7cb; --surface: 248 251 251; }
+
+    .site-nav-shell {
+      position: fixed;
+      z-index: 20;
+      top: 14px;
+      right: 0;
+      left: 0;
+      display: flex;
+      justify-content: center;
+      padding-inline: 24px;
+      pointer-events: none;
+    }
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: min(var(--wrap), 100%);
+      min-height: 46px;
+      border: 1px solid transparent;
+      border-radius: 999px;
+      padding: 0 20px;
+      color: white;
+      transition: 220ms ease;
+      pointer-events: auto;
+    }
+    .site-nav.scrolled {
+      border-color: rgb(255 255 255 / .72);
+      background: rgb(248 251 251 / .64);
+      box-shadow: inset 0 1px rgb(255 255 255 / .82), 0 12px 36px rgb(23 34 39 / .10);
+      color: var(--ink);
+      backdrop-filter: blur(14px) saturate(1.08);
+    }
+    .site-name { font: 600 15px/1 var(--display); letter-spacing: -.025em; }
+    .nav-links { display: flex; gap: 28px; font: 560 12px/1 var(--display); }
+    .nav-links a { opacity: .68; }
+    .nav-links a.active { opacity: 1; }
+
+    .experience-hero {
+      position: relative;
+      display: grid;
+      min-height: var(--hero-height);
+      place-items: center;
+      overflow: hidden;
+      background: #2b3940;
+      color: white;
+      transition: min-height 220ms ease;
+    }
+    .experience-hero::before,
+    .experience-hero::after {
+      position: absolute;
+      z-index: 1;
+      inset: 0;
+      content: "";
+      pointer-events: none;
+    }
+    .experience-hero::before { background: linear-gradient(90deg, rgb(9 17 21 / .48), rgb(9 17 21 / .08)); }
+    .experience-hero::after { background: linear-gradient(180deg, rgb(8 15 19 / .04), rgb(8 15 19 / .15) 58%, rgb(8 15 19 / .48)); }
+    .experience-hero img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      max-width: none;
+      object-fit: cover;
+      object-position: center 48%;
+      filter: saturate(.8) contrast(1.04);
+    }
+    .hero-copy { position: relative; z-index: 2; width: min(var(--wrap), calc(100% - 48px)); text-align: center; }
+    .hero-copy h1 { margin: 0; font: 480 clamp(30px, 4vw, 44px)/1 var(--display); letter-spacing: -.055em; text-shadow: 0 3px 22px rgb(0 0 0 / .34); }
+    .hero-copy h1 span { margin-inline: .18em; opacity: .62; font-weight: 400; }
+    .hero-copy p { margin: 18px 0 0; font: 600 10px/1.2 var(--utility); letter-spacing: .14em; text-shadow: 0 2px 12px rgb(0 0 0 / .52); text-transform: uppercase; }
+    .hero-index { position: absolute; z-index: 2; right: 24px; bottom: 22px; font: 500 9px/1 var(--utility); letter-spacing: .12em; opacity: .64; text-transform: uppercase; }
+
+    .kicker, .section-number, .role-date, .role-company, .degree-meta, .detail-eyebrow { font: 600 9px/1.2 var(--utility); letter-spacing: .11em; text-transform: uppercase; }
+    .experience-content { position: relative; isolation: isolate; overflow: hidden; border-top: 1px solid var(--line); background: radial-gradient(circle at 76% 22%, rgb(255 255 255 / .68), transparent 36%), var(--mist); }
+    .experience-content::before { position: absolute; z-index: -1; top: -180px; right: -90px; width: 450px; height: 450px; border-radius: 50%; background: radial-gradient(circle, rgb(145 181 192 / .27), transparent 68%); content: ""; pointer-events: none; }
+    .career-section, .education-section { position: relative; }
+    .section-wrap { position: relative; width: min(var(--wrap), calc(100% - 48px)); margin: auto; }
+    .career-section .section-wrap { padding: 112px 0 0; }
+    .education-section .section-wrap { padding: 80px 0 112px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 24px; margin-bottom: 34px; }
+    .section-head h2 { margin: 10px 0 0; font: 560 clamp(36px, 5vw, 54px)/1 var(--display); letter-spacing: -.06em; }
+    .section-number { color: #78888e; }
+
+    .timeline-shell { display: grid; grid-template-columns: minmax(0, 1fr); gap: 24px; }
+    .timeline { --timeline-indent: 34px; --timeline-axis: 7px; position: relative; display: grid; gap: var(--card-gap); padding-left: var(--timeline-indent); transition: gap 180ms ease; }
+    .timeline::before { position: absolute; top: calc(var(--collapsed-height) / 2); bottom: calc(var(--collapsed-height) / 2); left: var(--timeline-axis); width: 1px; background: linear-gradient(180deg, transparent, #9bafb6 5%, #9bafb6 95%, transparent); box-shadow: 0 0 8px rgb(97 123 134 / .16); content: ""; }
+    .role-card {
+      position: relative;
+      overflow: visible;
+      border: 1px solid rgb(255 255 255 / .78);
+      border-radius: var(--card-radius);
+      background: rgb(var(--surface) / .62);
+      box-shadow: inset 0 1px rgb(255 255 255 / .9), 0 20px 50px rgb(35 49 55 / .09);
+      backdrop-filter: blur(18px) saturate(1.06);
+      transition: border-radius 180ms ease, box-shadow 180ms ease, transform 180ms ease;
+    }
+    .role-card::before { position: absolute; z-index: 2; top: calc(var(--collapsed-height) / 2 - 10px); left: calc(var(--timeline-axis) - var(--timeline-indent) - 10px); width: 12px; height: 12px; border: 4px solid var(--mist); border-radius: 50%; background: var(--steel); box-shadow: 0 0 0 1px rgb(97 123 134 / .48), 0 2px 8px rgb(43 62 70 / .14); content: ""; }
+    .role-card:hover { box-shadow: inset 0 1px rgb(255 255 255 / .96), 0 26px 62px rgb(35 49 55 / .14); transform: translateY(-2px); }
+    .role-card.is-open { border-color: rgb(168 187 194 / .72); }
+    .role-summary {
+      display: grid;
+      grid-template-columns: 132px minmax(0, 1fr) auto auto;
+      align-items: center;
+      height: var(--collapsed-height);
+      gap: 22px;
+      overflow: hidden;
+      border-radius: inherit;
+      padding: 0 22px 0 0;
+      transition: min-height 180ms ease;
+    }
+    .role-logo { position: relative; display: grid; align-self: stretch; width: 132px; height: 100%; place-items: center; padding: 18px 24px 18px 18px; background: radial-gradient(circle at 44% 50%, rgb(255 255 255 / .82), transparent 74%); }
+    .role-logo::after { position: absolute; top: 17px; right: 0; bottom: 17px; width: 1px; background: linear-gradient(180deg, transparent, rgb(116 139 147 / .34) 18%, rgb(116 139 147 / .34) 82%, transparent); content: ""; }
+    .role-logo img { width: 76%; max-width: 86px; max-height: 48px; object-fit: contain; filter: saturate(.82) contrast(1.03); }
+    .role-company { display: block; margin-bottom: 8px; color: var(--steel); }
+    .role-title { margin: 0; font: 590 clamp(17px, 2vw, 22px)/1.08 var(--display); letter-spacing: -.035em; }
+    .role-summary-text { min-width: 0; }
+    .role-summary-text p { max-width: 620px; margin: 8px 0 0; overflow: hidden; color: var(--ink-soft); font-size: 13px; line-height: 1.4; text-overflow: ellipsis; white-space: nowrap; }
+    .role-date { color: #73848b; text-align: right; white-space: nowrap; }
+    .role-toggle { display: inline-flex; align-items: center; gap: 8px; border: 1px solid #cbd6d9; border-radius: 999px; padding: 10px 13px; background: rgb(255 255 255 / .42); color: var(--steel-dark); font: 600 9px/1 var(--utility); letter-spacing: .06em; cursor: pointer; text-transform: uppercase; transition: 160ms ease; }
+    .role-toggle:hover { border-color: #9eb1b7; background: rgb(255 255 255 / .74); }
+    .role-toggle:focus-visible { outline: 2px solid rgb(82 109 119 / .55); outline-offset: 3px; }
+    .role-toggle i { position: relative; width: 9px; height: 9px; font-style: normal; }
+    .role-toggle i::before, .role-toggle i::after { position: absolute; top: 4px; left: 0; width: 9px; height: 1px; background: currentColor; content: ""; transition: transform 160ms ease; }
+    .role-toggle i::after { transform: rotate(90deg); }
+    .role-toggle[aria-expanded="true"] i::after { transform: rotate(0deg); }
+    .role-details { display: grid; grid-template-rows: 0fr; border-top: 1px solid transparent; transition: grid-template-rows 260ms ease, border-color 180ms ease; }
+    .role-card.is-open .role-details { grid-template-rows: 1fr; border-top-color: rgb(203 214 217 / .72); }
+    .role-details-inner { min-height: 0; overflow: hidden; }
+    .detail-copy { display: grid; grid-template-columns: .55fr 1.45fr; gap: 34px; padding: 26px 30px 30px 136px; }
+    .detail-eyebrow { color: var(--steel); }
+    .detail-copy p { margin: 0; color: var(--ink-soft); font-size: 14px; line-height: 1.62; }
+    .detail-copy ul { margin: 15px 0 0; padding-left: 18px; color: var(--ink-soft); font-size: 14px; line-height: 1.55; }
+    .detail-copy li + li { margin-top: 6px; }
+
+    .detail-dock { display: none; position: sticky; top: 84px; align-self: start; min-height: 360px; border: 1px solid rgb(255 255 255 / .78); border-radius: var(--card-radius); padding: 28px; background: rgb(var(--surface) / .68); box-shadow: inset 0 1px rgb(255 255 255 / .9), 0 20px 50px rgb(35 49 55 / .09); backdrop-filter: blur(18px); }
+    .detail-dock h3 { margin: 10px 0 12px; font: 590 25px/1.08 var(--display); letter-spacing: -.04em; }
+    .detail-dock p, .detail-dock ul { color: var(--ink-soft); font-size: 14px; line-height: 1.55; }
+    .detail-dock ul { padding-left: 18px; }
+    body[data-detail-mode="dock"] .timeline-shell { grid-template-columns: minmax(0, 1.32fr) minmax(290px, .68fr); }
+    body[data-detail-mode="dock"] .role-details { display: none; }
+    body[data-detail-mode="dock"] .detail-dock { display: block; }
+
+    body[data-density="compact"] .role-summary { grid-template-columns: 104px minmax(0, 1fr) auto auto; padding-right: 17px; gap: 16px; }
+    body[data-density="compact"] .role-logo { width: 104px; height: 100%; padding: 14px 20px 14px 14px; }
+    body[data-density="compact"] .role-title { font-size: 17px; }
+    body[data-density="compact"] .role-summary-text p { margin-top: 5px; font-size: 12px; }
+    body[data-density="compact"] .detail-copy { padding-left: 105px; }
+
+    .education-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--card-gap); }
+    .degree-card { position: relative; overflow: hidden; min-height: 290px; border: 1px solid var(--line); border-radius: var(--card-radius); padding: 28px; background: linear-gradient(145deg, #f9fbfb, #edf2f3); box-shadow: 0 18px 48px rgb(35 49 55 / .08); transition: border-radius 180ms ease, transform 180ms ease; }
+    .degree-card:hover { transform: translateY(-3px); }
+    .degree-card::after { position: absolute; top: -82px; right: -62px; width: 210px; height: 210px; border: 1px solid rgb(97 123 134 / .18); border-radius: 50%; content: ""; }
+    .degree-top { display: flex; align-items: start; justify-content: space-between; gap: 18px; }
+    .degree-mark { display: grid; width: 66px; height: 66px; place-items: center; border-radius: 18px; background: #06466e; color: white; font: 600 15px/1 var(--utility); }
+    .degree-meta { color: var(--steel); text-align: right; }
+    .degree-card h3 { max-width: 420px; margin: 42px 0 8px; font: 580 clamp(23px, 3vw, 31px)/1.05 var(--display); letter-spacing: -.045em; }
+    .degree-card p { margin: 0; color: var(--ink-soft); font-size: 15px; }
+    .degree-note { position: absolute; right: 28px; bottom: 26px; left: 28px; display: flex; justify-content: space-between; gap: 20px; border-top: 1px solid var(--line-dark); padding-top: 15px; color: #66777e; font: 600 9px/1.25 var(--utility); letter-spacing: .06em; text-transform: uppercase; }
+    body[data-education-layout="stacked"] .education-grid { grid-template-columns: 1fr; }
+    body[data-education-layout="stacked"] .degree-card { min-height: 228px; }
+    body[data-education-layout="stacked"] .degree-card h3 { margin-top: 26px; }
+
+    .site-footer { display: flex; align-items: center; justify-content: space-between; min-height: 92px; padding: 0 max(24px, calc((100vw - var(--wrap)) / 2)); background: #26343a; color: rgb(255 255 255 / .72); font: 600 9px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; }
+
+    .tune-panel { position: fixed; z-index: 40; top: 76px; right: 18px; width: min(350px, calc(100vw - 36px)); max-height: calc(100svh - 94px); overflow: auto; border: 1px solid rgb(255 255 255 / .8); border-radius: 24px; background: rgb(247 250 250 / .91); box-shadow: inset 0 1px rgb(255 255 255 / .92), 0 28px 80px rgb(16 25 29 / .24); backdrop-filter: blur(22px) saturate(1.08); }
+    .tune-panel:not([open]) { width: auto; overflow: visible; border-radius: 999px; }
+    .tune-panel > summary { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 13px 17px; color: var(--steel-dark); font: 600 10px/1 var(--utility); letter-spacing: .09em; cursor: pointer; list-style: none; text-transform: uppercase; }
+    .tune-panel > summary::-webkit-details-marker { display: none; }
+    .tune-panel > summary::after { content: "Open +"; opacity: .7; }
+    .tune-panel[open] > summary::after { content: "Close −"; }
+    .tune-body { border-top: 1px solid #d8e1e3; padding: 18px; }
+    .tune-label { display: block; margin: 18px 0 9px; color: #6b7d84; font: 600 8px/1 var(--utility); letter-spacing: .1em; text-transform: uppercase; }
+    .tune-label:first-child { margin-top: 0; }
+    .tune-options { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px; }
+    .tune-options.two { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .tune-option, .tune-action { border: 1px solid #cbd6d9; border-radius: 999px; padding: 10px 8px; background: rgb(255 255 255 / .5); color: #687a81; font: 600 8px/1 var(--utility); letter-spacing: .04em; cursor: pointer; text-transform: uppercase; transition: 140ms ease; }
+    .tune-option:hover, .tune-action:hover { border-color: #9fb2b9; }
+    .tune-option.active { border-color: var(--steel-dark); background: var(--steel-dark); color: white; }
+    .tune-action.primary { border-color: var(--steel-dark); background: var(--steel-dark); color: white; }
+    .range-row { display: grid; grid-template-columns: 1fr 58px; align-items: center; gap: 10px; margin-top: 9px; }
+    .range-row input[type="range"] { width: 100%; accent-color: var(--steel-dark); }
+    .range-value { border: 1px solid #d3dde0; border-radius: 10px; padding: 7px 5px; background: rgb(255 255 255 / .5); color: var(--steel-dark); font: 600 9px/1 var(--utility); text-align: center; }
+    .tune-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; margin-top: 20px; }
+    .tune-status { min-height: 15px; margin: 10px 2px 0; color: #63777e; font: 500 8px/1.4 var(--utility); }
+    .preset-input { display: none; }
+
+    @media (max-width: 820px) {
+      .role-summary { grid-template-columns: 104px 1fr auto; gap: 15px; }
+      .role-logo { grid-row: 1 / 3; width: 104px; height: 100%; padding-inline: 14px 20px; }
+      .role-date { grid-column: 2; text-align: left; }
+      .role-toggle { grid-row: 1 / 3; grid-column: 3; }
+      .role-summary-text p { white-space: normal; }
+      .detail-copy { grid-template-columns: 1fr; gap: 14px; padding: 24px; }
+      body[data-detail-mode="dock"] .timeline-shell { grid-template-columns: 1fr; }
+      body[data-detail-mode="dock"] .detail-dock { position: static; min-height: auto; }
+      .education-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 620px) {
+      .site-nav-shell { top: 10px; padding-inline: 12px; }
+      .site-nav { padding: 0 15px; }
+      .nav-links a:not(.active) { display: none; }
+      .section-wrap { width: min(100% - 28px, var(--wrap)); }
+      .career-section .section-wrap { padding: 81px 0 0; }
+      .education-section .section-wrap { padding: 58px 0 81px; }
+      .timeline { --timeline-indent: 24px; --timeline-axis: 4px; }
+      .role-summary { grid-template-columns: 76px minmax(0, 1fr) 34px; align-items: center; gap: 10px; padding: 0 10px 0 0; }
+      .role-logo { grid-row: 1 / 3; width: 76px; height: 100%; padding: 15px 16px 15px 12px; }
+      .role-date { grid-column: 2; }
+      .role-toggle { grid-row: 1 / 3; grid-column: 3; justify-content: center; padding: 10px; }
+      .role-toggle span { display: none; }
+      .role-summary-text p { display: none; }
+      .degree-card { min-height: 305px; }
+      .site-footer { align-items: flex-start; flex-direction: column; justify-content: center; gap: 10px; }
+      .tune-panel { top: 70px; right: 10px; bottom: auto; max-height: calc(100svh - 80px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .001ms !important; }
+    }
+  </style>
+</head>
+<body data-density="comfortable" data-detail-mode="inline" data-education-layout="paired" data-tint="ice">
+  <header class="site-nav-shell">
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="site-name" href="#">Boning Dong</a>
+      <div class="nav-links"><a href="#">Projects</a><a href="#">Artwork</a><a class="active" href="#">Experiences</a></div>
+    </nav>
+  </header>
+
+  <section class="experience-hero" aria-labelledby="page-title">
+    <img src="https://imboning.com/assets/img/showcase/experience-banner.jpg" alt="" aria-hidden="true">
+    <div class="hero-copy"><h1 id="page-title">Experience <span>/</span> Education</h1><p>Embedded systems · Hardware · Product craft</p></div>
+    <span class="hero-index">Career archive · 2017—Now</span>
+  </section>
+
+  <main class="experience-content">
+    <section class="career-section" aria-labelledby="work-title">
+      <div class="section-wrap">
+        <div class="section-head"><div><span class="kicker">Career timeline</span><h2 id="work-title">Work Experience</h2></div><span class="section-number">01 / 02</span></div>
+        <div class="timeline-shell">
+          <div class="timeline">
+            <article class="role-card" data-role="apple">
+              <div class="role-summary">
+                <div class="role-logo"><img src="https://imboning.com/assets/img/experiences/apple.png" alt="Apple"></div>
+                <div class="role-summary-text"><span class="role-company">Apple</span><h3 class="role-title">Embedded Software Engineer</h3><p>Core OS · Embedded Sensors · SoC bring-up and driver integration</p></div>
+                <span class="role-date">Aug 2021—Now</span>
+                <button class="role-toggle" type="button" aria-expanded="false"><span>Details</span><i aria-hidden="true"></i></button>
+              </div>
+              <div class="role-details"><div class="role-details-inner"><div class="detail-copy"><span class="detail-eyebrow">At a glance</span><div><p>Supporting embedded software development for sensor systems across Apple hardware products.</p><ul><li>Support SoC bring-ups and driver integrations across product teams.</li><li>Develop sensor drivers from component specifications and engineering requirements.</li><li>Collaborate with cross-functional teams on feature definition and delivery.</li></ul></div></div></div></div>
+            </article>
+
+            <article class="role-card" data-role="microsoft-2020">
+              <div class="role-summary">
+                <div class="role-logo"><img src="https://imboning.com/assets/img/experiences/microsoft.png" alt="Microsoft"></div>
+                <div class="role-summary-text"><span class="role-company">Microsoft</span><h3 class="role-title">Embedded Software Intern</h3><p>Surface Devices · UEFI tooling · Driver and firmware integration</p></div>
+                <span class="role-date">Jun—Sep 2020</span>
+                <button class="role-toggle" type="button" aria-expanded="false"><span>Details</span><i aria-hidden="true"></i></button>
+              </div>
+              <div class="role-details"><div class="role-details-inner"><div class="detail-copy"><span class="detail-eyebrow">Return chapter</span><div><p>Returned to the Microsoft Devices team to develop embedded software and drivers for Surface hardware.</p><ul><li>Built a UEFI toolset that reduced parameter-tuning time by 95%.</li><li>Created a Python parser for automatic UEFI policy extraction from C headers.</li><li>Designed a WDF driver and integrated UI, driver, and firmware layers.</li></ul></div></div></div></div>
+            </article>
+
+            <article class="role-card" data-role="microsoft-2019">
+              <div class="role-summary">
+                <div class="role-logo"><img src="https://imboning.com/assets/img/experiences/microsoft.png" alt="Microsoft"></div>
+                <div class="role-summary-text"><span class="role-company">Microsoft</span><h3 class="role-title">Hardware Intern</h3><p>Surface Devices · Test automation · Real-time visualization</p></div>
+                <span class="role-date">Jun—Sep 2019</span>
+                <button class="role-toggle" type="button" aria-expanded="false"><span>Details</span><i aria-hidden="true"></i></button>
+              </div>
+              <div class="role-details"><div class="role-details-inner"><div class="detail-copy"><span class="detail-eyebrow">First chapter</span><div><p>Built software and hardware verification tools for Surface product development.</p><ul><li>Developed a C# automation platform for a wireless charging test bench.</li><li>Structured the application around MVVM and real-time data visualization.</li><li>Enabled operators to manage multiple concurrent test tasks.</li></ul></div></div></div></div>
+            </article>
+
+            <article class="role-card" data-role="karl-storz">
+              <div class="role-summary">
+                <div class="role-logo"><img src="https://imboning.com/assets/img/experiences/karlstorz.png" alt="Karl Storz"></div>
+                <div class="role-summary-text"><span class="role-company">Karl Storz</span><h3 class="role-title">Component Engineering Intern</h3><p>Medical systems · Component verification · Manufacturing support</p></div>
+                <span class="role-date">Jun—Dec 2018</span>
+                <button class="role-toggle" type="button" aria-expanded="false"><span>Details</span><i aria-hidden="true"></i></button>
+              </div>
+              <div class="role-details"><div class="role-details-inner"><div class="detail-copy"><span class="detail-eyebrow">Medical systems</span><div><p>Supported component engineering for endoscopic systems and their global supply chain.</p><ul><li>Selected and verified primary and alternate electronic components.</li><li>Resolved component issues spanning purchasing and manufacturing.</li><li>Combined regional records into a unified global parts list.</li></ul></div></div></div></div>
+            </article>
+
+            <article class="role-card" data-role="transphorm">
+              <div class="role-summary">
+                <div class="role-logo"><img src="https://imboning.com/assets/img/experiences/transphorm.png" alt="Transphorm"></div>
+                <div class="role-summary-text"><span class="role-company">Transphorm</span><h3 class="role-title">Hardware Intern</h3><p>GaN semiconductors · Device characterization · Test systems</p></div>
+                <span class="role-date">Jul—Sep 2017</span>
+                <button class="role-toggle" type="button" aria-expanded="false"><span>Details</span><i aria-hidden="true"></i></button>
+              </div>
+              <div class="role-details"><div class="role-details-inner"><div class="detail-copy"><span class="detail-eyebrow">Early foundation</span><div><p>Characterized gallium nitride devices and built tools for repeatable hardware testing.</p><ul><li>Measured reverse charge, gate charge, and switching-time parameters.</li><li>Designed a C# and TI Delfino–based device test platform.</li><li>Probed and evaluated HEMT devices on a chip probe station.</li></ul></div></div></div></div>
+            </article>
+          </div>
+
+          <aside class="detail-dock" aria-live="polite">
+            <span class="detail-eyebrow">Detail dock</span>
+            <h3>Select a role</h3>
+            <p>Role details appear here without changing the height of the timeline cards.</p>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section class="education-section" aria-labelledby="education-title">
+      <div class="section-wrap">
+        <div class="section-head"><div><span class="kicker">Foundation</span><h2 id="education-title">Education</h2></div><span class="section-number">02 / 02</span></div>
+        <div class="education-grid">
+          <article class="degree-card"><div class="degree-top"><div class="degree-mark">UCSB</div><span class="degree-meta">2021</span></div><h3>Master’s degree,<br>Computer Engineering</h3><p>University of California, Santa Barbara</p><div class="degree-note"><span>Graduate study</span><span>Santa Barbara, CA</span></div></article>
+          <article class="degree-card"><div class="degree-top"><div class="degree-mark">UCSB</div><span class="degree-meta">2016—2020</span></div><h3>Bachelor’s degree,<br>Computer Engineering</h3><p>University of California, Santa Barbara</p><div class="degree-note"><span>GPA 3.95</span><span>IEEE Student Branch</span></div></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer"><span>Designed by Boning Dong</span><span>Experiences design lab · v1</span></footer>
+
+  <details class="tune-panel">
+    <summary><span>Timeline design lab</span></summary>
+    <div class="tune-body">
+      <span class="tune-label">Starting point</span>
+      <div class="tune-options" data-setting="scheme"><button class="tune-option active" data-value="balanced">Balanced</button><button class="tune-option" data-value="recruiter">Recruiter</button><button class="tune-option" data-value="editorial">Editorial</button></div>
+
+      <span class="tune-label">Detail behavior</span>
+      <div class="tune-options two" data-setting="detailMode"><button class="tune-option active" data-value="inline">Inline accordion</button><button class="tune-option" data-value="dock">Detail dock</button></div>
+
+      <span class="tune-label">Information density</span>
+      <div class="tune-options two" data-setting="density"><button class="tune-option active" data-value="comfortable">Comfortable</button><button class="tune-option" data-value="compact">Compact</button></div>
+
+      <span class="tune-label">Education layout</span>
+      <div class="tune-options two" data-setting="educationLayout"><button class="tune-option active" data-value="paired">Paired cards</button><button class="tune-option" data-value="stacked">Stacked ledger</button></div>
+
+      <span class="tune-label">Surface tint</span>
+      <div class="tune-options" data-setting="tint"><button class="tune-option active" data-value="ice">Ice</button><button class="tune-option" data-value="pearl">Pearl</button><button class="tune-option" data-value="smoke">Smoke</button></div>
+
+      <span class="tune-label">Hero height</span>
+      <div class="range-row"><input type="range" min="340" max="560" step="10" value="400" data-range="heroHeight"><output class="range-value" data-output="heroHeight">400px</output></div>
+
+      <span class="tune-label">Collapsed card height</span>
+      <div class="range-row"><input type="range" min="104" max="150" step="2" value="122" data-range="collapsedHeight"><output class="range-value" data-output="collapsedHeight">122px</output></div>
+
+      <span class="tune-label">Corner radius</span>
+      <div class="range-row"><input type="range" min="10" max="34" step="2" value="26" data-range="cardRadius"><output class="range-value" data-output="cardRadius">26px</output></div>
+
+      <span class="tune-label">Timeline spacing</span>
+      <div class="range-row"><input type="range" min="10" max="30" step="2" value="20" data-range="cardGap"><output class="range-value" data-output="cardGap">20px</output></div>
+
+      <div class="tune-actions"><button class="tune-action primary" type="button" data-action="save">Save default</button><button class="tune-action" type="button" data-action="reset">Reset</button><button class="tune-action" type="button" data-action="import">Import preset</button><button class="tune-action" type="button" data-action="export">Export preset</button></div>
+      <input class="preset-input" type="file" accept="application/json,.json">
+      <p class="tune-status" role="status" aria-live="polite">Balanced preset · unsaved</p>
+    </div>
+  </details>
+
+  <script>
+    (function () {
+      const storageKey = 'boning-experiences-design-lab-default-v2';
+      const root = document.documentElement;
+      const body = document.body;
+      const status = document.querySelector('.tune-status');
+      const fileInput = document.querySelector('.preset-input');
+      const defaultState = {
+        scheme: 'balanced',
+        detailMode: 'inline',
+        density: 'comfortable',
+        educationLayout: 'paired',
+        tint: 'ice',
+        heroHeight: 400,
+        collapsedHeight: 122,
+        cardRadius: 26,
+        cardGap: 20
+      };
+      const schemes = {
+        balanced: { detailMode: 'inline', density: 'comfortable', educationLayout: 'paired', tint: 'ice', heroHeight: 400, collapsedHeight: 122, cardRadius: 26, cardGap: 20 },
+        recruiter: { detailMode: 'dock', density: 'compact', educationLayout: 'stacked', tint: 'pearl', heroHeight: 360, collapsedHeight: 104, cardRadius: 16, cardGap: 12 },
+        editorial: { detailMode: 'dock', density: 'comfortable', educationLayout: 'paired', tint: 'smoke', heroHeight: 520, collapsedHeight: 132, cardRadius: 30, cardGap: 24 }
+      };
+      let state = { ...defaultState };
+
+      function setStatus(message) { status.textContent = message; }
+      function closeInlineDetails() {
+        document.querySelectorAll('.role-card').forEach(function (card) {
+          card.classList.remove('is-open');
+          const button = card.querySelector('.role-toggle');
+          button.setAttribute('aria-expanded', 'false');
+          button.querySelector('span').textContent = 'Details';
+        });
+      }
+      function updateOptionGroups() {
+        document.querySelectorAll('[data-setting]').forEach(function (group) {
+          const key = group.dataset.setting;
+          group.querySelectorAll('.tune-option').forEach(function (button) {
+            button.classList.toggle('active', button.dataset.value === String(state[key]));
+          });
+        });
+      }
+      function updateRanges() {
+        document.querySelectorAll('[data-range]').forEach(function (input) {
+          input.value = state[input.dataset.range];
+        });
+        document.querySelectorAll('[data-output]').forEach(function (output) {
+          output.textContent = state[output.dataset.output] + 'px';
+        });
+      }
+      function applyState(nextState, message) {
+        state = { ...defaultState, ...nextState };
+        body.dataset.detailMode = state.detailMode;
+        body.dataset.density = state.density;
+        body.dataset.educationLayout = state.educationLayout;
+        body.dataset.tint = state.tint;
+        root.style.setProperty('--hero-height', state.heroHeight + 'px');
+        root.style.setProperty('--collapsed-height', state.collapsedHeight + 'px');
+        root.style.setProperty('--card-radius', state.cardRadius + 'px');
+        root.style.setProperty('--card-gap', state.cardGap + 'px');
+        closeInlineDetails();
+        updateOptionGroups();
+        updateRanges();
+        if (message) setStatus(message);
+      }
+      function chooseScheme(name) {
+        applyState({ ...state, ...schemes[name], scheme: name }, name.charAt(0).toUpperCase() + name.slice(1) + ' preset · unsaved');
+      }
+      function markCustom() {
+        state.scheme = 'custom';
+        updateOptionGroups();
+      }
+      function buildPreset() {
+        return { schemaVersion: 1, kind: 'boning-net-experiences-style-preset', source: 'experiences-timeline-mock-v1', exportedAt: new Date().toISOString(), tuning: { ...state } };
+      }
+      function validatePreset(value) {
+        if (!value || value.schemaVersion !== 1 || value.kind !== 'boning-net-experiences-style-preset' || !value.tuning) throw new Error('Unsupported preset');
+        const tuning = value.tuning;
+        ['detailMode', 'density', 'educationLayout', 'tint'].forEach(function (key) { if (typeof tuning[key] !== 'string') throw new Error('Invalid setting'); });
+        ['heroHeight', 'collapsedHeight', 'cardRadius', 'cardGap'].forEach(function (key) { if (!Number.isFinite(Number(tuning[key]))) throw new Error('Invalid range'); });
+        return tuning;
+      }
+
+      document.querySelectorAll('.role-toggle').forEach(function (button) {
+        button.addEventListener('click', function () {
+          const card = button.closest('.role-card');
+          if (state.detailMode === 'dock') {
+            document.querySelectorAll('.role-card').forEach(function (item) { item.classList.toggle('is-open', item === card); });
+            document.querySelectorAll('.role-toggle').forEach(function (item) { item.setAttribute('aria-expanded', String(item === button)); item.querySelector('span').textContent = item === button ? 'Selected' : 'Details'; });
+            const dock = document.querySelector('.detail-dock');
+            const company = card.querySelector('.role-company').textContent;
+            const title = card.querySelector('.role-title').textContent;
+            const detail = card.querySelector('.detail-copy > div').innerHTML;
+            dock.innerHTML = '<span class="detail-eyebrow">' + company + '</span><h3>' + title + '</h3>' + detail;
+            return;
+          }
+          const shouldOpen = !card.classList.contains('is-open');
+          closeInlineDetails();
+          if (shouldOpen) {
+            card.classList.add('is-open');
+            button.setAttribute('aria-expanded', 'true');
+            button.querySelector('span').textContent = 'Close';
+          }
+        });
+      });
+
+      document.querySelectorAll('.tune-option').forEach(function (button) {
+        button.addEventListener('click', function () {
+          const group = button.closest('[data-setting]');
+          const key = group.dataset.setting;
+          const value = button.dataset.value;
+          if (key === 'scheme') { chooseScheme(value); return; }
+          state[key] = value;
+          markCustom();
+          applyState(state, 'Custom tuning · unsaved');
+        });
+      });
+
+      document.querySelectorAll('[data-range]').forEach(function (input) {
+        input.addEventListener('input', function () {
+          state[input.dataset.range] = Number(input.value);
+          markCustom();
+          applyState(state, 'Custom tuning · unsaved');
+        });
+      });
+
+      document.querySelector('[data-action="save"]').addEventListener('click', function () {
+        localStorage.setItem(storageKey, JSON.stringify(state));
+        setStatus('Saved · restored on refresh');
+      });
+      document.querySelector('[data-action="reset"]').addEventListener('click', function () {
+        localStorage.removeItem(storageKey);
+        applyState(defaultState, 'Reset · Balanced defaults restored');
+      });
+      document.querySelector('[data-action="import"]').addEventListener('click', function () { fileInput.click(); });
+      fileInput.addEventListener('change', function () {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file) return;
+        file.text().then(function (text) {
+          applyState(validatePreset(JSON.parse(text)), 'Imported · preset applied, not saved');
+        }).catch(function () { setStatus('Import failed · invalid Experiences preset'); }).finally(function () { fileInput.value = ''; });
+      });
+      document.querySelector('[data-action="export"]').addEventListener('click', function () {
+        try {
+          const blob = new Blob([JSON.stringify(buildPreset(), null, 2) + '\n'], { type: 'application/json' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = 'boning-experiences-style-preset.json';
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+          setStatus('Exported · preset downloaded');
+        } catch (error) { setStatus('Export failed · browser download unavailable'); }
+      });
+
+      window.addEventListener('scroll', function () { document.querySelector('.site-nav').classList.toggle('scrolled', window.scrollY > 44); }, { passive: true });
+      try {
+        const saved = JSON.parse(localStorage.getItem(storageKey));
+        applyState(saved || defaultState, saved ? 'Saved default · restored' : 'Balanced preset · unsaved');
+      } catch (error) {
+        localStorage.removeItem(storageKey);
+        applyState(defaultState, 'Saved preset was invalid · defaults restored');
+      }
+    }());
+  </script>
+</body>
+</html>

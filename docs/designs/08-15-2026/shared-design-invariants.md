@@ -87,6 +87,7 @@ Paper may use the same content hierarchy with a neutral background. Sectioned in
 
 Projects, Artwork, and Experiences share an image-forward hero system that is independent of the homepage hero treatment.
 
+- Use a shared `400px` minimum hero height at every viewport size.
 - Do not copy the homepage's stronger cinematic overlay; content-page imagery should remain clearly visible.
 - Use a restrained horizontal shade from `34%` on the text-supporting side to `8%` on the open side.
 - Use a second vertical shade of `4%` at the top, `2%` through the middle, and `34%` at the bottom for edge legibility.
@@ -123,7 +124,7 @@ These variations must consume the shared tokens above rather than redefining nea
 - Filtering is single-tag and OR-like at the collection level: one selected tag shows projects containing that tag. `All` clears the constraint.
 - All filters, including More/Less, use the same pill component.
 - Large screens can expose three to six filter controls before More; smaller screens expose fewer without changing component style.
-- Gallery cards use Split Card with a default height of `450px`, footer padding `22px`, and description-to-tags gap `16px`.
+- Gallery cards use Split Card with a default height of `400px`, footer padding `22px`, and description-to-tags gap `16px`.
 - Mist is the recommended Projects background and uses the continuity rule above.
 
 ## Current Artwork decisions
@@ -137,6 +138,16 @@ These variations must consume the shared tokens above rather than redefining nea
 - Medium filters are visible by default and offer All, Pencil, Charcoal, and Watercolor.
 - The default artwork viewer is a glass dialog that displays the full-resolution image without cropping.
 - Mist is the approved continuous background across Highlights and The Collection, using the shared `80px` internal transition.
+
+## Current Experiences decisions
+
+- Hero: `Experience / Education`, with `Embedded systems / Hardware / Product craft` metadata and the shared `400px` content-page hero height.
+- Content hierarchy: Work Experience followed by Education on one continuous Mist surface; there is no Career Path introduction.
+- Work entries use equal `122px` collapsed summaries and a `20px` sequential timeline gap.
+- Each work card integrates a left brand region separated by a vertical gradient hairline; logos do not sit inside nested boxes.
+- Timeline nodes use the shared steel palette and remain centered on the collapsed summary when details expand.
+- Production uses a single-open inline accordion. Detail Dock and Tune controls remain mock-only.
+- Education uses paired UCSB cards on desktop and a stacked layout on small screens.
 
 ## Checklist for Artwork and Experiences
 
