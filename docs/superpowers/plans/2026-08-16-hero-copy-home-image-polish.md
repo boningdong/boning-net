@@ -29,11 +29,11 @@
 - Consumes: generated `_site/index.html`, `_site/projects.html`, `_site/artwork.html`, and `_site/resume.html`.
 - Produces: integration assertions for approved visible copy, separators, and the new homepage image reference.
 
-- [ ] **Step 1: Add failing rendered-page assertions**
+- [x] **Step 1: Add failing rendered-page assertions**
 
 Extend the homepage test to require `/assets/img/index/banner-hd-v2.jpg`. Extend the Projects collection test to require `Projects`, `Ideas made tangible`, `Hardware`, `Software`, and `Experiments`. Replace the old Artwork hero assertions with `The world as I see it`, `Drawing`, `Painting`, and `Mixed media`, while rejecting the old wording. Extend the Experiences hierarchy test to require `Experiences`, `The journey so far`, `Education`, `Career`, and `Growth`, while rejecting the old hero phrases.
 
-- [ ] **Step 2: Build and verify the new contract fails for the intended reasons**
+- [x] **Step 2: Build and verify the new contract fails for the intended reasons**
 
 Run:
 
@@ -55,7 +55,7 @@ Expected: Jekyll builds successfully, then the Ruby suite fails because the new 
 - Consumes: the original 1920 by 1176 monochrome mountain illustration.
 - Produces: a visually faithful 3840 by 2352 JPEG for Task 3.
 
-- [ ] **Step 1: Edit the source through built-in ImageGen**
+- [x] **Step 1: Edit the source through built-in ImageGen**
 
 Use the original as the edit target with this prompt:
 
@@ -71,13 +71,13 @@ Constraints: change only clarity, resolution, and natural fine detail within exi
 Avoid: photorealism, color tint, smooth airbrushed gradients, new peaks, duplicated trees, extra hikers, dramatic weather, glowing edges, visible seams, or UI elements.
 ```
 
-- [ ] **Step 2: Inspect the generated result**
+- [x] **Step 2: Inspect the generated result**
 
 Compare it directly with the source. Reject and retry with one targeted correction if the mountain silhouette, right-side hiker, monochrome palette, angular texture, open central sky, or complete framing changes, or if extra subjects, text-like marks, borders, or seams appear.
 
 Copy the accepted built-in artifact to `/private/tmp/home-banner-generated.png` before normalization.
 
-- [ ] **Step 3: Normalize the accepted result**
+- [x] **Step 3: Normalize the accepted result**
 
 Crop only if required to match the source aspect ratio, scale with Lanczos, and encode a 3840 by 2352 JPEG:
 
@@ -85,7 +85,7 @@ Crop only if required to match the source aspect ratio, scale with Lanczos, and 
 ffmpeg -i /private/tmp/home-banner-generated.png -vf "crop=iw:min(ih\,iw*1176/1920):0:(ih-min(ih\,iw*1176/1920))/2,scale=3840:2352:flags=lanczos" -q:v 2 assets/img/index/banner-hd-v2.jpg
 ```
 
-- [ ] **Step 4: Verify the final asset**
+- [x] **Step 4: Verify the final asset**
 
 Run:
 
@@ -106,11 +106,11 @@ Expected: `pixelWidth: 3840` and `pixelHeight: 2352`. Inspect the final JPEG dir
 - Consumes: `assets/img/index/banner-hd-v2.jpg` and the approved copy contract from Task 1.
 - Produces: updated rendered hero markup without layout or behavior changes.
 
-- [ ] **Step 1: Update the homepage image path**
+- [x] **Step 1: Update the homepage image path**
 
 Change only the homepage hero `src` to `/assets/img/index/banner-hd-v2.jpg`. Keep the class, alt text, and fetch priority unchanged.
 
-- [ ] **Step 2: Update Artwork copy**
+- [x] **Step 2: Update Artwork copy**
 
 Render exactly:
 
@@ -121,7 +121,7 @@ Drawing / Painting / Mixed media
 
 Keep the existing elements and classes; replace the visible em dash with a hyphen.
 
-- [ ] **Step 3: Update Experiences copy**
+- [x] **Step 3: Update Experiences copy**
 
 Render exactly:
 
@@ -132,7 +132,7 @@ Education / Career / Growth
 
 Keep the existing elements and classes; change `Experience` to `Experiences` and replace the visible slash separator with a hyphen.
 
-- [ ] **Step 4: Build and verify the rendered contract passes**
+- [x] **Step 4: Build and verify the rendered contract passes**
 
 Run:
 
@@ -155,7 +155,7 @@ Expected: the build succeeds and every Ruby integration test passes.
 - Consumes: the complete updated site.
 - Produces: evidence that text, imagery, boundary rendering, and existing interactivity remain correct.
 
-- [ ] **Step 1: Run the JavaScript regression suite**
+- [x] **Step 1: Run the JavaScript regression suite**
 
 Run:
 
@@ -165,19 +165,19 @@ node --test test/javascript/*.test.js
 
 Expected: every JavaScript test passes with no warnings or errors.
 
-- [ ] **Step 2: Inspect desktop rendering**
+- [x] **Step 2: Inspect desktop rendering**
 
 At a 1440 by 900 viewport, inspect the homepage, Projects, Artwork, and Experiences heroes. Confirm the approved text, single-line or balanced wrapping, consistent hyphen treatment, readable contrast, sharp homepage background, and absence of broken images.
 
-- [ ] **Step 3: Inspect mobile rendering**
+- [x] **Step 3: Inspect mobile rendering**
 
 At a 390 by 844 viewport, inspect the same four heroes. Confirm no horizontal overflow or clipped copy, meaningful image crops, and usable navigation.
 
-- [ ] **Step 4: Re-check the Artwork boundary**
+- [x] **Step 4: Re-check the Artwork boundary**
 
 Confirm `.artwork-hero` and `.artwork-hero-image` share the same bottom edge, there is no border or gap, and the next pixel belongs to `.artwork-content`. Make no CSS change if those facts remain true.
 
-- [ ] **Step 5: Run final source and scope checks**
+- [x] **Step 5: Run final source and scope checks**
 
 Run:
 
@@ -188,7 +188,7 @@ git status --short
 
 Expected: no whitespace errors; only this task's test, includes, documentation, and versioned homepage asset are changed, while `.superpowers/` remains untouched.
 
-- [ ] **Step 6: Commit the completed implementation**
+- [x] **Step 6: Commit the completed implementation**
 
 Stage only the intended files and commit with:
 

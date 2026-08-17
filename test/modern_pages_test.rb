@@ -28,7 +28,8 @@ tests = {
     assert_includes html, '/assets/css/main.css'
     assert_includes html, 'data-navigation'
     assert_includes html, 'data-home-tabs'
-    assert_includes html, '/assets/img/index/banner.jpg'
+    assert_includes html, '/assets/img/index/banner-hd-v2.jpg'
+    refute_includes html, '/assets/img/index/banner.jpg'
     refute_includes html, 'bootstrap.min.css'
     refute_includes html, 'jquery'
   end,
@@ -59,6 +60,12 @@ tests = {
   "Projects page is collection backed" => lambda do
     html = built("projects.html")
 
+    assert_includes html, "Projects</span>"
+    assert_includes html, "Ideas made tangible"
+    assert_includes html, "Hardware"
+    assert_includes html, "Software"
+    assert_includes html, "Experiments"
+    assert_includes html, 'class="projects-hero-separator" aria-hidden="true">-</span>'
     assert(html.scan("data-project-card").length == 12, "expected 12 collection-backed project cards")
     assert_includes html, 'data-project-filters'
     assert_includes html, 'data-tags="hardware system-design firmware embedded c pcb java"'
@@ -81,15 +88,20 @@ tests = {
   end,
   "Artwork page preserves the approved hierarchy and content data" => lambda do
     html = built("artwork.html")
+    hero_html = html[0..html.index("</header>")]
     highlights_position = html.index('id="artwork-highlights-title"')
     collection_position = html.index('id="artwork-collection-title"')
     highlights_html = html[highlights_position...collection_position]
 
     assert_includes html, "Artwork</span>"
-    assert_includes html, "Studies in light &amp; character"
-    assert_includes html, "Graphite"
-    assert_includes html, "Charcoal"
-    assert_includes html, "Watercolor"
+    assert_includes html, "The world as I see it"
+    assert_includes html, "Drawing"
+    assert_includes html, "Painting"
+    assert_includes html, "Mixed media"
+    assert_includes html, 'class="artwork-hero-separator" aria-hidden="true">-</span>'
+    refute_includes hero_html, "Studies in light &amp; character"
+    refute_includes hero_html, "Graphite"
+    refute_includes hero_html, "Charcoal"
     assert_includes html, "10 works / 2015—2020"
     assert(highlights_position && collection_position && highlights_position < collection_position, "expected Highlights before The Collection")
     assert(html.scan('data-highlight-artwork-card').length == 4, "expected four interactive Highlights cards")
@@ -184,6 +196,14 @@ tests = {
     ]
     relationships = html.scan(/<button class="role-toggle" id="([^"]+)"[^>]*aria-controls="([^"]+)"/)
 
+    assert_includes html, "Experiences</span>"
+    assert_includes html, "The journey so far"
+    assert_includes html, "Education"
+    assert_includes html, "Career"
+    assert_includes html, "Growth"
+    assert_includes html, 'class="experiences-hero-separator" aria-hidden="true">-</span>'
+    refute_includes html, "Embedded systems"
+    refute_includes html, "Product craft"
     assert(work_position && education_position && work_position < education_position, "expected Work Experience before Education")
     assert(rendered_roles == expected_roles, "expected complete reverse chronological work order")
     assert(relationships.length == 5, "expected five accordion trigger relationships")
