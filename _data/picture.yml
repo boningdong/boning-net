@@ -1,0 +1,48 @@
+media_queries:
+  mobile: "max-width: 640px"
+  tablet: "max-width: 850px"
+
+presets:
+  large_card:
+    formats: [webp, original]
+    widths: [480, 800, 1200, 1600]
+    sizes:
+      mobile: "calc(100vw - 36px)"
+      tablet: "calc((100vw - 58px) * 0.575)"
+    size: 630px
+    fallback_width: 800
+    dimension_attributes: true
+    strip_metadata: true
+    format_quality:
+      webp: 82
+      jpg: 85
+      jpeg: 85
+
+  grid_card:
+    formats: [webp, original]
+    widths: [320, 480, 640, 960, 1280]
+    sizes:
+      mobile: "calc(100vw - 36px)"
+      tablet: "calc((100vw - 58px) / 2)"
+    size: 357px
+    fallback_width: 640
+    dimension_attributes: true
+    strip_metadata: true
+    format_quality:
+      webp: 82
+      jpg: 85
+      jpeg: 85
+
+  artwork_rail:
+    formats: [webp, original]
+    widths: [240, 360, 480, 720, 960]
+    sizes:
+      mobile: 435px
+    size: 540px
+    fallback_width: 480
+    dimension_attributes: true
+    strip_metadata: true
+    format_quality:
+      webp: 82
+      jpg: 85
+      jpeg: 85

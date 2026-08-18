@@ -21,6 +21,12 @@ collections:
 markdown: kramdown
 plugins:
   - jekyll-feed
+  - jekyll_picture_tag
+
+picture:
+  source: ""
+  output: generated
+  ignore_missing_images: false
 
 sass:
   sass-dir: _sass
@@ -31,4 +37,5 @@ exclude:
   - CLAUDE.md
   - Gemfile
   - Gemfile.lock
+  - test/
   - vendor/

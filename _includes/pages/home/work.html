@@ -21,7 +21,7 @@
           {% if forloop.index == 2 %}{% assign item_class = "item-secondary" %}{% endif %}
           <a class="portfolio-item {{ item_class }}" href="{{ project.url | relative_url }}">
             <figure class="portfolio-visual">
-              <img src="{{ project.cover | relative_url }}" alt="{{ project.title }}" loading="lazy">
+              {% include components/responsive-image.html src=project.cover preset="large_card" alt=project.title %}
             </figure>
             <div class="portfolio-meta">
               <div>
@@ -43,7 +43,7 @@
           {% if forloop.index == 2 %}{% assign item_class = "item-secondary" %}{% endif %}
           <a class="portfolio-item {{ item_class }}" href="{{ '/artwork.html' | relative_url }}">
             <figure class="portfolio-visual">
-              <img src="{{ artwork.cover | relative_url }}" alt="{{ artwork.title }}" loading="lazy">
+              {% include components/responsive-image.html src=artwork.cover preset="large_card" alt=artwork.title %}
             </figure>
             <div class="portfolio-meta">
               <div>

@@ -1,6 +1,6 @@
 <a class="archive-card" href="{{ include.project.url | relative_url }}" data-project-card data-tags="{{ include.project.tags | join: ' ' }}">
   <div class="archive-image">
-    <img src="{{ include.project.cover | relative_url }}" alt="{{ include.project.title }}" loading="lazy">
+    {% include components/responsive-image.html src=include.project.cover preset="grid_card" alt=include.project.title %}
   </div>
   <div class="archive-copy">
     <div class="archive-meta">

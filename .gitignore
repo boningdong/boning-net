@@ -4,5 +4,6 @@ _site/
 .jekyll-metadata
 .bundle/
 vendor/
+/.superpowers/
 
 .DS_Store

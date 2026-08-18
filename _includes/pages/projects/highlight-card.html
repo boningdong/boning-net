@@ -1,5 +1,5 @@
 <a class="highlight-card{% if include.primary %} highlight-card--primary{% endif %}" href="{{ include.project.url | relative_url }}" aria-label="View {{ include.project.title }}">
-  <img src="{{ include.project.cover | relative_url }}" alt="{{ include.project.title }}" loading="lazy">
+  {% include components/responsive-image.html src=include.project.cover preset="large_card" alt=include.project.title %}
   <div class="highlight-info">
     <small>{{ include.project.tags | first | replace: "-", " " }} · {{ include.project.date | date: "%Y" }}</small>
     <h3>{{ include.project.title }}</h3>
