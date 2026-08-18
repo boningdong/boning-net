@@ -3,7 +3,7 @@ layout: project-post
 title: Programming Languages Trend
 subtitle: Seattle Library Data Visualization.
 date: 2020-2-12
-cover: "/assets/img/projects/spl_visualization_cover.png"
+cover: "/assets/img/projects/spl_visualization/cover.png"
 tags:
     - software
     - ar
@@ -20,7 +20,7 @@ In addition to controlling the camera angle using the mouse, you can also naviag
     <div class="col-lg-1">
     </div>
     <div class="col-lg-9">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization_5.png" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization/spl_visualization_5.png" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-1">
     </div>
@@ -31,17 +31,17 @@ The daily checkouts should be displayed using circles or torus so that the viewe
 Also, the user should be able to select the years and languages to be shown, it’s easy for the languages to be compared.
 <div class="row d-flex">
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization_2.png" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization/spl_visualization_2.png" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization_1.png" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization/cover.png" alt="{{ page.title }} image">
     </div>
 </div>
 <div class="row d-flex">
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization_4.png" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization/spl_visualization_4.png" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization_3.png" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/spl_visualization/spl_visualization_3.png" alt="{{ page.title }} image">
     </div>
 </div>

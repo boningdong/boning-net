@@ -3,7 +3,7 @@ layout: project-post
 title: AreUSafe
 subtitle: A safety information App.
 date: 2017-5-1
-cover: "/assets/img/projects/areusafe_cover.jpg"
+cover: "/assets/img/projects/areusafe/cover.png"
 tags:
     - software
     - java
@@ -15,9 +15,9 @@ You can still download this app here:
 [Play Store](https://play.google.com/store/apps/details?id=edu.ucsb.boning.jsontest)
 <div class="row d-flex">
     <div class="col-md-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe_1.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe/areusafe_1.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-md-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe_2.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe/areusafe_2.jpg" alt="{{ page.title }} image">
     </div>
 </div>

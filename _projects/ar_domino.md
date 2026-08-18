@@ -4,7 +4,7 @@ title: AR Domino
 # subtitle: A self-made high precision 3D printer.
 subtitle: An AR domino game developed using Unity
 date: 2021-05-01
-cover: "/assets/img/projects/ar_domino/domino_cover.jpg"
+cover: "/assets/img/projects/ar_domino/cover.jpg"
 external-link: "https://github.com/boningdong/AR-Domino"
 featured: true
 featured-order: 3

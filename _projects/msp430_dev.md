@@ -3,7 +3,7 @@ layout: project-post
 title: MSP430 Development Board
 subtitle: A development board for MSP430.
 date: 2016-04-24
-cover: "/assets/img/projects/msp430_devboard_cover.jpg"
+cover: "/assets/img/projects/msp430_dev/cover.jpg"
 tags:
     - hardware
     - firmware
@@ -15,10 +15,10 @@ tags:
 The project is an MSP430F2132 development board with an RGB LED controller and extension connectors on it. I designed this development as a development tool board to fulfill my requirement of testing tasks of my Smart Lamp at Tsinghua University.
 <div class="row d-flex">
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_3.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_dev/msp430_devboard_3.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_2.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_dev/msp430_devboard_2.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 This board has the following features:
@@ -33,6 +33,6 @@ The whole project can be divided into the following phrases:
     - designing, manufacturing and assembling the  PCBs
 <div class="row d-flex">
     <div class="col-lg-11">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_1.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_dev/cover.jpg" alt="{{ page.title }} image">
     </div>
 </div>

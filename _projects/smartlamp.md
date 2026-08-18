@@ -3,7 +3,7 @@ layout: project-post
 title: Smart Lamp
 subtitle: A Bluetooth controlled smart lamp.
 date: 2016-07-21
-cover: "/assets/img/projects/smartlamp_cover.jpg"
+cover: "/assets/img/projects/smartlamp/cover.jpg"
 external-link: 'https://github.com/boningdong/Smart-Lamp'
 tags:
     - hardware
@@ -15,13 +15,13 @@ tags:
 ---
 <div class="row d-flex">
     <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_5.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_5.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_3.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_3.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_6.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_6.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 # Description
@@ -44,9 +44,9 @@ As usual, I tried to build a "product-level" product and design everything from 
 - developing the firmware
 <div class="row d-flex">
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_1.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_1.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp_4.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_4.jpg" alt="{{ page.title }} image">
     </div>
 </div>

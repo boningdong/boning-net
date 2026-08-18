@@ -340,6 +340,15 @@
   transform: translateY(calc(-1 * var(--hover-lift)));
 }
 
+.portfolio-item::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 0%, transparent 56%, rgb(8 16 20 / 0.12) 72%, rgb(8 16 20 / 0.56) 100%);
+  content: "";
+  pointer-events: none;
+}
+
 .portfolio-item.item-feature {
   grid-column: span 7;
   grid-row: span 2;
@@ -357,6 +366,12 @@
   background: #dce2e4;
 }
 
+.portfolio-visual picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .portfolio-visual img {
   width: 100%;
   height: 100%;
@@ -370,7 +385,7 @@
 
 .portfolio-meta {
   position: absolute;
-  z-index: 1;
+  z-index: 2;
   right: 0;
   bottom: 0;
   left: 0;
@@ -378,10 +393,9 @@
   align-items: end;
   justify-content: space-between;
   gap: 20px;
-  padding: 68px 18px 18px;
-  background: linear-gradient(180deg, transparent 25%, rgb(9 17 21 / 0.7));
+  padding: 18px;
   color: white;
-  text-shadow: 0 2px 12px rgb(0 0 0 / 0.72);
+  text-shadow: 0 1px 8px rgb(0 0 0 / 0.46);
 }
 
 .portfolio-meta strong {

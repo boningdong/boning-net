@@ -3,7 +3,7 @@ layout: project-post
 title: Dual Resonant Solid State Tesla Coil
 subtitle: High frequnecy HV transformer capable of playing music with lightning.
 date: 2018-05-21
-cover: "/assets/img/projects/teslacoil_cover.jpg"
+cover: "/assets/img/projects/drsstc/cover.jpg"
 external-link: "https://github.com/boningdong/DRSSTC"
 tags:
     - hardware
@@ -11,13 +11,13 @@ tags:
 ---
 <div class="row d-flex">
     <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_2.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/drsstc/teslacoil_2.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_3.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/drsstc/teslacoil_3.jpg" alt="{{ page.title }} image">
     </div>
     <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_4.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/drsstc/cover.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 # Descriptions
@@ -41,16 +41,16 @@ Our DRSSTC can generate 1.3 meters long arch under 800W (80V 10A) input power, a
 ### photos:
 <div class="row justify-content-center d-flex">
     <div class="col-md-9">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_6.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/drsstc/teslacoil_6.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 <div class="row justify-content-center d-flex">
     <div class="col-md-9">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_1.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/drsstc/teslacoil_1.jpg" alt="{{ page.title }} image">
     </div>
 </div>
 <div class="row justify-content-center d-flex">
     <div class="col-md-9">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/teslacoil_5.jpg" alt="{{ page.title }} image">
+        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/drsstc/teslacoil_5.jpg" alt="{{ page.title }} image">
     </div>
 </div>

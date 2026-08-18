@@ -3,7 +3,7 @@ layout: project-post
 title: AI Chatbot Avatar
 subtitle: An 3D AI chatbot avatar to facilitate interactive story creation.
 date: 2022-04-21
-cover: "/assets/img/projects/chatbot/chatbot_cover.jpg"
+cover: "/assets/img/projects/chatbot/cover.png"
 featured: true
 featured-order: 2
 tags:

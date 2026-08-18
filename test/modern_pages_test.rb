@@ -70,7 +70,7 @@ tests = {
     assert_includes html, 'data-project-filters'
     assert_includes html, 'data-tags="hardware system-design firmware embedded c pcb java"'
     assert_includes html, 'href="/projects/scopen"'
-    assert_includes html, '/assets/img/projects/scopen_cover.png'
+    assert_includes html, '/generated/assets/img/projects/scopen/cover-'
   end,
   "Artwork page uses the modern collection-backed shell" => lambda do
     html = built("artwork.html")
