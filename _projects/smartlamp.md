@@ -3,7 +3,7 @@ layout: project-post
 title: Smart Lamp
 subtitle: A Bluetooth controlled smart lamp.
 date: 2016-07-21
-cover: "/assets/img/projects/smartlamp/cover.jpg"
+cover: "/assets/img/projects/smartlamp/cover-product.png"
 external-link: 'https://github.com/boningdong/Smart-Lamp'
 tags:
     - hardware
