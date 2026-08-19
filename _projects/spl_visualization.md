@@ -4,6 +4,8 @@ title: Programming Languages Trend
 subtitle: Seattle Library Data Visualization.
 date: 2020-2-12
 cover: "/assets/img/projects/spl_visualization/cover.png"
+featured: true
+featured-order: 3
 tags:
     - software
     - ar
