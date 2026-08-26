@@ -32,6 +32,9 @@ sass:
   sass-dir: _sass
   style: compressed
 
+project_detail:
+  default_hero: /assets/img/showcase/project-detail-defaults/night-instrument-expanded.png
+
 exclude:
   - AGENTS.md
   - CLAUDE.md

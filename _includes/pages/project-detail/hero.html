@@ -1,0 +1,17 @@
+{% assign project_hero = page.hero | default: site.project_detail.default_hero %}
+{% assign project_hero_alt = page.hero_alt | default: page.title | append: " project illustration" %}
+<header class="project-hero" data-project-hero>
+  <img class="project-hero-image" src="{{ project_hero | relative_url }}" alt="{{ project_hero_alt | escape }}" width="3840" height="1280" fetchpriority="high">
+  <div class="project-hero-shade" aria-hidden="true"></div>
+  <div class="project-hero-inner design-wrap">
+    <a class="project-back-link" href="{{ '/projects.html' | relative_url }}"><span aria-hidden="true">←</span> All projects</a>
+    <div class="project-hero-copy">
+      <h1>{{ page.title }}</h1>
+      {% if page.subtitle %}<p class="project-hero-description">{{ page.subtitle }}</p>{% endif %}
+      <p class="project-hero-meta">
+        {% if page.date %}<span>{{ page.date | date: "%Y" }}</span>{% endif %}
+        {% for tag in page.tags limit:3 %}<span>{{ tag | replace: "-", " " }}</span>{% endfor %}
+      </p>
+    </div>
+  </div>
+</header>

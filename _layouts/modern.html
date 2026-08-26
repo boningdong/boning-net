@@ -1,6 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
+  {% assign resolved_body_class = page.body_class | default: layout.body_class %}
+  {% assign resolved_nav_active = page.nav_active | default: layout.nav_active %}
+  {% assign resolved_footer_variant = page.footer_variant | default: layout.footer_variant %}
+  {% assign resolved_scripts = page.scripts | default: layout.scripts %}
   {% assign asset_version = site.time | date: "%s" %}
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,13 +16,13 @@
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400..700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/main.css' | relative_url }}?v={{ asset_version }}">
 </head>
-<body class="modern-page{% if page.body_class %} {{ page.body_class }}{% endif %}">
-  {% include components/navigation.html active=page.nav_active %}
+<body class="modern-page{% if resolved_body_class %} {{ resolved_body_class }}{% endif %}">
+  {% include components/navigation.html active=resolved_nav_active %}
   {{ content }}
-  {% include components/footer.html variant=page.footer_variant %}
+  {% include components/footer.html variant=resolved_footer_variant %}
 
   <script src="{{ '/assets/js/components/navigation.js' | relative_url }}?v={{ asset_version }}"></script>
-  {% for script in page.scripts %}
+  {% for script in resolved_scripts %}
     <script src="{{ script | relative_url }}?v={{ asset_version }}"></script>
   {% endfor %}
 </body>

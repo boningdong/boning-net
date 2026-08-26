@@ -1,0 +1,10 @@
+{% assign generated = page.project_detail_generated %}
+{% if generated.intro_markdown and generated.intro_style == "featured" %}
+  <section class="project-intro project-intro--featured design-wrap" aria-labelledby="project-intro-title">
+    <p class="project-intro-label" id="project-intro-title">Project Intro</p>
+    <div class="project-intro-bridge">
+      <span class="project-intro-marker" aria-hidden="true"></span>
+      <div class="project-intro-copy">{{ generated.intro_markdown | markdownify }}</div>
+    </div>
+  </section>
+{% endif %}

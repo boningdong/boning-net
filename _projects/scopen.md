@@ -1,148 +1,145 @@
 ---
-layout: project-post
-title: Scopen - A wireless oscilloscope
-subtitle: UCSB CE 2020 Capstone Projec
-date: 2020-6-15
-cover: "/assets/img/projects/scopen/cover-logo.png"
+layout: project-detail
+title: Scopen
+subtitle: A wireless oscilloscope designed to make circuit debugging portable.
+date: 2020-06-15
+cover: /assets/img/projects/scopen/cover-logo.png
 featured: true
 featured-order: 1
 tags:
-    - hardware
-    - system-design
-    - firmware
-    - embedded
-    - c
-    - pcb
-    - java
+  - hardware
+  - system-design
+  - firmware
+  - embedded
+  - c
+  - pcb
+  - java
 ---
-<div class="col-lg-12 p-3">
-    <img class="project-poster" src="{{ site.baseurl }}/assets/img/projects/scopen/cover-blueprint.png" alt="{{ page.title }} image">
+A lab instrument that fits in your pocket.
+
+# Context
+
+Oscilloscopes are indispensable when debugging electronics, but they are rarely close at hand. For our UCSB Computer Engineering capstone, we designed an affordable wireless probe that captures a signal, processes it on the device, and streams the result to a desktop interface.
+
+The goal was not to replace a full laboratory oscilloscope. We wanted the most useful parts of one in a compact instrument that we could carry between a bench, a classroom, and a field project.
+
+![Scopen capstone poster](/assets/img/projects/scopen/scopen_poster.jpg)
+
+The complete design and development process is covered in the [Scopen presentation](https://youtu.be/ieGTWUUsJ_8). These shorter demonstrations show the physical prototype and software working together.
+
+<div class="project-video-grid">
+  <div class="project-video">
+    <iframe src="https://www.youtube.com/embed/4xJvWEb1Kwo" title="Scopen hardware demonstration" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <div class="project-video">
+    <iframe src="https://www.youtube.com/embed/fFWyjB_XNrE" title="Scopen software demonstration" loading="lazy" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
 </div>
-# Team Members
-<div class="row text-center">
-    <div class="col-4 p-2">
-        <div class="pb-2">
-            <a href="https://www.linkedin.com/in/byron-aguilar-a139057b/"><img class="project-person-photo" src="{{ site.baseurl }}/assets/img/people/byron.png" alt="Byron Aguilar"></a>
-        </div>
-        <div class="">
-          <h5 class="">Byron Aguilar</h5>
-        </div>
-    </div>
-    <div class="col-4 p-2">
-        <div class="pb-2">
-            <a href="https://www.linkedin.com/in/boning-dong"><img class="project-person-photo" src="{{ site.baseurl }}/assets/img/people/boning.png" alt="Boning Dong"></a>
-        </div>
-        <div class="">
-          <h5 class="">Boning Dong</h5>
-        </div>
-    </div>
-    <div class="col-4 p-2">
-        <div class="pb-2">
-            <a href="https://www.linkedin.com/in/cesar-gonzalez-0098341b0/"><img class="project-person-photo" src="{{ site.baseurl }}/assets/img/people/cesar.png" alt="Cesar Gonzalez"></a>
-        </div>
-        <div class="">
-          <h5 class="">Cesar Gonzalez</h5>
-        </div>
-    </div>
-</div>
-# Concep
-Scopen is one of the UCSB CE 2020 capstone projects. We built this project not just for satisfying our curricular requirements, but more importantly, also for ourselves, because we always want to have an affordable, wireless, and handheld oscilloscope-like equipment, so that we can debug circuits easily.
-# Product Videos
-If you want to checkout our full presentation video, here is the link: <a href="https://youtu.be/ieGTWUUsJ_8">Scopen Presentation</a>
-<div class="row justify-content-center">
-    <div class="col-lg-6 p-2">
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/4xJvWEb1Kwo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    </div>
-    <div class="col-lg-6 p-2">
-        <div class="video-container">
-            <iframe src="https://www.youtube.com/embed/fFWyjB_XNrE" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    </div>
-</div>
+
 # Hardware
-Overall, the hardware system consists of two parts, the Analog Front End (AFE), which handles isolating the scaling the input signal, and the microcontroller system (MCU), which deals with sampling the output from the AFE and managing the surrounding peripherals. In detail, the AFE consists of several stages to isolate the input signal, to scale up and down, and to make the output signal to be differential respectively. In addition to the main microcontroller, the MCU system also includes an external SRAM memory (for storing the sampled data), a touch sensor (for providing an intuitive user interaction), and a WiFi controller (for handling the communication between MCU and PC/Phone App). The architecture of the AFE and the MCU system can be seen from the following two diagrams.
-<div class="row justify-content-center">
-    <div class="col-lg-12 p-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_afe.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-12 p-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_mcu.jpg" alt="{{ page.title }} image">
-    </div>
+
+The board is built around two tightly coupled systems. The analog front end isolates and scales the incoming signal before producing a differential output. The controller side samples that output, stores data in external SRAM, reads touch input, and manages the wireless link.
+
+<div class="project-media-grid">
+  <figure class="project-media">
+    <img src="/assets/img/projects/scopen/scopen_afe.jpg" alt="Block diagram of the Scopen analog front end">
+    <figcaption>Analog front end: isolation, gain control, and differential conversion.</figcaption>
+  </figure>
+  <figure class="project-media">
+    <img src="/assets/img/projects/scopen/scopen_mcu.jpg" alt="Block diagram of the Scopen microcontroller system">
+    <figcaption>Controller system: STM32, SRAM, touch input, and WiFi controller.</figcaption>
+  </figure>
 </div>
-One of the challenges we were facing is how to fit all of the components in a compact board, and at the same time, make sure that we can assemble the boards by ourselves (we need to solder them by ourselves).
-To minimize the size of the board, we determined to place components on both sides of the PCB. Eventually, we built the whole system onto a 2.45" by 0.73", 6-layer printed circuit board (PCB), which is even smaller than a piece of regular gum.
-<div class="row justify-content-center">
-    <div class="col-lg-6 p-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_pcb_top.png" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-6 p-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_pcb_bottom.png" alt="{{ page.title }} image">
-    </div>
+
+The electrical system fits on a **2.45 × 0.73 in**, six-layer printed circuit board. Placing components on both sides kept the board narrower than a stick of gum while leaving the prototype practical to assemble by hand.
+
+<div class="project-media-grid">
+  <figure class="project-media">
+    <img src="/assets/img/projects/scopen/scopen_pcb_top.png" alt="Top side of the assembled Scopen circuit board">
+    <figcaption>Top side with the primary controller and signal circuitry.</figcaption>
+  </figure>
+  <figure class="project-media">
+    <img src="/assets/img/projects/scopen/scopen_pcb_bottom.png" alt="Bottom side of the assembled Scopen circuit board">
+    <figcaption>Bottom side with supporting components and interconnects.</figcaption>
+  </figure>
 </div>
-Here are the diagrams of all the layers.
-<div class="row justify-content-center ">
-    <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_pcb_6_layers.png" alt="{{ page.title }} image">
-    </div>
-</div>
+
+![Exploded diagram of all six Scopen PCB layers](/assets/img/projects/scopen/scopen_pcb_6_layers.png)
+
 # Firmware
-Overall the firmware architecture can be seen from the following diagram.
-<div class="row justify-content-center">
-    <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_firmware_stack.png" alt="{{ page.title }} image">
-    </div>
-</div>
-The STM32 firmware stack is on the left, and the right is the one for ESP32.
-For the STM32 stack, as we can see, we build our project mainly based on the STM32 HAL Library, which provides the low-level drivers to most of the internal peripherals. For those peripherals on which we need special features, we wrote our own the low-level drivers based on the STM32 LL Library, which functions as the wrapper layer of the registers. For example, we need the restart feature of I2C to communicate with the touch sensor efficiently. So we wrote our I2C library based on the STM32 LL I2C Library.
-One thing to notice in the middle layer is that the external sensors are driven based on the low-level drivers mentioned above. Another thing worth mentioning is that we used freeRTOS in this project because we need to let the controller run different tasks "at the same time."
-On the top layer, as we can see, there are five threads in total in our final implementation.  Three of them handle communication, and two of them deal with the general logic.
-The ESP32 stack is relatively simple because we wrote the firmware based on the Arduino Library. There are two threads in total: one for managing the downstream communication and the other one for upstream.
-There are several challenges we were facing while developing the firmware. The first challenge is how to trigger the ADC sampling with a fixed time interval. We cannot use interrupts if we want to make the sampling trigger time to be accurate enough, because context switching takes time, and the exact time it takes is unpredictable. Our solution is to use HRTIM (High-Resolution Timer) as the triggering source to control when the ADCs start sampling. After each sampling finishes, the DMAs will move the result from the ADC result register to the external SRAM. The following diagram demonstrates our ideas.
-<div class="row justify-content-center">
-    <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_adc_sampling.jpg" alt="{{ page.title }} image">
-    </div>
-</div>
-The second challenge we were facing is thread management. We used the CMSIS API based on the freeRTOS, which enables more than one thread to run on our platform. It's also worth mentioning that we used several semaphores to avoid the race conditions introduced by this multithreading scheme: one semaphore to control the access to the SPI interface and two semaphores to indicates the empty and occupied slots for each queue.
-<div class="row justify-content-center">
-    <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_thread_manage.png" alt="{{ page.title }} image">
-    </div>
-</div>
-The last challenge we were dealing with is how to enable wireless communication between the pen and the PC/Mobile software. We eventually used the UDP and TCP protocols and implemented the message forwarding features on ESP32 with its Arduino library. Overall we have two threads that handle the upstream and downstream communication separately. The upstream communicate with the STM32 through the SPI interface because the upstream channel passes the sampling data, and the faster transfer speed of SPI can lessen its transfer time. The downstream communication with the STM32 is used for forwarding the user commands from the software to the pen, so a relatively slower UART interface is enough. Here is the block diagram.
-<div class="row justify-content-center">
-    <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_esp.jpg" alt="{{ page.title }} image">
-    </div>
-</div>
+
+The firmware spans two controllers. An STM32 handles acquisition, local storage, touch input, and device state. An ESP32 bridges the instrument to the desktop application over WiFi.
+
+![Layered architecture of the STM32 and ESP32 firmware](/assets/img/projects/scopen/scopen_firmware_stack.png)
+
+The STM32 stack combines HAL drivers with targeted low-level drivers where tighter control was required. One example is repeated-start I2C communication with the touch sensor. FreeRTOS coordinates five tasks: three for communication and two for the instrument's core logic. Semaphores protect the SPI bus and track empty and occupied queue slots.
+
+Fixed-interval sampling could not depend on software interrupt timing. The High Resolution Timer triggers the ADCs in hardware, and DMA moves each completed conversion directly into external SRAM.
+
+![HRTIM triggered ADC and DMA sampling sequence](/assets/img/projects/scopen/scopen_adc_sampling.jpg)
+
+![FreeRTOS task and semaphore relationships](/assets/img/projects/scopen/scopen_thread_manage.png)
+
+The ESP32 runs separate upstream and downstream paths. Sample data travels from the STM32 over SPI because throughput matters most in that direction. User commands return over UART, where the lower bandwidth is sufficient. The ESP32 then forwards both paths through UDP and TCP connections.
+
+![Wireless data paths between STM32, ESP32, and desktop software](/assets/img/projects/scopen/scopen_esp.jpg)
+
 # Software
-Nothing is unique about software development. The only thing worth mentioning is that we tried to follow the Model-View-Controller design pattern to develop our project. Overall the architecture is shown by the following diagram.
-<div class="row justify-content-center">
-    <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_software_stack.png" alt="{{ page.title }} image">
-    </div>
+
+The desktop application follows a Model View Controller structure so acquisition, rendering, and interaction can evolve independently.
+
+![Model View Controller architecture of the Scopen desktop application](/assets/img/projects/scopen/scopen_software_stack.png)
+
+We built the interface in Java Swing and drew the oscilloscope controls specifically for the product rather than relying on stock widgets. The result combines live signal display, acquisition controls, and device communication in one dark workspace.
+
+![Scopen Java Swing desktop interface showing a live waveform](/assets/img/projects/scopen/scopen_software_interface.jpg)
+
+## Industrial Design
+
+The electronics were packaged in a handheld enclosure designed in Autodesk Fusion 360. We printed and assembled several iterations to validate access to the probe, controls, connectors, and internal board.
+
+<div class="project-media-grid">
+  <figure class="project-media">
+    <img src="/assets/img/projects/scopen/scopen_id_blue.png" alt="Fusion 360 model of the blue Scopen enclosure">
+    <figcaption>Enclosure geometry developed around the narrow circuit board.</figcaption>
+  </figure>
+  <figure class="project-media">
+    <img src="/assets/img/projects/scopen/scopen_id_render.png" alt="Rendered view of the assembled Scopen handheld enclosure">
+    <figcaption>Assembled product study with probe, controls, and display window.</figcaption>
+  </figure>
 </div>
-We used the Java Swing library for the front-end UI. We wrote the code to draw the nobs line by line to have an expected design. Currently, we already have an intuitive and functional design with an elegant dark theme.
-<div class="row justify-content-center">
-    <div class="col-lg-12 px-3">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_software_interface.jpg" alt="{{ page.title }} image">
-    </div>
+
+## What we would improve
+
+- Replace the Java Swing desktop client with a portable web-based application.
+- Trade some sampling speed for higher effective resolution through longer sample periods or oversampling.
+- Refine the capacitive touch system beyond the proof of concept so interaction remains reliable across enclosure and environmental changes.
+
+# Team
+
+Scopen was created by three computer engineering students across hardware, firmware, software, and industrial design.
+
+<div class="project-team-grid">
+  <article class="project-team-card">
+    <a href="https://www.linkedin.com/in/byron-aguilar-a139057b/">
+      <img src="/assets/img/people/byron.png" alt="Portrait of Byron Aguilar">
+      <h3>Byron Aguilar</h3>
+    </a>
+  </article>
+  <article class="project-team-card">
+    <a href="https://www.linkedin.com/in/boning-dong">
+      <img src="/assets/img/people/boning.png" alt="Portrait of Boning Dong">
+      <h3>Boning Dong</h3>
+    </a>
+  </article>
+  <article class="project-team-card">
+    <a href="https://www.linkedin.com/in/cesar-gonzalez-0098341b0/">
+      <img src="/assets/img/people/cesar.png" alt="Portrait of Cesar Gonzalez">
+      <h3>Cesar Gonzalez</h3>
+    </a>
+  </article>
 </div>
-# Industrial Design
-We also designed a case for our product using Autodesk Fusion 360, 3D printed it and assembled everything to make it like a real product. Here are some of the screenshots.
-<div class="row justify-content-center">
-    <div class="col-lg-12 p-3">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_id_blue.png" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-12 p-3">
-        <img class="project-photo mx-auto my-2 my-md-4 no-shadow" src="{{ site.baseurl }}/assets/img/projects/scopen/scopen_id_render.png" alt="{{ page.title }} image">
-    </div>
-</div>
-# Issues & Improvements
-- We can rewrite the front-end software in JavaScript using React and Electron framework to improve the design and make it portable to different platforms.
-- Current the sampling accuracy is not high and the resolution is not high enough (8 bit). We probably can tweak the parameters to sacrifice a portion of the speed to improve the accuracy, probably by enabling oversampling or simply increasing the sampling period.
-- The touch sensor works from a prove-of-concept perspective but not good enough; it's not sensitive enough to respond to the user input.
-# Acknowledgmen
-We want to give special thanks to **Prof. Yogananda Isukapalli** for managing the UCSB CE capstone program. We also want to thank our TAs **Kyle Douglas** and **Aditya Wadaskar** for giving us valuable advice, and **Jeff Longo** for helping us develop our mobile end app.
+
+## Acknowledgements
+
+We thank Professor Yogananda Isukapalli for leading the UCSB Computer Engineering capstone program; Kyle Douglas and Aditya Wadaskar for their technical guidance; and Jeff Longo for helping develop the mobile application.
