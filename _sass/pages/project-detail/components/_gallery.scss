@@ -1,0 +1,18 @@
+.project-gallery-item .project-media-frame {
+  margin: 0;
+}
+
+.project-gallery:not(.project-collection--masonry) .project-media-frame {
+  aspect-ratio: 4 / 3;
+}
+
+.project-main .project-gallery:not(.project-collection--masonry) .project-media-frame > img,
+.project-intro .project-gallery:not(.project-collection--masonry) .project-media-frame > img {
+  height: 100%;
+  object-fit: cover;
+}
+
+.project-gallery-item .project-caption {
+  grid-template-columns: 1fr;
+  gap: 6px;
+}
