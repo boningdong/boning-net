@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
+require "fileutils"
+require "jekyll"
 require "open3"
 require "rbconfig"
 require "sass-embedded"
+require "tmpdir"
 
 ROOT = File.expand_path("..", __dir__)
 
@@ -28,6 +31,52 @@ def built(path)
   full_path = File.join(ROOT, "_site", path)
   assert(File.file?(full_path), "expected generated file #{path}")
   File.read(full_path)
+end
+
+def render_project_detail_layout(navigation_enabled:)
+  Dir.mktmpdir("project-detail-layout") do |source|
+    destination = File.join(source, "_site")
+    layouts = File.join(source, "_layouts")
+    includes = File.join(source, "_includes/pages/project-detail")
+    FileUtils.mkdir_p(layouts)
+    FileUtils.mkdir_p(includes)
+
+    FileUtils.cp(
+      File.join(ROOT, "_layouts/project-detail.html"),
+      File.join(layouts, "project-detail.html")
+    )
+    %w[hero.html intro.html chapter-navigation.html].each do |include_name|
+      FileUtils.cp(
+        File.join(ROOT, "_includes/pages/project-detail", include_name),
+        File.join(includes, include_name)
+      )
+    end
+    File.write(File.join(layouts, "modern.html"), "---\n---\n{{ content }}\n")
+
+    page_data = {
+      "layout" => "project-detail",
+      "title" => "Layout fixture",
+      "project_detail_generated" => {
+        "navigation_enabled" => navigation_enabled,
+        "chapters" => [{ "id" => "context", "index" => 1, "title" => "Context" }],
+        "blocks" => {},
+        "intro_style" => "plain"
+      }
+    }
+    File.write(
+      File.join(source, "index.html"),
+      page_data.to_yaml + "---\n<section data-project-chapter=\"context\">Context</section>\n"
+    )
+
+    config = Jekyll::Configuration.from(
+      "source" => source,
+      "destination" => destination,
+      "quiet" => true,
+      "disable_disk_cache" => true
+    )
+    Jekyll::Site.new(config).process
+    File.read(File.join(destination, "index.html"))
+  end
 end
 
 def compiled_project_detail_css
@@ -126,7 +175,7 @@ stylesheet_tests = {
       "expected the approved reading rail"
     )
     assert(
-      css.match?(/\.project-reading--no-navigation\{grid-template-columns:minmax\(0,\s*1fr\)\}/),
+      css.match?(/\.project-reading--without-navigation\{grid-template-columns:minmax\(0,\s*1fr\)\}/),
       "expected Main Content to use the full reading width when navigation is disabled"
     )
     assert(css.match?(/\.project-chapter\{[^}]*padding:78px 0 94px/), "expected the approved chapter rhythm")
@@ -194,6 +243,17 @@ stdout, stderr, status = Open3.capture3(
 abort("Jekyll build failed:\n#{stdout}\n#{stderr}") unless status.success?
 
 tests = {
+  "project detail layout emits the reading modifier only without navigation" => lambda do
+    without_navigation = render_project_detail_layout(navigation_enabled: false)
+    with_navigation = render_project_detail_layout(navigation_enabled: true)
+
+    assert_includes(
+      without_navigation,
+      'class="project-reading design-wrap project-reading--without-navigation"'
+    )
+    refute_includes with_navigation, "project-reading--without-navigation"
+    assert_includes with_navigation, 'class="project-reading design-wrap"'
+  end,
   "Scopen uses the modern project detail contract" => lambda do
     html = built("projects/scopen.html")
 

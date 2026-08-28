@@ -93,7 +93,7 @@ module BoningNet
             "title" => title
           }
           caption = link.attr["title"]
-          caption = CGI.unescapeHTML(caption).strip if caption
+          caption = normalized_caption(caption) if caption
           number = context.next_figure_number
           if caption && !caption.empty?
             item["caption"] = Primitives::Caption.new(
@@ -121,6 +121,17 @@ module BoningNet
             "videos supports only valid YouTube video URLs",
             line: node.start_line
           )
+        end
+
+        def normalized_caption(value)
+          decoded = value.gsub(/&([A-Za-z][A-Za-z0-9]+);/) do |entity_reference|
+            entity = Kramdown::Utils::Entities.entity(Regexp.last_match(1))
+            entity.code_point.chr(Encoding::UTF_8)
+          rescue Kramdown::Error
+            entity_reference
+          end
+
+          CGI.unescapeHTML(decoded).gsub(/\A\p{Space}+|\p{Space}+\z/, "")
         end
 
         def video_id_from(uri)

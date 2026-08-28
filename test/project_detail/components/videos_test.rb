@@ -61,6 +61,32 @@ class VideosTest < TinyTestCase
     refute item.key?("caption")
   end
 
+  def test_unicode_separator_only_link_titles_are_treated_as_no_caption
+    captions = {
+      "named entity" => "&nbsp;",
+      "numeric entity" => "&#160;",
+      "direct Unicode separator" => "\u2003"
+    }
+
+    captions.each do |description, caption|
+      result = compile(videos(
+        %([#{description}](https://youtu.be/4xJvWEb1Kwo "#{caption}"))
+      ))
+
+      item = result.blocks.values.first.fetch("items").first
+      refute item.key?("caption"), "expected #{description} caption to be absent"
+    end
+  end
+
+  def test_unicode_separators_around_text_preserve_the_caption
+    result = compile(videos(
+      "[Mixed caption](https://youtu.be/4xJvWEb1Kwo \"\u00A0Field note\u2003\")"
+    ))
+
+    caption = result.blocks.values.first.fetch("items").first.fetch("caption")
+    assert_equal "Field note", caption.fetch("text")
+  end
+
   def test_caption_entities_are_normalized_once_before_liquid_escaping
     result = compile(videos(
       '[Entity demo](https://youtu.be/4xJvWEb1Kwo "Named &amp; decimal &#38; hex &#x26; ordinary &")'
