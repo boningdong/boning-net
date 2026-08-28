@@ -12,7 +12,14 @@ module BoningNet
     class Compiler
       NAVIGATION_VALUES = %w[auto none].freeze
       INTRO_STYLE_VALUES = %w[featured plain].freeze
+      CONFIGURATION_KEYS = %w[navigation intro_style].freeze
       BLOCK_TYPE = /\A[A-Za-z][A-Za-z0-9-]*\z/
+      LIQUID_OPENING = /\{\{|\{%/
+      FENCE_OPENING = /\A[ \t]*(`{3,}|~{3,})[^\n]*\z/
+      FENCED_LIQUID_ESCAPES = {
+        "{{" => '{{ "{{" }}',
+        "{%" => '{{ "{%" }}'
+      }.freeze
 
       Result = Struct.new(
         :content,
@@ -35,7 +42,7 @@ module BoningNet
         source_line_offset: 0
       )
         @markdown = markdown
-        @config = config.is_a?(Hash) ? config : {}
+        @config = config.nil? ? {} : config
         @frontmatter = frontmatter || {}
         @source_path = source_path
         @source_line_offset = source_line_offset
@@ -44,6 +51,7 @@ module BoningNet
       end
 
       def call
+        validate_configuration!
         navigation = validated_option("navigation", NAVIGATION_VALUES, "auto")
         intro_style = validated_option("intro_style", INTRO_STYLE_VALUES, "featured")
         context = RenderContext.new(
@@ -54,13 +62,16 @@ module BoningNet
         )
 
         reject_author_html!(context)
+        reject_author_liquid!(context)
+        @markdown = protect_fenced_liquid_examples(@markdown)
         transformed_markdown, includes = compile_blocks(context)
         chapter_result = ChapterCompiler.new(
           markdown: transformed_markdown,
           navigation: navigation,
           intro_style: intro_style,
           source_path: @source_path,
-          kramdown_options: @kramdown_options
+          kramdown_options: @kramdown_options,
+          source_line_offset: @source_line_offset
         ).call
 
         Result.new(
@@ -75,6 +86,21 @@ module BoningNet
       end
 
       private
+
+      def validate_configuration!
+        unless @config.is_a?(Hash)
+          raise ConfigurationError,
+                "#{@source_path}: project_detail must be a mapping; received #{@config.class}"
+        end
+
+        unknown = @config.keys - CONFIGURATION_KEYS
+        return if unknown.empty?
+
+        key = unknown.first
+        raise ConfigurationError,
+              "#{@source_path}: unknown project_detail key #{key.inspect}; " \
+              "allowed keys are #{CONFIGURATION_KEYS.join(', ')}"
+      end
 
       def validated_option(key, allowed, default)
         value = @config.fetch(key, default).to_s
@@ -91,6 +117,54 @@ module BoningNet
         return unless html
 
         context.error!("raw HTML is not allowed in project detail content", line: html.options.fetch(:location))
+      end
+
+      def reject_author_liquid!(context)
+        fence = nil
+
+        @markdown.each_line.with_index(1) do |line, line_number|
+          text = line.chomp
+          if fence
+            fence = nil if closing_fence?(text, fence)
+            next
+          end
+
+          if (opening = FENCE_OPENING.match(text))
+            fence = opening[1]
+            next
+          end
+
+          next unless LIQUID_OPENING.match?(line)
+
+          context.error!("author-written Liquid is not allowed in project detail content", line: line_number)
+        end
+      end
+
+      def protect_fenced_liquid_examples(markdown)
+        fence = nil
+
+        markdown.each_line.map do |line|
+          text = line.chomp
+          if fence
+            protected_line = escape_liquid_openings(line)
+            fence = nil if closing_fence?(text, fence)
+            protected_line
+          elsif (opening = FENCE_OPENING.match(text))
+            fence = opening[1]
+            escape_liquid_openings(line)
+          else
+            line
+          end
+        end.join
+      end
+
+      def escape_liquid_openings(line)
+        line.gsub(LIQUID_OPENING, FENCED_LIQUID_ESCAPES)
+      end
+
+      def closing_fence?(text, fence)
+        marker = Regexp.escape(fence[0])
+        text.match?(Regexp.new("\\A[ \\t]*#{marker}{#{fence.length},}[ \\t]*\\z"))
       end
 
       def compile_blocks(context)

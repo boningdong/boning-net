@@ -33,7 +33,7 @@ def built(path)
   File.read(full_path)
 end
 
-def render_project_detail_layout(navigation_enabled:)
+def render_project_detail_layout(navigation_enabled:, chapters: nil)
   Dir.mktmpdir("project-detail-layout") do |source|
     destination = File.join(source, "_site")
     layouts = File.join(source, "_layouts")
@@ -53,12 +53,13 @@ def render_project_detail_layout(navigation_enabled:)
     end
     File.write(File.join(layouts, "modern.html"), "---\n---\n{{ content }}\n")
 
+    chapters ||= [{ "id" => "context", "index" => 1, "title" => "Context" }]
     page_data = {
       "layout" => "project-detail",
       "title" => "Layout fixture",
       "project_detail_generated" => {
         "navigation_enabled" => navigation_enabled,
-        "chapters" => [{ "id" => "context", "index" => 1, "title" => "Context" }],
+        "chapters" => chapters,
         "blocks" => {},
         "intro_style" => "plain"
       }
@@ -254,6 +255,21 @@ tests = {
     refute_includes with_navigation, "project-reading--without-navigation"
     assert_includes with_navigation, 'class="project-reading design-wrap"'
   end,
+  "chapter navigation escapes hostile generated metadata at final render boundaries" => lambda do
+    hostile_id = 'context" onclick="alert(1)><img src=x onerror=alert(2)>'
+    hostile_title = "Context <img src=x onerror=alert(3)>"
+    html = render_project_detail_layout(
+      navigation_enabled: true,
+      chapters: [{ "id" => hostile_id, "index" => 1, "title" => hostile_title }]
+    )
+
+    assert_includes html, 'href="#context&quot; onclick=&quot;alert(1)&gt;&lt;img src=x onerror=alert(2)&gt;"'
+    assert_includes html, 'data-project-chapter-link="context&quot; onclick=&quot;alert(1)&gt;&lt;img src=x onerror=alert(2)&gt;"'
+    assert_includes html, "Context &lt;img src=x onerror=alert(3)&gt;"
+    refute_includes html, 'onclick="alert(1)"'
+    refute_includes html, "<img src=x onerror=alert(2)>"
+    refute_includes html, "<img src=x onerror=alert(3)>"
+  end,
   "Scopen uses the modern project detail contract" => lambda do
     html = built("projects/scopen.html")
 
@@ -394,8 +410,8 @@ tests = {
     assert_includes html, "Physical prototype and signal capture demonstration."
     assert_includes html, "Desktop interface and wireless workflow demonstration."
 
-    assert_equal 3, html.scan('class="project-gallery project-collection project-collection--two"').length
-    assert_equal 6, html.scan('class="project-gallery-item project-collection-item"').length
+    assert_equal 3, html.scan('<ul class="project-gallery project-collection project-collection--two"').length
+    assert_equal 6, html.scan('<li class="project-gallery-item project-collection-item"').length
     assert_includes html, "Analog front end: isolation, gain control, and differential conversion."
     assert_includes html, "Bottom side with supporting components and interconnects."
     assert_includes html, "Assembled product study with probe, controls, and display window."

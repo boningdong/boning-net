@@ -23,7 +23,7 @@ project_detail:
 ---
 ```
 
-Both `project_detail` options are optional. `navigation` accepts `auto` or `none` and defaults to `auto`. `intro_style` accepts `featured` or `plain` and defaults to `featured`. Invalid values stop the Jekyll build.
+The `project_detail` value, when present, must be a mapping. Both supported options are optional: `navigation` accepts `auto` or `none` and defaults to `auto`, while `intro_style` accepts `featured` or `plain` and defaults to `featured`. Unknown keys, including misspellings, and invalid values stop the Jekyll build instead of being ignored.
 
 ## Project Intro
 
@@ -59,7 +59,7 @@ Hardware overview.
 Subsection content.
 ```
 
-Kramdown generates an anchor when no explicit ID is present. Use `{#stable-id}` on an H1 when a permanent hand-authored anchor is useful. Duplicate explicit H1 IDs stop the build. Do not duplicate chapter titles in frontmatter.
+Kramdown generates an anchor when no explicit ID is present. Use `{#stable-id}` on an H1 when a permanent hand-authored anchor is useful. An explicit ID must start with an ASCII letter and then contain only ASCII letters, numbers, underscores, or hyphens. Duplicate or malformed explicit H1 IDs stop the build with the heading's physical source line. This restriction applies only to authored explicit IDs; Kramdown-generated IDs retain Kramdown's normal behavior. Do not duplicate chapter titles in frontmatter.
 
 ## Navigation
 
@@ -100,7 +100,7 @@ Author-written inline and block HTML is not allowed in content using `layout: pr
 <!-- This editorial note is allowed. -->
 ```
 
-Structural HTML such as `<div>`, `<figure>`, and `<iframe>` stops the build. Hand-written Liquid includes are also outside the supported author API and must not be used; internal includes are reserved for the rendering pipeline. Use ordinary Markdown or a documented component instead. Each typed component body follows its own stricter Content Contract, so a comment inside a component is accepted only when that component explicitly permits it. The HTML restriction applies only to `layout: project-detail`; legacy `layout: project-post` documents retain their existing behavior.
+Structural HTML such as `<div>`, `<figure>`, and `<iframe>` stops the build. Author-written Liquid tags and outputs, including `{% include ... %}` and `{{ page.value }}`, also stop the build with their physical source line; only compiler-generated internal Liquid is allowed to execute. Literal Liquid examples remain supported inside backtick or tilde fenced code blocks and render as written without execution. Use ordinary Markdown or a documented component instead. Each typed component body follows its own stricter Content Contract, so a comment inside a component is accepted only when that component explicitly permits it. These restrictions apply only to `layout: project-detail`; legacy `layout: project-post` documents retain their existing behavior.
 
 ## Links and Safety
 

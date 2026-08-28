@@ -1,11 +1,19 @@
 {%- assign block = page.project_detail_generated.blocks[include.block_id] -%}
-<div class="project-gallery project-collection project-collection--{{ block.layout | escape }}" data-gallery-layout="{{ block.layout | escape }}">
+<ul class="project-gallery project-collection project-collection--{{ block.layout | escape }}" data-gallery-layout="{{ block.layout | escape }}">
   {%- for item in block.items -%}
-  <figure class="project-gallery-item project-collection-item">
+  <li class="project-gallery-item project-collection-item">
+    {%- if item.caption -%}
+    <figure class="project-gallery-content">
+    {%- else -%}
+    <div class="project-gallery-content">
+    {%- endif -%}
     {%- include pages/project-detail/blocks/primitives/media-frame.html image=item.image -%}
     {%- if item.caption -%}
       {%- include pages/project-detail/blocks/primitives/caption.html caption=item.caption -%}
+    </figure>
+    {%- else -%}
+    </div>
     {%- endif -%}
-  </figure>
+  </li>
   {%- endfor -%}
-</div>
+</ul>

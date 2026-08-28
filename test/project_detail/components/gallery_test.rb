@@ -200,13 +200,67 @@ class GalleryTest < TinyTestCase
     output = render_compiled(result)
 
     assert_includes output,
-                    '<div class="project-gallery project-collection project-collection--two"'
+                    '<ul class="project-gallery project-collection project-collection--two"'
     assert_includes output, 'data-gallery-layout="two"'
     assert_equal 2, output.scan('class="project-gallery-item project-collection-item"').length
+    assert_equal 2, output.scan('<li class="project-gallery-item project-collection-item">').length
+    assert_equal 2, output.scan('<figure class="project-gallery-content">').length
     assert_equal 2, output.scan('class="project-media-frame"').length
     assert_includes output, '<img src="/top.png" alt="Board top"'
     assert_includes output, '<span class="project-caption-label">HARDWARE / 01</span>'
     assert_includes output, '<span class="project-caption-text">Bottom side.</span>'
+  end
+
+  def test_production_include_uses_figure_only_for_captioned_gallery_items
+    result = compile(<<~MARKDOWN)
+      # Hardware
+
+      ::: gallery
+      ![Board without caption](/plain.png)
+
+      ![Board with caption](/captioned.png "Captioned board.")
+      :::
+    MARKDOWN
+    output = render_compiled(result)
+
+    assert_equal 1, output.scan('<figure class="project-gallery-content">').length
+    assert_equal 1, output.scan('<div class="project-gallery-content">').length
+    assert_equal 1, output.scan('<figcaption class="project-caption">').length
+    assert(
+      output.match?(
+        /<li class="project-gallery-item project-collection-item">\s*<div class="project-gallery-content">\s*<div class="project-media-frame"><img src="\/plain\.png" alt="Board without caption"\s*\/?>/
+      ),
+      "expected captionless gallery media to use a neutral container inside its list item"
+    )
+    assert(
+      output.match?(
+        /<li class="project-gallery-item project-collection-item">\s*<figure class="project-gallery-content">.*?<figcaption class="project-caption">/m
+      ),
+      "expected captioned gallery media to use figure and figcaption inside its list item"
+    )
+  end
+
+  def test_gallery_image_metadata_entities_are_decoded_once_before_rendering
+    result = compile(<<~MARKDOWN)
+      # Hardware
+
+      ::: gallery
+      ![Board &amp; &#65;](/board&amp;&#45;top.png "Top &copy; &#169;")
+
+      ![Literal &amp;copy;](/bottom.png)
+      :::
+    MARKDOWN
+    first, second = result.blocks.values.first.fetch("items")
+
+    assert_equal({ "src" => "/board&-top.png", "alt" => "Board & A" }, first.fetch("image"))
+    assert_equal "Top © ©", first.fetch("caption").fetch("text")
+    assert_equal "Literal &copy;", second.fetch("image").fetch("alt")
+
+    output = render_compiled(result)
+    assert_includes output, '<img src="/board&amp;-top.png" alt="Board &amp; A"'
+    assert_includes output, '<span class="project-caption-text">Top © ©</span>'
+    assert_includes output, 'alt="Literal &amp;copy;"'
+    refute_includes output, "&amp;amp;"
   end
 
   private

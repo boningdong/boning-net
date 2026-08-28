@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require "minitest/autorun"
+require_relative "project_detail/test_helper"
 
-class ProjectDetailMockTest < Minitest::Test
+class ProjectDetailMockTest < TinyTestCase
   ROOT = File.expand_path("..", __dir__)
   HTML_PATH = File.join(ROOT, "docs/designs/08-18-2026/scopen-calibrated-a1-signal-rail.html")
   CSS_PATH = File.join(ROOT, "docs/designs/08-18-2026/calibrated-case-study.css")
@@ -99,3 +99,5 @@ class ProjectDetailMockTest < Minitest::Test
     header.byteslice(16, 8).unpack("NN")
   end
 end
+
+TinyTestRunner.run(ProjectDetailMockTest)

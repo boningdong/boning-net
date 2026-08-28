@@ -18,7 +18,7 @@ This directive accepts no options or attributes.
 
 ## Content Contract
 
-The body contains exactly one standalone Markdown link paragraph. The destination must be nonblank and safe. The label may contain supported inline Markdown such as emphasis, strong text, or a code span. A Markdown link title is accepted but is not rendered by this component. Extra prose, multiple links, images, headings, lists, raw HTML, inline attribute lists, and nested directives are not allowed.
+The body contains exactly one standalone Markdown link paragraph. The destination must be nonblank and safe. The label may contain supported inline Markdown such as emphasis, strong text, or a code span. A Markdown link title is accepted but is not rendered by this component. XML/HTML comments are not discarded: because the body contract is exactly one standalone link, a comment makes the body invalid. Extra prose, multiple links, images, headings, lists, raw HTML, inline attribute lists, and nested directives are also not allowed.
 
 ## Behavior
 
@@ -30,7 +30,7 @@ The component renders one anchor containing the rendered inline label and a deco
 
 ## Validation
 
-The build fails for an empty body, more or fewer than one standalone link, blank or unsafe destination, disallowed child content, inline attribute list, unknown option, raw HTML, or nested directive.
+The build fails for an empty body, more or fewer than one standalone link, an XML/HTML comment, blank or unsafe destination, disallowed child content, inline attribute list, unknown option, raw HTML, or nested directive.
 
 ```text
 _projects/example.md:16: featured-link must contain exactly one standalone Markdown link

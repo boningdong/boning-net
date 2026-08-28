@@ -160,6 +160,36 @@ class StandaloneFigureTest < TinyTestCase
     )
   end
 
+  def test_image_metadata_entities_are_decoded_once_before_liquid_escaping
+    result = compile(
+      '# Hardware' + "\n\n" +
+      '![Board &amp; &#65; &#x42;](/images/board&amp;&#45;detail.png "Caption &copy; &#169; &#xA9; &amp;copy;")' +
+      "\n"
+    )
+    block = result.blocks.values.first
+
+    assert_equal(
+      { "src" => "/images/board&-detail.png", "alt" => "Board & A B" },
+      block.fetch("image")
+    )
+    assert_equal "Caption © © © &copy;", block.fetch("caption").fetch("text")
+
+    output = render_compiled(result)
+    assert_includes output, '<img src="/images/board&amp;-detail.png" alt="Board &amp; A B"'
+    assert_includes output, '<span class="project-caption-text">Caption © © © &amp;copy;</span>'
+    refute_includes output, "&amp;amp;"
+    refute_includes output, "&amp;#169;"
+  end
+
+  def test_entity_normalization_does_not_enable_unsafe_image_schemes
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("# Hardware\n\n![Unsafe](javascript&#58;alert(1))\n", source_line_offset: 5)
+    end
+
+    assert_includes error.message, "_projects/example.md:8"
+    assert_includes error.message, "figure image source must be relative or use http or https"
+  end
+
   def test_missing_alt_text_fails_at_the_image_source_line
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
       compile("# Hardware\n\n![](/image.png \"Board\")\n", source_line_offset: 8)

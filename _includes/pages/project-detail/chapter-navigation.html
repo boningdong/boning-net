@@ -6,9 +6,9 @@
       <ol>
         {% for chapter in generated.chapters %}
           <li>
-            <a href="#{{ chapter.id }}" data-project-chapter-link="{{ chapter.id }}"{% if forloop.first %} aria-current="location"{% endif %}>
+            <a href="#{{ chapter.id | escape }}" data-project-chapter-link="{{ chapter.id | escape }}"{% if forloop.first %} aria-current="location"{% endif %}>
               <span>{{ chapter.index | prepend: "0" | slice: -2, 2 }}</span>
-              {{ chapter.title }}
+              {{ chapter.title | escape }}
             </a>
           </li>
         {% endfor %}
@@ -28,9 +28,9 @@
         <ol>
           {% for chapter in generated.chapters %}
             <li>
-              <a href="#{{ chapter.id }}" data-project-chapter-link="{{ chapter.id }}"{% if forloop.first %} aria-current="location"{% endif %}>
+              <a href="#{{ chapter.id | escape }}" data-project-chapter-link="{{ chapter.id | escape }}"{% if forloop.first %} aria-current="location"{% endif %}>
                 <small>{{ chapter.index | prepend: "0" | slice: -2, 2 }}</small>
-                <span>{{ chapter.title }}</span>
+                <span>{{ chapter.title | escape }}</span>
               </a>
             </li>
           {% endfor %}

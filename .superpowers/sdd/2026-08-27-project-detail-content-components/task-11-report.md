@@ -2,7 +2,7 @@
 
 ## Outcome
 
-The Project Detail integration is reproducible, the deferred minor findings are resolved, the browser-discovered `navigation: none` width defect is fixed, and the complete regression/build matrix passes.
+The Project Detail integration is reproducible and the browser-discovered `navigation: none` width defect is fixed. The earlier statement that every deferred minor finding was resolved was premature: final review subsequently identified remaining chapter-ID, author-Liquid, Gallery-semantics, strict-config, figure-entity, Featured-Link-comment, and serialization-coverage gaps. The final fix wave now resolves those gaps; its fresh evidence and exact suite totals are recorded in `final-fix-report.md`.
 
 `_site` remains ignored and unstaged. The temporary Gallery 2/3/4/masonry browser fixture was removed after QA, and no generated responsive image was left in the source tree.
 
@@ -35,7 +35,7 @@ for test_file in test/project_detail/*_test.rb test/project_detail/components/*_
 done
 bundle exec ruby test/project_detail_processor_test.rb
 bundle exec ruby test/project_detail_rendering_test.rb
-ruby test/project_detail_mock_test.rb
+bundle exec ruby test/project_detail_mock_test.rb
 ruby test/modern_pages_test.rb
 ruby test/responsive_images_test.rb
 node --test test/javascript/*.test.js
@@ -49,7 +49,7 @@ Results:
 - Project Detail per-file unit suite: 136 passed, 0 failed.
 - Project Detail processor: 4 passed, 0 failed.
 - Project Detail rendering: 3 stylesheet checks and 9 production-rendering checks passed.
-- Approved design mock suite, run with plain Ruby because Minitest is not declared in the bundle: 7 runs, 55 assertions, 0 failures.
+- Approved design mock suite, run with the dependency-free project harness through Bundler: 7 passed, 55 assertions, 0 failures.
 - Broader modern-page suite: 12 passed, 0 failed.
 - Responsive-image suite, run with plain Ruby: 10 runs, 103 assertions, 0 failures.
 - Repository JavaScript suite: 20 passed, 0 failed.
@@ -196,7 +196,7 @@ for test_file in test/project_detail/*_test.rb test/project_detail/components/*_
 done
 bundle exec ruby test/project_detail_processor_test.rb
 bundle exec ruby test/project_detail_rendering_test.rb
-ruby test/project_detail_mock_test.rb
+bundle exec ruby test/project_detail_mock_test.rb
 ruby test/modern_pages_test.rb
 ruby test/responsive_images_test.rb
 node --test test/javascript/*.test.js
@@ -211,7 +211,7 @@ Results:
 - Project Detail per-file unit suite: 138 passed, 0 failed.
 - Project Detail processor: 4 passed, 0 failed.
 - Project Detail rendering: 3 stylesheet checks and 10 production-rendering checks passed.
-- Approved design mock suite: 7 runs, 55 assertions, 0 failures.
+- Approved design mock suite, run with the dependency-free project harness through Bundler: 7 passed, 55 assertions, 0 failures.
 - Broader modern-page suite: 12 passed, 0 failed.
 - Responsive-image suite: 10 runs, 103 assertions, 0 failures.
 - Repository JavaScript suite: 21 passed, 0 failed.

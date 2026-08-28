@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "cgi"
 require "fileutils"
 require "tmpdir"
 require_relative "test_helper"
@@ -42,6 +43,32 @@ class CompilerTest < TinyTestCase
     end
   end
 
+  class SerializationComponent < BoningNet::ProjectDetail::Components::Base
+    register_as "serialization"
+
+    def compile(node, _context)
+      case node.body.strip
+      when "cycle"
+        cycle = {}
+        cycle["self"] = cycle
+        { "type" => "serialization", "value" => cycle }
+      when "symbol-key"
+        { "type" => "serialization", "value" => { nested: "invalid" } }
+      when "nan"
+        { "type" => "serialization", "value" => Float::NAN }
+      when "infinity"
+        { "type" => "serialization", "value" => Float::INFINITY }
+      else
+        {
+          "type" => "serialization",
+          "value" => {
+            "array" => ["text", 7, 2.5, true, false, nil, { "nested" => [1, "two"] }]
+          }
+        }
+      end
+    end
+  end
+
   def compile(
     markdown,
     config: {},
@@ -52,6 +79,7 @@ class CompilerTest < TinyTestCase
     registry.register(FakeComponent)
     registry.register(ContextComponent)
     registry.register(NonSerializableComponent)
+    registry.register(SerializationComponent)
 
     BoningNet::ProjectDetail::Compiler.new(
       markdown: markdown,
@@ -79,6 +107,27 @@ class CompilerTest < TinyTestCase
 
     assert_includes error.message, "_projects/example.md"
     assert_includes error.message, 'intro_style must be "featured" or "plain"'
+  end
+
+  def test_rejects_non_mapping_project_detail_configuration
+    ["auto", ["navigation", "auto"]].each do |config|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile("# Context\nBody\n", config: config)
+      end
+
+      assert_includes error.message, "_projects/example.md"
+      assert_includes error.message, "project_detail must be a mapping"
+    end
+  end
+
+  def test_rejects_unknown_project_detail_configuration_keys
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("# Context\nBody\n", config: { "navigation" => "auto", "intro_stlye" => "plain" })
+    end
+
+    assert_includes error.message, "_projects/example.md"
+    assert_includes error.message, 'unknown project_detail key "intro_stlye"'
+    assert_includes error.message, "navigation, intro_style"
   end
 
   def test_dispatches_directives_and_stores_generated_blocks
@@ -114,6 +163,49 @@ class CompilerTest < TinyTestCase
 
     assert_includes error.message, "component block data must be JSON-like"
     assert_includes error.message, "_projects/example.md:3"
+  end
+
+  def test_rejects_recursive_component_data_without_overflowing_the_stack
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("# Hardware\n\n::: serialization\ncycle\n:::\n")
+    end
+
+    assert_includes error.message, "_projects/example.md:3"
+    assert_includes error.message, "component block data must be JSON-like"
+  end
+
+  def test_rejects_symbol_keys_in_nested_component_data
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("# Hardware\n\n::: serialization\nsymbol-key\n:::\n")
+    end
+
+    assert_includes error.message, "_projects/example.md:3"
+    assert_includes error.message, "component block data must be JSON-like"
+  end
+
+  def test_rejects_nonfinite_floats_in_component_data
+    %w[nan infinity].each do |value|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile("# Hardware\n\n::: serialization\n#{value}\n:::\n")
+      end
+
+      assert_includes error.message, "_projects/example.md:3"
+      assert_includes error.message, "component block data must be JSON-like"
+    end
+  end
+
+  def test_accepts_representative_nested_json_like_component_data
+    result = compile("# Hardware\n\n::: serialization\naccepted\n:::\n")
+
+    assert_equal(
+      {
+        "type" => "serialization",
+        "value" => {
+          "array" => ["text", 7, 2.5, true, false, nil, { "nested" => [1, "two"] }]
+        }
+      },
+      result.blocks.values.first
+    )
   end
 
   def test_replaces_double_digit_block_sentinels_without_prefix_collisions
@@ -232,6 +324,38 @@ class CompilerTest < TinyTestCase
     result = compile("# Context\n\n```html\n<div>Example</div>\n```\n")
 
     assert_includes result.content, "<div>Example</div>"
+  end
+
+  def test_rejects_author_liquid_tags_and_outputs_with_physical_source_lines
+    {
+      "{% include injected.html %}" => 19,
+      "{{ site.title }}" => 20
+    }.each do |liquid, expected_line|
+      markdown = "# Context\n" + (expected_line == 20 ? "Safe text.\n" : "") + "#{liquid}\n"
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile(markdown, source_line_offset: 17)
+      end
+
+      assert_includes error.message, "_projects/example.md:#{expected_line}"
+      assert_includes error.message, "author-written Liquid is not allowed"
+    end
+  end
+
+  def test_preserves_literal_liquid_examples_inside_fenced_code_during_final_render
+    result = compile(<<~MARKDOWN)
+      # Context
+
+      ```liquid
+      {{ page.title }}
+      {% include injected.html %}
+      ```
+    MARKDOWN
+    output = render_compiled_content(result)
+    rendered_text = CGI.unescapeHTML(output.gsub(/<[^>]+>/, ""))
+
+    assert_includes rendered_text, "{{ page.title }}"
+    assert_includes rendered_text, "{% include injected.html %}"
+    refute_includes rendered_text, "Rendered fixture title"
   end
 
   def test_hook_leaves_legacy_layouts_untouched
@@ -355,6 +479,33 @@ class CompilerTest < TinyTestCase
       File.write(
         File.join(source, "index.html"),
         { "layout" => "test", "project_detail_generated" => generated }.to_yaml + "---\n"
+      )
+      destination = File.join(source, "_site")
+      site = Jekyll::Site.new(
+        Jekyll.configuration(
+          "source" => source,
+          "destination" => destination,
+          "quiet" => true,
+          "kramdown" => { "syntax_highlighter" => nil }
+        )
+      )
+      site.process
+      File.read(File.join(destination, "index.html"))
+    end
+  end
+
+  def render_compiled_content(result)
+    Dir.mktmpdir("project-detail-liquid-example") do |source|
+      layout_path = File.join(source, "_layouts/test.html")
+      FileUtils.mkdir_p(File.dirname(layout_path))
+      File.write(layout_path, "{{ content }}\n")
+      File.write(
+        File.join(source, "index.md"),
+        {
+          "layout" => "test",
+          "title" => "Rendered fixture title",
+          "project_detail_generated" => { "blocks" => result.blocks }
+        }.to_yaml + "---\n" + result.content
       )
       destination = File.join(source, "_site")
       site = Jekyll::Site.new(

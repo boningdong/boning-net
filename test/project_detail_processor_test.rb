@@ -71,6 +71,64 @@ class ProjectDetailProcessorTest < TinyTestCase
       assert_includes error.message, "_projects/example.md:6"
     end
   end
+
+  def test_document_adapter_rejects_present_non_mapping_configuration
+    ["auto", ["auto"], nil].each do |config|
+      document = project_document("project_detail" => config)
+
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        BoningNet::ProjectDetail.compile_document(document)
+      end
+
+      assert_includes error.message, "_projects/example.md"
+      assert_includes error.message, "project_detail must be a mapping"
+    end
+  end
+
+  def test_document_adapter_rejects_unknown_configuration_keys
+    document = project_document(
+      "project_detail" => { "navigation" => "auto", "navigaton" => "none" }
+    )
+
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      BoningNet::ProjectDetail.compile_document(document)
+    end
+
+    assert_includes error.message, "_projects/example.md"
+    assert_includes error.message, 'unknown project_detail key "navigaton"'
+  end
+
+  def test_document_adapter_accepts_absent_and_valid_configuration
+    default_document = project_document
+    BoningNet::ProjectDetail.compile_document(default_document)
+    default_generated = default_document.data.fetch("project_detail_generated")
+    assert_equal "featured", default_generated.fetch("intro_style")
+    assert default_generated.fetch("navigation_enabled")
+
+    configured_document = project_document(
+      "project_detail" => { "navigation" => "none", "intro_style" => "plain" }
+    )
+    BoningNet::ProjectDetail.compile_document(configured_document)
+    configured_generated = configured_document.data.fetch("project_detail_generated")
+    assert_equal "plain", configured_generated.fetch("intro_style")
+    refute configured_generated.fetch("navigation_enabled")
+  end
+
+  private
+
+  def project_document(extra_data = {})
+    site = Struct.new(:config).new({ "kramdown" => { "input" => "GFM" } })
+    data = {
+      "layout" => "project-detail",
+      "title" => "Example"
+    }.merge(extra_data)
+    Struct.new(:data, :content, :relative_path, :site).new(
+      data,
+      "Intro.\n\n# Context\nBody.\n\n# Team\nPeople.\n",
+      "_projects/example.md",
+      site
+    )
+  end
 end
 
 TinyTestRunner.run(ProjectDetailProcessorTest)

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "kramdown"
+require "cgi"
 require_relative "errors"
 
 module BoningNet
@@ -15,12 +16,22 @@ module BoningNet
     )
 
     class ChapterCompiler
-      def initialize(markdown:, navigation:, intro_style:, source_path:, kramdown_options:)
+      EXPLICIT_ID = /\A[A-Za-z][A-Za-z0-9_-]*\z/
+
+      def initialize(
+        markdown:,
+        navigation:,
+        intro_style:,
+        source_path:,
+        kramdown_options:,
+        source_line_offset: 0
+      )
         @markdown = markdown
         @navigation = navigation
         @intro_style = intro_style
         @source_path = source_path
         @kramdown_options = kramdown_options || {}
+        @source_line_offset = source_line_offset
       end
 
       def call
@@ -29,9 +40,12 @@ module BoningNet
 
         return ordinary_result if source_headings.empty?
 
-        explicit_ids = source_headings.each_with_object({}) do |heading, ids|
-          ids[heading.object_id] = heading.attr["id"] if heading.attr.key?("id")
+        explicit_headings = source_headings.filter_map do |heading|
+          id = explicit_id_for(heading)
+          [heading, id] if id
         end
+        validate_explicit_ids!(explicit_headings)
+        reject_duplicate_explicit_ids!(explicit_headings)
 
         toc_root, = Kramdown::Converter::Toc.convert(document.root, document.options)
         toc_nodes = flatten_toc(toc_root).select do |node|
@@ -46,7 +60,6 @@ module BoningNet
           }
         end
 
-        reject_duplicate_explicit_ids!(headings, explicit_ids)
         first_heading_line = headings.first.options.fetch(:location)
         intro_source, main_source = split_source(first_heading_line)
         visible_intro = visible_markdown?(intro_source) ? intro_source : nil
@@ -102,12 +115,32 @@ module BoningNet
         end
       end
 
-      def reject_duplicate_explicit_ids!(headings, explicit_ids)
-        ids = headings.filter_map { |heading| explicit_ids[heading.object_id] }
-        duplicate = ids.tally.find { |_id, count| count > 1 }&.first
-        return unless duplicate
+      def explicit_id_for(heading)
+        ial = heading.options[:ial]
+        return ial.fetch("id") if ial&.key?("id")
 
-        raise ConfigurationError, %(#{@source_path}: duplicate chapter id "#{duplicate}")
+        source_line = @markdown.lines.fetch(heading.options.fetch(:location) - 1, "").chomp
+        source_line[/\{#([^}]+)\}[ \t]*#*[ \t]*\z/, 1]
+      end
+
+      def validate_explicit_ids!(headings)
+        headings.each do |heading, id|
+          next if id.match?(EXPLICIT_ID)
+
+          error!(
+            "explicit chapter id must start with a letter and contain only letters, " \
+            "numbers, underscores, and hyphens; received #{id.inspect}",
+            heading.options.fetch(:location)
+          )
+        end
+      end
+
+      def reject_duplicate_explicit_ids!(headings)
+        seen = {}
+        headings.each do |heading, id|
+          error!(%(duplicate chapter id "#{id}"), heading.options.fetch(:location)) if seen[id]
+          seen[id] = true
+        end
       end
 
       def wrap_chapters(main_source, chapters, headings, first_heading_line)
@@ -121,10 +154,15 @@ module BoningNet
           chapter_source += "\n" unless chapter_source.end_with?("\n")
 
           <<~MARKDOWN
-            <section class="project-chapter" data-project-chapter="#{chapter.fetch("id")}" markdown="1">
+            <section class="project-chapter" data-project-chapter="#{CGI.escapeHTML(chapter.fetch("id"))}" markdown="1">
             #{chapter_source}</section>
           MARKDOWN
         end.join
+      end
+
+      def error!(message, content_line)
+        raise ConfigurationError,
+              "#{@source_path}:#{content_line + @source_line_offset}: #{message}"
       end
     end
   end

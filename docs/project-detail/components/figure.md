@@ -18,7 +18,7 @@ Standalone Figure is not a directive and accepts no directive options. Its autho
 
 ## Content Contract
 
-The image must be the only visible content in its paragraph. Nonblank alt text and a nonblank image destination are required. The title is optional. An image embedded in a prose sentence remains an ordinary inline image. Image-only paragraphs inside blockquotes and list items are also recognized as Standalone Figures.
+The image must be the only visible content in its paragraph. Nonblank alt text and a nonblank image destination are required. Image destinations must be relative or use `http` or `https`. The title is optional. An image embedded in a prose sentence remains an ordinary inline image. Image-only paragraphs inside blockquotes and list items are also recognized as Standalone Figures.
 
 ## Behavior
 
@@ -26,11 +26,11 @@ A titled image displays a media surface and caption row. The generated caption l
 
 ## Generated Semantics
 
-A titled image renders as `figure` containing the image surface and `figcaption`. A title-less image renders only the media surface and `img`, without empty `figure` or `figcaption` markup. Authored alt text remains the image's `alt` value. Generated labels are presentation metadata and never become headings or navigation entries.
+A titled image renders as `figure` containing the image surface and `figcaption`. A title-less image renders only the media surface and `img`, without empty `figure` or `figcaption` markup. Kramdown named and numeric entities in the authored source, alt text, and title are decoded exactly once into block data; the Liquid include then escapes each value exactly once at its HTML boundary. Authored alt text remains the image's `alt` value. Generated labels are presentation metadata and never become headings or navigation entries.
 
 ## Validation
 
-The build fails when a recognized Standalone Figure has blank alt text or a blank image destination.
+The build fails when a recognized Standalone Figure has blank alt text, a blank image destination, or an unsafe image destination.
 
 ```text
 _projects/example.md:18: figure alt text is required

@@ -31,7 +31,11 @@ module BoningNet
 
     def compile_document(document)
       config = document.data["project_detail"]
-      config = {} unless config.is_a?(Hash)
+      if document.data.key?("project_detail") && !config.is_a?(Hash)
+        raise ConfigurationError,
+              "#{document.relative_path}: project_detail must be a mapping; received #{config.class}"
+      end
+      config ||= {}
       result = Compiler.new(
         markdown: document.content,
         config: config,

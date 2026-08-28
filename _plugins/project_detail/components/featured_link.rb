@@ -71,7 +71,7 @@ module BoningNet
 
         def visible_children(element)
           element.children.reject do |child|
-            child.type == :blank || child.type == :xml_comment ||
+            child.type == :blank ||
               (child.type == :text && child.value.strip.empty?)
           end
         end

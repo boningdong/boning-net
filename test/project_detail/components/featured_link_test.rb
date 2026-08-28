@@ -51,6 +51,22 @@ class FeaturedLinkTest < TinyTestCase
     end
   end
 
+  def test_rejects_xml_comments_in_the_strict_single_link_body
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(<<~MARKDOWN)
+        # Software
+
+        ::: featured-link
+        <!-- editorial note -->
+        [Watch](https://example.com/watch)
+        :::
+      MARKDOWN
+    end
+
+    assert_includes error.message, "_projects/example.md:3"
+    assert_includes error.message, "featured-link must contain exactly one standalone Markdown link"
+  end
+
   def test_rejects_empty_or_whitespace_only_accessible_labels
     ["", "   ", "&nbsp;"].each do |label|
       error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do

@@ -4,12 +4,13 @@ require_relative "test_helper"
 require_relative "../../_plugins/project_detail"
 
 class ChapterCompilerTest < TinyTestCase
-  def compile(markdown, navigation: "auto", intro_style: "featured")
+  def compile(markdown, navigation: "auto", intro_style: "featured", source_line_offset: 0)
     BoningNet::ProjectDetail::ChapterCompiler.new(
       markdown: markdown,
       navigation: navigation,
       intro_style: intro_style,
       source_path: "_projects/example.md",
+      source_line_offset: source_line_offset,
       kramdown_options: { "input" => "GFM" }
     ).call
   end
@@ -60,6 +61,27 @@ class ChapterCompilerTest < TinyTestCase
     end
 
     assert_includes error.message, 'duplicate chapter id "same"'
+  end
+
+  def test_rejects_explicit_ids_with_quotes_or_markup_at_the_physical_heading_line
+    [
+      "# Context\n{: id=\"context\\\" onclick=\\\"alert(1)\"}\nBody\n",
+      "# Context\n{: id=\"context><img src=x onerror=alert(1)>\"}\nBody\n"
+    ].each do |markdown|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile(markdown, source_line_offset: 12)
+      end
+
+      assert_includes error.message, "_projects/example.md:13"
+      assert_includes error.message, "explicit chapter id"
+      assert_includes error.message, "letters, numbers, underscores, and hyphens"
+    end
+  end
+
+  def test_preserves_kramdown_generated_ids_outside_the_explicit_id_grammar
+    result = compile("# Café & Tools\nBody\n")
+
+    assert_equal "café--tools", result.chapters.first.fetch("id")
   end
 
   def test_suffixes_repeated_generated_titles

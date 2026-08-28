@@ -27,16 +27,17 @@ Build output consists of transformed Markdown containing trusted internal includ
 
 `Compiler#call` performs these stages in order:
 
-1. Validate `navigation` and `intro_style`.
-2. Parse the source with Kramdown and reject author-written HTML elements.
-3. Parse directive fences into immutable, source-aware nodes.
-4. Find standalone Markdown image paragraphs outside directive ranges.
-5. Establish the nearest H1 or H2 context, compile each component to a block hash, and recursively validate its string-keyed JSON-like data.
-6. Store blocks under opaque IDs such as `project-detail-block-1`.
-7. Replace component source ranges with collision-resistant sentinels.
-8. Pass transformed Markdown to `ChapterCompiler` to extract Intro, wrap H1 chapters, and derive navigation metadata.
-9. Replace sentinels with trusted internal Liquid include references.
-10. Store the result in `page.project_detail_generated` for the layout.
+1. Require `project_detail`, when present, to be a mapping; reject unknown keys; and validate `navigation` and `intro_style`.
+2. Parse the author source with Kramdown and reject author-written HTML elements.
+3. Reject author-written Liquid tags and outputs outside fenced code, then protect fenced literal examples from Liquid evaluation.
+4. Parse directive fences into immutable, source-aware nodes.
+5. Find standalone Markdown image paragraphs outside directive ranges.
+6. Establish the nearest H1 or H2 context, compile each component to a block hash, and recursively validate its string-keyed JSON-like data.
+7. Store blocks under opaque IDs such as `project-detail-block-1`.
+8. Replace component source ranges with collision-resistant sentinels.
+9. Pass transformed Markdown to `ChapterCompiler` to extract Intro, validate authored explicit IDs, wrap H1 chapters, and derive navigation metadata.
+10. Replace sentinels with trusted internal Liquid include references.
+11. Store the result in `page.project_detail_generated` for the layout.
 
 Directive parsing precedes component-body Kramdown parsing so fence errors and source locations remain deterministic. Standalone images are identified from Kramdown structure, not inferred with a rendered-HTML regular expression.
 
@@ -82,7 +83,7 @@ This shape is internal build output. Authors must not place it in frontmatter or
 
 `ChapterCompiler` uses Kramdown's document and table-of-contents structures to identify level-one headings and Kramdown-compatible IDs. Content before the first H1 becomes Intro when visible. Main Content is wrapped in semantic `.project-chapter` sections without changing the authored heading hierarchy.
 
-Navigation is enabled only when the validated setting is `auto` and at least two chapters exist. Desktop and Corner Navigation consume the same chapter array. Explicit duplicate H1 IDs are rejected before rendering.
+Navigation is enabled only when the validated setting is `auto` and at least two chapters exist. Desktop and Corner Navigation consume the same chapter array. Authored explicit H1 IDs use a restricted ASCII grammar, duplicate explicit IDs are rejected before rendering, and every generated HTML attribute boundary escapes the resulting chapter metadata. Kramdown-generated IDs remain unchanged.
 
 ## Rendering Ownership
 
@@ -94,7 +95,7 @@ JavaScript in `assets/js/pages/project-detail.js` progressively enhances chapter
 
 ## Validation and Trust Boundary
 
-The compiler rejects invalid configuration, raw author HTML except comments, malformed or nested directives, unknown directives/options, unsafe component URLs, invalid component children, non-JSON-like nested block data, and component-specific missing data. Errors use the project path and physical source line when available.
+The compiler rejects non-mapping or unknown-key configuration, raw author HTML except comments, executable author Liquid outside fenced examples, malformed or nested directives, unknown directives/options, unsafe component URLs, invalid component children, non-JSON-like nested block data, and component-specific missing data. Errors use the project path and physical source line when available.
 
 Only internal Liquid includes emit structural component HTML. Component content rendered through Kramdown is constrained to the node types and attributes accepted by that component. This keeps author content separate from trusted rendering implementation.
 

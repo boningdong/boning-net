@@ -30,7 +30,7 @@ Caption labels use the nearest H1 or H2 and the shared per-heading media sequenc
 
 ## Generated Semantics
 
-The gallery renders one collection container. Each peer item renders as a `figure` with an image media frame and an optional `figcaption`. Authored alt text stays on the `img`; authored title text is escaped into the caption.
+The peer collection renders as `ul`, with every item represented by an `li`. A captioned item contains `figure`, its image media frame, and `figcaption`; a captionless item uses a neutral `div` inside the `li` and emits no empty figure or caption markup. Authored alt text stays on the `img`; authored title text is escaped into the caption. Captionless items still advance the internal media sequence.
 
 ## Validation
 

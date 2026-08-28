@@ -64,7 +64,11 @@ project_detail:
 - `navigation`: `auto | none`, default `auto`.
 - `intro_style`: `featured | plain`, default `featured`.
 
+When present, `project_detail` must be a mapping and may contain only these two keys. Scalars, arrays, null values, and unknown or misspelled keys fail with the source path rather than silently falling back.
+
 `auto` derives navigation from level-one headings. It renders the desktop chapter navigation and the mobile Corner Navigation when at least two chapters exist. `none` suppresses both.
+
+Authored explicit H1 IDs must start with an ASCII letter and then contain only ASCII letters, numbers, underscores, or hyphens. This validation does not constrain Kramdown-generated IDs. Duplicate or malformed explicit IDs fail at the physical heading line, and chapter IDs are escaped at every generated HTML attribute boundary.
 
 ## 4. Typed Directive Grammar
 
@@ -158,6 +162,7 @@ Layout contract:
 - Mobile: one column.
 - Items in the two-to-four range use equal visual frame proportions even if the source image dimensions differ.
 - Masonry uses CSS multi-column layout rather than experimental native CSS Masonry or JavaScript measurement.
+- The peer collection uses `ul`/`li` semantics. A captioned `li` contains `figure` and `figcaption`; a captionless `li` contains a neutral container and no empty figure semantics, while still advancing the shared figure sequence.
 
 ### 5.4 Callout
 
@@ -250,10 +255,13 @@ Rules:
 - Inline emphasis in the label is allowed if Kramdown preserves it as link content.
 - Extra prose, multiple links, media, headings, raw HTML, and nested directives are invalid.
 - External links follow the site's existing external-link behavior; the compiler does not silently add a new-window target.
+- XML/HTML comments are invalid because the body contract is exactly one standalone link; they are not silently discarded.
 
 ## 6. Raw HTML Policy
 
 Project documents using `layout: project-detail` must not contain author-written structural HTML. HTML comments remain allowed. Inline and block HTML elements otherwise fail the build with source path and line number.
+
+Author-written Liquid tags and outputs are rejected with physical source locations before any internal sentinel or include is inserted. Backtick and tilde fenced code blocks may contain literal Liquid examples; the compiler protects those delimiters so Jekyll renders the examples without executing them. Only compiler-generated internal Liquid is executable.
 
 This is an intentional authoring boundary, not an HTML limitation in the rendering layer. Trusted markup is produced only by internal includes and ordinary Kramdown output. Legacy `layout: project-post` documents are not checked by this rule.
 
@@ -264,8 +272,8 @@ This is an intentional authoring boundary, not an HTML limitation in the renderi
 The document hook performs the following ordered stages:
 
 1. Validate `project_detail` configuration.
-2. Reject author-written HTML except comments.
-3. Parse directive fences and attributes into source-aware directive nodes.
+2. Reject author-written HTML except comments and reject executable author Liquid outside fenced examples.
+3. Protect literal Liquid examples inside fenced code, then parse directive fences and attributes into source-aware directive nodes.
 4. Resolve each directive through the component registry and validate its content.
 5. Parse the remaining Markdown through Kramdown to identify Intro, chapters, heading IDs, and standalone images.
 6. Convert directives and standalone images into serializable typed block hashes.
