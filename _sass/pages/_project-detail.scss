@@ -1,4 +1,6 @@
 @use "../foundation/mixins";
+@use "project-detail/primitives/caption";
+@use "project-detail/primitives/media-frame";
 
 .project-detail-page {
   background: var(--paper);

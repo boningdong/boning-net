@@ -3,6 +3,7 @@
 require "kramdown"
 require_relative "chapter_compiler"
 require_relative "component_registry"
+require_relative "components/standalone_figure"
 require_relative "directive_parser"
 require_relative "render_context"
 
@@ -53,7 +54,7 @@ module BoningNet
         )
 
         reject_author_html!(context)
-        transformed_markdown, includes = compile_directives(context)
+        transformed_markdown, includes = compile_blocks(context)
         chapter_result = ChapterCompiler.new(
           markdown: transformed_markdown,
           navigation: navigation,
@@ -92,29 +93,35 @@ module BoningNet
         context.error!("raw HTML is not allowed in project detail content", line: html.options.fetch(:location))
       end
 
-      def compile_directives(context)
-        nodes = DirectiveParser.new(
+      def compile_blocks(context)
+        directive_nodes = DirectiveParser.new(
           markdown: @markdown,
           source_path: @source_path,
           source_line_offset: @source_line_offset
         ).call
+        nodes = directive_nodes.map do |node|
+          {
+            start_line: node.start_line,
+            end_line: node.end_line,
+            directive: node
+          }
+        end
+        nodes.concat(standalone_figure_nodes(directive_nodes))
+        nodes.sort_by! { |node| node.fetch(:start_line) }
+
         headings = source_headings
         prefix = sentinel_prefix
         includes = {}
 
         replacements = nodes.map do |node|
-          heading = heading_before(headings, node.start_line)
+          start_line = node.fetch(:start_line)
+          heading = heading_before(headings, start_line)
           context.use_heading(
             label: heading&.fetch(:label, nil),
             location: heading&.fetch(:location, nil)
           )
-          component_class = @registry.fetch(
-            node.name,
-            source_path: @source_path,
-            line: physical_line(node.start_line)
-          )
-          block = component_class.new.compile(node, context)
-          validate_block!(block, context, node)
+          block = compile_block(node, context)
+          validate_block!(block, context, start_line)
           id = context.store_block(block)
           sentinel = "#{prefix}_#{id.tr("-", "_").upcase}"
           includes[sentinel] = {
@@ -122,22 +129,62 @@ module BoningNet
             "block_type" => block.fetch("type"),
             "include" => include_reference(block.fetch("type"), id)
           }
-          [node, sentinel]
+          [node.fetch(:start_line), node.fetch(:end_line), sentinel]
         end
 
         lines = @markdown.lines
-        replacements.reverse_each do |node, sentinel|
-          lines[(node.start_line - 1)..(node.end_line - 1)] = ["\n#{sentinel}\n\n"]
+        replacements.reverse_each do |start_line, end_line, sentinel|
+          lines[(start_line - 1)..(end_line - 1)] = ["\n#{sentinel}\n\n"]
         end
 
         [lines.join, includes]
       end
 
-      def validate_block!(block, context, node)
+      def compile_block(node, context)
+        paragraph = node[:figure]
+        return Components::StandaloneFigure.new(paragraph: paragraph, context: context).compile if paragraph
+
+        directive = node.fetch(:directive)
+        component_class = @registry.fetch(
+          directive.name,
+          source_path: @source_path,
+          line: physical_line(directive.start_line)
+        )
+        component_class.new.compile(directive, context)
+      end
+
+      def standalone_figure_nodes(directives)
+        document = Kramdown::Document.new(@markdown, @kramdown_options)
+        children = document.root.children
+        source_line_count = @markdown.lines.length
+
+        children.each_with_index.filter_map do |element, index|
+          next unless Components::StandaloneFigure.match?(element)
+
+          start_line = element.options.fetch(:location)
+          next if within_directive?(start_line, directives)
+
+          following_line = children.drop(index + 1).filter_map do |child|
+            child.options[:location]
+          end.find { |location| location > start_line }
+
+          {
+            start_line: start_line,
+            end_line: following_line ? following_line - 1 : source_line_count,
+            figure: element
+          }
+        end
+      end
+
+      def within_directive?(line, directives)
+        directives.any? { |node| line.between?(node.start_line, node.end_line) }
+      end
+
+      def validate_block!(block, context, line)
         type = block["type"] if block.is_a?(Hash)
         return if type.is_a?(String) && type.match?(BLOCK_TYPE)
 
-        context.error!("component must compile to a block with a valid type", line: node.start_line)
+        context.error!("component must compile to a block with a valid type", line: line)
       end
 
       def include_reference(type, id)
