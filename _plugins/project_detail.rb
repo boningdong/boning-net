@@ -3,6 +3,9 @@
 require "jekyll"
 require_relative "project_detail/errors"
 require_relative "project_detail/chapter_compiler"
+require_relative "project_detail/directive_parser"
+require_relative "project_detail/component_registry"
+require_relative "project_detail/components/base"
 
 module BoningNet
   module ProjectDetail
