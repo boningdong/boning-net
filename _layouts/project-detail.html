@@ -9,7 +9,8 @@ scripts:
 <main class="project-detail" data-project-detail>
   {% include pages/project-detail/hero.html %}
   {% include pages/project-detail/intro.html %}
-  <div class="project-reading design-wrap">
+  {% assign generated = page.project_detail_generated %}
+  <div class="project-reading design-wrap{% unless generated.navigation_enabled %} project-reading--no-navigation{% endunless %}">
     {% include pages/project-detail/chapter-navigation.html variant="desktop" %}
     <article class="project-main" data-project-main>
       {{ content }}

@@ -125,6 +125,10 @@ stylesheet_tests = {
       css.match?(/\.project-reading\{[^}]*grid-template-columns:176px minmax\(0,\s*1fr\)[^}]*border-top:1px solid var\(--line\)/),
       "expected the approved reading rail"
     )
+    assert(
+      css.match?(/\.project-reading--no-navigation\{grid-template-columns:minmax\(0,\s*1fr\)\}/),
+      "expected Main Content to use the full reading width when navigation is disabled"
+    )
     assert(css.match?(/\.project-chapter\{[^}]*padding:78px 0 94px/), "expected the approved chapter rhythm")
     assert(
       css.match?(/\.project-main h1\{[^}]*font-size:clamp\(36px,4\.3vw,52px\)/),
