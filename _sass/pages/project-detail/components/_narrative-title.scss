@@ -1,0 +1,29 @@
+.project-main .project-chapter:has(> .project-narrative-title) > h1 {
+  margin-bottom: 16px;
+  color: var(--steel);
+  font: 600 9px/1.45 var(--font-utility);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.project-narrative-title {
+  max-width: 780px;
+  margin-bottom: 34px;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.3vw, 52px);
+  font-weight: 650;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  text-wrap: balance;
+}
+
+.project-narrative-title > p {
+  margin: 0;
+}
+
+@media (max-width: 640px) {
+  .project-narrative-title {
+    font-size: 36px;
+  }
+}

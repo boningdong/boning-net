@@ -6,6 +6,9 @@ require_relative "project_detail/chapter_compiler"
 require_relative "project_detail/directive_parser"
 require_relative "project_detail/component_registry"
 require_relative "project_detail/components/base"
+require_relative "project_detail/components/narrative_title"
+require_relative "project_detail/components/callout"
+require_relative "project_detail/components/featured_link"
 require_relative "project_detail/render_context"
 require_relative "project_detail/compiler"
 
@@ -15,6 +18,9 @@ module BoningNet
 
     def registry
       @registry ||= ComponentRegistry.new
+        .register(Components::NarrativeTitle)
+        .register(Components::Callout)
+        .register(Components::FeaturedLink)
     end
 
     def compile_document(document)

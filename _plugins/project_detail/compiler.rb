@@ -121,7 +121,9 @@ module BoningNet
           heading = heading_before(headings, start_line)
           context.use_heading(
             label: heading&.fetch(:label, nil),
-            location: heading&.fetch(:location, nil)
+            location: heading&.fetch(:location, nil),
+            level: heading&.fetch(:level, nil),
+            first_visible: first_visible_after_heading?(heading, node)
           )
           block = compile_block(node, context)
           validate_block!(block, context, start_line)
@@ -321,8 +323,20 @@ module BoningNet
         end.map do |heading|
           {
             location: heading.options.fetch(:location),
+            level: heading.options.fetch(:level),
             label: heading.options.fetch(:raw_text)
           }
+        end
+      end
+
+      def first_visible_after_heading?(heading, node)
+        return false unless heading
+
+        lines = @markdown.lines
+        source = lines[heading.fetch(:location)...(node.fetch(:start_line) - 1)].join
+        document = Kramdown::Document.new(source, @kramdown_options)
+        document.root.children.none? do |element|
+          !%i[blank xml_comment].include?(element.type)
         end
       end
 

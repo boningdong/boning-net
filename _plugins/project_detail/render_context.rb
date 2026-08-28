@@ -5,7 +5,7 @@ require_relative "errors"
 module BoningNet
   module ProjectDetail
     class RenderContext
-      attr_reader :current_heading_label
+      attr_reader :current_heading_label, :current_heading_level, :first_visible_after_heading
       attr_reader :source_path, :frontmatter, :kramdown_options, :blocks
 
       def initialize(source_path:, frontmatter:, kramdown_options:, source_line_offset: 0)
@@ -15,6 +15,8 @@ module BoningNet
         @kramdown_options = kramdown_options || {}
         @current_heading_label = nil
         @current_heading_identity = nil
+        @current_heading_level = nil
+        @first_visible_after_heading = false
         @figure_counters = Hash.new(0)
         @blocks = {}
       end
@@ -29,9 +31,11 @@ module BoningNet
         @figure_counters[@current_heading_identity] += 1
       end
 
-      def use_heading(label:, location:)
+      def use_heading(label:, location:, level: nil, first_visible: false)
         @current_heading_label = label
         @current_heading_identity = location
+        @current_heading_level = level
+        @first_visible_after_heading = first_visible
       end
 
       def error!(message, line:)

@@ -1,0 +1,42 @@
+.project-featured-link {
+  display: flex;
+  max-width: 720px;
+  min-height: 72px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 42px 0;
+  border: 1px solid var(--line);
+  border-radius: var(--card-radius);
+  padding: 20px 24px;
+  background: var(--ink);
+  box-shadow: 0 18px 42px rgb(36 51 58 / var(--shadow-alpha));
+  color: var(--paper);
+  font: 620 18px/1.25 var(--font-display);
+  text-decoration: none;
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.project-main a.project-featured-link {
+  color: var(--paper);
+  text-decoration: none;
+}
+
+.project-featured-link:hover {
+  box-shadow: 0 22px 48px rgb(36 51 58 / var(--shadow-alpha));
+  transform: translateY(-2px);
+}
+
+.project-featured-link-arrow {
+  color: var(--steel);
+  font-size: 26px;
+  line-height: 1;
+}
+
+@media (max-width: 640px) {
+  .project-featured-link {
+    min-height: 64px;
+    margin-block: 32px;
+    padding: 17px 19px;
+  }
+}
