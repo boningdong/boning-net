@@ -13,6 +13,15 @@ module BoningNet
         CALLOUT_TYPES = (INLINE_TYPES + %i[ul ol li]).freeze
         LINK_ATTRIBUTES = %w[href title].freeze
         SAFE_LINK_SCHEMES = %w[http https mailto tel].freeze
+        SLASH_LIKE_CHARACTERS = ["/", "\\"].freeze
+        URL_ENTITY_REPLACEMENTS = {
+          "&Tab;" => "\t",
+          "&NewLine;" => "\n",
+          "&colon;" => ":",
+          "&sol;" => "/",
+          "&bsol;" => "\\"
+        }.freeze
+        URL_ENTITY_PATTERN = Regexp.union(URL_ENTITY_REPLACEMENTS.keys).freeze
 
         module_function
 
@@ -47,9 +56,9 @@ module BoningNet
         def safe_link_url?(value)
           return false unless value.is_a?(String) && !value.empty?
 
-          decoded = CGI.unescapeHTML(value)
+          decoded = decode_url_entities(value)
           return false if decoded.match?(/[\u0000-\u001f\u007f]/)
-          return false if decoded.start_with?("//", "\\\\")
+          return false if network_path_prefix?(decoded)
 
           uri = URI.parse(decoded)
           return true unless uri.scheme
@@ -59,6 +68,18 @@ module BoningNet
           false
         end
         private_class_method :safe_link_url?
+
+        def decode_url_entities(value)
+          CGI.unescapeHTML(value.gsub(URL_ENTITY_PATTERN, URL_ENTITY_REPLACEMENTS))
+        end
+        private_class_method :decode_url_entities
+
+        def network_path_prefix?(value)
+          prefix = value[0, 2]
+          prefix.length == 2 &&
+            prefix.each_char.all? { |character| SLASH_LIKE_CHARACTERS.include?(character) }
+        end
+        private_class_method :network_path_prefix?
 
         def each_element(root)
           [root, *root.children.flat_map { |child| each_element(child) }]

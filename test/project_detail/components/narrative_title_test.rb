@@ -118,6 +118,31 @@ class NarrativeTitleTest < TinyTestCase
     end
   end
 
+  def test_rejects_slash_like_network_paths_and_control_obfuscation
+    [
+      "//example.com",
+      "/\\example.com",
+      "\\/example.com",
+      "\\\\example.com",
+      "&#47;&#92;example.com",
+      "&#92;&#47;example.com",
+      "/&#x09;/example.com",
+      "/&bsol;example.com",
+      "&bsol;/example.com",
+      "&sol;&bsol;example.com",
+      "&bsol;&sol;example.com",
+      "/&Tab;/example.com",
+      "/&NewLine;/example.com",
+      "javascript&colon;alert(1)"
+    ].each do |url|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile("# Hardware\n\n::: narrative-title\n[Title](#{url})\n:::\n")
+      end
+      assert_includes error.message,
+                      "narrative-title link URL must be relative or use http, https, mailto, or tel"
+    end
+  end
+
   def test_rejects_footnotes_that_expand_beyond_the_inline_paragraph
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
       compile(<<~MARKDOWN)

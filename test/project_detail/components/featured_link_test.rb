@@ -115,6 +115,31 @@ class FeaturedLinkTest < TinyTestCase
     end
   end
 
+  def test_rejects_slash_like_network_paths_and_control_obfuscation
+    [
+      "//example.com",
+      "/\\example.com",
+      "\\/example.com",
+      "\\\\example.com",
+      "&#47;&#92;example.com",
+      "&#92;&#47;example.com",
+      "/&#x09;/example.com",
+      "/&bsol;example.com",
+      "&bsol;/example.com",
+      "&sol;&bsol;example.com",
+      "&bsol;&sol;example.com",
+      "/&Tab;/example.com",
+      "/&NewLine;/example.com",
+      "javascript&colon;alert(1)"
+    ].each do |url|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile("# Software\n\n::: featured-link\n[Watch](#{url})\n:::\n")
+      end
+      assert_includes error.message,
+                      "featured-link link URL must be relative or use http, https, mailto, or tel"
+    end
+  end
+
   def test_accepts_relative_fragment_and_allowed_scheme_links
     [
       "/projects/scopen",
@@ -123,7 +148,10 @@ class FeaturedLinkTest < TinyTestCase
       "https://example.com/watch",
       "http://example.com/watch",
       "mailto:hello@example.com",
-      "tel:+15551234567"
+      "tel:+15551234567",
+      "/%5Cexample.com",
+      "%5C/example.com",
+      "%2F%2Fexample.com"
     ].each do |url|
       result = compile("# Software\n\n::: featured-link\n[Watch](#{url})\n:::\n")
       assert_equal url, result.blocks.values.first.fetch("url")
