@@ -122,3 +122,99 @@ This fixture exposed and verified the `navigation: none` width fix, then was del
 - Per the integration-task dispatch, no review subagent was created; the parent task owns the separate final independent code review.
 
 Remaining risk is limited to the browser host not offering a reduced-motion emulation toggle. The active reduced-motion presentation could not be visually captured, so evidence combines live stylesheet-rule inspection with direct JavaScript branch coverage.
+
+## Review Fix Round 1 — 2026-08-27
+
+Commit `c1a2773` (`fix: close project detail review gaps`) addresses all three Important review findings.
+
+### Behavioral and normalization changes
+
+- The production layout and stylesheet now use `project-reading--without-navigation`. A temporary Jekyll site created by `test/project_detail_rendering_test.rb` copies and renders the production Project Detail layout with both `navigation_enabled: false` and `navigation_enabled: true`; it asserts that the modifier is present only in the false case. The temporary site and generated output live under `Dir.mktmpdir` and are deleted automatically.
+- Video caption normalization now decodes named entities through Kramdown's entity table, decodes numeric entities through `CGI.unescapeHTML`, and trims leading/trailing Unicode `\p{Space}` characters. `&nbsp;`, `&#160;`, and direct U+2003-only titles produce no caption, while `U+00A0 + "Field note" + U+2003` produces the caption `Field note`.
+- The reduced-motion regression now calls the production controller's `init()`, supplies `matchMedia('(prefers-reduced-motion: reduce)') => { matches: true }`, dispatches a cancelable native `Event` through the actual registered chapter-link listener, and observes the production target's `scrollIntoView` call. This protects the integration between preference detection, listener registration, target lookup, scrolling, hash replacement, and active-link state rather than only the pure behavior selector.
+
+### Exact RED evidence
+
+Before the production fixes:
+
+```text
+$ PROJECT_DETAIL_STYLESHEET_ONLY=true bundle exec ruby test/project_detail_rendering_test.rb
+PASS project detail stylesheet delegates ownership to partials
+FAIL project detail partials compile the complete visual contract: expected Main Content to use the full reading width when navigation is disabled
+PASS project detail component media and person cards override prose defaults
+2 stylesheet tests passed, 1 failed
+
+$ ruby test/project_detail/components/videos_test.rb
+FAIL unicode separator only link titles are treated as no caption: expected named entity caption to be absent
+FAIL unicode separators around text preserve the caption: expected "Field note", got " Field note "
+15 passed, 2 failed
+```
+
+The rendered-layout regression itself also requires both states: removing the Liquid condition makes the false-state presence assertion fail, while reversing it makes both the false-state presence and true-state absence assertions fail.
+
+### Exact GREEN evidence
+
+Focused verification after implementation:
+
+```text
+$ ruby test/project_detail/components/videos_test.rb
+17 passed, 0 failed
+
+$ bundle exec ruby test/project_detail_rendering_test.rb
+3 stylesheet tests passed, 0 failed
+10 passed, 0 failed
+
+$ node --test test/javascript/project-detail.test.js
+✔ production initialization uses reduced motion for a chapter-link click
+tests 5; pass 5; fail 0
+```
+
+The production-controller integration asserted these exact observations after the native click dispatch:
+
+```text
+matchMedia query: (prefers-reduced-motion: reduce)
+click.defaultPrevented: true
+scrollIntoView calls: [{ behavior: "auto", block: "start" }]
+history.replaceState calls: [[null, "", "#hardware"]]
+active link aria-current: location
+```
+
+### Browser-client reduced-motion attempt and exact limitation
+
+The required browser-client path was used. The retained Scopen browser binding first returned `Browser is not available`; after restarting the browser runtime, `agent.browsers.list()` returned `[]`, `getForUrl('http://127.0.0.1:4011/projects/scopen.html')` returned `No browser is available`, and opening the local Scopen URL in the Codex browser panel returned `queued` because this delegated task was hidden. A later browser-client availability check still returned `[]`.
+
+The supported `control-in-app-browser` Playwright surface exposes navigation, DOM inspection/actions, screenshots, and read-only evaluation, but no `addInitScript`, `evaluateOnNewDocument`, `emulateMedia`, or reduced-motion capability. Read-only evaluation cannot compliantly replace `window.matchMedia` or `Element.prototype.scrollIntoView`. Consequently, there was no supported way to install a pre-execution page override in the unavailable browser session. The committed native-`EventTarget` controller integration above is the closest executable integration available without adding a repository DOM/browser dependency: it runs the production initialization and real registered click path and captures the actual `scrollIntoView({ behavior: "auto" })` branch. The earlier live Scopen viewport, Corner interaction, component, legacy-shell, and console evidence remains unchanged.
+
+### Full regression rerun
+
+The complete Task 11 verification command was rerun after the review fixes:
+
+```bash
+set -e
+for test_file in test/project_detail/*_test.rb test/project_detail/components/*_test.rb; do
+  bundle exec ruby "$test_file"
+done
+bundle exec ruby test/project_detail_processor_test.rb
+bundle exec ruby test/project_detail_rendering_test.rb
+ruby test/project_detail_mock_test.rb
+ruby test/modern_pages_test.rb
+ruby test/responsive_images_test.rb
+node --test test/javascript/*.test.js
+JEKYLL_ENV=production bundle exec jekyll build
+git diff --check
+git status --short
+git diff --stat
+```
+
+Results:
+
+- Project Detail per-file unit suite: 138 passed, 0 failed.
+- Project Detail processor: 4 passed, 0 failed.
+- Project Detail rendering: 3 stylesheet checks and 10 production-rendering checks passed.
+- Approved design mock suite: 7 runs, 55 assertions, 0 failures.
+- Broader modern-page suite: 12 passed, 0 failed.
+- Responsive-image suite: 10 runs, 103 assertions, 0 failures.
+- Repository JavaScript suite: 21 passed, 0 failed.
+- Production Jekyll build: exit 0.
+- `git diff --check`: clean.
+- `_site` remains ignored and unstaged; no source fixture, browser screenshot, or generated responsive image was added.
