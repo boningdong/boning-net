@@ -60,17 +60,20 @@
   padding: 18px 12px 20px;
 }
 
-.project-person-copy :where(h3, p),
+.project-main .project-person-copy :where(h3, p),
+.project-intro .project-person-copy :where(h3, p),
 .project-person-copy > :where(strong, span) {
   margin: 0;
 }
 
-.project-person-copy :where(h3, strong) {
+.project-main .project-person-copy :where(h3, strong),
+.project-intro .project-person-copy :where(h3, strong) {
   color: var(--ink);
   font: 620 17px/1.2 var(--font-display);
 }
 
-.project-person-copy :where(p, span) {
+.project-main .project-person-copy :where(p, span),
+.project-intro .project-person-copy :where(p, span) {
   color: var(--steel-dark);
   font: 500 11px/1.35 var(--font-utility);
   letter-spacing: 0.025em;

@@ -38,22 +38,34 @@ def compiled_project_detail_css
   ).css
 end
 
+def assert_selector_follows(css, later_selector, earlier_selector)
+  earlier_index = css.index(earlier_selector)
+  later_index = css.index(later_selector)
+
+  assert(earlier_index, "expected compiled CSS to include #{earlier_selector.inspect}")
+  assert(later_index, "expected compiled CSS to include #{later_selector.inspect}")
+  assert(
+    later_index > earlier_index,
+    "expected #{later_selector.inspect} to follow #{earlier_selector.inspect} in the cascade"
+  )
+end
+
 stylesheet_tests = {
   "project detail stylesheet delegates ownership to partials" => lambda do
     entry = File.read(File.join(ROOT, "_sass/pages/_project-detail.scss"))
     expected_uses = [
+      '@use "project-detail/shell";',
+      '@use "project-detail/article";',
+      '@use "project-detail/navigation";',
+      '@use "project-detail/primitives/caption";',
+      '@use "project-detail/primitives/collection";',
+      '@use "project-detail/primitives/media-frame";',
       '@use "project-detail/components/callout";',
       '@use "project-detail/components/featured-link";',
       '@use "project-detail/components/gallery";',
       '@use "project-detail/components/videos";',
       '@use "project-detail/components/people";',
-      '@use "project-detail/components/narrative-title";',
-      '@use "project-detail/primitives/caption";',
-      '@use "project-detail/primitives/collection";',
-      '@use "project-detail/primitives/media-frame";',
-      '@use "project-detail/shell";',
-      '@use "project-detail/article";',
-      '@use "project-detail/navigation";'
+      '@use "project-detail/components/narrative-title";'
     ]
 
     assert_equal expected_uses, entry.lines.map(&:strip).reject(&:empty?)
@@ -128,6 +140,19 @@ stylesheet_tests = {
     assert(
       css.match?(/\.project-corner-dialog\{[^}]*width:min\(272px,(?:calc\()?100% - 28px\)?\)/),
       "expected the approved Corner menu footprint"
+    )
+  end,
+  "project detail component media and person cards override prose defaults" => lambda do
+    css = compiled_project_detail_css
+
+    assert_selector_follows(css, ".project-media img{", ".project-main img{")
+    assert_selector_follows(css, ".project-team-card img{", ".project-main img{")
+    assert_selector_follows(css, ".project-team-card h3{", ".project-main h3{")
+    assert_selector_follows(css, ".project-main .project-person-card img", ".project-main img{")
+    assert_selector_follows(
+      css,
+      ".project-main .project-person-copy :where(h3,strong)",
+      ".project-main h3{"
     )
   end
 }
