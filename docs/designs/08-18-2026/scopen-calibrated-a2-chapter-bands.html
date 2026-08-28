@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Chapter Bands project detail mock for Scopen, a wireless oscilloscope.">
+  <title>Scopen / Chapter Bands — Project Detail Mock</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400..700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="calibrated-case-study.css">
+</head>
+<body class="light-hero">
+  <a class="skip-link" href="#content">Skip to project</a>
+  <div class="nav-shell">
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="site-name" href="../../../index.html">Boning Dong</a>
+      <div class="nav-links">
+        <a class="active" href="../../../projects.html">Projects</a>
+        <a href="../../../artwork.html">Artwork</a>
+        <a href="../../../index.html#about">About</a>
+        <a href="../../../resume.html">Resume</a>
+      </div>
+      <button class="menu-trigger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-trigger>Menu</button>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true" data-mobile-menu>
+      <a href="../../../projects.html">Projects</a><a href="../../../artwork.html">Artwork</a><a href="../../../index.html#about">About</a><a href="../../../resume.html">Resume</a>
+    </div>
+  </div>
+
+  <header class="band-hero">
+    <div class="band-hero-copy">
+      <a class="hero-back" href="../../../projects.html">All projects</a>
+      <h1>Scopen <span>A wireless oscilloscope designed for portable circuit debugging.</span></h1>
+      <p class="hero-meta"><span>Capstone</span><span>2020</span><span>3-person team</span></p>
+    </div>
+    <div class="band-hero-media"><img src="../../../assets/img/projects/scopen/cover-product.png" alt="Scopen handheld wireless oscilloscope product render"></div>
+  </header>
+
+  <nav class="chapter-nav" aria-label="Project chapters">
+    <div class="chapter-nav-inner page-wrap">
+      <a href="#overview"><span>Chapter 01</span><span>Overview</span></a>
+      <a href="#hardware"><span>Chapter 02</span><span>Hardware</span></a>
+      <a href="#firmware"><span>Chapter 03</span><span>Firmware</span></a>
+      <a href="#software"><span>Chapter 04</span><span>Software + ID</span></a>
+      <a href="#team"><span>Chapter 05</span><span>Team</span></a>
+    </div>
+  </nav>
+
+  <main id="content">
+    <section class="band-intro page-wrap" id="overview">
+      <div class="intro-grid">
+        <div class="intro-copy">
+          <span class="eyebrow">Project thesis</span>
+          <h2>Bring the essential oscilloscope loop off the bench.</h2>
+          <p>Scopen conditions an analog signal, samples it on a compact embedded system, then sends the waveform wirelessly to a desktop application. The system favors portability, affordability, and a clear interaction over laboratory-scale feature depth.</p>
+          <a class="text-link" href="https://youtu.be/ieGTWUUsJ_8">Watch the presentation</a>
+        </div>
+        <div>
+          <dl class="fact-list">
+            <div class="fact"><dt>Contribution</dt><dd>End-to-end product engineering</dd></div>
+            <div class="fact"><dt>Platform</dt><dd>STM32 + ESP32</dd></div>
+            <div class="fact"><dt>Software</dt><dd>FreeRTOS + Java Swing</dd></div>
+          </dl>
+          <div class="tag-row"><span class="tag">Hardware</span><span class="tag">Firmware</span><span class="tag">PCB</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-section page-wrap" id="hardware">
+      <header class="band-title-row"><span class="eyebrow">Chapter 02 / Hardware</span><h2 class="chapter-heading">Separate signal conditioning from system control.</h2></header>
+      <div class="band-body">
+        <p class="band-note">The chapter title and evidence always share the same calibrated baseline. No floating cards; the page reads as one continuous object.</p>
+        <div class="band-main">
+          <div class="prose"><p>The analog front end isolates, scales, and converts the incoming signal to a differential output. The microcontroller system handles sampling, external SRAM, touch input, and the Wi-Fi controller.</p></div>
+          <div class="metric-strip">
+            <div class="metric"><strong>6</strong><span>PCB layers</span></div>
+            <div class="metric"><strong>2.45 in</strong><span>Board length</span></div>
+            <div class="metric"><strong>2-sided</strong><span>Component placement</span></div>
+          </div>
+          <div class="media-frame wide-image contain"><img src="../../../assets/img/projects/scopen/scopen_pcb_6_layers.png" alt="Diagram of all six Scopen PCB layers"></div>
+          <div class="figure-caption"><span>Hardware / Board stack</span><span>Six layers compress power, routing, memory, and mixed-signal circuitry into the probe body.</span></div>
+          <div class="split-media">
+            <div><div class="media-frame contain"><img src="../../../assets/img/projects/scopen/scopen_afe.jpg" alt="Analog front end architecture"></div><div class="figure-caption"><span>Hardware / AFE</span><span>Analog path</span></div></div>
+            <div><div class="media-frame contain"><img src="../../../assets/img/projects/scopen/scopen_mcu.jpg" alt="Microcontroller system architecture"></div><div class="figure-caption"><span>Hardware / MCU</span><span>Digital system</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-section page-wrap" id="firmware">
+      <header class="band-title-row"><span class="eyebrow">Chapter 03 / Firmware</span><h2 class="chapter-heading">Protect the sampling path from timing noise.</h2></header>
+      <div class="band-body">
+        <p class="band-note">A wide chapter structure gives diagrams room to breathe while keeping the explanatory text at a readable line length.</p>
+        <div class="band-main">
+          <div class="prose"><p>The STM32 high-resolution timer triggers ADC sampling directly. DMA then moves the result into external SRAM, avoiding unpredictable context-switch timing in the critical path.</p><p>Five FreeRTOS threads divide communication and general logic. Semaphores coordinate the shared SPI interface and the empty and occupied slots in each queue.</p></div>
+          <div class="media-frame wide-image contain"><img src="../../../assets/img/projects/scopen/scopen_adc_sampling.jpg" alt="Scopen high-resolution timer, ADC, DMA, and memory data flow"></div>
+          <div class="figure-caption"><span>Firmware / Sampling</span><span>A hardware-timed path keeps the sample interval deterministic.</span></div>
+          <div class="media-frame wide-image contain"><img src="../../../assets/img/projects/scopen/scopen_firmware_stack.png" alt="STM32 and ESP32 firmware stack diagram"></div>
+          <div class="figure-caption"><span>Firmware / Stack</span><span>STM32 handles acquisition; ESP32 separates upstream and downstream communication.</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-section page-wrap" id="software">
+      <header class="band-title-row"><span class="eyebrow">Chapter 04 / Software + ID</span><h2 class="chapter-heading">Turn an embedded system into an understandable instrument.</h2></header>
+      <div class="band-body">
+        <p class="band-note">Product experience is treated as a system chapter, not a decorative gallery added after the engineering story.</p>
+        <div class="band-main">
+          <div class="prose"><p>The Java Swing client uses a model-view-controller structure and draws its controls directly. The enclosure was modeled in Fusion 360, printed, and assembled around the electronics.</p></div>
+          <div class="split-media">
+            <div><div class="media-frame"><img src="../../../assets/img/projects/scopen/scopen_software_interface.jpg" alt="Scopen Java Swing software interface"></div><div class="figure-caption"><span>Interface / 01</span><span>Desktop client</span></div></div>
+            <div><div class="media-frame"><img src="../../../assets/img/projects/scopen/scopen_id_render.png" alt="Scopen enclosure render and exploded view"></div><div class="figure-caption"><span>Industrial design / 01</span><span>Probe enclosure</span></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="band-section page-wrap" id="team">
+      <header class="band-title-row"><span class="eyebrow">Chapter 05 / Team</span><h2 class="chapter-heading">Three engineers, one end-to-end system.</h2></header>
+      <div class="band-body">
+        <p class="band-note">Team attribution stays quiet and connected to the case study rather than becoming a separate card gallery.</p>
+        <div class="band-main">
+          <div class="team-grid">
+            <a class="team-member" href="https://www.linkedin.com/in/byron-aguilar-a139057b/"><img src="../../../assets/img/people/byron.png" alt="Byron Aguilar"><span><strong>Byron Aguilar</strong><span>Computer engineering</span></span></a>
+            <a class="team-member" href="https://www.linkedin.com/in/boning-dong"><img src="../../../assets/img/people/boning.png" alt="Boning Dong"><span><strong>Boning Dong</strong><span>Computer engineering</span></span></a>
+            <a class="team-member" href="https://www.linkedin.com/in/cesar-gonzalez-0098341b0/"><img src="../../../assets/img/people/cesar.png" alt="Cesar Gonzalez"><span><strong>Cesar Gonzalez</strong><span>Computer engineering</span></span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <section class="project-outro"><div class="page-wrap outro-grid"><div><span class="eyebrow">Next project</span><h2>Smart Lamp / Light that responds to its environment.</h2></div><a class="project-cta" href="#">View project</a></div></section>
+  <footer class="site-footer"><span>Engineering, artwork, and ideas—made carefully.</span><a href="../../../index.html">Return home</a></footer>
+
+  <script>
+    const trigger = document.querySelector("[data-menu-trigger]");
+    const menu = document.querySelector("[data-mobile-menu]");
+    trigger.addEventListener("click", () => {
+      const open = document.body.classList.toggle("menu-open");
+      trigger.setAttribute("aria-expanded", String(open));
+      menu.setAttribute("aria-hidden", String(!open));
+    });
+  </script>
+</body>
+</html>

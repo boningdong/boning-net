@@ -1,0 +1,25 @@
+# Hero artwork explicitly selected for the project detail design.
+- file: light-field.png
+  tone: light
+  subject: physics field apparatus
+- file: light-optics.png
+  tone: light
+  subject: optical bench
+- file: light-wearable-instrument.png
+  tone: light
+  subject: exploded wearable instrument
+- file: blueprint-night.png
+  tone: dark
+  subject: exploded handheld instrument
+- file: night-gyroscope.png
+  tone: dark
+  subject: gyroscope
+- file: night-pcb.png
+  tone: dark
+  subject: circuit board stack
+- file: light-rocket.png
+  tone: light
+  subject: exploded rocket
+- file: night-field-coil.png
+  tone: dark
+  subject: electromagnetic field coil

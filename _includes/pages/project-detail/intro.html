@@ -1,10 +1,9 @@
 {% assign generated = page.project_detail_generated %}
 {% if generated.intro_markdown and generated.intro_style == "featured" %}
   <section class="project-intro project-intro--featured design-wrap" aria-labelledby="project-intro-title">
-    <p class="project-intro-label" id="project-intro-title">Project Intro</p>
-    <div class="project-intro-bridge">
-      <span class="project-intro-marker" aria-hidden="true"></span>
+    <div class="project-intro-shell">
       <div class="project-intro-copy">
+        <span class="project-intro-label" id="project-intro-title">Project Intro</span>
         {% for intro_part in generated.intro_parts %}
           {% if intro_part.kind == "block" %}
             {% include pages/project-detail/blocks/{{ intro_part.block_type }}.html block_id=intro_part.block_id %}

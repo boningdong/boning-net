@@ -23,14 +23,14 @@
       <dialog class="project-corner-dialog" id="project-corner-dialog" aria-labelledby="project-corner-title" data-project-corner-dialog>
         <div class="project-corner-dialog-head">
           <h2 id="project-corner-title">Contents</h2>
-          <button type="button" aria-label="Close project chapters" data-project-corner-close>Close</button>
+          <button type="button" aria-label="Close project chapters" data-project-corner-close><span aria-hidden="true"></span></button>
         </div>
         <ol>
           {% for chapter in generated.chapters %}
             <li>
               <a href="#{{ chapter.id }}" data-project-chapter-link="{{ chapter.id }}"{% if forloop.first %} aria-current="location"{% endif %}>
-                <span>{{ chapter.title }}</span>
                 <small>{{ chapter.index | prepend: "0" | slice: -2, 2 }}</small>
+                <span>{{ chapter.title }}</span>
               </a>
             </li>
           {% endfor %}
