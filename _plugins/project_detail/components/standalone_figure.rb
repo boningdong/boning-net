@@ -10,7 +10,8 @@ module BoningNet
           return false unless element.type == :p
 
           visible_children = element.children.reject do |child|
-            child.type == :text && child.value.strip.empty?
+            %i[br xml_comment].include?(child.type) ||
+              (child.type == :text && child.value.strip.empty?)
           end
           visible_children.length == 1 && visible_children.first.type == :img
         end

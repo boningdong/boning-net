@@ -94,6 +94,7 @@ module BoningNet
       end
 
       def compile_blocks(context)
+        line_offsets = source_line_offsets
         directive_nodes = DirectiveParser.new(
           markdown: @markdown,
           source_path: @source_path,
@@ -103,11 +104,13 @@ module BoningNet
           {
             start_line: node.start_line,
             end_line: node.end_line,
+            source_start: line_offsets.fetch(node.start_line - 1),
+            source_end: line_offsets.fetch(node.end_line, @markdown.length),
             directive: node
           }
         end
-        nodes.concat(standalone_figure_nodes(directive_nodes))
-        nodes.sort_by! { |node| node.fetch(:start_line) }
+        nodes.concat(standalone_figure_nodes(directive_nodes, line_offsets))
+        nodes.sort_by! { |node| node.fetch(:source_start) }
 
         headings = source_headings
         prefix = sentinel_prefix
@@ -129,15 +132,16 @@ module BoningNet
             "block_type" => block.fetch("type"),
             "include" => include_reference(block.fetch("type"), id)
           }
-          [node.fetch(:start_line), node.fetch(:end_line), sentinel]
+          replacement = node.key?(:directive) ? "\n#{sentinel}\n\n" : sentinel
+          [node.fetch(:source_start), node.fetch(:source_end), replacement]
         end
 
-        lines = @markdown.lines
-        replacements.reverse_each do |start_line, end_line, sentinel|
-          lines[(start_line - 1)..(end_line - 1)] = ["\n#{sentinel}\n\n"]
+        transformed_markdown = @markdown.dup
+        replacements.reverse_each do |source_start, source_end, replacement|
+          transformed_markdown[source_start...source_end] = replacement
         end
 
-        [lines.join, includes]
+        [transformed_markdown, includes]
       end
 
       def compile_block(node, context)
@@ -153,26 +157,111 @@ module BoningNet
         component_class.new.compile(directive, context)
       end
 
-      def standalone_figure_nodes(directives)
+      def standalone_figure_nodes(directives, line_offsets)
         document = Kramdown::Document.new(@markdown, @kramdown_options)
-        children = document.root.children
-        source_line_count = @markdown.lines.length
 
-        children.each_with_index.filter_map do |element, index|
+        each_element(document.root).filter_map do |element|
           next unless Components::StandaloneFigure.match?(element)
 
           start_line = element.options.fetch(:location)
           next if within_directive?(start_line, directives)
 
-          following_line = children.drop(index + 1).filter_map do |child|
-            child.options[:location]
-          end.find { |location| location > start_line }
+          source_start, source_end = source_image_range(element, line_offsets)
 
           {
             start_line: start_line,
-            end_line: following_line ? following_line - 1 : source_line_count,
+            source_start: source_start,
+            source_end: source_end,
             figure: element
           }
+        end
+      end
+
+      def source_image_range(element, line_offsets)
+        start_line = element.options.fetch(:location)
+        line_start = line_offsets.fetch(start_line - 1)
+        line_end = line_offsets.fetch(start_line, @markdown.length)
+        image_start = find_image_start(line_start, line_end)
+        image_end = image_start && markdown_image_end(image_start)
+        return [image_start, image_end] if image_end
+
+        raise ConfigurationError,
+              "#{@source_path}:#{physical_line(start_line)}: unable to locate standalone image source"
+      end
+
+      def find_image_start(line_start, line_end)
+        offset = @markdown.index("![", line_start)
+        while offset && offset < line_end
+          return offset unless escaped_source_character?(offset)
+
+          offset = @markdown.index("![", offset + 2)
+        end
+        nil
+      end
+
+      def markdown_image_end(image_start)
+        alt_end = matching_delimiter(image_start + 1, "[", "]")
+        return nil unless alt_end
+
+        cursor = alt_end + 1
+        reference_start = cursor
+        reference_start += 1 while [" ", "\t"].include?(@markdown[reference_start])
+        if @markdown[reference_start] == "["
+          reference_end = matching_delimiter(reference_start, "[", "]")
+          return reference_end && reference_end + 1
+        end
+
+        return cursor unless @markdown[cursor] == "("
+
+        inline_end = matching_delimiter(cursor, "(", ")", recognize_title_quotes: true)
+        inline_end && inline_end + 1
+      end
+
+      def matching_delimiter(open_offset, open_character, close_character, recognize_title_quotes: false)
+        depth = 1
+        offset = open_offset + 1
+        quote = nil
+
+        while offset < @markdown.length
+          character = @markdown[offset]
+          if character == "\\"
+            offset += 2
+            next
+          end
+
+          if quote
+            quote = nil if character == quote
+          elsif recognize_title_quotes && ["\"", "'"].include?(character) &&
+                whitespace_character?(@markdown[offset - 1])
+            quote = character
+          elsif character == open_character
+            depth += 1
+          elsif character == close_character
+            depth -= 1
+            return offset if depth.zero?
+          end
+          offset += 1
+        end
+        nil
+      end
+
+      def escaped_source_character?(offset)
+        backslashes = 0
+        offset -= 1
+        while offset >= 0 && @markdown[offset] == "\\"
+          backslashes += 1
+          offset -= 1
+        end
+        backslashes.odd?
+      end
+
+      def whitespace_character?(character)
+        [" ", "\t", "\n", "\r"].include?(character)
+      end
+
+      def source_line_offsets
+        @markdown.each_line.each_with_object([0]) do |line, offsets|
+          offsets << offsets.last + line.length
         end
       end
 

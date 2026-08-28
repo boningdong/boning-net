@@ -50,6 +50,104 @@ class StandaloneFigureTest < TinyTestCase
     assert_includes result.content, "Read ![status icon](/status.png) inline."
   end
 
+  def test_blockquote_image_only_paragraph_becomes_a_figure_inside_the_quote
+    result = compile(<<~MARKDOWN)
+      # Hardware
+
+      > ![Quoted board](/quote.png "Quoted figure.")
+    MARKDOWN
+
+    assert_equal 1, result.blocks.length
+    block_id = result.blocks.keys.first
+    assert_includes result.content,
+                    %(> {% include pages/project-detail/blocks/figure.html block_id="#{block_id}" %})
+
+    output = render_compiled(result)
+    assert(
+      output.match?(
+        /<blockquote>\s*<figure class="project-figure">\s*<div class="project-media-frame">/
+      ),
+      "expected the generated media frame to remain inside the blockquote"
+    )
+  end
+
+  def test_list_image_only_paragraph_becomes_a_figure_inside_the_list_item
+    result = compile(<<~MARKDOWN)
+      # Hardware
+
+      - ![Listed board](/list.png "Listed figure.")
+    MARKDOWN
+
+    assert_equal 1, result.blocks.length
+    block_id = result.blocks.keys.first
+    assert_includes result.content,
+                    %(- {% include pages/project-detail/blocks/figure.html block_id="#{block_id}" %})
+
+    output = render_compiled(result)
+    assert(
+      output.match?(
+        /<li>\s*<figure class="project-figure">\s*<div class="project-media-frame">/
+      ),
+      "expected the generated media frame to remain inside the list item"
+    )
+  end
+
+  def test_inline_images_inside_blockquotes_and_lists_stay_ordinary_markdown
+    result = compile(<<~MARKDOWN)
+      # Hardware
+
+      > Read ![quoted status](/quote-status.png) inline.
+
+      - Read ![listed status](/list-status.png) inline.
+    MARKDOWN
+
+    assert_empty result.blocks
+    assert_includes result.content, "> Read ![quoted status](/quote-status.png) inline."
+    assert_includes result.content, "- Read ![listed status](/list-status.png) inline."
+  end
+
+  def test_reference_figure_preserves_other_definitions_and_later_links_resolve
+    result = compile(<<~MARKDOWN)
+      # Hardware
+
+      ![Board][board]
+
+      [board]: /board.png "Reference figure."
+      [docs]: https://example.com/docs
+
+      Read the [documentation][docs].
+    MARKDOWN
+
+    assert_equal 1, result.blocks.length
+    assert_includes result.content, "[board]: /board.png \"Reference figure.\""
+    assert_includes result.content, "[docs]: https://example.com/docs"
+
+    rendered_markdown = Kramdown::Document.new(
+      result.content,
+      { "input" => "GFM" }
+    ).to_html
+    assert_includes rendered_markdown,
+                    '<a href="https://example.com/docs">documentation</a>'
+  end
+
+  def test_figure_conversion_preserves_adjacent_markdown_and_comments
+    result = compile(<<~MARKDOWN)
+      # Hardware
+
+      Context before the figure.
+
+      ![Board](/board.png "Board figure.")
+      <!-- keep this editorial note -->
+
+      Context after the figure.
+    MARKDOWN
+
+    assert_equal 1, result.blocks.length
+    assert_includes result.content, "Context before the figure."
+    assert_includes result.content, "<!-- keep this editorial note -->"
+    assert_includes result.content, "Context after the figure."
+  end
+
   def test_captionless_image_preserves_image_data_without_a_caption
     result = compile("# Hardware\n\n![Board underside](/underside.png)\n")
 
@@ -151,6 +249,18 @@ class StandaloneFigureTest < TinyTestCase
   private
 
   def render_figure(block)
+    render_content(
+      "{% include pages/project-detail/blocks/figure.html block_id=\"project-detail-block-1\" %}\n",
+      { "project-detail-block-1" => block },
+      extension: "html"
+    )
+  end
+
+  def render_compiled(result)
+    render_content(result.content, result.blocks, extension: "md")
+  end
+
+  def render_content(content, blocks, extension:)
     Dir.mktmpdir("project-detail-figure") do |source|
       includes_root = File.join(source, "_includes/pages/project-detail/blocks")
       layout_path = File.join(source, "_layouts/test.html")
@@ -165,14 +275,13 @@ class StandaloneFigureTest < TinyTestCase
       end
       File.write(layout_path, "{{ content }}\n")
 
-      generated = { "blocks" => { "project-detail-block-1" => block } }
+      generated = { "blocks" => blocks }
       File.write(
-        File.join(source, "index.html"),
+        File.join(source, "index.#{extension}"),
         {
           "layout" => "test",
           "project_detail_generated" => generated
-        }.to_yaml + "---\n" +
-          "{% include pages/project-detail/blocks/figure.html block_id=\"project-detail-block-1\" %}\n"
+        }.to_yaml + "---\n" + content
       )
 
       destination = File.join(source, "_site")
