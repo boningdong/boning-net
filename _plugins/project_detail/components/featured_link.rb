@@ -2,6 +2,7 @@
 
 require "kramdown"
 require_relative "base"
+require_relative "markdown_validator"
 
 module BoningNet
   module ProjectDetail
@@ -19,6 +20,12 @@ module BoningNet
               line: node.start_line
             )
           end
+          MarkdownValidator.validate_safety!(
+            document.root,
+            component: self.class.type,
+            context: context,
+            line: node.start_line
+          )
 
           {
             "type" => self.class.type,
@@ -47,7 +54,10 @@ module BoningNet
           return unless children.length == 1 && children.first.type == :a
 
           link = children.first
-          return if each_element(link).any? { |element| %i[img html_element].include?(element.type) }
+          return unless MarkdownValidator.allowed_tree?(
+            visible.first,
+            types: MarkdownValidator::INLINE_TYPES
+          )
           return if link.attr.fetch("href", "").strip.empty?
 
           link
@@ -58,10 +68,6 @@ module BoningNet
             child.type == :blank || child.type == :xml_comment ||
               (child.type == :text && child.value.strip.empty?)
           end
-        end
-
-        def each_element(root)
-          [root, *root.children.flat_map { |child| each_element(child) }]
         end
 
         def render_label(link, document)

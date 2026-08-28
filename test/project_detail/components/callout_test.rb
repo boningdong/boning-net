@@ -80,6 +80,55 @@ class CalloutTest < TinyTestCase
     end
   end
 
+  def test_rejects_paragraph_inline_attribute_lists
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(<<~MARKDOWN)
+        # Hardware
+
+        ::: callout
+        **Lead**
+        {: onclick="alert(1)"}
+        :::
+      MARKDOWN
+    end
+
+    assert_includes error.message, "callout does not allow inline attribute lists"
+  end
+
+  def test_rejects_emphasis_inline_attribute_lists
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("# Hardware\n\n::: callout\n**Lead**{: onclick=\"alert(1)\"}\n:::\n")
+    end
+
+    assert_includes error.message, "callout does not allow inline attribute lists"
+  end
+
+  def test_rejects_link_inline_attribute_lists
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(<<~MARKDOWN)
+        # Hardware
+
+        ::: callout
+        **Lead**
+
+        [Details](https://example.com){: onclick="alert(1)"}
+        :::
+      MARKDOWN
+    end
+
+    assert_includes error.message, "callout does not allow inline attribute lists"
+  end
+
+  def test_rejects_unsafe_link_schemes
+    %w[javascript:alert(1) data:text/html,payload].each do |url|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile("# Hardware\n\n::: callout\n**Lead**\n\n[Details](#{url})\n:::\n")
+      end
+      assert_includes error.message,
+                      "callout link URL must be relative or use http, https, mailto, or tel"
+    end
+  end
+
   def test_rejects_unknown_attributes
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
       compile("# Hardware\n\n::: callout kind=metric\n**Lead**\n:::\n")

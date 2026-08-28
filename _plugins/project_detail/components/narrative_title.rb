@@ -2,6 +2,7 @@
 
 require "kramdown"
 require_relative "base"
+require_relative "markdown_validator"
 
 module BoningNet
   module ProjectDetail
@@ -20,12 +21,22 @@ module BoningNet
 
           document = Kramdown::Document.new(node.body, context.kramdown_options)
           visible = visible_children(document.root)
-          unless visible.length == 1 && visible.first.type == :p && inline_paragraph?(visible.first)
+          unless visible.length == 1 && visible.first.type == :p &&
+                 MarkdownValidator.allowed_tree?(
+                   visible.first,
+                   types: MarkdownValidator::INLINE_TYPES
+                 )
             context.error!(
               "narrative-title must contain exactly one inline Markdown paragraph",
               line: node.start_line
             )
           end
+          MarkdownValidator.validate_safety!(
+            visible.first,
+            component: self.class.type,
+            context: context,
+            line: node.start_line
+          )
 
           {
             "type" => self.class.type,
@@ -51,16 +62,6 @@ module BoningNet
             child.type == :blank || child.type == :xml_comment ||
               (child.type == :text && child.value.strip.empty?)
           end
-        end
-
-        def inline_paragraph?(paragraph)
-          each_element(paragraph).none? do |element|
-            %i[img html_element].include?(element.type)
-          end
-        end
-
-        def each_element(root)
-          [root, *root.children.flat_map { |child| each_element(child) }]
         end
       end
     end

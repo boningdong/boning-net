@@ -77,6 +77,63 @@ class NarrativeTitleTest < TinyTestCase
     end
   end
 
+  def test_rejects_paragraph_inline_attribute_lists
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(<<~MARKDOWN)
+        # Hardware
+
+        ::: narrative-title
+        Title.
+        {: onclick="alert(1)"}
+        :::
+      MARKDOWN
+    end
+
+    assert_includes error.message, "narrative-title does not allow inline attribute lists"
+  end
+
+  def test_rejects_emphasis_inline_attribute_lists
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("# Hardware\n\n::: narrative-title\n*Title*{: onclick=\"alert(1)\"}\n:::\n")
+    end
+
+    assert_includes error.message, "narrative-title does not allow inline attribute lists"
+  end
+
+  def test_rejects_link_inline_attribute_lists
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("# Hardware\n\n::: narrative-title\n[Title](https://example.com){: onclick=\"alert(1)\"}\n:::\n")
+    end
+
+    assert_includes error.message, "narrative-title does not allow inline attribute lists"
+  end
+
+  def test_rejects_unsafe_link_schemes
+    %w[javascript:alert(1) data:text/html,payload].each do |url|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile("# Hardware\n\n::: narrative-title\n[Title](#{url})\n:::\n")
+      end
+      assert_includes error.message,
+                      "narrative-title link URL must be relative or use http, https, mailto, or tel"
+    end
+  end
+
+  def test_rejects_footnotes_that_expand_beyond_the_inline_paragraph
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(<<~MARKDOWN)
+        # Hardware
+
+        ::: narrative-title
+        Title with note[^1].
+
+        [^1]: Expanded block.
+        :::
+      MARKDOWN
+    end
+
+    assert_includes error.message, "narrative-title must contain exactly one inline Markdown paragraph"
+  end
+
   def test_rejects_unknown_attributes
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
       compile("# Hardware\n\n::: narrative-title tone=loud\nTitle.\n:::\n")

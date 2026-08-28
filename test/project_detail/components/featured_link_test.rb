@@ -68,6 +68,68 @@ class FeaturedLinkTest < TinyTestCase
     end
   end
 
+  def test_rejects_paragraph_inline_attribute_lists
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(<<~MARKDOWN)
+        # Software
+
+        ::: featured-link
+        [Watch](https://example.com)
+        {: onclick="alert(1)"}
+        :::
+      MARKDOWN
+    end
+
+    assert_includes error.message, "featured-link does not allow inline attribute lists"
+  end
+
+  def test_rejects_emphasis_inline_attribute_lists
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(<<~MARKDOWN)
+        # Software
+
+        ::: featured-link
+        [Watch *now*{: onclick="alert(1)"}](https://example.com)
+        :::
+      MARKDOWN
+    end
+
+    assert_includes error.message, "featured-link does not allow inline attribute lists"
+  end
+
+  def test_rejects_link_inline_attribute_lists
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("# Software\n\n::: featured-link\n[Watch](https://example.com){: onclick=\"alert(1)\"}\n:::\n")
+    end
+
+    assert_includes error.message, "featured-link does not allow inline attribute lists"
+  end
+
+  def test_rejects_unsafe_and_protocol_relative_links
+    ["javascript:alert(1)", "data:text/html,payload", "//example.com/watch"].each do |url|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile("# Software\n\n::: featured-link\n[Watch](#{url})\n:::\n")
+      end
+      assert_includes error.message,
+                      "featured-link link URL must be relative or use http, https, mailto, or tel"
+    end
+  end
+
+  def test_accepts_relative_fragment_and_allowed_scheme_links
+    [
+      "/projects/scopen",
+      "../presentation",
+      "#demonstration",
+      "https://example.com/watch",
+      "http://example.com/watch",
+      "mailto:hello@example.com",
+      "tel:+15551234567"
+    ].each do |url|
+      result = compile("# Software\n\n::: featured-link\n[Watch](#{url})\n:::\n")
+      assert_equal url, result.blocks.values.first.fetch("url")
+    end
+  end
+
   private
 
   def compile(markdown)

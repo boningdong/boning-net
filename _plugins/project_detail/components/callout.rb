@@ -2,16 +2,13 @@
 
 require "kramdown"
 require_relative "base"
+require_relative "markdown_validator"
 
 module BoningNet
   module ProjectDetail
     module Components
       class Callout < Base
         register_as "callout"
-
-        ALLOWED_TYPES = %i[
-          root p ul ol li text strong em a codespan entity typographic_sym smart_quote br
-        ].freeze
 
         def compile(node, context)
           reject_attributes!(node, context)
@@ -25,12 +22,21 @@ module BoningNet
             )
           end
 
-          unless visible.all? { |element| allowed_tree?(element) }
+          allowed_content = visible.all? do |element|
+            MarkdownValidator.allowed_tree?(element, types: MarkdownValidator::CALLOUT_TYPES)
+          end
+          unless allowed_content
             context.error!(
               "callout may contain only paragraphs, lists, and links",
               line: node.start_line
             )
           end
+          MarkdownValidator.validate_safety!(
+            document.root,
+            component: self.class.type,
+            context: context,
+            line: node.start_line
+          )
 
           { "type" => self.class.type, "html" => document.to_html }
         end
@@ -59,10 +65,6 @@ module BoningNet
 
           children = visible_children(paragraph)
           children.length == 1 && %i[strong em].include?(children.first.type)
-        end
-
-        def allowed_tree?(element)
-          ALLOWED_TYPES.include?(element.type) && element.children.all? { |child| allowed_tree?(child) }
         end
       end
     end
