@@ -52,6 +52,22 @@ class VideosTest < TinyTestCase
     refute(second.key?("caption"))
   end
 
+  def test_caption_entities_are_normalized_once_before_liquid_escaping
+    result = compile(videos(
+      '[Entity demo](https://youtu.be/4xJvWEb1Kwo "Named &amp; decimal &#38; hex &#x26; ordinary &")'
+    ))
+    caption = result.blocks.values.first.fetch("items").first.fetch("caption")
+
+    assert_equal "Named & decimal & hex & ordinary &", caption.fetch("text")
+
+    output = render_compiled(result)
+    assert_includes output,
+                    '<span class="project-caption-text">Named &amp; decimal &amp; hex &amp; ordinary &amp;</span>'
+    refute_includes output, "&amp;amp;"
+    refute_includes output, "&amp;#38;"
+    refute_includes output, "&amp;#x26;"
+  end
+
   def test_accessible_title_flattens_inline_markdown_and_typographic_entities
     result = compile(videos(
       "[A **bold** &amp; expanding... demo](https://youtu.be/4xJvWEb1Kwo)"
@@ -179,6 +195,26 @@ class VideosTest < TinyTestCase
     assert_includes output, '<span class="project-caption-text">Pocket lab demonstration</span>'
   end
 
+  def test_three_item_render_uses_grid_layout_with_spacing_that_persists_on_tablet
+    body = (1..3).map do |number|
+      "[Video #{number}](https://youtu.be/#{video_id(number)})"
+    end.join("\n\n")
+    output = render_compiled(compile(videos(body)))
+    css = render_styles
+
+    assert_includes output,
+                    '<ul class="project-videos project-collection project-collection--grid" data-videos-layout="grid">'
+    assert_equal 3, output.scan('class="project-video-item project-collection-item"').length
+    assert(
+      css.match?(/\.project-videos\.project-collection--grid\{gap:24px 18px\}/),
+      "expected the three-plus Videos modifier to use the shared collection gap"
+    )
+    assert(
+      css.match?(/@media\(max-width:\s*899px\)\{\.project-videos\.project-collection\{grid-template-columns:minmax\(0,\s*1fr\)\}\}/),
+      "expected the grid to become one column without overriding its inherited gap"
+    )
+  end
+
   private
 
   def compile(markdown)
@@ -228,6 +264,35 @@ class VideosTest < TinyTestCase
       )
       site.process
       File.read(File.join(destination, "index.html"))
+    end
+  end
+
+  def render_styles
+    Dir.mktmpdir("project-detail-videos-styles") do |source|
+      partial_dir = File.join(source, "_sass/pages/project-detail/components")
+      stylesheet_dir = File.join(source, "assets/css")
+      FileUtils.mkdir_p(partial_dir)
+      FileUtils.mkdir_p(stylesheet_dir)
+      FileUtils.cp(
+        File.expand_path("../../../_sass/pages/project-detail/components/_videos.scss", __dir__),
+        File.join(partial_dir, "_videos.scss")
+      )
+      File.write(
+        File.join(stylesheet_dir, "videos.scss"),
+        "---\n---\n@use \"pages/project-detail/components/videos\";\n"
+      )
+
+      destination = File.join(source, "_site")
+      site = Jekyll::Site.new(
+        Jekyll.configuration(
+          "source" => source,
+          "destination" => destination,
+          "quiet" => true,
+          "sass" => { "style" => "compressed" }
+        )
+      )
+      site.process
+      File.read(File.join(destination, "assets/css/videos.css"))
     end
   end
 end

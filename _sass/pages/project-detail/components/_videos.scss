@@ -9,6 +9,10 @@
   grid-template-columns: minmax(0, 1fr);
 }
 
+.project-videos.project-collection--grid {
+  gap: 24px 18px;
+}
+
 .project-video-figure,
 .project-video-frame.project-media-frame {
   margin: 0;
