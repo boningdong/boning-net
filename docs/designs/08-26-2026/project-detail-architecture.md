@@ -1,5 +1,7 @@
 # Project Detail Architecture
 
+> Historical design document, superseded for current authoring guidance. Use the [Project Detail author guide](../../project-detail/README.md) for supported syntax and the [current technical architecture](../../project-detail/architecture.md) for implementation ownership. This file remains as design-decision context for the initial chapter system.
+
 Status: Approved for implementation
 
 Date: 2026-08-26
