@@ -2,7 +2,6 @@
 
 require "kramdown"
 require_relative "base"
-require_relative "standalone_figure"
 require_relative "../primitives/collection"
 require_relative "../primitives/figure"
 
@@ -29,7 +28,7 @@ module BoningNet
               line: node.start_line
             )
           end
-          unless children.all? { |child| StandaloneFigure.match?(child) }
+          unless children.all? { |child| standalone_image_paragraph?(child) }
             context.error!(
               "gallery may contain only standalone Markdown images separated by blank lines",
               line: node.start_line
@@ -64,6 +63,11 @@ module BoningNet
             %(gallery does not accept attribute "#{attribute}"),
             line: node.start_line
           )
+        end
+
+        def standalone_image_paragraph?(paragraph)
+          paragraph.type == :p && paragraph.children.length == 1 &&
+            paragraph.children.first.type == :img
         end
 
         def compile_image(paragraph, node, context)

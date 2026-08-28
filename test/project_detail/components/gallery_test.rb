@@ -57,6 +57,36 @@ class GalleryTest < TinyTestCase
     end
   end
 
+  def test_inline_and_trailing_comments_beside_images_fail
+    invalid_bodies = [
+      "<!-- before -->![First](/first.png)\n\n![Second](/second.png)",
+      "![First](/first.png)<!-- after -->\n\n![Second](/second.png)"
+    ]
+
+    invalid_bodies.each do |body|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile(gallery(body))
+      end
+      assert_includes error.message, "gallery may contain only standalone Markdown images"
+    end
+  end
+
+  def test_hard_break_beside_an_image_fails
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(gallery("![First](/first.png)  \n<!-- after break -->\n\n![Second](/second.png)"))
+    end
+
+    assert_includes error.message, "gallery may contain only standalone Markdown images"
+  end
+
+  def test_invisible_whitespace_text_beside_an_image_fails
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(gallery("![First](/first.png) <!-- after space -->\n\n![Second](/second.png)"))
+    end
+
+    assert_includes error.message, "gallery may contain only standalone Markdown images"
+  end
+
   def test_images_must_be_separated_by_blank_lines
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
       compile(gallery("![First](/first.png)\n![Second](/second.png)"))
