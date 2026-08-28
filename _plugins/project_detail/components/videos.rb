@@ -93,7 +93,7 @@ module BoningNet
             "title" => title
           }
           caption = link.attr["title"]
-          caption = CGI.unescapeHTML(caption) if caption
+          caption = CGI.unescapeHTML(caption).strip if caption
           number = context.next_figure_number
           if caption && !caption.empty?
             item["caption"] = Primitives::Caption.new(

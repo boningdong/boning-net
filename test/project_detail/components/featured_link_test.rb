@@ -51,6 +51,16 @@ class FeaturedLinkTest < TinyTestCase
     end
   end
 
+  def test_rejects_empty_or_whitespace_only_accessible_labels
+    ["", "   ", "&nbsp;"].each do |label|
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        compile("# Software\n\n::: featured-link\n[#{label}](https://example.com/watch)\n:::\n")
+      end
+
+      assert_includes error.message, "featured-link link text is required for accessibility"
+    end
+  end
+
   def test_rejects_media_heading_and_unknown_attributes
     invalid_documents = {
       "media" => "::: featured-link\n[![Preview](/preview.png)](https://example.com)\n:::\n",

@@ -20,7 +20,7 @@ This directive accepts no options or attributes. Column count is derived from it
 
 ## Content Contract
 
-The body contains only standalone Markdown link paragraphs separated by blank lines. Link text is required and becomes the iframe's accessible title. Inline formatting in link text is reduced to plain accessible title text. The optional Markdown link title becomes the visible caption.
+The body contains only standalone Markdown link paragraphs separated by blank lines. Link text is required and becomes the iframe's accessible title. Inline formatting in link text is reduced to plain accessible title text. The optional Markdown link title becomes the visible caption; a whitespace-only title is treated as absent.
 
 Accepted destinations are valid `http` or `https` YouTube watch URLs, `youtu.be` share URLs, and YouTube or `youtube-nocookie.com` embed URLs containing exactly one valid 11-character video ID in the supported path/query position.
 
@@ -32,7 +32,7 @@ Caption labels use the nearest H1 or H2 and the shared per-heading media sequenc
 
 ## Generated Semantics
 
-The collection renders as a `ul` with one `li` per video. Each item contains a `figure`, responsive iframe frame, and optional `figcaption`. The iframe receives the authored link text as `title`, safe media permissions, strict-origin referrer policy, lazy loading, and fullscreen support.
+The collection renders as a `ul` with one `li` per video. A captioned item contains a `figure`, responsive iframe frame, and `figcaption`; a captionless item uses a neutral `div` container instead of `figure`. The iframe receives the authored link text as `title`, safe media permissions, strict-origin referrer policy, lazy loading, and fullscreen support.
 
 ## Validation
 

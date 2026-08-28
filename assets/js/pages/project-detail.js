@@ -29,6 +29,18 @@
         return activeIndex;
     }
 
+    function handleCornerDialogKeydown(event, closeDialog) {
+        if (!event || (event.key !== 'Escape' && event.key !== 'Esc')) return false;
+
+        if (typeof event.preventDefault === 'function') event.preventDefault();
+        closeDialog(true);
+        return true;
+    }
+
+    function chapterScrollBehavior(reducedMotion) {
+        return reducedMotion ? 'auto' : 'smooth';
+    }
+
     function init() {
         var rootElement = document.querySelector('[data-project-detail]');
         if (!rootElement) return;
@@ -122,7 +134,10 @@
                 event.preventDefault();
                 syncActive(sections.indexOf(target));
                 closeDialog(true);
-                target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'start' });
+                target.scrollIntoView({
+                    behavior: chapterScrollBehavior(reducedMotion),
+                    block: 'start'
+                });
                 window.history.replaceState(null, '', '#' + encodeURIComponent(id));
             });
         });
@@ -149,6 +164,10 @@
 
         dialog.addEventListener('click', function(event) {
             if (event.target === dialog) closeDialog(true);
+        });
+
+        dialog.addEventListener('keydown', function(event) {
+            handleCornerDialogKeydown(event, closeDialog);
         });
 
         window.addEventListener('resize', function() {
@@ -182,6 +201,8 @@
 
     return {
         activeChapterIndex: activeChapterIndex,
+        chapterScrollBehavior: chapterScrollBehavior,
+        handleCornerDialogKeydown: handleCornerDialogKeydown,
         init: init,
         shouldRevealCorner: shouldRevealCorner
     };

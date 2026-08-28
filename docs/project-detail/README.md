@@ -94,13 +94,13 @@ A [Standalone Figure](components/figure.md) is also a public component, but auth
 
 ## Raw HTML Policy
 
-Author-written inline and block HTML is not allowed in content using `layout: project-detail`. HTML comments remain allowed.
+Author-written inline and block HTML is not allowed in content using `layout: project-detail`. HTML comments remain globally allowed in ordinary Project Detail content.
 
 ```markdown
 <!-- This editorial note is allowed. -->
 ```
 
-Structural HTML such as `<div>`, `<figure>`, and `<iframe>` stops the build. Hand-written Liquid includes are also outside the supported author API and must not be used; internal includes are reserved for the rendering pipeline. Use ordinary Markdown or a documented component instead. The HTML restriction applies only to `layout: project-detail`; legacy `layout: project-post` documents retain their existing behavior.
+Structural HTML such as `<div>`, `<figure>`, and `<iframe>` stops the build. Hand-written Liquid includes are also outside the supported author API and must not be used; internal includes are reserved for the rendering pipeline. Use ordinary Markdown or a documented component instead. Each typed component body follows its own stricter Content Contract, so a comment inside a component is accepted only when that component explicitly permits it. The HTML restriction applies only to `layout: project-detail`; legacy `layout: project-post` documents retain their existing behavior.
 
 ## Links and Safety
 

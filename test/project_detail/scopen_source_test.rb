@@ -41,9 +41,13 @@ class ScopenSourceTest < TinyTestCase
       ],
       team.map { |person| person.fetch("image") }
     )
-    assert(
-      team.all? { |person| !person.key?("url") || !person.fetch("url").to_s.strip.empty? },
-      "expected optional team URLs to be nonblank when present"
+    assert_equal(
+      [
+        "https://www.linkedin.com/in/byron-aguilar-a139057b/",
+        "https://www.linkedin.com/in/boning-dong",
+        "https://www.linkedin.com/in/cesar-gonzalez-0098341b0/"
+      ],
+      team.map { |person| person.fetch("url") }
     )
   end
 

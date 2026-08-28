@@ -273,9 +273,35 @@ module BoningNet
 
       def validate_block!(block, context, line)
         type = block["type"] if block.is_a?(Hash)
-        return if type.is_a?(String) && type.match?(BLOCK_TYPE)
+        unless type.is_a?(String) && type.match?(BLOCK_TYPE)
+          context.error!("component must compile to a block with a valid type", line: line)
+        end
+        return if json_like?(block)
 
-        context.error!("component must compile to a block with a valid type", line: line)
+        context.error!("component block data must be JSON-like", line: line)
+      end
+
+      def json_like?(value, ancestors = [])
+        case value
+        when Hash
+          return false if ancestors.include?(value.object_id)
+
+          next_ancestors = ancestors + [value.object_id]
+          value.all? do |key, child|
+            key.is_a?(String) && json_like?(child, next_ancestors)
+          end
+        when Array
+          return false if ancestors.include?(value.object_id)
+
+          next_ancestors = ancestors + [value.object_id]
+          value.all? { |child| json_like?(child, next_ancestors) }
+        when String, Integer, TrueClass, FalseClass, NilClass
+          true
+        when Float
+          value.finite?
+        else
+          false
+        end
       end
 
       def include_reference(type, id)

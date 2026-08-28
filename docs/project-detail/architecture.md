@@ -31,7 +31,7 @@ Build output consists of transformed Markdown containing trusted internal includ
 2. Parse the source with Kramdown and reject author-written HTML elements.
 3. Parse directive fences into immutable, source-aware nodes.
 4. Find standalone Markdown image paragraphs outside directive ranges.
-5. Establish the nearest H1 or H2 context and compile each component to a serializable block hash.
+5. Establish the nearest H1 or H2 context, compile each component to a block hash, and recursively validate its string-keyed JSON-like data.
 6. Store blocks under opaque IDs such as `project-detail-block-1`.
 7. Replace component source ranges with collision-resistant sentinels.
 8. Pass transformed Markdown to `ChapterCompiler` to extract Intro, wrap H1 chapters, and derive navigation metadata.
@@ -94,7 +94,7 @@ JavaScript in `assets/js/pages/project-detail.js` progressively enhances chapter
 
 ## Validation and Trust Boundary
 
-The compiler rejects invalid configuration, raw author HTML except comments, malformed or nested directives, unknown directives/options, unsafe component URLs, invalid component children, and component-specific missing data. Errors use the project path and physical source line when available.
+The compiler rejects invalid configuration, raw author HTML except comments, malformed or nested directives, unknown directives/options, unsafe component URLs, invalid component children, non-JSON-like nested block data, and component-specific missing data. Errors use the project path and physical source line when available.
 
 Only internal Liquid includes emit structural component HTML. Component content rendered through Kramdown is constrained to the node types and attributes accepted by that component. This keeps author content separate from trusted rendering implementation.
 

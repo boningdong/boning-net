@@ -52,6 +52,15 @@ class VideosTest < TinyTestCase
     refute(second.key?("caption"))
   end
 
+  def test_whitespace_only_link_title_is_treated_as_no_caption
+    result = compile(videos(
+      '[Hardware demonstration](https://youtu.be/4xJvWEb1Kwo "   ")'
+    ))
+
+    item = result.blocks.values.first.fetch("items").first
+    refute item.key?("caption")
+  end
+
   def test_caption_entities_are_normalized_once_before_liquid_escaping
     result = compile(videos(
       '[Entity demo](https://youtu.be/4xJvWEb1Kwo "Named &amp; decimal &#38; hex &#x26; ordinary &")'
@@ -193,6 +202,18 @@ class VideosTest < TinyTestCase
                     'allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"'
     assert_includes output, "allowfullscreen"
     assert_includes output, '<span class="project-caption-text">Pocket lab demonstration</span>'
+    assert_equal 1, output.scan('<figure class="project-video-content">').length
+    assert_equal 1, output.scan('<div class="project-video-content">').length
+  end
+
+  def test_captionless_video_renders_a_neutral_container_instead_of_figure
+    output = render_compiled(compile(videos(
+      "[Software demonstration](https://youtu.be/fFWyjB_XNrE)"
+    )))
+
+    assert_includes output, '<div class="project-video-content">'
+    refute_includes output, '<figure class="project-video-content">'
+    refute_includes output, '<figcaption'
   end
 
   def test_three_item_render_uses_grid_layout_with_spacing_that_persists_on_tablet

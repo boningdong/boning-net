@@ -26,6 +26,12 @@ module BoningNet
             context: context,
             line: node.start_line
           )
+          if plain_text(link).match?(/\A\p{Space}*\z/)
+            context.error!(
+              "featured-link link text is required for accessibility",
+              line: node.start_line
+            )
+          end
 
           {
             "type" => self.class.type,
@@ -79,6 +85,21 @@ module BoningNet
           )
           root.children = link.children
           Kramdown::Converter::Html.convert(root, document.options).first
+        end
+
+        def plain_text(element)
+          case element.type
+          when :text, :codespan
+            element.value.to_s
+          when :entity
+            element.value.code_point.chr(Encoding::UTF_8)
+          when :br
+            " "
+          when :smart_quote, :typographic_sym
+            Kramdown::Utils::Entities.entity(element.value.to_s).code_point.chr(Encoding::UTF_8)
+          else
+            element.children.map { |child| plain_text(child) }.join
+          end
         end
       end
     end

@@ -13,7 +13,7 @@
   gap: 24px 18px;
 }
 
-.project-video-figure,
+.project-video-content,
 .project-video-frame.project-media-frame {
   margin: 0;
 }
@@ -31,7 +31,7 @@
   border: 0;
 }
 
-.project-video-figure .project-caption {
+.project-video-content .project-caption {
   grid-template-columns: 1fr;
   gap: 6px;
 }

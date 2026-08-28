@@ -31,6 +31,17 @@ class CompilerTest < TinyTestCase
     end
   end
 
+  class NonSerializableComponent < BoningNet::ProjectDetail::Components::Base
+    register_as "nonserializable"
+
+    def compile(_node, _context)
+      {
+        "type" => "nonserializable",
+        "items" => [{ "value" => Object.new }]
+      }
+    end
+  end
+
   def compile(
     markdown,
     config: {},
@@ -40,6 +51,7 @@ class CompilerTest < TinyTestCase
     registry = BoningNet::ProjectDetail::ComponentRegistry.new
     registry.register(FakeComponent)
     registry.register(ContextComponent)
+    registry.register(NonSerializableComponent)
 
     BoningNet::ProjectDetail::Compiler.new(
       markdown: markdown,
@@ -93,6 +105,15 @@ class CompilerTest < TinyTestCase
     assert_includes result.content,
                     %({% include pages/project-detail/blocks/fake.html block_id="#{block_id}" %})
     refute_includes result.content, "::: fake"
+  end
+
+  def test_rejects_nonserializable_values_nested_in_component_blocks
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("# Hardware\n\n::: nonserializable\n:::\n")
+    end
+
+    assert_includes error.message, "component block data must be JSON-like"
+    assert_includes error.message, "_projects/example.md:3"
   end
 
   def test_replaces_double_digit_block_sentinels_without_prefix_collisions
