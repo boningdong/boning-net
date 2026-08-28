@@ -1,0 +1,8 @@
+<figure class="project-video-figure">
+  <div class="project-video-frame project-media-frame">
+    <iframe src="{{ include.item.embed_url | escape }}" title="{{ include.item.title | escape }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </div>
+  {%- if include.item.caption -%}
+    {%- include pages/project-detail/blocks/primitives/caption.html caption=include.item.caption -%}
+  {%- endif -%}
+</figure>

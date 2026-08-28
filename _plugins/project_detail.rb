@@ -10,6 +10,8 @@ require_relative "project_detail/components/narrative_title"
 require_relative "project_detail/components/callout"
 require_relative "project_detail/components/featured_link"
 require_relative "project_detail/components/gallery"
+require_relative "project_detail/components/videos"
+require_relative "project_detail/components/people"
 require_relative "project_detail/render_context"
 require_relative "project_detail/compiler"
 
@@ -23,6 +25,8 @@ module BoningNet
         .register(Components::Callout)
         .register(Components::FeaturedLink)
         .register(Components::Gallery)
+        .register(Components::Videos)
+        .register(Components::People)
     end
 
     def compile_document(document)
