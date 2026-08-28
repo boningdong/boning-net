@@ -41,3 +41,50 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+// Legacy Project Detail contract. Task 9 removes these after Scopen migrates.
+.project-video-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 24px;
+  margin-block: 42px;
+}
+
+.project-video {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.72);
+  border-radius: var(--card-radius);
+  background: rgb(var(--surface-rgb) / 0.78);
+  box-shadow:
+    inset 0 1px rgb(255 255 255 / 0.84),
+    0 30px 76px rgb(36 51 58 / 0.11);
+  backdrop-filter: blur(12px) saturate(1.02);
+  -webkit-backdrop-filter: blur(12px) saturate(1.02);
+}
+
+.project-video iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+@media (max-width: 640px) {
+  .project-video {
+    border-radius: 20px;
+  }
+
+  .project-video-grid {
+    grid-template-columns: 1fr;
+    gap: var(--mobile-card-gap);
+  }
+}
+
+@media (forced-colors: active) {
+  .project-video {
+    border: 1px solid CanvasText;
+  }
+}

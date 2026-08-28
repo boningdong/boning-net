@@ -2,6 +2,7 @@
 
 require "open3"
 require "rbconfig"
+require "sass-embedded"
 
 ROOT = File.expand_path("..", __dir__)
 
@@ -28,6 +29,122 @@ def built(path)
   assert(File.file?(full_path), "expected generated file #{path}")
   File.read(full_path)
 end
+
+def compiled_project_detail_css
+  Sass.compile_string(
+    '@use "pages/project-detail";',
+    load_paths: [File.join(ROOT, "_sass")],
+    style: :compressed
+  ).css
+end
+
+stylesheet_tests = {
+  "project detail stylesheet delegates ownership to partials" => lambda do
+    entry = File.read(File.join(ROOT, "_sass/pages/_project-detail.scss"))
+    expected_uses = [
+      '@use "project-detail/components/callout";',
+      '@use "project-detail/components/featured-link";',
+      '@use "project-detail/components/gallery";',
+      '@use "project-detail/components/videos";',
+      '@use "project-detail/components/people";',
+      '@use "project-detail/components/narrative-title";',
+      '@use "project-detail/primitives/caption";',
+      '@use "project-detail/primitives/collection";',
+      '@use "project-detail/primitives/media-frame";',
+      '@use "project-detail/shell";',
+      '@use "project-detail/article";',
+      '@use "project-detail/navigation";'
+    ]
+
+    assert_equal expected_uses, entry.lines.map(&:strip).reject(&:empty?)
+  end,
+  "project detail partials compile the complete visual contract" => lambda do
+    css = compiled_project_detail_css
+
+    %w[
+      .project-detail-page
+      .project-hero
+      .project-intro--featured
+      .project-reading
+      .project-main
+      .project-chapter-nav
+      .project-corner
+      .project-callout
+      .project-featured-link
+      .project-gallery
+      .project-videos.project-collection
+      .project-people
+      .project-narrative-title
+      .project-caption
+      .project-collection
+      .project-media-frame
+    ].each { |selector| assert_includes css, selector }
+
+    # Task 9 reverses these assertions once Scopen no longer renders the legacy contract.
+    %w[.project-media-grid .project-video-grid .project-team-grid].each do |selector|
+      assert_includes css, selector
+    end
+
+    assert(css.match?(/\.project-hero\{[^}]*min-height:520px/), "expected the approved desktop Hero height")
+    assert(
+      css.match?(/@media\s*\(min-width:\s*1600px\)\{\.project-hero\{min-height:clamp\(600px,28vw,780px\)\}/),
+      "expected the approved ultrawide Hero height"
+    )
+    assert(
+      css.match?(/@media\s*\(max-width:\s*640px\)\{[^}]*\.project-hero\{min-height:470px\}/),
+      "expected the approved mobile Hero height"
+    )
+    assert(css.match?(/\.project-intro--featured\{padding:78px 0 84px\}/), "expected the approved Bridge spacing")
+    assert(
+      css.match?(/\.project-intro-copy\{[^}]*grid-template-columns:minmax\(150px,\s*0?\.36fr\) minmax\(0,\s*1\.64fr\)/),
+      "expected the approved Bridge grid"
+    )
+    assert(
+      css.match?(/\.project-intro-copy p:first-of-type\{[^}]*font-size:clamp\(36px,4\.5vw,52px\)/),
+      "expected the approved Bridge lead type"
+    )
+    assert(
+      css.match?(/\.project-reading\{[^}]*grid-template-columns:176px minmax\(0,\s*1fr\)[^}]*border-top:1px solid var\(--line\)/),
+      "expected the approved reading rail"
+    )
+    assert(css.match?(/\.project-chapter\{[^}]*padding:78px 0 94px/), "expected the approved chapter rhythm")
+    assert(
+      css.match?(/\.project-main h1\{[^}]*font-size:clamp\(36px,4\.3vw,52px\)/),
+      "expected the approved chapter heading scale"
+    )
+    assert(
+      css.match?(/\.project-chapter-nav\{[^}]*position:sticky[^}]*top:86px[^}]*padding:78px 0/),
+      "expected the approved desktop chapter navigation"
+    )
+    assert(css.match?(/\.project-corner\{display:none\}/), "expected Corner to remain hidden on desktop")
+    assert(
+      css.match?(/@media\s*\(max-width:\s*899px\)\{.*?\.project-corner\{[^}]*display:block[^}]*visibility:hidden/m),
+      "expected Corner to remain available but hidden by default below desktop"
+    )
+    assert(
+      css.match?(/\.project-corner-trigger\{[^}]*min-width:108px[^}]*min-height:52px/),
+      "expected the approved Corner indicator geometry"
+    )
+    assert(
+      css.match?(/\.project-corner-dialog\{[^}]*width:min\(272px,(?:calc\()?100% - 28px\)?\)/),
+      "expected the approved Corner menu footprint"
+    )
+  end
+}
+
+stylesheet_passed = 0
+stylesheet_tests.each do |name, test|
+  test.call
+  puts "PASS #{name}"
+  stylesheet_passed += 1
+rescue StandardError => error
+  warn "FAIL #{name}: #{error.message}"
+end
+
+stylesheet_failed = stylesheet_tests.length - stylesheet_passed
+puts "#{stylesheet_passed} stylesheet tests passed, #{stylesheet_failed} failed"
+exit(1) unless stylesheet_failed.zero?
+exit(0) if ENV["PROJECT_DETAIL_STYLESHEET_ONLY"] == "true"
 
 jekyll = Gem.bin_path("jekyll", "jekyll")
 stdout, stderr, status = Open3.capture3(
