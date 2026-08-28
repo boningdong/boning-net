@@ -55,6 +55,19 @@ class DirectiveParserTest < TinyTestCase
     assert_includes error.message, "malformed directive attribute"
   end
 
+  def test_applies_source_line_offset_to_parser_errors
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      BoningNet::ProjectDetail::DirectiveParser.new(
+        markdown: "Paragraph\n:::\n",
+        source_path: SOURCE_PATH,
+        source_line_offset: 4
+      ).call
+    end
+
+    assert_includes error.message, "_projects/example.md:6"
+    assert_includes error.message, "stray closing marker"
+  end
+
   def test_rejects_missing_closing_markers_at_the_opening_line
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
       parse("::: gallery\nImage\n")

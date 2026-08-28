@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "jekyll"
+require "tmpdir"
 require_relative "project_detail/test_helper"
 require_relative "../_plugins/project_detail"
 
@@ -41,6 +42,34 @@ class ProjectDetailProcessorTest < TinyTestCase
 
     assert_equal "featured", result.intro_style
     assert result.navigation_enabled
+  end
+
+  def test_document_adapter_reports_physical_lines_after_frontmatter
+    Dir.mktmpdir("project-detail-source") do |directory|
+      path = File.join(directory, "example.md")
+      File.write(path, <<~MARKDOWN)
+        ---
+        layout: project-detail
+        title: Example
+        ---
+        # Context
+        <div>Author HTML</div>
+      MARKDOWN
+      site = Struct.new(:config).new({ "kramdown" => { "input" => "GFM" } })
+      document = Struct.new(:data, :content, :relative_path, :path, :site).new(
+        { "layout" => "project-detail", "title" => "Example" },
+        "# Context\n<div>Author HTML</div>\n",
+        "_projects/example.md",
+        path,
+        site
+      )
+
+      error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+        BoningNet::ProjectDetail.compile_document(document)
+      end
+
+      assert_includes error.message, "_projects/example.md:6"
+    end
   end
 end
 

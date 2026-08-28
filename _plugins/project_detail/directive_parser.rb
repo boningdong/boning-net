@@ -21,9 +21,10 @@ module BoningNet
       DIRECTIVE_OPENING = /\A[ \t]*:::[ \t]+(.+?)[ \t]*\z/
       DIRECTIVE_CLOSING = /\A[ \t]*:::[ \t]*\z/
 
-      def initialize(markdown:, source_path:)
+      def initialize(markdown:, source_path:, source_line_offset: 0)
         @markdown = markdown
         @source_path = source_path
+        @source_line_offset = source_line_offset
       end
 
       def call
@@ -114,7 +115,7 @@ module BoningNet
       end
 
       def error!(message, line)
-        raise ConfigurationError, "#{@source_path}:#{line}: #{message}"
+        raise ConfigurationError, "#{@source_path}:#{line + @source_line_offset}: #{message}"
       end
     end
   end

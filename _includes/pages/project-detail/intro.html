@@ -4,7 +4,15 @@
     <p class="project-intro-label" id="project-intro-title">Project Intro</p>
     <div class="project-intro-bridge">
       <span class="project-intro-marker" aria-hidden="true"></span>
-      <div class="project-intro-copy">{{ generated.intro_markdown | markdownify }}</div>
+      <div class="project-intro-copy">
+        {% for intro_part in generated.intro_parts %}
+          {% if intro_part.kind == "block" %}
+            {% include pages/project-detail/blocks/{{ intro_part.block_type }}.html block_id=intro_part.block_id %}
+          {% else %}
+            {{ intro_part.markdown | markdownify }}
+          {% endif %}
+        {% endfor %}
+      </div>
     </div>
   </section>
 {% endif %}

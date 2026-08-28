@@ -25,6 +25,7 @@ module BoningNet
         config: config,
         frontmatter: document.data,
         source_path: document.relative_path,
+        source_line_offset: source_line_offset(document),
         kramdown_options: document.site.config.fetch("kramdown", {}),
         registry: registry
       ).call
@@ -34,9 +35,20 @@ module BoningNet
         "chapters" => result.chapters,
         "navigation_enabled" => result.navigation_enabled,
         "intro_style" => result.intro_style,
-        "blocks" => result.blocks
+        "blocks" => result.blocks,
+        "intro_parts" => result.intro_parts
       }
       document.content = result.content
+    end
+
+    def source_line_offset(document)
+      return 0 unless document.respond_to?(:path) && File.file?(document.path)
+
+      lines = File.readlines(document.path)
+      return 0 unless lines.first&.strip == "---"
+
+      closing_index = lines.drop(1).index { |line| line.strip == "---" }
+      closing_index ? closing_index + 2 : 0
     end
   end
 end

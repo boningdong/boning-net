@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require "fileutils"
+require "tmpdir"
 require_relative "test_helper"
 require_relative "../../_plugins/project_detail"
 
@@ -17,15 +19,34 @@ class CompilerTest < TinyTestCase
     end
   end
 
-  def compile(markdown, config: {}, frontmatter: { "title" => "Example" })
+  class ContextComponent < BoningNet::ProjectDetail::Components::Base
+    register_as "context"
+
+    def compile(_node, context)
+      {
+        "type" => "context",
+        "heading" => context.current_heading_label,
+        "figure_number" => context.next_figure_number
+      }
+    end
+  end
+
+  def compile(
+    markdown,
+    config: {},
+    frontmatter: { "title" => "Example" },
+    source_line_offset: 0
+  )
     registry = BoningNet::ProjectDetail::ComponentRegistry.new
     registry.register(FakeComponent)
+    registry.register(ContextComponent)
 
     BoningNet::ProjectDetail::Compiler.new(
       markdown: markdown,
       config: config,
       frontmatter: frontmatter,
       source_path: "_projects/example.md",
+      source_line_offset: source_line_offset,
       kramdown_options: { "input" => "GFM" },
       registry: registry
     ).call
@@ -90,6 +111,28 @@ class CompilerTest < TinyTestCase
     refute_includes result.intro_markdown, "PROJECT_DETAIL_INTERNAL"
   end
 
+  def test_featured_intro_components_render_through_trusted_includes
+    result = compile(<<~MARKDOWN)
+      Before *text*.
+
+      ::: fake
+      Intro block.
+      :::
+
+      After.
+
+      # Context
+      Body.
+    MARKDOWN
+
+    output = render_featured_intro(result)
+
+    assert_includes output, "<p>Before <em>text</em>.</p>"
+    assert_includes output, '<aside data-fake="true">Intro block.</aside>'
+    assert_includes output, "<p>After.</p>"
+    refute_includes output, "{% include"
+  end
+
   def test_accepts_html_comments
     result = compile("<!-- editorial note -->\n\n# Context\nBody.\n")
 
@@ -103,6 +146,26 @@ class CompilerTest < TinyTestCase
 
     assert_includes error.message, "_projects/example.md:2"
     assert_includes error.message, "raw HTML is not allowed"
+  end
+
+  def test_applies_source_line_offset_to_compiler_errors
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile(
+        "# Context\nText with <span>raw markup</span>.\n",
+        source_line_offset: 17
+      )
+    end
+
+    assert_includes error.message, "_projects/example.md:19"
+  end
+
+  def test_applies_source_line_offset_to_registry_errors
+    error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
+      compile("Paragraph.\n\n::: unknown\n:::\n", source_line_offset: 8)
+    end
+
+    assert_includes error.message, "_projects/example.md:11"
+    assert_includes error.message, 'unknown directive "unknown"'
   end
 
   def test_rejects_block_author_html_with_path_and_line
@@ -145,6 +208,114 @@ class CompilerTest < TinyTestCase
 
     assert_equal({}, document.data.fetch("project_detail_generated").fetch("blocks"))
     refute document.data.key?("blocks")
+  end
+
+  def test_figure_context_ignores_h3
+    result = compile(<<~MARKDOWN)
+      # Hardware
+
+      ::: context
+      :::
+
+      ### Detail
+
+      ::: context
+      :::
+
+    MARKDOWN
+
+    blocks = result.blocks.values
+    assert_equal ["Hardware", "Hardware"], blocks.map { |block| block.fetch("heading") }
+    assert_equal [1, 2], blocks.map { |block| block.fetch("figure_number") }
+  end
+
+  def test_figure_context_resets_for_repeated_h1_and_h2_titles
+    result = compile(<<~MARKDOWN)
+      # Hardware
+
+      ::: context
+      :::
+
+      ::: context
+      :::
+
+      # Hardware
+
+
+      ::: context
+      :::
+
+      ::: context
+      :::
+
+      ## Detail
+
+      ::: context
+      :::
+
+      ::: context
+      :::
+
+      ## Detail
+
+      ::: context
+      :::
+
+      ::: context
+      :::
+    MARKDOWN
+
+    blocks = result.blocks.values
+    assert_equal ["Hardware", "Hardware", "Hardware", "Hardware", "Detail", "Detail", "Detail", "Detail"],
+                 blocks.map { |block| block.fetch("heading") }
+    assert_equal [1, 2, 1, 2, 1, 2, 1, 2],
+                 blocks.map { |block| block.fetch("figure_number") }
+  end
+
+  private
+
+  def render_featured_intro(result)
+    Dir.mktmpdir("project-detail-render") do |source|
+      intro_path = File.join(source, "_includes/pages/project-detail/intro.html")
+      fake_path = File.join(source, "_includes/pages/project-detail/blocks/fake.html")
+      layout_path = File.join(source, "_layouts/test.html")
+      FileUtils.mkdir_p(File.dirname(intro_path))
+      FileUtils.mkdir_p(File.dirname(fake_path))
+      FileUtils.mkdir_p(File.dirname(layout_path))
+      FileUtils.cp(
+        File.expand_path("../../_includes/pages/project-detail/intro.html", __dir__),
+        intro_path
+      )
+      File.write(
+        fake_path,
+        <<~LIQUID
+          {% assign block = page.project_detail_generated.blocks[include.block_id] %}
+          <aside data-fake="true">{{ block.body }}</aside>
+        LIQUID
+      )
+      File.write(layout_path, "{% include pages/project-detail/intro.html %}\n")
+
+      generated = {
+        "intro_markdown" => result.intro_markdown,
+        "intro_parts" => result.respond_to?(:intro_parts) ? result.intro_parts : nil,
+        "intro_style" => result.intro_style,
+        "blocks" => result.blocks
+      }
+      File.write(
+        File.join(source, "index.html"),
+        { "layout" => "test", "project_detail_generated" => generated }.to_yaml + "---\n"
+      )
+      destination = File.join(source, "_site")
+      site = Jekyll::Site.new(
+        Jekyll.configuration(
+          "source" => source,
+          "destination" => destination,
+          "quiet" => true
+        )
+      )
+      site.process
+      File.read(File.join(destination, "index.html"))
+    end
   end
 end
 
