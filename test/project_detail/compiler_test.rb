@@ -95,6 +95,36 @@ class CompilerTest < TinyTestCase
     refute_includes result.content, "::: fake"
   end
 
+  def test_replaces_double_digit_block_sentinels_without_prefix_collisions
+    directives = (1..12).map do |number|
+      "::: fake\nBlock #{number}.\n:::"
+    end.join("\n\n")
+    result = compile("# Hardware\n\n#{directives}\n")
+
+    assert_equal 12, result.blocks.length
+    assert_equal 12, result.content.scan("{% include pages/project-detail/blocks/fake.html").length
+    (1..12).each do |number|
+      assert_includes result.content,
+                      %(block_id="project-detail-block-#{number}")
+    end
+    refute_includes result.content, "PROJECT_DETAIL_INTERNAL"
+  end
+
+  def test_splits_double_digit_featured_intro_sentinels_without_prefix_collisions
+    directives = (1..12).map do |number|
+      "::: fake\nIntro block #{number}.\n:::"
+    end.join("\n\n")
+    result = compile("#{directives}\n\n# Hardware\nBody.\n")
+    block_parts = result.intro_parts.select { |part| part.fetch("kind") == "block" }
+
+    assert_equal 12, block_parts.length
+    assert_equal(
+      (1..12).map { |number| "project-detail-block-#{number}" },
+      block_parts.map { |part| part.fetch("block_id") }
+    )
+    refute_includes result.intro_markdown, "PROJECT_DETAIL_INTERNAL"
+  end
+
   def test_converts_directives_in_featured_intro_after_chapter_compilation
     result = compile(<<~MARKDOWN)
       ::: fake

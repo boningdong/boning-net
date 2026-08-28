@@ -285,8 +285,8 @@ module BoningNet
       def replace_sentinels(source, includes)
         return source if source.nil?
 
-        includes.reduce(source) do |content, (sentinel, reference)|
-          content.gsub(sentinel, reference.fetch("include"))
+        source.gsub(sentinel_pattern(includes)) do |sentinel|
+          includes.fetch(sentinel).fetch("include")
         end
       end
 
@@ -294,7 +294,7 @@ module BoningNet
         return nil if source.nil?
         return [{ "kind" => "markdown", "markdown" => source }] if includes.empty?
 
-        source.split(/(#{Regexp.union(includes.keys)})/).filter_map do |part|
+        source.split(/(#{sentinel_pattern(includes)})/).filter_map do |part|
           next if part.empty?
 
           reference = includes[part]
@@ -308,6 +308,10 @@ module BoningNet
             { "kind" => "markdown", "markdown" => part }
           end
         end
+      end
+
+      def sentinel_pattern(includes)
+        Regexp.union(includes.keys.sort_by { |sentinel| -sentinel.length })
       end
 
       def sentinel_prefix
