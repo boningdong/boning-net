@@ -19,7 +19,7 @@ class ScopenSourceTest < TinyTestCase
     end
 
     assert_equal 1, body.scan(/^::: featured-link$/).length
-    assert_equal 1, body.scan(/^::: video-embed$/).length
+    assert_equal 2, body.scan(/^::: video-embed$/).length
     assert_equal 0, body.scan(/^::: videos$/).length
     assert_equal 0, body.scan(/^::: gallery$/).length
     assert_equal 1, body.scan(/^::: people source=team$/).length
@@ -55,7 +55,6 @@ class ScopenSourceTest < TinyTestCase
 
   def test_standalone_figures_remain_captioned_markdown_images
     expected_sources = %w[
-      scopen_poster.jpg
       scopen_afe.jpg
       scopen_mcu.jpg
       scopen_pcb_top.png

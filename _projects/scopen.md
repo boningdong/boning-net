@@ -40,7 +40,9 @@ Scopen began with a practical frustration: oscilloscopes are indispensable but r
 
 For our UCSB Computer Engineering capstone, Scopen was not intended to replace a laboratory oscilloscope. We focused on the essential path: condition the input, sample it reliably, move the data wirelessly, and present it clearly on a desktop.
 
-![Scopen capstone poster](/assets/img/projects/scopen/scopen_poster.jpg "Capstone poster summarizing the Scopen system")
+::: video-embed
+[Working prototype demo](https://youtu.be/fFWyjB_XNrE "Working prototype demo")
+:::
 
 The rest of the project follows that signal path from the circuit board to firmware, software, and the enclosure.
 
@@ -60,19 +62,19 @@ The electrical system fits on a six-layer printed circuit board. Placing compone
 
 That packaging constraint shaped the board before it shaped the enclosure. Components occupy both faces of the same narrow footprint.
 
-![Top side of the assembled Scopen circuit board](/assets/img/projects/scopen/scopen_pcb_top.png "Top side with the primary controller and signal circuitry")
+![Top side of the assembled Scopen circuit board](/assets/img/projects/scopen/scopen_pcb_top.png "Top side PCB - main controller and signal circuitry")
 
-![Bottom side of the assembled Scopen circuit board](/assets/img/projects/scopen/scopen_pcb_bottom.png "Bottom side with supporting components and interconnects")
+![Bottom side of the assembled Scopen circuit board](/assets/img/projects/scopen/scopen_pcb_bottom.png "Bottom side PCB - SRAM, AFE and debug interface")
 
 The two populated faces solved the component-density problem. The six-layer stack handled routing, power distribution, and separation between the signal and control domains.
 
-![Exploded diagram of all six Scopen PCB layers](/assets/img/projects/scopen/scopen_pcb_6_layers.png "Exploded view of the six-layer PCB stack")
+![Exploded diagram of all six Scopen PCB layers](/assets/img/projects/scopen/scopen_pcb_6_layers.png "Six-layer PCB stack")
 
 The physical stack supports two electrical domains that must cooperate without compromising the signal. The analog path conditions the input; the controller path captures the result and coordinates every other subsystem.
 
-![Block diagram of the Scopen analog front end](/assets/img/projects/scopen/scopen_afe.jpg "Analog front end: isolation, gain control, and differential conversion")
+![Block diagram of the Scopen analog front end](/assets/img/projects/scopen/scopen_afe.jpg "Analog front-end architecture")
 
-![Block diagram of the Scopen microcontroller system](/assets/img/projects/scopen/scopen_mcu.jpg "Controller system: STM32, SRAM, touch input, and WiFi controller")
+![Block diagram of the Scopen microcontroller system](/assets/img/projects/scopen/scopen_mcu.jpg "Controller subsystems")
 
 # Firmware
 
@@ -82,7 +84,7 @@ Keep sampling deterministic. Move everything else around it.
 
 The firmware spans two controllers. An STM32 handles acquisition, local storage, touch input, and device state. An ESP32 bridges the instrument to the desktop application over WiFi. The system is divided by responsibility rather than by feature: time-critical acquisition stays close to the STM32 peripherals, while communication and product behavior run in layers above the hardware drivers.
 
-![Layered architecture of the STM32 and ESP32 firmware](/assets/img/projects/scopen/scopen_firmware_stack.png "Layered architecture of the STM32 and ESP32 firmware")
+![Layered architecture of the STM32 and ESP32 firmware](/assets/img/projects/scopen/scopen_firmware_stack.png "Firmware stack")
 
 That separation left two critical problems to solve: sampling at a fixed interval and moving data without interrupting acquisition.
 
@@ -90,13 +92,13 @@ That separation left two critical problems to solve: sampling at a fixed interva
 
 Fixed-interval sampling could not depend on software interrupt timing. The High Resolution Timer triggers the ADCs in hardware, and DMA moves each completed conversion directly into external SRAM.
 
-![HRTIM triggered ADC and DMA sampling sequence](/assets/img/projects/scopen/scopen_adc_sampling.jpg "HRTIM-triggered ADC and DMA sampling sequence")
+![HRTIM triggered ADC and DMA sampling sequence](/assets/img/projects/scopen/scopen_adc_sampling.jpg "ADC & DMA sampling sequence")
 
 ## Task Orchestration
 
 The STM32 stack combines HAL drivers with targeted low-level drivers where tighter control was required. One example is repeated-start I2C communication with the touch sensor. FreeRTOS coordinates five tasks: three for communication and two for the instrument's core logic. Semaphores protect the SPI bus and track empty and occupied queue slots.
 
-![FreeRTOS task and semaphore relationships](/assets/img/projects/scopen/scopen_thread_manage.png "FreeRTOS task and semaphore relationships")
+![FreeRTOS task and semaphore relationships](/assets/img/projects/scopen/scopen_thread_manage.png "Synchronization design")
 
 With acquisition and task coordination separated, the remaining problem is moving samples off the instrument without blocking either path.
 
@@ -104,7 +106,7 @@ With acquisition and task coordination separated, the remaining problem is movin
 
 The ESP32 runs separate upstream and downstream paths. Sample data travels from the STM32 over SPI because throughput matters most in that direction. User commands return over UART, where the lower bandwidth is sufficient. The ESP32 then forwards both paths through UDP and TCP connections.
 
-![Wireless data paths between STM32, ESP32, and desktop software](/assets/img/projects/scopen/scopen_esp.jpg "Wireless data paths between STM32, ESP32, and desktop software")
+![Wireless data paths between STM32, ESP32, and desktop software](/assets/img/projects/scopen/scopen_esp.jpg "STM32-to-desktop data path")
 
 By the time samples reach the desktop, acquisition timing is already isolated from user interaction and network latency.
 
@@ -116,7 +118,7 @@ Make the system feel like an instrument.
 
 The desktop application follows a Model View Controller structure so acquisition, rendering, and interaction can evolve independently.
 
-![Model View Controller architecture of the Scopen desktop application](/assets/img/projects/scopen/scopen_software_stack.png "Model View Controller architecture of the Scopen desktop application")
+![Model View Controller architecture of the Scopen desktop application](/assets/img/projects/scopen/scopen_software_stack.png "Model View Controller architecture of the PC app")
 
 That separation keeps device communication out of the rendering path and gives the interface one consistent model of the current acquisition state.
 
@@ -124,7 +126,7 @@ That separation keeps device communication out of the rendering path and gives t
 
 We built the interface in Java Swing and drew the oscilloscope controls specifically for the product rather than relying on stock widgets. The result combines live signal display, acquisition controls, and device communication in one dark workspace.
 
-![Scopen Java Swing desktop interface showing a live waveform](/assets/img/projects/scopen/scopen_software_interface.jpg "Java Swing desktop interface showing a live waveform")
+![Scopen Java Swing desktop interface showing a live waveform](/assets/img/projects/scopen/scopen_software_interface.jpg "Desktop instrument interface")
 
 The interface completed the signal path, but the electronics still needed to become a device someone could hold.
 
@@ -138,10 +140,10 @@ With the electrical and software systems working, the final task was packaging t
 
 We modeled the enclosure in Fusion 360, then printed and assembled several iterations at product scale.
 
-![Fusion 360 model of the blue Scopen enclosure](/assets/img/projects/scopen/scopen_id_blue.png "Enclosure geometry developed around the narrow circuit board")
+![Fusion 360 model of the blue Scopen enclosure](/assets/img/projects/scopen/scopen_id_blue.png "Enclosure CAD study")
 
 ::: video-embed
-[Scopen product demonstration](https://youtu.be/4xJvWEb1Kwo "Physical prototype and signal capture demonstration")
+[Rendered product video](https://youtu.be/4xJvWEb1Kwo "Rendered product video")
 :::
 
 # Team

@@ -393,19 +393,18 @@ tests = {
     )
 
     assert_includes html, 'class="project-video-embed" data-video-embed'
-    assert_equal 1, html.scan('class="project-video-embed-item"').length
+    assert_equal 2, html.scan('class="project-video-embed-item"').length
+    assert_includes html, 'src="https://www.youtube-nocookie.com/embed/fFWyjB_XNrE"'
+    assert_includes html, 'title="Working prototype demo"'
     assert_includes html, 'src="https://www.youtube-nocookie.com/embed/4xJvWEb1Kwo"'
-    assert_includes html, 'title="Scopen product demonstration"'
-    assert_includes html, "Physical prototype and signal capture demonstration"
-    refute_includes html, 'src="https://www.youtube-nocookie.com/embed/fFWyjB_XNrE"'
-    refute_includes html, 'title="Scopen software demonstration"'
-    refute_includes html, "Desktop interface and wireless workflow demonstration"
+    assert_includes html, 'title="Rendered product video"'
 
     refute_includes html, "project-gallery"
     refute_includes html, "project-videos"
-    assert_equal 13, html.scan('<figure class="project-figure">').length
-    assert_includes html, "Analog front end: isolation, gain control, and differential conversion"
-    assert_includes html, "Bottom side with supporting components and interconnects"
+    assert_equal 12, html.scan('<figure class="project-figure">').length
+    assert_includes html, "Analog front-end architecture"
+    assert_includes html, "Bottom side PCB - SRAM, AFE and debug interface"
+    refute_includes html, "Product poster"
     refute_includes html, "Assembled product study with probe, controls, and display window"
     assert_includes html, '<span class="project-caption-label">HARDWARE / 01</span>'
     assert_includes html, '<span class="project-caption-label">HARDWARE / 05</span>'
@@ -570,11 +569,11 @@ tests = {
 
     expected_order = [
       "2.45 × 0.73 in",
-      "Top side with the primary controller and signal circuitry",
-      "Bottom side with supporting components and interconnects",
-      "Exploded view of the six-layer PCB stack",
-      "Analog front end: isolation, gain control, and differential conversion",
-      "Controller system: STM32, SRAM, touch input, and WiFi controller"
+      "Top side PCB - main controller and signal circuitry",
+      "Bottom side PCB - SRAM, AFE and debug interface",
+      "Six-layer PCB stack",
+      "Analog front-end architecture",
+      "Controller subsystems"
     ]
     positions = expected_order.map { |text| hardware.index(text) }
     assert(positions.all?, "expected every Hardware story beat to render")
@@ -593,7 +592,7 @@ tests = {
     refute_includes html, ">System Architecture</h2>"
     refute_includes html, ">Application Architecture</h2>"
   end,
-  "Scopen places its single product video at the end of Industrial Design" => lambda do
+  "Scopen uses the prototype demo for Context and the rendered video for Industrial Design" => lambda do
     html = built("projects/scopen.html")
 
     context_start = html.index('data-project-chapter="context"')
@@ -606,9 +605,12 @@ tests = {
     software = html[software_start...industrial_start]
     industrial = html[industrial_start...team_start]
 
-    refute_includes context, "project-video-embed"
+    assert_equal 1, context.scan('class="project-video-embed-item"').length
+    assert_includes context, "Working prototype demo"
+    refute_includes context, "scopen_poster.jpg"
     refute_includes software, "project-video-embed"
     assert_equal 1, industrial.scan('class="project-video-embed-item"').length
+    assert_includes industrial, "Rendered product video"
     assert(
       industrial.index("scopen_id_blue.png") < industrial.index("project-video-embed"),
       "expected the enclosure study to lead into the physical product video"
