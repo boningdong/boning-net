@@ -33,6 +33,8 @@ Notes:
 - `cover` is used on the projects index card.
 - `banner` is used on the project detail hero. If omitted, the default projects banner is used.
 
+Projects using `layout: project-detail` have an additional Markdown and component contract. See the [Project Detail author guide](project-detail/README.md) for Intro placement, H1 chapters, navigation options, typed directives, structured people data, and the raw HTML policy. Projects that remain on `layout: project-post` keep the legacy content contract shown above.
+
 ## Artwork
 
 Location: `_artwork/*.md`

@@ -1,0 +1,2 @@
+{%- assign block = page.project_detail_generated.blocks[include.block_id] -%}
+<a class="project-featured-link" href="{{ block.url | escape }}"><span class="project-featured-link-label">{{ block.label_html }}</span><span class="project-featured-link-arrow" aria-hidden="true">→</span></a>

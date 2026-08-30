@@ -1,0 +1,38 @@
+.project-featured-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 28px;
+  border-bottom: 1px solid var(--steel);
+  padding-bottom: 5px;
+  color: var(--steel-dark);
+  font: 600 10px/1 var(--font-utility);
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.project-intro-copy .project-featured-link {
+  justify-self: start;
+}
+
+.project-main a.project-featured-link {
+  color: var(--steel-dark);
+  text-decoration: none;
+}
+
+.project-featured-link-arrow {
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 180ms ease;
+}
+
+.project-featured-link:hover .project-featured-link-arrow {
+  transform: translateX(4px);
+}
+
+@media (max-width: 640px) {
+  .project-featured-link {
+    margin-top: 24px;
+  }
+}

@@ -1,0 +1,232 @@
+.project-detail-page {
+  background: var(--paper);
+}
+
+.project-detail {
+  overflow: clip;
+  background: var(--paper);
+}
+
+.project-hero {
+  --hero-focal-desktop: 72% 50%;
+  --hero-focal-tablet: 76% 50%;
+  --hero-focal-mobile: 80% 50%;
+
+  position: relative;
+  display: flex;
+  min-height: 520px;
+  align-items: flex-end;
+  overflow: hidden;
+  background: #071521;
+  color: #f8fafb;
+  isolation: isolate;
+}
+
+.project-hero-image,
+.project-hero-shade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.project-hero-image {
+  z-index: -2;
+  object-fit: cover;
+  object-position: var(--hero-focal-desktop);
+}
+
+.project-hero-shade {
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgb(5 13 22 / 0.4), transparent 70%),
+    linear-gradient(transparent 38%, rgb(5 13 22 / 0.42));
+}
+
+.project-hero-inner {
+  position: relative;
+  z-index: 1;
+  width: min(1120px, calc(100% - 48px));
+  padding: 118px 0 62px;
+}
+
+.project-back-link {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 9px;
+  margin-bottom: 34px;
+  color: rgb(255 255 255 / 0.76);
+  font: 600 9px/1 var(--font-utility);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.project-back-link:hover {
+  color: white;
+  transform: translateX(-3px);
+}
+
+.project-hero-copy {
+  max-width: 780px;
+}
+
+.project-hero-copy h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: clamp(48px, 7vw, 78px);
+  font-weight: 560;
+  line-height: 0.92;
+  letter-spacing: -0.065em;
+  text-shadow: 0 3px 22px rgb(0 0 0 / 0.34);
+  text-wrap: balance;
+}
+
+.project-hero-description {
+  display: block;
+  max-width: 780px;
+  margin-top: 13px;
+  color: rgb(255 255 255 / 0.74);
+  font-size: 0.34em;
+  font-weight: 480;
+  line-height: 1.15;
+  letter-spacing: -0.025em;
+  text-wrap: pretty;
+}
+
+.project-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 11px 18px;
+  margin: 26px 0 0;
+  color: rgb(255 255 255 / 0.72);
+  font: 600 9px/1.2 var(--font-utility);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.project-hero-meta span + span::before {
+  margin-right: 18px;
+  color: rgb(255 255 255 / 0.42);
+  content: "/";
+}
+
+.project-intro--featured {
+  padding: 78px 0 84px;
+}
+
+.project-intro-label {
+  margin: 0;
+  color: var(--steel);
+  font: 600 9px/1.2 var(--font-utility);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.project-intro-copy {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.36fr) minmax(0, 1.64fr);
+  column-gap: clamp(42px, 7vw, 82px);
+}
+
+.project-intro-label {
+  grid-area: 1 / 1 / span 3;
+  padding-top: 11px;
+}
+
+.project-intro-copy > :not(.project-intro-label) {
+  grid-column: 2;
+}
+
+.project-intro-copy > :last-child,
+.project-intro-copy p:first-of-type {
+  margin-bottom: 0;
+}
+
+.project-intro-copy p:first-of-type {
+  max-width: 770px;
+  margin-top: 0;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4.5vw, 52px);
+  font-weight: 650;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  text-wrap: balance;
+}
+
+.project-intro-copy p:not(:first-of-type) {
+  max-width: 58ch;
+  margin: 23px 0 0;
+  color: var(--ink-soft);
+  font-size: 21px;
+  line-height: 1.58;
+}
+
+@media (min-width: 1600px) {
+  .project-hero {
+    min-height: clamp(600px, 28vw, 780px);
+  }
+}
+
+@media (max-width: 899px) {
+  .project-hero-image {
+    object-position: var(--hero-focal-tablet);
+  }
+
+  .project-intro-copy {
+    grid-template-columns: minmax(120px, 0.3fr) minmax(0, 1.7fr);
+    column-gap: 34px;
+  }
+}
+
+@media (max-width: 640px) {
+  .project-hero {
+    min-height: 470px;
+  }
+
+  .project-hero-image {
+    object-position: var(--hero-focal-mobile);
+  }
+
+  .project-hero-inner {
+    width: min(1120px, calc(100% - 28px));
+    padding: 104px 0 42px;
+  }
+
+  .project-hero-copy h1 {
+    font-size: clamp(42px, 14vw, 60px);
+  }
+
+  .project-hero-description {
+    max-width: 280px;
+    font-size: 0.4em;
+  }
+
+  .project-hero-meta span + span::before {
+    display: none;
+  }
+
+  .project-intro--featured {
+    padding: 68px 0 72px;
+  }
+
+  .project-intro-copy {
+    display: block;
+  }
+
+  .project-intro-label {
+    display: block;
+    padding-top: 0;
+  }
+
+  .project-intro-copy p:first-of-type {
+    margin-top: 14px;
+    font-size: 36px;
+  }
+
+  .project-intro-copy p:not(:first-of-type) {
+    font-size: 18px;
+  }
+}

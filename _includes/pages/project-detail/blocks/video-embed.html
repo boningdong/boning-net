@@ -1,0 +1,8 @@
+{%- assign block = page.project_detail_generated.blocks[include.block_id] -%}
+<ul class="project-video-embed" data-video-embed>
+  {%- for item in block.items -%}
+  <li class="project-video-embed-item">
+    {%- include pages/project-detail/blocks/primitives/video-item.html item=item -%}
+  </li>
+  {%- endfor -%}
+</ul>

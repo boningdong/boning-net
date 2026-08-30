@@ -1,0 +1,6 @@
+{%- assign block = page.project_detail_generated.blocks[include.block_id] -%}
+{%- if block.caption -%}
+<figure class="project-figure">{%- include pages/project-detail/blocks/primitives/media-frame.html image=block.image -%}{%- include pages/project-detail/blocks/primitives/caption.html caption=block.caption -%}</figure>
+{%- else -%}
+{%- include pages/project-detail/blocks/primitives/media-frame.html image=block.image -%}
+{%- endif -%}

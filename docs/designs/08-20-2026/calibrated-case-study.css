@@ -95,7 +95,7 @@ img { display: block; max-width: 100%; }
 .intro-design-controls button:hover { color: var(--ink); }
 .intro-design-controls button[aria-pressed="true"] { background: var(--ink); box-shadow: rgba(32, 42, 48, 0.18) 0px 5px 14px; color: white; }
 .intro-design-description { min-height: 31px; margin: 10px 4px 1px; color: var(--ink-faint); font: 500 8px/1.45 var(--utility); }
-@keyframes intro-switch { 
+@keyframes intro-switch {
   0% { opacity: 0.46; transform: translateY(8px); }
   100% { opacity: 1; transform: translateY(0px); }
 }

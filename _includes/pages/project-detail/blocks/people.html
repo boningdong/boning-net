@@ -1,0 +1,8 @@
+{%- assign block = page.project_detail_generated.blocks[include.block_id] -%}
+<ul class="project-people" data-people-source="{{ block.source | escape }}">
+  {%- for item in block.items -%}
+  <li class="project-person-item">
+    {%- include pages/project-detail/blocks/primitives/person-card.html item=item -%}
+  </li>
+  {%- endfor -%}
+</ul>
