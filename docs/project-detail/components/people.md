@@ -81,4 +81,4 @@ people:
 
 ## Related Components
 
-Use [Gallery](gallery.md) for images that are not structured contributor records. The [migration guide](../migration.md#5-move-repeated-people-data-to-frontmatter) shows how to replace legacy team-card HTML.
+Use a [Standalone Figure](figure.md) for images that are not structured contributor records. The [migration guide](../migration.md#5-move-repeated-people-data-to-frontmatter) shows how to replace legacy team-card HTML.

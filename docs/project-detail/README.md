@@ -84,9 +84,8 @@ Names and option names are case-sensitive. Quote an attribute value that contain
 The public directive types are:
 
 - [`narrative-title`](components/narrative-title.md)
-- [`gallery`](components/gallery.md)
 - [`callout`](components/callout.md)
-- [`videos`](components/videos.md)
+- [`video-embed`](components/video-embed.md)
 - [`people`](components/people.md)
 - [`featured-link`](components/featured-link.md)
 
@@ -112,7 +111,7 @@ Failures identify the project path and source line whenever a precise content lo
 
 ```text
 _projects/example.md:18: unknown directive "comparison"
-_projects/example.md:24: gallery requires at least two images; use a plain Markdown image instead
+_projects/example.md:24: video-embed supports only valid YouTube video URLs
 _projects/example.md:31: raw HTML is not allowed in project detail content
 ```
 

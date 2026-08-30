@@ -2,7 +2,7 @@
 
 ## Purpose
 
-Use `featured-link` for one prominent action represented by a normal Markdown destination and accessible label.
+Use `featured-link` for one visually distinct text action represented by a normal Markdown destination and accessible label. It is especially suited to the Project Intro.
 
 ## Syntax
 
@@ -22,7 +22,7 @@ The body contains exactly one standalone Markdown link paragraph. The destinatio
 
 ## Behavior
 
-The link becomes a full-width prominent action within its readable-width cap. It has hover movement on pointer devices and tighter spacing at 640px and below. The compiler preserves the authored destination and does not add `target="_blank"` or otherwise force a new window.
+The link renders as a compact uppercase utility label with a fitted underline and a trailing arrow. Inside a featured Project Intro it occupies only its intrinsic width rather than stretching across the content column. The arrow moves slightly on hover, and spacing tightens at 640px and below. The compiler preserves the authored destination and does not add `target="_blank"` or otherwise force a new window.
 
 ## Generated Semantics
 
@@ -56,4 +56,4 @@ Continue to [the presentation](https://example.com/presentation).
 
 ## Related Components
 
-Use [Videos](videos.md) when a YouTube destination should render as an embed. Use [Callout](callout.md) when supporting prose or a list belongs inside the component.
+Use [Video Embed](video-embed.md) when a YouTube destination should render as an embed. Use [Callout](callout.md) when supporting prose or a list belongs inside the component.

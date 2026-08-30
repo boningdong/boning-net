@@ -24,7 +24,7 @@ The first visible child must be one paragraph containing only a strong (`**...**
 
 ## Behavior
 
-The emphasized first paragraph receives display treatment and the remaining Markdown forms the supporting content. The callout has a constrained readable width on larger screens and reduced vertical spacing at 640px and below. It requires no JavaScript.
+The emphasized first paragraph receives display treatment in a narrow left column while the remaining Markdown forms a wider supporting column. The component is deliberately unboxed so it reads as an editorial interruption rather than another media card. At 640px and below the two columns stack and the vertical spacing tightens. It requires no JavaScript.
 
 ## Generated Semantics
 

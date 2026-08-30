@@ -34,21 +34,21 @@ class DirectiveParserTest < TinyTestCase
   end
 
   def test_returns_directives_in_source_order
-    nodes = parse("::: gallery\nOne\n:::\n\n::: videos\nTwo\n:::\n")
+    nodes = parse("::: callout\nOne\n:::\n\n::: video-embed\nTwo\n:::\n")
 
-    assert_equal %w[gallery videos], nodes.map(&:name)
+    assert_equal %w[callout video-embed], nodes.map(&:name)
     assert_equal [1, 5], nodes.map(&:start_line)
   end
 
   def test_parses_unquoted_and_quoted_attributes
-    node = parse("::: videos layout=wide caption=\"Hardware demonstration\"\nLink\n:::\n").fetch(0)
+    node = parse("::: video-embed layout=wide caption=\"Hardware demonstration\"\nLink\n:::\n").fetch(0)
 
     assert_equal({ "layout" => "wide", "caption" => "Hardware demonstration" }, node.attributes)
   end
 
   def test_rejects_malformed_attributes_at_the_opening_line
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-      parse("::: gallery columns\n:::\n")
+      parse("::: video-embed columns\n:::\n")
     end
 
     assert_includes error.message, "_projects/example.md:1"
@@ -70,7 +70,7 @@ class DirectiveParserTest < TinyTestCase
 
   def test_rejects_missing_closing_markers_at_the_opening_line
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-      parse("::: gallery\nImage\n")
+      parse("::: video-embed\nVideo\n")
     end
 
     assert_includes error.message, "_projects/example.md:1"
@@ -79,7 +79,7 @@ class DirectiveParserTest < TinyTestCase
 
   def test_rejects_nested_directives_at_the_nested_line
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-      parse("::: gallery\n::: callout\nText\n:::\n:::\n")
+      parse("::: video-embed\n::: callout\nText\n:::\n:::\n")
     end
 
     assert_includes error.message, "_projects/example.md:2"
@@ -98,8 +98,8 @@ class DirectiveParserTest < TinyTestCase
   def test_leaves_directive_markers_inside_fenced_code_as_markdown
     nodes = parse(<<~MARKDOWN)
       ```markdown
-      ::: gallery
-      image
+      ::: video-embed
+      video
       :::
       ```
 

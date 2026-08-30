@@ -68,8 +68,10 @@
   margin: 0 0 1.45em;
 }
 
-.project-main .project-chapter > :where(p, ul, ol) {
-  max-width: 720px;
+.project-main .project-chapter > p,
+.project-main .project-chapter > ul:not([class]),
+.project-main .project-chapter > ol:not([class]) {
+  max-width: var(--project-prose-width);
 }
 
 .project-main .project-chapter > p:has(> img:only-child) {
@@ -121,7 +123,7 @@
 
 @media (max-width: 640px) {
   .project-main {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.68;
   }
 

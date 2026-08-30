@@ -6,16 +6,11 @@ require "uri"
 require_relative "base"
 require_relative "markdown_validator"
 require_relative "../primitives/caption"
-require_relative "../primitives/collection"
 
 module BoningNet
   module ProjectDetail
     module Components
-      class Videos < Base
-        LAYOUTS = {
-          1 => "full",
-          2 => "two"
-        }.freeze
+      class VideoEmbed < Base
         VIDEO_ID = /\A[A-Za-z0-9_-]{11}\z/
         WATCH_HOSTS = %w[youtube.com www.youtube.com].freeze
         SHARE_HOSTS = %w[youtu.be www.youtu.be].freeze
@@ -26,7 +21,7 @@ module BoningNet
           www.youtube-nocookie.com
         ].freeze
 
-        register_as "videos"
+        register_as "video-embed"
 
         def compile(node, context)
           reject_attributes!(node, context)
@@ -34,13 +29,13 @@ module BoningNet
           children = document.root.children.reject { |child| child.type == :blank }
           if children.empty?
             context.error!(
-              "videos must contain standalone Markdown links",
+              "video-embed must contain standalone Markdown links",
               line: node.start_line
             )
           end
           unless children.all? { |child| standalone_link_paragraph?(child) }
             context.error!(
-              "videos may contain only standalone Markdown links separated by blank lines",
+              "video-embed may contain only standalone Markdown links separated by blank lines",
               line: node.start_line
             )
           end
@@ -52,13 +47,7 @@ module BoningNet
             line: node.start_line
           )
           items = children.map { |paragraph| compile_link(paragraph, node, context) }
-          collection = Primitives::Collection.new(
-            items: items,
-            layouts: LAYOUTS,
-            overflow_layout: "grid"
-          ).to_h
-
-          { "type" => self.class.type }.merge(collection)
+          { "type" => self.class.type, "items" => items }
         end
 
         private
@@ -68,7 +57,7 @@ module BoningNet
           return unless attribute
 
           context.error!(
-            %(videos does not accept attribute "#{attribute}"),
+            %(video-embed does not accept attribute "#{attribute}"),
             line: node.start_line
           )
         end
@@ -83,7 +72,7 @@ module BoningNet
           title = plain_text(link).strip
           if title.empty?
             context.error!(
-              "videos link text is required for the iframe title",
+              "video-embed link text is required for the iframe title",
               line: source_line(paragraph, node)
             )
           end
@@ -110,7 +99,7 @@ module BoningNet
           video_id = video_id_from(uri)
           unless video_id&.match?(VIDEO_ID)
             context.error!(
-              "videos supports only valid YouTube video URLs",
+              "video-embed supports only valid YouTube video URLs",
               line: node.start_line
             )
           end
@@ -118,7 +107,7 @@ module BoningNet
           "https://www.youtube-nocookie.com/embed/#{video_id}"
         rescue URI::InvalidURIError, ArgumentError
           context.error!(
-            "videos supports only valid YouTube video URLs",
+            "video-embed supports only valid YouTube video URLs",
             line: node.start_line
           )
         end

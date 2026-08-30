@@ -1,24 +1,18 @@
 .project-callout {
-  max-width: 720px;
-  margin: 42px 0;
-  border: 1px solid rgb(255 255 255 / 0.72);
-  border-radius: var(--card-radius);
-  padding: clamp(26px, 4vw, 38px);
-  background: rgb(var(--surface-rgb) / 0.78);
-  box-shadow:
-    inset 0 1px rgb(255 255 255 / 0.84),
-    0 30px 76px rgb(36 51 58 / var(--shadow-alpha));
-  backdrop-filter: blur(12px) saturate(1.02);
-  -webkit-backdrop-filter: blur(12px) saturate(1.02);
+  display: grid;
+  grid-template-columns: minmax(180px, 0.42fr) minmax(0, 1fr);
+  gap: 34px;
+  margin: 38px 0 42px;
+  padding: 10px 0 4px;
 }
 
 .project-callout > p:first-child {
-  margin: 0 0 18px;
+  margin: 0;
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: clamp(26px, 3vw, 34px);
-  line-height: 1.04;
-  letter-spacing: -0.045em;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
 }
 
 .project-callout > p:first-child > :where(strong, em) {
@@ -26,12 +20,15 @@
   font-weight: 650;
 }
 
-.project-callout > :last-child {
-  margin-bottom: 0;
+.project-callout > :not(:first-child) {
+  margin: 0;
+  color: var(--ink-soft);
 }
 
 @media (max-width: 640px) {
   .project-callout {
+    grid-template-columns: 1fr;
+    gap: 18px;
     margin-block: 32px;
   }
 }

@@ -1,5 +1,6 @@
 $ink: #202a30;
 $ink-soft: #59666d;
+$ink-faint: #829198;
 $steel: #617b86;
 $steel-dark: #405861;
 $paper: #fbfcfc;
@@ -10,6 +11,7 @@ $line-dark: #c7d0d4;
 :root {
   --ink: #{$ink};
   --ink-soft: #{$ink-soft};
+  --ink-faint: #{$ink-faint};
   --steel: #{$steel};
   --steel-dark: #{$steel-dark};
   --paper: #{$paper};
@@ -39,4 +41,5 @@ $line-dark: #c7d0d4;
   --font-display: "Instrument Sans", "Avenir Next", sans-serif;
   --font-body: "Source Sans 3", "Helvetica Neue", sans-serif;
   --font-utility: "IBM Plex Mono", ui-monospace, monospace;
+  --project-prose-width: 720px;
 }

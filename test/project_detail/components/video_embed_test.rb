@@ -5,7 +5,7 @@ require "tmpdir"
 require_relative "../test_helper"
 require_relative "../../../_plugins/project_detail"
 
-class VideosTest < TinyTestCase
+class VideoEmbedTest < TinyTestCase
   def test_youtube_urls_normalize_to_privacy_enhanced_embeds
     urls = [
       "https://www.youtube.com/watch?v=4xJvWEb1Kwo",
@@ -13,7 +13,7 @@ class VideosTest < TinyTestCase
       "https://www.youtube.com/embed/ieGTWUUsJ_8",
       "https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ"
     ]
-    result = compile(videos(urls.each_with_index.map do |url, index|
+    result = compile(video_embed(urls.each_with_index.map do |url, index|
       "[Demonstration #{index + 1}](#{url})"
     end.join("\n\n")))
 
@@ -37,7 +37,7 @@ class VideosTest < TinyTestCase
     result = compile(<<~MARKDOWN)
       # Hardware
 
-      ::: videos
+      ::: video-embed
       [Hardware demonstration](https://youtu.be/4xJvWEb1Kwo "Pocket lab demonstration")
 
       [Software demonstration](https://youtu.be/fFWyjB_XNrE)
@@ -53,7 +53,7 @@ class VideosTest < TinyTestCase
   end
 
   def test_whitespace_only_link_title_is_treated_as_no_caption
-    result = compile(videos(
+    result = compile(video_embed(
       '[Hardware demonstration](https://youtu.be/4xJvWEb1Kwo "   ")'
     ))
 
@@ -69,7 +69,7 @@ class VideosTest < TinyTestCase
     }
 
     captions.each do |description, caption|
-      result = compile(videos(
+      result = compile(video_embed(
         %([#{description}](https://youtu.be/4xJvWEb1Kwo "#{caption}"))
       ))
 
@@ -79,7 +79,7 @@ class VideosTest < TinyTestCase
   end
 
   def test_unicode_separators_around_text_preserve_the_caption
-    result = compile(videos(
+    result = compile(video_embed(
       "[Mixed caption](https://youtu.be/4xJvWEb1Kwo \"\u00A0Field note\u2003\")"
     ))
 
@@ -88,7 +88,7 @@ class VideosTest < TinyTestCase
   end
 
   def test_caption_entities_are_normalized_once_before_liquid_escaping
-    result = compile(videos(
+    result = compile(video_embed(
       '[Entity demo](https://youtu.be/4xJvWEb1Kwo "Named &amp; decimal &#38; hex &#x26; ordinary &")'
     ))
     caption = result.blocks.values.first.fetch("items").first.fetch("caption")
@@ -104,7 +104,7 @@ class VideosTest < TinyTestCase
   end
 
   def test_accessible_title_flattens_inline_markdown_and_typographic_entities
-    result = compile(videos(
+    result = compile(video_embed(
       "[A **bold** &amp; expanding... demo](https://youtu.be/4xJvWEb1Kwo)"
     ))
 
@@ -114,22 +114,15 @@ class VideosTest < TinyTestCase
     )
   end
 
-  def test_item_count_selects_full_two_or_two_column_grid_layout
-    expected_layouts = {
-      1 => "full",
-      2 => "two",
-      3 => "grid",
-      4 => "grid"
-    }
-
-    expected_layouts.each do |count, expected_layout|
+  def test_one_or_more_links_compile_as_a_single_vertical_stack
+    (1..4).each do |count|
       body = (1..count).map do |number|
         "[Video #{number}](https://youtu.be/#{video_id(number)})"
       end.join("\n\n")
-      block = compile(videos(body)).blocks.values.first
+      block = compile(video_embed(body)).blocks.values.first
 
-      assert_equal "videos", block.fetch("type")
-      assert_equal expected_layout, block.fetch("layout")
+      assert_equal "video-embed", block.fetch("type")
+      refute block.key?("layout")
       assert_equal count, block.fetch("items").length
     end
   end
@@ -145,18 +138,18 @@ class VideosTest < TinyTestCase
 
     invalid_urls.each do |url|
       error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-        compile(videos("[Invalid video](#{url})"))
+        compile(video_embed("[Invalid video](#{url})"))
       end
-      assert_includes error.message, "videos supports only valid YouTube video URLs"
+      assert_includes error.message, "video-embed supports only valid YouTube video URLs"
     end
   end
 
   def test_empty_body_fails
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-      compile(videos(""))
+      compile(video_embed(""))
     end
 
-    assert_includes error.message, "videos must contain standalone Markdown links"
+    assert_includes error.message, "video-embed must contain standalone Markdown links"
   end
 
   def test_non_link_children_and_links_without_blank_lines_fail
@@ -169,47 +162,47 @@ class VideosTest < TinyTestCase
 
     invalid_bodies.each do |body|
       error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-        compile(videos(body))
+        compile(video_embed(body))
       end
       assert_includes error.message,
-                      "videos may contain only standalone Markdown links separated by blank lines"
+                      "video-embed may contain only standalone Markdown links separated by blank lines"
     end
   end
 
   def test_blank_accessible_title_fails
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-      compile(videos("[](https://youtu.be/4xJvWEb1Kwo)"))
+      compile(video_embed("[](https://youtu.be/4xJvWEb1Kwo)"))
     end
 
-    assert_includes error.message, "videos link text is required for the iframe title"
+    assert_includes error.message, "video-embed link text is required for the iframe title"
   end
 
   def test_unsafe_urls_and_inline_attributes_fail
     unsafe_url_error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-      compile(videos("[Unsafe](javascript:alert(1))"))
+      compile(video_embed("[Unsafe](javascript:alert(1))"))
     end
     assert_includes unsafe_url_error.message,
-                    "videos link URL must be relative or use http, https, mailto, or tel"
+                    "video-embed link URL must be relative or use http, https, mailto, or tel"
 
     attribute_error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-      compile(videos("[Attributed](https://youtu.be/4xJvWEb1Kwo){: target=\"_blank\"}"))
+      compile(video_embed("[Attributed](https://youtu.be/4xJvWEb1Kwo){: target=\"_blank\"}"))
     end
-    assert_includes attribute_error.message, "videos does not allow inline attribute lists"
+    assert_includes attribute_error.message, "video-embed does not allow inline attribute lists"
   end
 
   def test_unknown_directive_attributes_fail
     error = assert_raises(BoningNet::ProjectDetail::ConfigurationError) do
-      compile("# Hardware\n\n::: videos columns=2\n[Video](https://youtu.be/4xJvWEb1Kwo)\n:::\n")
+      compile("# Hardware\n\n::: video-embed columns=2\n[Video](https://youtu.be/4xJvWEb1Kwo)\n:::\n")
     end
 
-    assert_includes error.message, 'videos does not accept attribute "columns"'
+    assert_includes error.message, 'video-embed does not accept attribute "columns"'
   end
 
   def test_production_include_renders_accessible_lazy_privacy_enhanced_iframes
     result = compile(<<~MARKDOWN)
       # Hardware
 
-      ::: videos
+      ::: video-embed
       [Hardware demonstration](https://www.youtube.com/watch?v=4xJvWEb1Kwo "Pocket lab demonstration")
 
       [Software demonstration](https://youtu.be/fFWyjB_XNrE)
@@ -218,9 +211,8 @@ class VideosTest < TinyTestCase
     output = render_compiled(result)
 
     assert_includes output,
-                    '<ul class="project-videos project-collection project-collection--two"'
-    assert_includes output, 'data-videos-layout="two"'
-    assert_equal 2, output.scan('class="project-video-item project-collection-item"').length
+                    '<ul class="project-video-embed" data-video-embed'
+    assert_equal 2, output.scan('class="project-video-embed-item"').length
     assert_includes output, 'src="https://www.youtube-nocookie.com/embed/4xJvWEb1Kwo"'
     assert_includes output, 'title="Hardware demonstration"'
     assert_includes output, 'loading="lazy"'
@@ -233,7 +225,7 @@ class VideosTest < TinyTestCase
   end
 
   def test_captionless_video_renders_a_neutral_container_instead_of_figure
-    output = render_compiled(compile(videos(
+    output = render_compiled(compile(video_embed(
       "[Software demonstration](https://youtu.be/fFWyjB_XNrE)"
     )))
 
@@ -242,23 +234,23 @@ class VideosTest < TinyTestCase
     refute_includes output, '<figcaption'
   end
 
-  def test_three_item_render_uses_grid_layout_with_spacing_that_persists_on_tablet
+  def test_multiple_items_render_as_one_column_at_every_viewport
     body = (1..3).map do |number|
       "[Video #{number}](https://youtu.be/#{video_id(number)})"
     end.join("\n\n")
-    output = render_compiled(compile(videos(body)))
+    output = render_compiled(compile(video_embed(body)))
     css = render_styles
 
     assert_includes output,
-                    '<ul class="project-videos project-collection project-collection--grid" data-videos-layout="grid">'
-    assert_equal 3, output.scan('class="project-video-item project-collection-item"').length
+                    '<ul class="project-video-embed" data-video-embed'
+    assert_equal 3, output.scan('class="project-video-embed-item"').length
     assert(
-      css.match?(/\.project-videos\.project-collection--grid\{gap:24px 18px\}/),
-      "expected the three-plus Videos modifier to use the shared collection gap"
+      css.match?(/\.project-video-embed\{[^}]*grid-template-columns:minmax\(0,\s*1fr\)/),
+      "expected Video Embed to use a single column"
     )
     assert(
-      css.match?(/@media\(max-width:\s*899px\)\{\.project-videos\.project-collection\{grid-template-columns:minmax\(0,\s*1fr\)\}\}/),
-      "expected the grid to become one column without overriding its inherited gap"
+      !css.match?(/\.project-video-embed[^}]*grid-template-columns:repeat\(2/),
+      "expected Video Embed never to become a two-column layout"
     )
   end
 
@@ -275,8 +267,8 @@ class VideosTest < TinyTestCase
     ).call
   end
 
-  def videos(body)
-    "# Hardware\n\n::: videos\n#{body}\n:::\n"
+  def video_embed(body)
+    "# Hardware\n\n::: video-embed\n#{body}\n:::\n"
   end
 
   def video_id(number)
@@ -284,13 +276,13 @@ class VideosTest < TinyTestCase
   end
 
   def render_compiled(result)
-    Dir.mktmpdir("project-detail-videos") do |source|
+    Dir.mktmpdir("project-detail-video-embed") do |source|
       includes_root = File.join(source, "_includes/pages/project-detail/blocks")
       layout_path = File.join(source, "_layouts/test.html")
       FileUtils.mkdir_p(File.join(includes_root, "primitives"))
       FileUtils.mkdir_p(File.dirname(layout_path))
 
-      %w[videos.html primitives/video-item.html primitives/caption.html].each do |relative_path|
+      %w[video-embed.html primitives/video-item.html primitives/caption.html].each do |relative_path|
         FileUtils.cp(
           File.expand_path("../../../_includes/pages/project-detail/blocks/#{relative_path}", __dir__),
           File.join(includes_root, relative_path)
@@ -315,18 +307,18 @@ class VideosTest < TinyTestCase
   end
 
   def render_styles
-    Dir.mktmpdir("project-detail-videos-styles") do |source|
+    Dir.mktmpdir("project-detail-video-embed-styles") do |source|
       partial_dir = File.join(source, "_sass/pages/project-detail/components")
       stylesheet_dir = File.join(source, "assets/css")
       FileUtils.mkdir_p(partial_dir)
       FileUtils.mkdir_p(stylesheet_dir)
       FileUtils.cp(
-        File.expand_path("../../../_sass/pages/project-detail/components/_videos.scss", __dir__),
-        File.join(partial_dir, "_videos.scss")
+        File.expand_path("../../../_sass/pages/project-detail/components/_video-embed.scss", __dir__),
+        File.join(partial_dir, "_video-embed.scss")
       )
       File.write(
-        File.join(stylesheet_dir, "videos.scss"),
-        "---\n---\n@use \"pages/project-detail/components/videos\";\n"
+        File.join(stylesheet_dir, "video-embed.scss"),
+        "---\n---\n@use \"pages/project-detail/components/video-embed\";\n"
       )
 
       destination = File.join(source, "_site")
@@ -339,9 +331,9 @@ class VideosTest < TinyTestCase
         )
       )
       site.process
-      File.read(File.join(destination, "assets/css/videos.css"))
+      File.read(File.join(destination, "assets/css/video-embed.css"))
     end
   end
 end
 
-TinyTestRunner.run(VideosTest)
+TinyTestRunner.run(VideoEmbedTest)

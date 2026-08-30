@@ -15,7 +15,7 @@ Author-controlled inputs are:
 - ordinary project frontmatter;
 - optional `project_detail.navigation` and `project_detail.intro_style` values;
 - Intro and chapter Markdown;
-- six registered typed directives;
+- five registered typed directives;
 - standalone Markdown images; and
 - structured `people` frontmatter consumed by the `people` directive.
 
@@ -43,13 +43,13 @@ Directive parsing precedes component-body Kramdown parsing so fence errors and s
 
 ## Registry and Components
 
-`ComponentRegistry` is the authority for public directive types. `_plugins/project_detail.rb` registers `narrative-title`, `callout`, `featured-link`, `gallery`, `videos`, and `people`. Duplicate registration and unknown lookup are configuration errors, and `registry.types` drives documentation parity tests.
+`ComponentRegistry` is the authority for public directive types. `_plugins/project_detail.rb` registers `narrative-title`, `callout`, `featured-link`, `video-embed`, and `people`. Duplicate registration and unknown lookup are configuration errors, and `registry.types` drives documentation parity tests.
 
 Each registered component inherits from `Components::Base`, declares one immutable public type, validates a `DirectiveNode` against a `RenderContext`, and returns a plain hash with a valid `type`. Components do not emit final HTML.
 
 `Components::StandaloneFigure` is intentionally outside the directive registry because its public syntax is ordinary Markdown. It converts an image-only paragraph to the internal `figure` block shape. This distinction prevents documentation or extensions from implying that `::: figure` is supported.
 
-Shared primitives own collection layout selection, image/caption block shapes, and per-heading caption labels. Reuse of a primitive does not make two public directives interchangeable.
+Shared primitives own image/caption block shapes and per-heading caption labels. Reuse of a primitive does not make two public directives interchangeable.
 
 ## Render Context and Generated Data
 
@@ -89,7 +89,7 @@ Navigation is enabled only when the validated setting is `auto` and at least two
 
 Internal component markup lives in `_includes/pages/project-detail/blocks/`, with shared render fragments under `blocks/primitives/`. The project-detail layout owns Hero, Intro, Main Content, desktop navigation, and Corner Navigation composition.
 
-The thin `_sass/pages/_project-detail.scss` entry composes page structure, component partials, and primitive partials. Component-specific responsive rules remain beside the component they modify. Shared collection behavior uses three desktop columns only where its layout calls for them, caps galleries at two columns below 900px, and collapses collection, video, and people layouts to one column at their documented breakpoints.
+The thin `_sass/pages/_project-detail.scss` entry composes page structure, component partials, and primitive partials. Component-specific responsive rules remain beside the component they modify. The Main Content rail is intentionally wider than long-form prose: direct paragraphs and classless Markdown lists use `--project-prose-width`, while registered component roots, media, headings, Callout, Video Embed, and People use the complete rail. This keeps readable line lengths without allowing a generic list selector to constrain list-based component markup. Video Embed remains one full-width column at every breakpoint; People owns its documented responsive card grid.
 
 JavaScript in `assets/js/pages/project-detail.js` progressively enhances chapter navigation with active-section tracking, Corner visibility, panel interaction, focus management, Escape handling, and anchor scrolling. It does not parse Markdown, create blocks, or move content between page regions.
 

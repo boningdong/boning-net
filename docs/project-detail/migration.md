@@ -56,9 +56,9 @@ Project Detail rejects author-written HTML except comments. Replace common legac
 | Legacy source | Project Detail source |
 | --- | --- |
 | Image `<figure>` and caption HTML | [Standalone Figure](components/figure.md) Markdown |
-| Image-row or masonry `<div>` markup | [`gallery`](components/gallery.md) |
+| Image-row or masonry `<div>` markup | Separate [Standalone Figure](components/figure.md) Markdown paragraphs |
 | Metric/highlight card HTML | [`callout`](components/callout.md) |
-| YouTube `<iframe>` markup | [`videos`](components/videos.md) |
+| YouTube `<iframe>` markup | [`video-embed`](components/video-embed.md) |
 | Team-card HTML | [`people`](components/people.md) plus frontmatter |
 | CTA/card anchor HTML | [`featured-link`](components/featured-link.md) |
 | Display title paired with an H1 | [`narrative-title`](components/narrative-title.md) |
@@ -92,7 +92,7 @@ Every entry needs `name`, `role`, and `image`; omit `url` when there is no desti
 Build after converting the document structure, then after each component family. A component failure includes the source path and usually the physical line, for example:
 
 ```text
-_projects/example.md:42: gallery requires at least two images; use a plain Markdown image instead
+_projects/example.md:42: video-embed supports only valid YouTube video URLs
 ```
 
 Correct the authored Markdown or frontmatter named by the error. Do not edit generated block IDs or include references.
@@ -107,7 +107,7 @@ Confirm all of the following before considering the migration complete:
 - H2 and deeper headings remain within the correct chapter.
 - Desktop and mobile navigation appear only when intended.
 - Image alt text, video titles, captions, person names, roles, and links are correct.
-- Galleries, videos, people, captions, and callouts reflow at desktop, tablet, and mobile widths.
+- Video embeds, standalone figures, people, captions, and callouts reflow at desktop, tablet, and mobile widths.
 - The page remains readable and anchor links work with JavaScript disabled.
 - No author-written structural HTML or internal Liquid include remains.
 - Unmigrated `layout: project-post` pages still render unchanged.

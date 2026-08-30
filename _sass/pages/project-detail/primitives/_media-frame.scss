@@ -1,4 +1,8 @@
-.project-figure,
+.project-figure {
+  width: 100%;
+  margin: 42px 0;
+}
+
 .project-media-frame {
   margin: 42px 0;
 }
@@ -41,5 +45,9 @@
 
   .project-figure .project-media-frame {
     margin: 0;
+  }
+
+  .project-media-frame {
+    border-radius: 20px;
   }
 }

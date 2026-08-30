@@ -1,42 +1,38 @@
 .project-featured-link {
-  display: flex;
-  max-width: 720px;
-  min-height: 72px;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  margin: 42px 0;
-  border: 1px solid var(--line);
-  border-radius: var(--card-radius);
-  padding: 20px 24px;
-  background: var(--ink);
-  box-shadow: 0 18px 42px rgb(36 51 58 / var(--shadow-alpha));
-  color: var(--paper);
-  font: 620 18px/1.25 var(--font-display);
+  gap: 9px;
+  margin-top: 28px;
+  border-bottom: 1px solid var(--steel);
+  padding-bottom: 5px;
+  color: var(--steel-dark);
+  font: 600 10px/1 var(--font-utility);
+  letter-spacing: 0.08em;
   text-decoration: none;
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  text-transform: uppercase;
+}
+
+.project-intro-copy .project-featured-link {
+  justify-self: start;
 }
 
 .project-main a.project-featured-link {
-  color: var(--paper);
+  color: var(--steel-dark);
   text-decoration: none;
 }
 
-.project-featured-link:hover {
-  box-shadow: 0 22px 48px rgb(36 51 58 / var(--shadow-alpha));
-  transform: translateY(-2px);
+.project-featured-link-arrow {
+  font-size: 14px;
+  line-height: 1;
+  transition: transform 180ms ease;
 }
 
-.project-featured-link-arrow {
-  color: var(--steel);
-  font-size: 26px;
-  line-height: 1;
+.project-featured-link:hover .project-featured-link-arrow {
+  transform: translateX(4px);
 }
 
 @media (max-width: 640px) {
   .project-featured-link {
-    min-height: 64px;
-    margin-block: 32px;
-    padding: 17px 19px;
+    margin-top: 24px;
   }
 }

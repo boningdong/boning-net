@@ -62,6 +62,13 @@ class ComponentRegistryTest < TinyTestCase
     assert error
     assert_includes error.message, "must implement #compile"
   end
+
+  def test_production_registry_exposes_only_the_supported_public_directives
+    assert_equal(
+      %w[callout featured-link narrative-title people video-embed],
+      BoningNet::ProjectDetail.registry.types.sort
+    )
+  end
 end
 
 TinyTestRunner.run(ComponentRegistryTest)
