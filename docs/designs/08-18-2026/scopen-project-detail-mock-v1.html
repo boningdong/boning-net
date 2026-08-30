@@ -1,0 +1,1410 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive project detail mock for Scopen, a wireless oscilloscope.">
+  <title>Scopen Project Detail Mock - Boning Dong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400..700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #202a30;
+      --ink-strong: #121a1e;
+      --ink-soft: #607078;
+      --ink-faint: #829198;
+      --paper: #fbfcfc;
+      --mist: #f0f3f4;
+      --mist-deep: #e7edef;
+      --line: #d9e1e4;
+      --line-strong: #c7d2d6;
+      --steel: #536c76;
+      --steel-deep: #3f5862;
+      --steel-soft: #dfe8eb;
+      --white: #fdfefe;
+      --radius: 26px;
+      --radius-small: 16px;
+      --pill: 999px;
+      --card-gap: 28px;
+      --mobile-gap: 21px;
+      --section-space: 112px;
+      --mobile-section-space: 81px;
+      --shadow: 0 22px 55px rgb(35 49 55 / .10);
+      --shadow-hover: 0 28px 65px rgb(35 49 55 / .15);
+      --display: "Instrument Sans", "Avenir Next", sans-serif;
+      --body: "Source Sans 3", "Helvetica Neue", sans-serif;
+      --utility: "IBM Plex Mono", ui-monospace, monospace;
+      --content: 1120px;
+      --reading: 760px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--body);
+      font-size: 17px;
+      line-height: 1.68;
+      -webkit-font-smoothing: antialiased;
+    }
+    body.modal-open { overflow: hidden; }
+    a { color: inherit; }
+    button { color: inherit; font: inherit; }
+    img { display: block; max-width: 100%; }
+    :focus-visible { outline: 3px solid rgb(83 108 118 / .42); outline-offset: 4px; }
+    ::selection { background: #cddde2; color: var(--ink-strong); }
+
+    .skip-link {
+      position: fixed;
+      z-index: 100;
+      top: 10px;
+      left: 12px;
+      transform: translateY(-160%);
+      border-radius: var(--pill);
+      padding: 9px 14px;
+      background: var(--ink-strong);
+      color: var(--white);
+      font: 600 12px/1 var(--display);
+      text-decoration: none;
+      transition: transform 180ms ease;
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .nav-shell {
+      position: fixed;
+      z-index: 30;
+      top: 14px;
+      left: 50%;
+      width: min(var(--content), calc(100% - 24px));
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .site-nav {
+      height: 46px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      border: 1px solid transparent;
+      border-radius: var(--pill);
+      color: rgb(250 253 253 / .97);
+      text-shadow: 0 1px 8px rgb(0 0 0 / .5);
+      pointer-events: auto;
+      transition: background 220ms ease, border-color 220ms ease, box-shadow 220ms ease, color 180ms ease, backdrop-filter 220ms ease;
+    }
+    .site-nav.surface-visible,
+    .site-nav.menu-visible {
+      border-color: rgb(255 255 255 / .35);
+      background: rgb(248 251 251 / .48);
+      box-shadow: inset 0 1px rgb(255 255 255 / .35), 0 10px 30px rgb(35 49 55 / .10);
+      color: rgb(14 20 23 / .95);
+      text-shadow: none;
+      backdrop-filter: blur(8px) saturate(1.04);
+      -webkit-backdrop-filter: blur(8px) saturate(1.04);
+    }
+    .site-name {
+      font-family: var(--display);
+      font-size: 13px;
+      font-weight: 650;
+      letter-spacing: -.015em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .nav-links {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      gap: clamp(18px, 2.6vw, 36px);
+      font: 560 13px/1 var(--display);
+    }
+    .nav-links a {
+      position: relative;
+      padding: 8px 0;
+      opacity: .75;
+      text-decoration: none;
+      transition: opacity 180ms ease;
+    }
+    .nav-links a:hover,
+    .nav-links a.active { opacity: 1; }
+    .nav-links a::after {
+      position: absolute;
+      right: 100%;
+      bottom: 2px;
+      left: 0;
+      height: 1px;
+      background: currentColor;
+      content: "";
+      transition: right 180ms ease;
+    }
+    .nav-links a:hover::after,
+    .nav-links a.active::after { right: 0; }
+    .menu-trigger { display: none; }
+    .mobile-menu {
+      display: none;
+      margin-top: 8px;
+      border: 1px solid rgb(255 255 255 / .5);
+      border-radius: var(--radius);
+      padding: 13px;
+      background: rgb(248 251 251 / .86);
+      box-shadow: inset 0 1px rgb(255 255 255 / .82), var(--shadow);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      pointer-events: auto;
+    }
+    .mobile-menu.open { display: grid; }
+    .mobile-menu a {
+      border-radius: 12px;
+      padding: 11px 12px;
+      color: var(--ink);
+      font: 560 14px/1.2 var(--display);
+      text-decoration: none;
+    }
+    .mobile-menu a:hover { background: rgb(83 108 118 / .08); }
+
+    .project-hero {
+      position: relative;
+      min-height: 400px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      background: #11242d;
+      color: var(--white);
+      isolation: isolate;
+    }
+    .project-hero img {
+      position: absolute;
+      z-index: -2;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 49%;
+      transform: scale(1.01);
+    }
+    .project-hero::before {
+      position: absolute;
+      z-index: -1;
+      inset: 0;
+      background:
+        linear-gradient(90deg, rgb(10 18 22 / .58), rgb(10 18 22 / .10) 72%),
+        linear-gradient(180deg, rgb(9 16 20 / .05), rgb(9 16 20 / .06) 48%, rgb(9 16 20 / .48));
+      content: "";
+    }
+    .hero-inner {
+      width: min(var(--content), calc(100% - 48px));
+      margin: 0 auto;
+      padding: 96px 0 54px;
+    }
+    .hero-title {
+      max-width: 760px;
+      margin: 0;
+      font-family: var(--display);
+      font-size: clamp(38px, 5vw, 62px);
+      font-weight: 560;
+      line-height: .98;
+      letter-spacing: -.055em;
+      text-shadow: 0 3px 22px rgb(0 0 0 / .35);
+    }
+    .hero-subtitle {
+      max-width: 580px;
+      margin: 18px 0 0;
+      color: rgb(255 255 255 / .84);
+      font-size: clamp(16px, 1.8vw, 19px);
+      line-height: 1.4;
+      text-shadow: 0 2px 14px rgb(0 0 0 / .42);
+    }
+    .hero-date {
+      margin: 21px 0 0;
+      color: rgb(255 255 255 / .72);
+      font: 600 10px/1.2 var(--utility);
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      text-shadow: 0 2px 12px rgb(0 0 0 / .5);
+    }
+
+    .meta-band {
+      border-bottom: 1px solid rgb(184 197 201 / .28);
+      background: var(--mist);
+    }
+    .meta-inner {
+      width: min(var(--content), calc(100% - 48px));
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      margin: 0 auto;
+    }
+    .back-link {
+      color: var(--steel-deep);
+      font: 600 12px/1 var(--display);
+      text-decoration: none;
+    }
+    .back-link:hover { text-decoration: underline; text-underline-offset: 4px; }
+    .tag-list { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px; }
+    .tag {
+      border: 1px solid var(--line-strong);
+      border-radius: var(--pill);
+      padding: 7px 10px;
+      color: #5b7079;
+      font: 600 8px/1 var(--utility);
+      letter-spacing: .07em;
+      text-transform: uppercase;
+    }
+
+    .section {
+      width: min(var(--content), calc(100% - 48px));
+      margin: 0 auto;
+      padding: var(--section-space) 0;
+    }
+    .section + .section { border-top: 1px solid rgb(184 197 201 / .24); }
+    .section-heading {
+      max-width: 820px;
+      margin: 0 0 38px;
+      font-family: var(--display);
+      font-size: clamp(34px, 4vw, 52px);
+      font-weight: 650;
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+    .section-copy,
+    .prose {
+      max-width: 68ch;
+      color: var(--ink-soft);
+    }
+    .section-copy { margin: -18px 0 38px; font-size: 18px; }
+    .prose p { margin: 0 0 1.25em; }
+    .prose p:last-child { margin-bottom: 0; }
+    .prose strong { color: var(--ink); font-weight: 600; }
+    .prose a { color: var(--steel-deep); text-underline-offset: 4px; }
+
+    .overview-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.42fr) minmax(280px, .58fr);
+      gap: clamp(48px, 7vw, 92px);
+      align-items: start;
+    }
+    .overview-copy { padding-top: 4px; }
+    .overview-copy h2 {
+      max-width: 720px;
+      margin: 0 0 28px;
+      font-family: var(--display);
+      font-size: clamp(40px, 5.4vw, 68px);
+      font-weight: 650;
+      line-height: .96;
+      letter-spacing: -.06em;
+    }
+    .overview-copy p {
+      max-width: 62ch;
+      margin: 0;
+      color: var(--ink-soft);
+      font-size: 19px;
+      line-height: 1.62;
+    }
+    .overview-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 30px; }
+    .button {
+      min-height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid var(--steel);
+      border-radius: var(--pill);
+      padding: 0 17px;
+      background: var(--steel);
+      color: var(--white);
+      font: 600 12px/1 var(--display);
+      text-decoration: none;
+      white-space: nowrap;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
+    }
+    .button:hover { background: var(--steel-deep); border-color: var(--steel-deep); transform: translateY(-1px); }
+    .button:active { transform: translateY(1px); }
+    .button.secondary { background: transparent; color: var(--steel-deep); }
+    .button.secondary:hover { background: rgb(83 108 118 / .08); }
+    .fact-cluster {
+      display: grid;
+      gap: 22px;
+      border-left: 1px solid var(--line-strong);
+      padding-left: 28px;
+    }
+    .fact { padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+    .fact:last-child { padding-bottom: 0; border-bottom: 0; }
+    .fact dt {
+      margin: 0 0 7px;
+      color: var(--ink-faint);
+      font: 600 9px/1 var(--utility);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+    .fact dd { margin: 0; font: 580 17px/1.35 var(--display); }
+
+    .case-layout {
+      width: min(var(--content), calc(100% - 48px));
+      display: grid;
+      grid-template-columns: 184px minmax(0, 1fr);
+      gap: clamp(48px, 7vw, 86px);
+      margin: 0 auto;
+    }
+    .section-index {
+      position: sticky;
+      top: 88px;
+      align-self: start;
+      padding: 74px 0;
+    }
+    .index-label {
+      display: block;
+      margin-bottom: 17px;
+      color: var(--ink-faint);
+      font: 600 9px/1 var(--utility);
+      letter-spacing: .11em;
+      text-transform: uppercase;
+    }
+    .section-index nav { display: grid; gap: 3px; }
+    .section-index a {
+      position: relative;
+      border-radius: 10px;
+      padding: 7px 9px 7px 13px;
+      color: #75858c;
+      font: 560 12px/1.25 var(--display);
+      text-decoration: none;
+      transition: background 160ms ease, color 160ms ease;
+    }
+    .section-index a::before {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 3px;
+      height: 0;
+      border-radius: var(--pill);
+      background: var(--steel);
+      content: "";
+      transform: translateY(-50%);
+      transition: height 160ms ease;
+    }
+    .section-index a:hover { background: rgb(83 108 118 / .06); color: var(--ink); }
+    .section-index a.active { color: var(--ink); }
+    .section-index a.active::before { height: 18px; }
+    .case-content { min-width: 0; }
+    .case-section {
+      padding: 86px 0;
+      scroll-margin-top: 80px;
+    }
+    .case-section + .case-section { border-top: 1px solid rgb(184 197 201 / .30); }
+    .case-section h2 {
+      margin: 0 0 31px;
+      font-family: var(--display);
+      font-size: clamp(34px, 4vw, 52px);
+      font-weight: 650;
+      line-height: 1;
+      letter-spacing: -.055em;
+    }
+    .case-section h3 {
+      margin: 45px 0 16px;
+      font: 620 clamp(23px, 2.4vw, 30px)/1.1 var(--display);
+      letter-spacing: -.035em;
+    }
+
+    .team-layout {
+      display: grid;
+      grid-template-columns: minmax(220px, .72fr) minmax(0, 1.28fr);
+      gap: var(--card-gap);
+      align-items: stretch;
+    }
+    .team-portrait {
+      position: relative;
+      min-height: 380px;
+      overflow: hidden;
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, #dce8eb, #f5f8f8);
+      box-shadow: var(--shadow);
+    }
+    .team-portrait img {
+      position: absolute;
+      width: 53%;
+      border: 6px solid rgb(255 255 255 / .72);
+      border-radius: 50%;
+      box-shadow: 0 14px 38px rgb(49 69 77 / .15);
+    }
+    .team-portrait img:nth-child(1) { top: 11%; left: 11%; }
+    .team-portrait img:nth-child(2) { top: 35%; right: 7%; }
+    .team-portrait img:nth-child(3) { bottom: 7%; left: 9%; }
+    .team-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      border-top: 1px solid var(--line-strong);
+    }
+    .team-member {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 24px;
+      align-items: center;
+      padding: 24px 2px;
+      border-bottom: 1px solid var(--line);
+      text-decoration: none;
+    }
+    .team-member strong { font: 600 21px/1.15 var(--display); letter-spacing: -.025em; }
+    .team-member span { color: var(--ink-faint); font: 600 9px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; }
+    .team-member:hover strong { color: var(--steel); }
+
+    .video-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.35fr) minmax(250px, .65fr);
+      grid-template-rows: repeat(2, minmax(180px, 1fr));
+      gap: var(--card-gap);
+    }
+    .video-card {
+      position: relative;
+      min-height: 230px;
+      overflow: hidden;
+      border: 0;
+      border-radius: var(--radius);
+      padding: 0;
+      background: #16272f;
+      box-shadow: var(--shadow);
+      cursor: pointer;
+      text-align: left;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .video-card:first-child { grid-row: 1 / 3; min-height: 488px; }
+    .video-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .video-card:active { transform: translateY(-1px); }
+    .video-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: .82;
+      transition: opacity 220ms ease, transform 520ms cubic-bezier(.2,.7,.2,1);
+    }
+    .video-card:first-child img { object-fit: contain; padding: 8%; background: #eef3f4; }
+    .video-card:hover img { opacity: .92; transform: scale(1.015); }
+    .video-card::after {
+      position: absolute;
+      inset: 38% 0 0;
+      background: linear-gradient(180deg, transparent, rgb(8 16 20 / .82));
+      content: "";
+    }
+    .video-label {
+      position: absolute;
+      z-index: 1;
+      right: 24px;
+      bottom: 23px;
+      left: 24px;
+      color: var(--white);
+    }
+    .video-label small { display: block; margin-bottom: 7px; color: rgb(255 255 255 / .68); font: 600 9px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; }
+    .video-label strong { display: block; font: 600 20px/1.14 var(--display); letter-spacing: -.025em; }
+
+    .media-block { margin: 38px 0; }
+    .media-button {
+      width: 100%;
+      display: block;
+      overflow: hidden;
+      border: 1px solid rgb(255 255 255 / .84);
+      border-radius: var(--radius);
+      padding: 0;
+      background: #f8fafb;
+      box-shadow: inset 0 1px rgb(255 255 255 / .9), var(--shadow);
+      cursor: zoom-in;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .media-button:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .media-button:active { transform: translateY(-1px); }
+    .media-button img { width: 100%; height: auto; }
+    .media-caption {
+      margin: 13px 3px 0;
+      color: var(--ink-faint);
+      font-size: 13px;
+      line-height: 1.5;
+    }
+    .media-pair {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--card-gap);
+      margin: 38px 0;
+    }
+    .media-pair figure,
+    .media-block figure { margin: 0; }
+    .media-pair .media-button { height: 100%; }
+    .media-pair .media-button img { width: 100%; height: 100%; min-height: 260px; object-fit: contain; }
+
+    .architecture-stack {
+      display: grid;
+      gap: var(--card-gap);
+      margin: 38px 0;
+    }
+    .architecture-stack figure { margin: 0; }
+    .architecture-stack .media-button { background: var(--white); }
+
+    .spec-cluster {
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: var(--card-gap);
+      margin: 42px 0;
+    }
+    .spec-primary,
+    .spec-secondary {
+      border: 1px solid rgb(255 255 255 / .8);
+      border-radius: var(--radius);
+      background: rgb(255 255 255 / .58);
+      box-shadow: inset 0 1px rgb(255 255 255 / .88), var(--shadow);
+    }
+    .spec-primary { display: flex; flex-direction: column; justify-content: space-between; min-height: 250px; padding: 30px; }
+    .spec-primary strong { font: 620 clamp(46px, 7vw, 78px)/.92 var(--display); letter-spacing: -.065em; }
+    .spec-primary span { max-width: 260px; color: var(--ink-soft); font-size: 15px; }
+    .spec-secondary { display: grid; grid-template-rows: 1fr 1fr; }
+    .spec-item { display: flex; align-items: flex-end; justify-content: space-between; gap: 24px; padding: 27px; }
+    .spec-item + .spec-item { border-top: 1px solid var(--line); }
+    .spec-item strong { font: 620 32px/1 var(--display); letter-spacing: -.045em; }
+    .spec-item span { max-width: 130px; color: var(--ink-soft); font-size: 13px; line-height: 1.4; text-align: right; }
+
+    .technical-disclosure {
+      margin: 34px 0;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: rgb(239 244 245 / .72);
+      overflow: hidden;
+    }
+    .technical-disclosure summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      min-height: 74px;
+      padding: 18px 24px;
+      color: var(--ink);
+      font: 600 15px/1.3 var(--display);
+      cursor: pointer;
+      list-style: none;
+    }
+    .technical-disclosure summary::-webkit-details-marker { display: none; }
+    .technical-disclosure summary::after {
+      flex: 0 0 auto;
+      width: 29px;
+      height: 29px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: 50%;
+      color: var(--steel);
+      content: "+";
+      font: 500 18px/1 var(--display);
+      transition: transform 180ms ease;
+    }
+    .technical-disclosure[open] summary::after { transform: rotate(45deg); }
+    .disclosure-content { border-top: 1px solid var(--line); padding: 27px 24px 30px; }
+    .disclosure-content p { max-width: 68ch; margin: 0 0 1.2em; color: var(--ink-soft); }
+    .disclosure-content p:last-child { margin-bottom: 0; }
+
+    .technical-gallery {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      grid-template-rows: repeat(2, minmax(230px, 1fr));
+      gap: var(--card-gap);
+      margin: 42px 0 0;
+    }
+    .technical-gallery figure { min-width: 0; margin: 0; }
+    .technical-gallery figure:first-child { grid-row: 1 / 3; }
+    .technical-gallery .media-button { height: 100%; }
+    .technical-gallery img { width: 100%; height: 100%; object-fit: contain; }
+
+    .software-layout {
+      display: grid;
+      grid-template-columns: .72fr 1.28fr;
+      gap: var(--card-gap);
+      align-items: stretch;
+      margin-top: 38px;
+    }
+    .software-layout figure { margin: 0; }
+    .software-layout .media-button { height: 100%; }
+    .software-layout figure:first-child img { height: 100%; min-height: 540px; object-fit: contain; padding: 5%; }
+    .software-layout figure:last-child img { height: 100%; min-height: 540px; object-fit: cover; object-position: center; }
+
+    .issue-list { display: grid; gap: 13px; }
+    .issue-item {
+      border: 1px solid var(--line);
+      border-radius: var(--radius-small);
+      background: rgb(255 255 255 / .48);
+      overflow: hidden;
+    }
+    .issue-item summary {
+      min-height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      padding: 17px 21px;
+      font: 600 16px/1.3 var(--display);
+      cursor: pointer;
+      list-style: none;
+    }
+    .issue-item summary::-webkit-details-marker { display: none; }
+    .issue-item summary::after { color: var(--steel); content: "+"; font-size: 21px; }
+    .issue-item[open] summary::after { content: "-"; }
+    .issue-item p { margin: 0; border-top: 1px solid var(--line); padding: 20px 21px 22px; color: var(--ink-soft); }
+
+    .acknowledgment {
+      display: grid;
+      grid-template-columns: minmax(220px, .58fr) minmax(0, 1.42fr);
+      gap: var(--card-gap);
+      align-items: start;
+    }
+    .acknowledgment h2 { margin-bottom: 0; }
+    .acknowledgment blockquote {
+      margin: 0;
+      border-left: 1px solid var(--line-strong);
+      padding: 3px 0 3px 28px;
+      color: var(--ink-soft);
+      font-size: 19px;
+      line-height: 1.64;
+    }
+
+    .next-project {
+      position: relative;
+      min-height: 330px;
+      display: flex;
+      align-items: flex-end;
+      overflow: hidden;
+      border-radius: var(--radius);
+      color: var(--white);
+      box-shadow: var(--shadow);
+      text-decoration: none;
+      transition: transform 220ms ease, box-shadow 220ms ease;
+    }
+    .next-project:hover { transform: translateY(-5px); box-shadow: var(--shadow-hover); }
+    .next-project img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+    .next-project::after { position: absolute; inset: 20% 0 0; background: linear-gradient(180deg, transparent, rgb(9 16 20 / .83)); content: ""; }
+    .next-copy { position: relative; z-index: 1; padding: 31px; }
+    .next-copy small { display: block; margin-bottom: 8px; color: rgb(255 255 255 / .68); font: 600 9px/1 var(--utility); letter-spacing: .1em; text-transform: uppercase; }
+    .next-copy strong { display: block; font: 620 clamp(28px, 4vw, 42px)/1 var(--display); letter-spacing: -.045em; }
+    .next-copy span { display: block; margin-top: 10px; color: rgb(255 255 255 / .78); font-size: 15px; }
+
+    .page-footer {
+      margin-top: 0;
+      padding: 74px 24px;
+      background: #162126;
+      color: #e9eeef;
+      text-align: center;
+    }
+    .page-footer p { margin: 0; color: #aab8bd; font-size: 13px; }
+    .page-footer a { display: inline-block; margin-top: 16px; color: #e9eeef; font: 600 9px/2 var(--utility); letter-spacing: .12em; text-transform: uppercase; text-underline-offset: 5px; }
+
+    .dialog {
+      width: min(1080px, calc(100% - 30px));
+      max-height: calc(100dvh - 30px);
+      overflow: auto;
+      border: 1px solid rgb(255 255 255 / .46);
+      border-radius: var(--radius);
+      padding: 0;
+      background: rgb(246 249 249 / .94);
+      box-shadow: 0 30px 100px rgb(16 28 34 / .38);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .dialog::backdrop { background: rgb(12 20 24 / .76); backdrop-filter: blur(6px); }
+    .dialog-bar {
+      min-height: 58px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 10px 12px 10px 20px;
+      border-bottom: 1px solid var(--line);
+    }
+    .dialog-title { margin: 0; font: 600 14px/1.25 var(--display); }
+    .dialog-close {
+      min-width: 66px;
+      min-height: 36px;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--pill);
+      background: rgb(255 255 255 / .7);
+      color: var(--ink);
+      font: 600 11px/1 var(--display);
+      cursor: pointer;
+    }
+    .dialog-close:hover { background: var(--white); }
+    .lightbox-media { display: grid; place-items: center; min-height: 260px; padding: 20px; background: #e9eef0; }
+    .lightbox-media img { max-width: 100%; max-height: calc(100dvh - 150px); object-fit: contain; border-radius: 10px; }
+    .video-frame { position: relative; aspect-ratio: 16 / 9; background: #111c21; }
+    .video-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
+
+    .module-map-trigger {
+      position: fixed;
+      z-index: 24;
+      right: 18px;
+      bottom: 18px;
+      min-height: 42px;
+      border: 1px solid rgb(255 255 255 / .78);
+      border-radius: var(--pill);
+      padding: 0 17px;
+      background: rgb(248 251 251 / .82);
+      box-shadow: inset 0 1px rgb(255 255 255 / .9), 0 12px 34px rgb(35 49 55 / .13);
+      color: var(--steel-deep);
+      font: 600 11px/1 var(--display);
+      cursor: pointer;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .module-map-trigger:hover { background: var(--white); }
+    .module-panel {
+      position: fixed;
+      z-index: 25;
+      right: 18px;
+      bottom: 70px;
+      width: min(330px, calc(100% - 28px));
+      max-height: min(620px, calc(100dvh - 96px));
+      overflow: auto;
+      border: 1px solid rgb(255 255 255 / .8);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: rgb(248 251 251 / .92);
+      box-shadow: inset 0 1px rgb(255 255 255 / .95), 0 24px 65px rgb(35 49 55 / .18);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+    }
+    .module-panel[hidden] { display: none; }
+    .module-panel-head { display: flex; align-items: start; justify-content: space-between; gap: 18px; margin-bottom: 13px; }
+    .module-panel h2 { margin: 0; font: 620 17px/1.2 var(--display); letter-spacing: -.02em; }
+    .module-panel p { margin: 5px 0 15px; color: var(--ink-soft); font-size: 12px; line-height: 1.5; }
+    .module-panel-close { border: 0; padding: 3px; background: transparent; color: var(--steel); font: 600 11px/1 var(--display); cursor: pointer; }
+    .module-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; }
+    .module-jump {
+      min-height: 38px;
+      border: 1px solid var(--line);
+      border-radius: 11px;
+      padding: 8px 10px;
+      background: rgb(255 255 255 / .58);
+      color: var(--ink-soft);
+      font: 600 10px/1.2 var(--display);
+      cursor: pointer;
+      text-align: left;
+    }
+    .module-jump:hover { border-color: var(--steel); color: var(--ink); }
+    .module-target { position: relative; }
+    .module-target.module-flash::after {
+      position: absolute;
+      z-index: 10;
+      inset: -8px;
+      border: 2px solid rgb(83 108 118 / .72);
+      border-radius: calc(var(--radius) + 8px);
+      content: "";
+      pointer-events: none;
+      animation: module-flash 1100ms ease both;
+    }
+    @keyframes module-flash { 0%, 100% { opacity: 0; } 18%, 72% { opacity: 1; } }
+
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity 520ms cubic-bezier(.16,1,.3,1), transform 520ms cubic-bezier(.16,1,.3,1); }
+    .reveal.is-visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 920px) {
+      .case-layout { grid-template-columns: 1fr; gap: 0; }
+      .section-index {
+        position: sticky;
+        z-index: 12;
+        top: 68px;
+        width: calc(100vw - 28px);
+        margin-left: calc((100vw - min(var(--content), calc(100vw - 48px))) / -2 + 14px);
+        padding: 9px;
+        border: 1px solid rgb(255 255 255 / .7);
+        border-radius: var(--pill);
+        background: rgb(248 251 251 / .84);
+        box-shadow: 0 10px 28px rgb(35 49 55 / .10);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        overflow-x: auto;
+      }
+      .index-label { display: none; }
+      .section-index nav { display: flex; width: max-content; gap: 3px; }
+      .section-index a { padding: 8px 12px; white-space: nowrap; }
+      .section-index a::before { display: none; }
+      .section-index a.active { background: var(--steel); color: var(--white); }
+      .software-layout figure:first-child img,
+      .software-layout figure:last-child img { min-height: 420px; }
+    }
+
+    @media (max-width: 720px) {
+      body { font-size: 16px; }
+      .nav-shell { top: 10px; }
+      .nav-links { display: none; }
+      .menu-trigger {
+        min-width: 70px;
+        height: 38px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid transparent;
+        border-radius: var(--pill);
+        padding: 0 12px;
+        background: transparent;
+        color: inherit;
+        font: 560 13px/1 var(--display);
+        cursor: pointer;
+      }
+      .project-hero { min-height: 400px; }
+      .project-hero img { object-position: 58% center; }
+      .hero-inner { width: min(100% - 28px, var(--content)); padding-bottom: 42px; }
+      .hero-title { max-width: 360px; font-size: clamp(37px, 11vw, 52px); line-height: 1.02; }
+      .hero-subtitle { max-width: 330px; margin-top: 14px; font-size: 16px; }
+      .hero-date { margin-top: 16px; }
+      .meta-inner { width: min(100% - 28px, var(--content)); min-height: auto; align-items: flex-start; flex-direction: column; padding: 20px 0; }
+      .tag-list { justify-content: flex-start; }
+      .section,
+      .case-layout { width: min(100% - 28px, var(--content)); }
+      .section { padding: var(--mobile-section-space) 0; }
+      .overview-grid,
+      .team-layout,
+      .video-grid,
+      .media-pair,
+      .spec-cluster,
+      .technical-gallery,
+      .software-layout,
+      .acknowledgment { grid-template-columns: 1fr; }
+      .overview-grid { gap: 45px; }
+      .overview-copy h2 { font-size: clamp(39px, 12vw, 54px); }
+      .fact-cluster { border-left: 0; border-top: 1px solid var(--line-strong); padding: 27px 0 0; }
+      .case-section { padding: var(--mobile-section-space) 0; }
+      .team-portrait { min-height: 340px; }
+      .team-member { padding: 20px 2px; }
+      .video-grid { grid-template-rows: none; gap: var(--mobile-gap); }
+      .video-card,
+      .video-card:first-child { grid-row: auto; min-height: 260px; }
+      .video-card:first-child { min-height: 350px; }
+      .media-pair,
+      .architecture-stack,
+      .technical-gallery,
+      .software-layout { gap: var(--mobile-gap); }
+      .media-pair .media-button img { min-height: 0; }
+      .spec-primary { min-height: 220px; }
+      .technical-gallery { grid-template-rows: none; }
+      .technical-gallery figure:first-child { grid-row: auto; }
+      .technical-gallery .media-button { min-height: 250px; }
+      .software-layout figure:first-child img,
+      .software-layout figure:last-child img { min-height: 0; max-height: none; }
+      .acknowledgment { gap: 27px; }
+      .acknowledgment blockquote { padding-left: 21px; font-size: 17px; }
+      .next-project { min-height: 300px; }
+      .module-map-trigger { right: 14px; bottom: 14px; }
+      .module-panel { right: 14px; bottom: 66px; }
+    }
+
+    @media (max-width: 420px) {
+      .hero-title { font-size: clamp(32px, 10vw, 39px); }
+      .hero-subtitle { max-width: 280px; }
+      .tag-list .tag:nth-child(n+5) { display: none; }
+      .overview-actions { display: grid; }
+      .button { width: 100%; }
+      .team-portrait { min-height: 290px; }
+      .team-member { grid-template-columns: 1fr; gap: 8px; }
+      .team-member span { justify-self: start; }
+      .spec-item { align-items: start; flex-direction: column; }
+      .spec-item span { max-width: 100%; text-align: left; }
+      .module-buttons { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .reveal { opacity: 1; transform: none; }
+    }
+
+    @media (prefers-reduced-transparency: reduce) {
+      .site-nav.surface-visible,
+      .site-nav.menu-visible,
+      .mobile-menu,
+      .section-index,
+      .module-map-trigger,
+      .module-panel,
+      .dialog { background: #f8fbfb; backdrop-filter: none; -webkit-backdrop-filter: none; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to project content</a>
+
+  <div class="nav-shell">
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="site-name" href="../08-15-2026/homepage-mock-v3.html">Boning Dong</a>
+      <div class="nav-links">
+        <a class="active" href="../08-15-2026/projects-list-mock-v4.html">Projects</a>
+        <a href="#">Artwork</a>
+        <a href="#">Album</a>
+        <a href="../08-15-2026/homepage-mock-v3.html#notes">Notes</a>
+        <a href="#">Experiences</a>
+      </div>
+      <button class="menu-trigger" type="button" aria-expanded="false" aria-controls="mobile-menu">Menu</button>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu">
+      <a href="../08-15-2026/projects-list-mock-v4.html">Projects</a>
+      <a href="#">Artwork</a>
+      <a href="#">Album</a>
+      <a href="../08-15-2026/homepage-mock-v3.html#notes">Notes</a>
+      <a href="#">Experiences</a>
+    </div>
+  </div>
+
+  <header class="project-hero" id="top">
+    <img src="../../../assets/img/projects/scopen/cover-blueprint.png" alt="Blueprint view of the Scopen wireless oscilloscope" fetchpriority="high">
+    <div class="hero-inner">
+      <h1 class="hero-title">Scopen - A wireless oscilloscope</h1>
+      <p class="hero-subtitle">UCSB CE 2020 Capstone Project</p>
+      <p class="hero-date">Updated June 2020</p>
+    </div>
+  </header>
+
+  <div class="meta-band">
+    <div class="meta-inner">
+      <a class="back-link" href="../08-15-2026/projects-list-mock-v4.html">Back to Projects</a>
+      <div class="tag-list" aria-label="Project tags">
+        <span class="tag">Hardware</span>
+        <span class="tag">System design</span>
+        <span class="tag">Firmware</span>
+        <span class="tag">Embedded</span>
+        <span class="tag">PCB</span>
+        <span class="tag">Java</span>
+      </div>
+    </div>
+  </div>
+
+  <main id="main">
+    <section class="section module-target" data-module="overview" aria-labelledby="overview-title">
+      <div class="overview-grid reveal">
+        <div class="overview-copy">
+          <h2 id="overview-title">Affordable, wireless and handheld.</h2>
+          <p>Scopen is one of the UCSB CE 2020 capstone projects. We built it not just to satisfy our curricular requirements, but also for ourselves. We wanted oscilloscope-like equipment that could make everyday circuit debugging easier.</p>
+          <div class="overview-actions">
+            <a class="button" href="https://youtu.be/ieGTWUUsJ_8" target="_blank" rel="noreferrer">Full presentation</a>
+            <a class="button secondary" href="#hardware">Explore hardware</a>
+          </div>
+        </div>
+        <dl class="fact-cluster" aria-label="Project summary">
+          <div class="fact"><dt>Project type</dt><dd>Capstone engineering project</dd></div>
+          <div class="fact"><dt>Disciplines</dt><dd>Hardware, firmware and software</dd></div>
+          <div class="fact"><dt>Primary goal</dt><dd>A compact wireless oscilloscope</dd></div>
+          <div class="fact"><dt>Platform</dt><dd>STM32, ESP32 and Java Swing</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <div class="case-layout">
+      <aside class="section-index" aria-label="Project sections">
+        <span class="index-label">On this page</span>
+        <nav>
+          <a href="#team">Team</a>
+          <a href="#videos">Videos</a>
+          <a href="#hardware">Hardware</a>
+          <a href="#firmware">Firmware</a>
+          <a href="#software">Software</a>
+          <a href="#industrial-design">Industrial design</a>
+          <a href="#issues">Improvements</a>
+        </nav>
+      </aside>
+
+      <div class="case-content">
+        <section class="case-section module-target" id="team" data-module="team" aria-labelledby="team-title">
+          <h2 id="team-title">Team members</h2>
+          <div class="team-layout reveal">
+            <div class="team-portrait" aria-hidden="true">
+              <img src="../../../assets/img/people/byron.png" alt="">
+              <img src="../../../assets/img/people/boning.png" alt="">
+              <img src="../../../assets/img/people/cesar.png" alt="">
+            </div>
+            <div class="team-list">
+              <a class="team-member" href="https://www.linkedin.com/in/byron-aguilar-a139057b/" target="_blank" rel="noreferrer"><strong>Byron Aguilar</strong><span>LinkedIn profile</span></a>
+              <a class="team-member" href="https://www.linkedin.com/in/boning-dong" target="_blank" rel="noreferrer"><strong>Boning Dong</strong><span>LinkedIn profile</span></a>
+              <a class="team-member" href="https://www.linkedin.com/in/cesar-gonzalez-0098341b0/" target="_blank" rel="noreferrer"><strong>Cesar Gonzalez</strong><span>LinkedIn profile</span></a>
+            </div>
+          </div>
+        </section>
+
+        <section class="case-section module-target" id="videos" data-module="videos" aria-labelledby="videos-title">
+          <h2 id="videos-title">Product videos</h2>
+          <p class="section-copy">Two working demonstrations show the interaction between the handheld hardware and its software interface.</p>
+          <div class="video-grid reveal">
+            <button class="video-card" type="button" data-video="4xJvWEb1Kwo" data-title="Scopen product demonstration">
+              <img src="../../../assets/img/projects/scopen/cover-product.png" alt="Scopen handheld product demonstration">
+              <span class="video-label"><small>Play video</small><strong>Product demonstration</strong></span>
+            </button>
+            <button class="video-card" type="button" data-video="fFWyjB_XNrE" data-title="Scopen software demonstration">
+              <img src="../../../assets/img/projects/scopen/scopen_software_interface.jpg" alt="Scopen desktop software demonstration">
+              <span class="video-label"><small>Play video</small><strong>Software interface</strong></span>
+            </button>
+            <a class="video-card" href="https://youtu.be/ieGTWUUsJ_8" target="_blank" rel="noreferrer">
+              <img src="../../../assets/img/projects/scopen/scopen_poster.jpg" alt="Scopen capstone presentation poster">
+              <span class="video-label"><small>Open on YouTube</small><strong>Full presentation</strong></span>
+            </a>
+          </div>
+        </section>
+
+        <section class="case-section" id="hardware" aria-labelledby="hardware-title">
+          <h2 id="hardware-title">Hardware</h2>
+          <div class="prose">
+            <p>The hardware system consists of two parts. The Analog Front End isolates and scales the input signal, while the microcontroller system samples the AFE output and manages the surrounding peripherals.</p>
+            <p>The MCU system includes external SRAM for sampled data, a touch sensor for interaction and a WiFi controller for communication between the MCU and the desktop or mobile application.</p>
+          </div>
+
+          <div class="architecture-stack module-target reveal" data-module="media-stack">
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_afe.jpg" data-caption="Analog Front End architecture">
+                <img src="../../../assets/img/projects/scopen/scopen_afe.jpg" alt="Analog Front End architecture" loading="lazy">
+              </button>
+              <figcaption class="media-caption">Analog Front End architecture</figcaption>
+            </figure>
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_mcu.jpg" data-caption="Microcontroller system architecture">
+                <img src="../../../assets/img/projects/scopen/scopen_mcu.jpg" alt="Microcontroller system architecture" loading="lazy">
+              </button>
+              <figcaption class="media-caption">Microcontroller system architecture</figcaption>
+            </figure>
+          </div>
+
+          <h3>Compact board design</h3>
+          <div class="prose">
+            <p>One challenge was fitting every component on a compact board while keeping it possible to assemble by hand. Components were placed on both sides of a six-layer printed circuit board.</p>
+          </div>
+
+          <div class="spec-cluster module-target reveal" data-module="spec-cluster" aria-label="PCB specifications">
+            <div class="spec-primary"><strong>2.45 × 0.73 in</strong><span>The complete system fits on a board smaller than a piece of regular gum.</span></div>
+            <div class="spec-secondary">
+              <div class="spec-item"><strong>6</strong><span>PCB layers</span></div>
+              <div class="spec-item"><strong>2</strong><span>Component sides</span></div>
+            </div>
+          </div>
+
+          <div class="media-pair module-target reveal" data-module="media-pair">
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_pcb_top.png" data-caption="Top side of the Scopen PCB">
+                <img src="../../../assets/img/projects/scopen/scopen_pcb_top.png" alt="Top side of the Scopen PCB" loading="lazy">
+              </button>
+              <figcaption class="media-caption">Top side of the PCB</figcaption>
+            </figure>
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_pcb_bottom.png" data-caption="Bottom side of the Scopen PCB">
+                <img src="../../../assets/img/projects/scopen/scopen_pcb_bottom.png" alt="Bottom side of the Scopen PCB" loading="lazy">
+              </button>
+              <figcaption class="media-caption">Bottom side of the PCB</figcaption>
+            </figure>
+          </div>
+
+          <div class="media-block module-target reveal" data-module="full-media">
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_pcb_6_layers.png" data-caption="All six PCB layers">
+                <img src="../../../assets/img/projects/scopen/scopen_pcb_6_layers.png" alt="Diagram of all six PCB layers" loading="lazy">
+              </button>
+              <figcaption class="media-caption">All six PCB layers</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="case-section" id="firmware" aria-labelledby="firmware-title">
+          <h2 id="firmware-title">Firmware</h2>
+          <p class="section-copy">The firmware coordinates sampling, memory, touch input and wireless communication across STM32 and ESP32 controllers.</p>
+
+          <div class="media-block reveal">
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_firmware_stack.png" data-caption="Firmware stack for STM32 and ESP32">
+                <img src="../../../assets/img/projects/scopen/scopen_firmware_stack.png" alt="Firmware stack for STM32 and ESP32" loading="lazy">
+              </button>
+              <figcaption class="media-caption">STM32 stack on the left and ESP32 stack on the right</figcaption>
+            </figure>
+          </div>
+
+          <details class="technical-disclosure module-target" data-module="technical-disclosure">
+            <summary>Read the firmware architecture notes</summary>
+            <div class="disclosure-content">
+              <p>The STM32 implementation is based mainly on the STM32 HAL library. For peripherals that needed special features, we wrote low-level drivers using the STM32 LL library as a wrapper over the registers. One example is the I2C restart behavior needed for efficient communication with the touch sensor.</p>
+              <p>External sensors sit above these low-level drivers. FreeRTOS allows the controller to run separate communication and general-logic tasks. The final STM32 implementation uses five threads. The ESP32 stack is based on Arduino and uses two threads for upstream and downstream communication.</p>
+              <p>Several semaphores avoid race conditions in the multithreaded design. One controls access to the SPI interface, while two others track empty and occupied queue slots.</p>
+            </div>
+          </details>
+
+          <div class="technical-gallery module-target reveal" data-module="technical-gallery">
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_adc_sampling.jpg" data-caption="ADC sampling architecture">
+                <img src="../../../assets/img/projects/scopen/scopen_adc_sampling.jpg" alt="ADC sampling architecture using HRTIM and DMA" loading="lazy">
+              </button>
+            </figure>
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_thread_manage.png" data-caption="Thread management architecture">
+                <img src="../../../assets/img/projects/scopen/scopen_thread_manage.png" alt="Thread management architecture" loading="lazy">
+              </button>
+            </figure>
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_esp.jpg" data-caption="ESP32 communication architecture">
+                <img src="../../../assets/img/projects/scopen/scopen_esp.jpg" alt="ESP32 communication architecture" loading="lazy">
+              </button>
+            </figure>
+          </div>
+
+          <details class="technical-disclosure">
+            <summary>Read the sampling and communication notes</summary>
+            <div class="disclosure-content">
+              <p>Accurate ADC timing could not depend on interrupts because context-switching time is unpredictable. HRTIM provides a fixed sampling trigger, and DMA moves each result from the ADC register to external SRAM.</p>
+              <p>Wireless communication uses UDP and TCP with message forwarding on the ESP32. Upstream sampling data moves between ESP32 and STM32 over SPI, while the lower-bandwidth downstream command channel uses UART.</p>
+            </div>
+          </details>
+        </section>
+
+        <section class="case-section" id="software" aria-labelledby="software-title">
+          <h2 id="software-title">Software</h2>
+          <div class="prose">
+            <p>The desktop software follows a Model-View-Controller design pattern. The interface uses Java Swing, including custom-drawn knobs and a dark visual theme.</p>
+          </div>
+          <div class="software-layout module-target reveal" data-module="mixed-media">
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_software_stack.png" data-caption="Software architecture">
+                <img src="../../../assets/img/projects/scopen/scopen_software_stack.png" alt="Model-View-Controller software architecture" loading="lazy">
+              </button>
+              <figcaption class="media-caption">Model-View-Controller architecture</figcaption>
+            </figure>
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_software_interface.jpg" data-caption="Java Swing oscilloscope interface">
+                <img src="../../../assets/img/projects/scopen/scopen_software_interface.jpg" alt="Java Swing oscilloscope interface" loading="lazy">
+              </button>
+              <figcaption class="media-caption">Functional Java Swing interface</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="case-section" id="industrial-design" aria-labelledby="industrial-title">
+          <h2 id="industrial-title">Industrial design</h2>
+          <div class="prose">
+            <p>We designed the enclosure in Autodesk Fusion 360, printed it in 3D and assembled the complete prototype to make the project function as a real product.</p>
+          </div>
+          <div class="media-pair reveal">
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_id_blue.png" data-caption="Scopen enclosure design in Fusion 360">
+                <img src="../../../assets/img/projects/scopen/scopen_id_blue.png" alt="Scopen enclosure design in Fusion 360" loading="lazy">
+              </button>
+              <figcaption class="media-caption">Fusion 360 enclosure design</figcaption>
+            </figure>
+            <figure>
+              <button class="media-button" type="button" data-lightbox="../../../assets/img/projects/scopen/scopen_id_render.png" data-caption="Rendered Scopen enclosure">
+                <img src="../../../assets/img/projects/scopen/scopen_id_render.png" alt="Rendered Scopen enclosure" loading="lazy">
+              </button>
+              <figcaption class="media-caption">Rendered enclosure</figcaption>
+            </figure>
+          </div>
+        </section>
+
+        <section class="case-section module-target" id="issues" data-module="issue-list" aria-labelledby="issues-title">
+          <h2 id="issues-title">Issues and improvements</h2>
+          <div class="issue-list reveal">
+            <details class="issue-item">
+              <summary>Portable front-end software</summary>
+              <p>The front-end software could be rebuilt with JavaScript, React and Electron to improve portability across platforms.</p>
+            </details>
+            <details class="issue-item">
+              <summary>Sampling accuracy and resolution</summary>
+              <p>The current sampling accuracy and 8-bit resolution could be improved by adjusting the parameters, enabling oversampling or increasing the sampling period.</p>
+            </details>
+            <details class="issue-item">
+              <summary>Touch sensor sensitivity</summary>
+              <p>The touch sensor works as a proof of concept, but it needs greater sensitivity and more reliable response to user input.</p>
+            </details>
+          </div>
+        </section>
+
+        <section class="case-section module-target acknowledgment" id="acknowledgment" data-module="acknowledgment" aria-labelledby="acknowledgment-title">
+          <h2 id="acknowledgment-title">Acknowledgment</h2>
+          <blockquote>We want to give special thanks to <strong>Prof. Yogananda Isukapalli</strong> for managing the UCSB CE capstone program. We also thank our TAs <strong>Kyle Douglas</strong> and <strong>Aditya Wadaskar</strong> for their advice, and <strong>Jeff Longo</strong> for helping us develop the mobile application.</blockquote>
+        </section>
+
+        <section class="case-section module-target" data-module="next-project" aria-labelledby="next-title">
+          <h2 class="section-heading" id="next-title">Continue exploring</h2>
+          <a class="next-project reveal" href="#">
+            <img src="../../../assets/img/projects/ar_domino/cover.jpg" alt="AR Domino project preview" loading="lazy">
+            <span class="next-copy"><small>Next project</small><strong>AR Domino</strong><span>An augmented-reality domino game developed with Unity.</span></span>
+          </a>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="page-footer">
+    <p>Designed and built by Boning Dong.</p>
+    <a href="#top">Back to top</a>
+  </footer>
+
+  <dialog class="dialog" id="lightbox-dialog" aria-labelledby="lightbox-title">
+    <div class="dialog-bar">
+      <p class="dialog-title" id="lightbox-title">Project image</p>
+      <button class="dialog-close" type="button" data-close-dialog>Close</button>
+    </div>
+    <div class="lightbox-media"><img id="lightbox-image" src="" alt=""></div>
+  </dialog>
+
+  <dialog class="dialog" id="video-dialog" aria-labelledby="video-title">
+    <div class="dialog-bar">
+      <p class="dialog-title" id="video-title">Project video</p>
+      <button class="dialog-close" type="button" data-close-dialog>Close</button>
+    </div>
+    <div class="video-frame" id="video-frame"></div>
+  </dialog>
+
+  <button class="module-map-trigger" type="button" aria-expanded="false" aria-controls="module-panel">Module map</button>
+  <aside class="module-panel" id="module-panel" hidden aria-label="Reusable module map">
+    <div class="module-panel-head"><h2>Reusable modules</h2><button class="module-panel-close" type="button">Close</button></div>
+    <p>This inspector is mock-only. Select a module to jump to its Scopen example.</p>
+    <div class="module-buttons">
+      <button class="module-jump" type="button" data-jump="overview">Overview</button>
+      <button class="module-jump" type="button" data-jump="team">Team</button>
+      <button class="module-jump" type="button" data-jump="videos">Video group</button>
+      <button class="module-jump" type="button" data-jump="media-stack">Media stack</button>
+      <button class="module-jump" type="button" data-jump="spec-cluster">Spec cluster</button>
+      <button class="module-jump" type="button" data-jump="media-pair">Media pair</button>
+      <button class="module-jump" type="button" data-jump="full-media">Full-width media</button>
+      <button class="module-jump" type="button" data-jump="technical-disclosure">Disclosure</button>
+      <button class="module-jump" type="button" data-jump="technical-gallery">Technical gallery</button>
+      <button class="module-jump" type="button" data-jump="mixed-media">Mixed media</button>
+      <button class="module-jump" type="button" data-jump="issue-list">Issue list</button>
+      <button class="module-jump" type="button" data-jump="acknowledgment">Acknowledgment</button>
+      <button class="module-jump" type="button" data-jump="next-project">Next project</button>
+    </div>
+  </aside>
+
+  <script>
+    (() => {
+      const body = document.body;
+      const nav = document.querySelector('.site-nav');
+      const hero = document.querySelector('.project-hero');
+      const menuButton = document.querySelector('.menu-trigger');
+      const mobileMenu = document.querySelector('.mobile-menu');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      const heroObserver = new IntersectionObserver(([entry]) => {
+        nav.classList.toggle('surface-visible', !entry.isIntersecting);
+      }, { threshold: 0.08 });
+      heroObserver.observe(hero);
+
+      menuButton.addEventListener('click', () => {
+        const open = menuButton.getAttribute('aria-expanded') === 'true';
+        menuButton.setAttribute('aria-expanded', String(!open));
+        menuButton.textContent = open ? 'Menu' : 'Close';
+        mobileMenu.classList.toggle('open', !open);
+        nav.classList.toggle('menu-visible', !open);
+      });
+
+      mobileMenu.addEventListener('click', (event) => {
+        if (!event.target.closest('a')) return;
+        menuButton.setAttribute('aria-expanded', 'false');
+        menuButton.textContent = 'Menu';
+        mobileMenu.classList.remove('open');
+        nav.classList.remove('menu-visible');
+      });
+
+      const indexLinks = [...document.querySelectorAll('.section-index a')];
+      const observedSections = indexLinks.map((link) => document.querySelector(link.getAttribute('href'))).filter(Boolean);
+      const setActiveSection = (id) => {
+        indexLinks.forEach((link) => link.classList.toggle('active', link.getAttribute('href') === `#${id}`));
+      };
+      const sectionObserver = new IntersectionObserver(() => {
+        const readingLine = window.innerHeight * .24;
+        const current = observedSections.find((section) => {
+          const rect = section.getBoundingClientRect();
+          return rect.top <= readingLine && rect.bottom > readingLine;
+        });
+        if (current) setActiveSection(current.id);
+      }, { rootMargin: '-18% 0px -62% 0px', threshold: [0, .15, .4] });
+      observedSections.forEach((section) => sectionObserver.observe(section));
+      indexLinks.forEach((link) => link.addEventListener('click', () => setActiveSection(link.getAttribute('href').slice(1))));
+
+      const revealObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        });
+      }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
+      document.querySelectorAll('.reveal').forEach((element) => {
+        if (reducedMotion) element.classList.add('is-visible');
+        else revealObserver.observe(element);
+      });
+
+      const openDialog = (dialog) => {
+        dialog.showModal();
+        body.classList.add('modal-open');
+      };
+      const closeDialog = (dialog) => {
+        dialog.close();
+        body.classList.remove('modal-open');
+      };
+
+      const lightbox = document.querySelector('#lightbox-dialog');
+      const lightboxImage = document.querySelector('#lightbox-image');
+      const lightboxTitle = document.querySelector('#lightbox-title');
+      document.querySelectorAll('[data-lightbox]').forEach((button) => {
+        button.addEventListener('click', () => {
+          const caption = button.dataset.caption || button.querySelector('img').alt || 'Project image';
+          lightboxImage.src = button.dataset.lightbox;
+          lightboxImage.alt = caption;
+          lightboxTitle.textContent = caption;
+          openDialog(lightbox);
+        });
+      });
+
+      const videoDialog = document.querySelector('#video-dialog');
+      const videoFrame = document.querySelector('#video-frame');
+      const videoTitle = document.querySelector('#video-title');
+      document.querySelectorAll('[data-video]').forEach((button) => {
+        button.addEventListener('click', () => {
+          videoTitle.textContent = button.dataset.title;
+          const iframe = document.createElement('iframe');
+          iframe.src = `https://www.youtube.com/embed/${button.dataset.video}?autoplay=1&rel=0`;
+          iframe.title = button.dataset.title;
+          iframe.allow = 'accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture';
+          iframe.allowFullscreen = true;
+          videoFrame.replaceChildren(iframe);
+          openDialog(videoDialog);
+        });
+      });
+
+      document.querySelectorAll('[data-close-dialog]').forEach((button) => {
+        button.addEventListener('click', () => closeDialog(button.closest('dialog')));
+      });
+      document.querySelectorAll('dialog').forEach((dialog) => {
+        dialog.addEventListener('click', (event) => {
+          if (event.target === dialog) closeDialog(dialog);
+        });
+        dialog.addEventListener('close', () => {
+          body.classList.remove('modal-open');
+          if (dialog === videoDialog) videoFrame.replaceChildren();
+          if (dialog === lightbox) lightboxImage.src = '';
+        });
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key !== 'Escape') return;
+        const openDialogElement = document.querySelector('dialog[open]');
+        if (!openDialogElement) return;
+        event.preventDefault();
+        closeDialog(openDialogElement);
+      });
+
+      const moduleTrigger = document.querySelector('.module-map-trigger');
+      const modulePanel = document.querySelector('#module-panel');
+      const moduleClose = document.querySelector('.module-panel-close');
+      const setModulePanel = (open) => {
+        modulePanel.hidden = !open;
+        moduleTrigger.setAttribute('aria-expanded', String(open));
+        moduleTrigger.textContent = open ? 'Hide module map' : 'Module map';
+      };
+      moduleTrigger.addEventListener('click', () => setModulePanel(modulePanel.hidden));
+      moduleClose.addEventListener('click', () => setModulePanel(false));
+      document.querySelectorAll('.module-jump').forEach((button) => {
+        button.addEventListener('click', () => {
+          const target = document.querySelector(`[data-module="${button.dataset.jump}"]`);
+          if (!target) return;
+          target.scrollIntoView({ behavior: reducedMotion ? 'auto' : 'smooth', block: 'center' });
+          target.classList.remove('module-flash');
+          requestAnimationFrame(() => target.classList.add('module-flash'));
+          window.setTimeout(() => target.classList.remove('module-flash'), 1200);
+          setModulePanel(false);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

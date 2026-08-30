@@ -17,6 +17,8 @@ tags:
 ---
 A lab instrument that fits in your pocket.
 
+Scopen began with a practical frustration: oscilloscopes are indispensable but rarely close at hand. We designed an affordable wireless probe that captures a signal, processes it on-device, and streams the samples to a desktop interface.
+
 # Context
 
 Oscilloscopes are indispensable when debugging electronics, but they are rarely close at hand. For our UCSB Computer Engineering capstone, we designed an affordable wireless probe that captures a signal, processes it on the device, and streams the result to a desktop interface.

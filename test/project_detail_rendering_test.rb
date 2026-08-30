@@ -76,6 +76,86 @@ tests = {
       "expected project media figures to reset the browser margin"
     )
   end,
+  "project detail matches the approved final mock geometry" => lambda do
+    html = built("projects/scopen.html")
+    css = built("assets/css/main.css")
+
+    assert_includes html, 'class="project-intro-shell"'
+    assert_includes html, 'class="project-intro-copy"'
+    refute_includes html, 'class="project-intro-marker"'
+    assert(
+      html.match?(/<h1>\s*Scopen\s*<span class="project-hero-description">/),
+      "expected the Hero subtitle to use the approved nested hierarchy"
+    )
+    assert(
+      css.match?(/\.project-hero\{[^}]*min-height:520px/),
+      "expected the default Project Hero to be 520px tall"
+    )
+    assert(
+      css.match?(/@media\s*\(min-width:\s*1600px\)\{\.project-hero\{min-height:clamp\(600px,28vw,780px\)\}/),
+      "expected the approved ultrawide Project Hero height"
+    )
+    assert(
+      css.match?(/@media\s*\(max-width:\s*640px\)\{[^}]*\.project-hero\{min-height:470px\}/),
+      "expected the approved mobile Project Hero height"
+    )
+    assert(
+      css.match?(/\.project-intro--featured\{padding:78px 0 84px\}/),
+      "expected the approved Bridge section spacing"
+    )
+    assert(
+      css.match?(/\.project-intro-copy\{[^}]*grid-template-columns:minmax\(150px,\s*0?\.36fr\) minmax\(0,\s*1\.64fr\)/),
+      "expected the approved two-column Bridge geometry"
+    )
+    assert(
+      css.match?(/\.project-intro-copy p:first-of-type\{[^}]*font-size:clamp\(36px,4\.5vw,52px\)/),
+      "expected the approved Bridge lead scale"
+    )
+    assert(
+      !css.include?(".project-intro-shell{min-height:310px}"),
+      "Bridge should size to a one-sentence or short-paragraph Intro"
+    )
+  end,
+  "project detail reading flow matches the approved final mock" => lambda do
+    css = built("assets/css/main.css")
+
+    assert(
+      css.match?(/\.project-reading\{[^}]*grid-template-columns:176px minmax\(0,\s*1fr\)[^}]*border-top:1px solid var\(--line\)/),
+      "expected the approved chapter rail and Main Content separator"
+    )
+    assert(
+      css.match?(/\.project-chapter\{[^}]*padding:78px 0 94px/),
+      "expected the approved chapter rhythm"
+    )
+    assert(
+      css.match?(/\.project-main h1\{[^}]*font-size:clamp\(36px,4\.3vw,52px\)/),
+      "expected the approved chapter heading scale"
+    )
+    assert(
+      css.match?(/\.project-corner-trigger\{[^}]*min-width:108px[^}]*min-height:52px/),
+      "expected the approved Corner indicator geometry"
+    )
+    assert(
+      css.match?(/\.project-corner-dialog\{[^}]*width:min\(272px,(?:calc\()?100% - 28px\)?\)/),
+      "expected the approved Corner menu footprint"
+    )
+    assert(
+      css.match?(/@media\s*\(max-width:\s*899px\)\{\.project-hero-image\{[^}]*\}\.project-intro-copy\{[^}]*grid-template-columns:minmax\(120px,\s*0?\.3fr\) minmax\(0,\s*1\.7fr\)[^}]*column-gap:34px/),
+      "expected the approved tablet Bridge geometry"
+    )
+  end,
+  "project detail glass belongs to media surfaces, not nested images" => lambda do
+    css = built("assets/css/main.css")
+
+    assert(
+      css.match?(/\.project-main \.project-chapter>p>img:only-child,[^{]*\{[^}]*backdrop-filter:blur/),
+      "expected standalone Markdown images to retain the glass surface"
+    )
+    assert(
+      !css.match?(/\.project-main img,[^{]*\{[^}]*backdrop-filter:blur/),
+      "nested media images should not create a second glass compositing layer"
+    )
+  end,
   "Scopen follows the five chapter authoring contract" => lambda do
     html = built("projects/scopen.html")
 
