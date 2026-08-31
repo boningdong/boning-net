@@ -4,7 +4,6 @@ hero:
   meta:
     - Engineering
     - Art
-    - Notes
 
 about:
   kicker: About me
@@ -63,7 +62,7 @@ featured_experiences:
 
 notes_preview:
   # Preview only; set to false before deploying without Notes.
-  enabled: true
+  enabled: false
   kicker: Ideas in progress
   badge: Future module
   title: Notes

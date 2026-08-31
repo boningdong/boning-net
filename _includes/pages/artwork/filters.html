@@ -1,9 +1,19 @@
+{% assign ordered_tags = site.tags | sort: "filter-order" %}
 <div class="artwork-filter-system">
   <div class="artwork-filters" role="group" aria-label="Filter artwork by medium">
     <button class="artwork-filter-pill active" type="button" data-artwork-filter data-filter="all" aria-pressed="true">All</button>
-    <button class="artwork-filter-pill" type="button" data-artwork-filter data-filter="pencil" aria-pressed="false">Pencil</button>
-    <button class="artwork-filter-pill" type="button" data-artwork-filter data-filter="charcoal" aria-pressed="false">Charcoal</button>
-    <button class="artwork-filter-pill" type="button" data-artwork-filter data-filter="watercolor" aria-pressed="false">Watercolor</button>
+    {% for tag in ordered_tags %}
+      {% assign tag_used = false %}
+      {% for artwork in site.artwork %}
+        {% if artwork.tags contains tag.tag-id %}
+          {% assign tag_used = true %}
+          {% break %}
+        {% endif %}
+      {% endfor %}
+      {% if tag_used %}
+        <button class="artwork-filter-pill" type="button" data-artwork-filter data-filter="{{ tag.tag-id }}" aria-pressed="false">{{ tag.tag-title }}</button>
+      {% endif %}
+    {% endfor %}
   </div>
   <span class="artwork-result-count" role="status" aria-live="polite" data-artwork-result-count>{{ include.artwork_count }} works</span>
 </div>

@@ -57,6 +57,8 @@ tags:
 Notes:
 - `location` is the full-size modal image.
 - `cover` is the masonry grid thumbnail.
+- `tags` must match `tag-id` values from `_tags/*.md`; the first tag is displayed as the artwork medium.
+- Artwork filters are generated from the shared tag registry and only include tags used by at least one artwork. Adding artwork with an existing tag requires no template changes; define a new `_tags/*.md` entry only when introducing a new medium.
 
 ## Experiences
 
@@ -124,7 +126,8 @@ tag-color:
 ```
 
 Notes:
-- `tag-id` is the stable value referenced by project frontmatter.
+- `tag-id` is the stable value referenced by project and artwork frontmatter.
+- Project and Artwork filters each show only registry entries used by their own collection.
 - `tag-color.top` and `tag-color.bottom` are used by the shared tag badge include.
 
 ## Homepage Data

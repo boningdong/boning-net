@@ -194,24 +194,33 @@ tests = {
     assert(asset_urls.all? { |url| url.match?(%r{\?v=\d+\z}) }, "expected every modern asset URL to include a build version")
     assert(asset_urls.map { |url| url.split("?v=").last }.uniq.length == 1, "expected one build version across modern assets")
   end,
-  "homepage renders the revised copy and preview Notes section" => lambda do
+  "homepage defaults to Artwork and keeps disabled Notes out of the page" => lambda do
     html = built("index.html")
+    artwork_tab_position = html.index('id="artwork-tab"')
+    projects_tab_position = html.index('id="projects-tab"')
 
     assert_includes html, "Explore with wonder"
     assert_includes html, "Create with care"
     assert_includes html, "Engineering"
     assert_includes html, "Art"
-    assert_includes html, "Notes"
+    refute_includes html, ">Notes<"
     assert_includes html, "Engineer, Programmer, Artist"
     assert_includes html, "I now work as an engineer in Silicon Valley."
     assert_includes html, 'class="work-switcher"'
     assert(html.scan('class="work-tab').length == 2, "expected Projects and Artwork work tabs")
-    assert_includes html, 'class="home-notes design-section"'
-    assert_includes html, "04 / 04"
+    assert(artwork_tab_position && projects_tab_position && artwork_tab_position < projects_tab_position, "expected Artwork before Projects")
+    assert_includes html, 'class="work-tab active" id="artwork-tab" type="button" role="tab" aria-selected="true"'
+    assert_includes html, 'class="work-panel active" id="artwork-panel" role="tabpanel" aria-labelledby="artwork-tab"'
+    refute_includes html, 'class="home-notes design-section"'
+    assert_includes html, "03 / 03"
+    assert_includes html, 'class="text-link" href="/experiences.html">View all experiences</a>'
+    assert_includes html, 'class="portrait" src="/assets/img/index/me.jpeg"'
+    assert File.file?(File.join(ROOT, "assets/img/index/me.jpeg")), "expected the new square portrait asset"
     refute_includes html, "As engineers, we were going to be in a position to change the world"
   end,
   "Projects page is collection backed" => lambda do
     html = built("projects.html")
+    hero_html = html[0..html.index("</header>")]
 
     assert_includes html, "Projects</span>"
     assert_includes html, "Ideas made tangible"
@@ -224,6 +233,8 @@ tests = {
     assert_includes html, 'data-tags="hardware system-design firmware embedded c pcb java"'
     assert_includes html, 'href="/projects/scopen"'
     assert_includes html, '/generated/assets/img/projects/scopen/cover-'
+    assert_includes hero_html, '<span class="projects-hero-index">2016—2022</span>'
+    refute_includes hero_html, "Selected work /"
   end,
   "Artwork page uses the modern collection-backed shell" => lambda do
     html = built("artwork.html")
@@ -255,7 +266,8 @@ tests = {
     refute_includes hero_html, "Studies in light &amp; character"
     refute_includes hero_html, "Graphite"
     refute_includes hero_html, "Charcoal"
-    assert_includes html, "10 works / 2015—2020"
+    assert_includes hero_html, '<span class="artwork-hero-index">2015—2020</span>'
+    refute_includes hero_html, "works /"
     assert(highlights_position && collection_position && highlights_position < collection_position, "expected Highlights before The Collection")
     assert(html.scan('data-highlight-artwork-card').length == 4, "expected four interactive Highlights cards")
     assert(html.scan('data-highlight-artwork-duplicate').length == 8, "expected previous and next duplicate sets around the interactive cards")
@@ -281,6 +293,7 @@ tests = {
   end,
   "Artwork filters and viewer expose accessible state" => lambda do
     html = built("artwork.html")
+    filter_source = File.read(File.join(ROOT, "_includes/pages/artwork/filters.html"))
 
     assert_includes html, 'role="group" aria-label="Filter artwork by medium"'
     assert(html.scan('data-artwork-filter').length == 4, "expected four medium filters")
@@ -292,6 +305,11 @@ tests = {
     assert_includes html, 'data-artwork-viewer-image'
     assert_includes html, 'data-artwork-viewer-close>Close viewer</button>'
     refute_includes html, '<img src=""'
+    assert_includes filter_source, 'site.tags | sort: "filter-order"'
+    assert_includes filter_source, "artwork.tags contains tag.tag-id"
+    %w[pencil charcoal watercolor].each do |tag_id|
+      assert File.file?(File.join(ROOT, "_tags", "#{tag_id}.md")), "expected #{tag_id} in the shared tag registry"
+    end
   end,
   "Artwork visual module is compiled into the modern stylesheet" => lambda do
     css = built("assets/css/main.css")
@@ -332,6 +350,7 @@ tests = {
   end,
   "Experiences page preserves the approved hierarchy and readable details" => lambda do
     html = built("resume.html")
+    hero_html = html[0..html.index("</header>")]
     work_position = html.index('id="work-experience-title"')
     education_position = html.index('id="education-title"')
     role_cards = html.scan(/<article class="role-card is-open" data-experience-card>(.*?)<\/article>/m).flatten
@@ -359,6 +378,8 @@ tests = {
     assert_includes html, 'class="experiences-hero-separator" aria-hidden="true">-</span>'
     refute_includes html, "Embedded systems"
     refute_includes html, "Product craft"
+    assert_includes hero_html, '<span class="experiences-hero-index">2017—Now</span>'
+    refute_includes hero_html, "Career archive /"
     assert(work_position && education_position && work_position < education_position, "expected Work Experience before Education")
     assert(rendered_roles == expected_roles, "expected complete reverse chronological work order")
     assert(relationships.length == 5, "expected five accordion trigger relationships")

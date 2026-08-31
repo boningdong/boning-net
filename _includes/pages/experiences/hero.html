@@ -1,3 +1,10 @@
+{% assign newest_experience = include.experiences | first %}
+{% assign oldest_experience = include.experiences | last %}
+{% if newest_experience.end-date %}
+  {% assign newest_experience_label = newest_experience.end-date | date: "%Y" %}
+{% else %}
+  {% assign newest_experience_label = "Now" %}
+{% endif %}
 <header class="experiences-hero" id="top">
   <img class="experiences-hero-image" src="{{ '/assets/img/showcase/experience-banner-hd.jpg' | relative_url }}" alt="A painterly seascape with sailboats" fetchpriority="high">
   <div class="experiences-hero-copy">
@@ -8,5 +15,5 @@
     </h1>
     <p><span>Education</span><span>Career</span><span>Growth</span></p>
   </div>
-  <span class="experiences-hero-index">Career archive / 2017—Now</span>
+  <span class="experiences-hero-index">{{ oldest_experience.start-date | date: "%Y" }}—{{ newest_experience_label }}</span>
 </header>

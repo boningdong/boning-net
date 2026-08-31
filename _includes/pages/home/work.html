@@ -10,32 +10,10 @@
       <span class="section-number">02 / 0{{ include.total }}</span>
     </div>
     <div class="work-switcher" role="tablist" aria-label="Work type" data-home-tabs>
-      <button class="work-tab active" id="projects-tab" type="button" role="tab" aria-selected="true" aria-controls="projects-panel">Projects</button>
-      <button class="work-tab" id="artwork-tab" type="button" role="tab" aria-selected="false" aria-controls="artwork-panel" tabindex="-1">Artwork</button>
+      <button class="work-tab active" id="artwork-tab" type="button" role="tab" aria-selected="true" aria-controls="artwork-panel">Artwork</button>
+      <button class="work-tab" id="projects-tab" type="button" role="tab" aria-selected="false" aria-controls="projects-panel" tabindex="-1">Projects</button>
     </div>
-    <section class="work-panel active" id="projects-panel" role="tabpanel" aria-labelledby="projects-tab">
-      <div class="work-layout layout-bento">
-        {% for project in home_projects limit: 3 %}
-          {% assign item_class = "item-tertiary" %}
-          {% if forloop.index == 1 %}{% assign item_class = "item-feature" %}{% endif %}
-          {% if forloop.index == 2 %}{% assign item_class = "item-secondary" %}{% endif %}
-          <a class="portfolio-item {{ item_class }}" href="{{ project.url | relative_url }}">
-            <figure class="portfolio-visual">
-              {% include components/responsive-image.html src=project.cover preset="large_card" alt=project.title %}
-            </figure>
-            <div class="portfolio-meta">
-              <div>
-                <strong>{{ project.title }}</strong>
-                <span>{{ project.subtitle }}</span>
-              </div>
-              <em>Project · {{ project.date | date: "%Y" }}</em>
-            </div>
-          </a>
-        {% endfor %}
-      </div>
-      <a class="text-link" href="{{ '/projects.html' | relative_url }}">View all projects</a>
-    </section>
-    <section class="work-panel" id="artwork-panel" role="tabpanel" aria-labelledby="artwork-tab" hidden>
+    <section class="work-panel active" id="artwork-panel" role="tabpanel" aria-labelledby="artwork-tab">
       <div class="work-layout layout-bento">
         {% for artwork in home_artwork limit: 3 %}
           {% assign item_class = "item-tertiary" %}
@@ -56,6 +34,28 @@
         {% endfor %}
       </div>
       <a class="text-link" href="{{ '/artwork.html' | relative_url }}">View all artwork</a>
+    </section>
+    <section class="work-panel" id="projects-panel" role="tabpanel" aria-labelledby="projects-tab" hidden>
+      <div class="work-layout layout-bento">
+        {% for project in home_projects limit: 3 %}
+          {% assign item_class = "item-tertiary" %}
+          {% if forloop.index == 1 %}{% assign item_class = "item-feature" %}{% endif %}
+          {% if forloop.index == 2 %}{% assign item_class = "item-secondary" %}{% endif %}
+          <a class="portfolio-item {{ item_class }}" href="{{ project.url | relative_url }}">
+            <figure class="portfolio-visual">
+              {% include components/responsive-image.html src=project.cover preset="large_card" alt=project.title %}
+            </figure>
+            <div class="portfolio-meta">
+              <div>
+                <strong>{{ project.title }}</strong>
+                <span>{{ project.subtitle }}</span>
+              </div>
+              <em>Project · {{ project.date | date: "%Y" }}</em>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+      <a class="text-link" href="{{ '/projects.html' | relative_url }}">View all projects</a>
     </section>
   </div>
 </section>
