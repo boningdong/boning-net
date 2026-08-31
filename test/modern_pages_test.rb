@@ -1,3 +1,7 @@
+require "date"
+require "tmpdir"
+require "yaml"
+
 ROOT = File.expand_path("..", __dir__)
 
 class AssertionFailure < StandardError; end
@@ -24,17 +28,53 @@ def built(path)
   File.read(full_path)
 end
 
+def production_page_and_layout_sources
+  config = YAML.safe_load(File.read(File.join(ROOT, "_config.yml")), permitted_classes: [Date, Time], aliases: true)
+  collection_names = config.fetch("collections", {}).keys
+  source_paths = Dir[File.join(ROOT, "*.{html,md,markdown}")]
+  source_paths.concat(Dir[File.join(ROOT, "_layouts", "**", "*.html")])
+  collection_names.each do |collection_name|
+    source_paths.concat(Dir[File.join(ROOT, "_#{collection_name}", "**", "*.{html,md,markdown}")])
+  end
+  source_paths.sort
+end
+
+def frontmatter_layout(path)
+  source = File.read(path)
+  match = source.match(/\A---[ \t]*\r?\n(?<frontmatter>.*?)^---[ \t]*\r?\n/m)
+  return unless match
+
+  YAML.safe_load(match[:frontmatter], permitted_classes: [Date, Time], aliases: true).fetch("layout", nil)
+end
+
 tests = {
+  "legacy layout scan reads YAML frontmatter without matching prose" => lambda do
+    Dir.mktmpdir("legacy-layout-guard") do |directory|
+      path = File.join(directory, "fixture.md")
+      File.write(
+        path,
+        <<~MARKDOWN
+          ---
+          layout: project-detail
+          summary: |
+            The retired layout: project-post is mentioned here as prose.
+          ---
+
+          The project detail layout is the active contract.
+        MARKDOWN
+      )
+
+      assert(frontmatter_layout(path) == "project-detail", "expected only the YAML layout field to be read")
+    end
+  end,
   "production source retires the legacy project page stack" => lambda do
     %w[_layouts/project-post.html _layouts/default.html _includes/header.html].each do |path|
       refute File.exist?(File.join(ROOT, path)), "expected #{path} to be retired"
     end
 
-    page_and_layout_sources = Dir[File.join(ROOT, "*.html")] + Dir[File.join(ROOT, "_layouts", "**", "*.html")]
-    page_and_layout_sources.each do |path|
-      frontmatter = File.read(path).split(/^---\s*$/, 3)[1].to_s
-      refute_includes frontmatter, "layout: default"
-      refute_includes frontmatter, "layout: project-post"
+    production_page_and_layout_sources.each do |path|
+      layout = frontmatter_layout(path)
+      refute %w[default project-post].include?(layout), "expected #{path} not to use retired layout #{layout.inspect}"
     end
   end,
   "homepage uses the dependency-free modern shell" => lambda do
