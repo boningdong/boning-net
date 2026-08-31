@@ -1,7 +1,7 @@
 ---
-layout: project-post
+layout: project-detail
 title: Smart Lamp
-subtitle: A Bluetooth controlled smart lamp.
+subtitle: A Bluetooth-controlled smart lamp designed from hardware to enclosure.
 date: 2016-07-21
 cover: "/assets/img/projects/smartlamp/cover-product.png"
 external-link: 'https://github.com/boningdong/Smart-Lamp'
@@ -13,40 +13,48 @@ tags:
     - c
     - pcb
 ---
-<div class="row d-flex">
-    <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_5.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_3.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-4">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_6.jpg" alt="{{ page.title }} image">
-    </div>
-</div>
-# Description
-I planned to build this project as a gift to my high school friends and teachers before I went to the US for my Bachelor's' degree. But unfortunately, I couldn't produce enough of them because of the limitation of time.
-This project is based on my work at Dr. Lintao Tang's lab at Tsinghua University. The details can be found in my Tsinghua Smart Lamp page.
-As usual, I tried to build a "product-level" product and design everything from scratch; from hardware, to firmware, and even to industrial design (ID design).
-## The simulator has the following features:
-- The lamp can be controlled by capacitive touch interface and by Bluetooth.
-- The capacitive touch interface has just one button but supports both on/off control and dimming control.
-- Users can connect the lamp using Bluetooth and control the dimming, color, and on/off of the lamp.
-- The lamp supports both wireless charging and charging through Micro-USB.
-- The lamp integrates a battery management system to three phrases charging management for 18650 battery.
-- MSP430 MCU is used to achieve low power consumption.
-## The whole project can be divided into the following phrases:
-- planing the functionalities
-- thinking about the ID design, planing the dimensions and creating the 3D models.
-- designing the hardware systems
-- choosing the components
-- designing, manufacturing and assembling the  PCBs
-- developing the firmware
-<div class="row d-flex">
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_1.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/smartlamp/smartlamp_4.jpg" alt="{{ page.title }} image">
-    </div>
-</div>
+A connected light designed as a complete product.
+
+Smart Lamp began as a gift for my high-school friends and teachers before I moved to the United States. Building on work from Dr. Lintao Tang's lab at Tsinghua University, I designed the hardware, firmware, and enclosure as one system.
+
+::: featured-link
+[View source on GitHub](https://github.com/boningdong/Smart-Lamp)
+:::
+
+# Context
+
+I planned to build this project as a gift for my high-school friends and teachers before I moved to the United States for my Bachelor's degree. Unfortunately, I could not produce enough lamps because of time limitations.
+
+![Warm white lamp](/assets/img/projects/smartlamp/smartlamp_5.jpg "Warm white lamp")
+
+![Red lamp](/assets/img/projects/smartlamp/smartlamp_3.jpg "Red lamp")
+
+![Purple lamp](/assets/img/projects/smartlamp/smartlamp_6.jpg "Purple lamp")
+
+# Features
+
+The lamp has the following features:
+
+- The lamp can be controlled through a capacitive touch interface and Bluetooth.
+- The capacitive touch interface has one button that supports on/off and dimming control.
+- Users can connect to the lamp with Bluetooth to control dimming, color, and on/off functions.
+- The lamp supports wireless charging and charging through Micro-USB.
+- The lamp integrates a battery management system for three-phase charging of an 18650 battery.
+- An MSP430 MCU achieves low power consumption.
+
+# Development
+
+I designed the product from scratch, including the hardware, firmware, and industrial design.
+
+The project followed these development phases:
+
+- Planning the functionality
+- Developing the industrial design, planning dimensions, and creating 3D models
+- Designing the hardware systems
+- Choosing components
+- Designing, manufacturing, and assembling the PCBs
+- Developing the firmware
+
+![Smart Lamp electronics](/assets/img/projects/smartlamp/smartlamp_1.jpg "Smart Lamp electronics")
+
+![LED module](/assets/img/projects/smartlamp/smartlamp_4.jpg "LED module")
