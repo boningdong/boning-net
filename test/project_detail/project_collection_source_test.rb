@@ -13,7 +13,8 @@ class ProjectCollectionSourceTest < TinyTestCase
         "https://youtu.be/WEThYat87RQ",
         "/assets/img/projects/ar_domino/domino_storytelling.jpg"
       ],
-      intro_links: ["https://github.com/boningdong/AR-Domino"]
+      intro_links: ["https://github.com/boningdong/AR-Domino"],
+      facts: ["placement and chain reaction", "Unity and ARKit", "tracked physical objects as platforms"]
     },
     "areusafe" => {
       media: [
@@ -21,7 +22,7 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/areusafe/areusafe_2.jpg"
       ],
       main_links: ["https://play.google.com/store/apps/details?id=edu.ucsb.boning.jsontest"],
-      facts: ["Tian Gao proposed the idea", "UI/UX design and Android client development"]
+      facts: ["first Android app", "Tian Gao proposed the idea", "UI/UX design and Android client development"]
     },
     "chatbot" => {
       media: [
@@ -29,7 +30,8 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/chatbot/chatbot_demo_2.jpg",
         "/assets/img/projects/chatbot/chatbot_demo_4.jpg",
         "/assets/img/projects/chatbot/chatbot_demo_3.jpg"
-      ]
+      ],
+      facts: ["Two friends and I developed a 3D chatbot", "ChatGPT API", "self-trained models", "Unity and C#"]
     },
     "drsstc" => {
       media: [
@@ -45,7 +47,8 @@ class ProjectCollectionSourceTest < TinyTestCase
       facts: [
         "UCSB IEEE team project from Spring 2018",
         "personal experience with and interest in Tesla coils",
-        "introduced the idea to IEEE and led our members"
+        "introduced the idea to IEEE and led our members",
+        "1.3-meter-long arc"
       ]
     },
     "ecosystem" => {
@@ -54,7 +57,7 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/ecosystem/ecosystem_2.gif"
       ],
       intro_links: ["https://github.com/boningdong/JavaEcoSimulator"],
-      facts: ["Tian Gao inspired the project"]
+      facts: ["predator–prey patterns", "Tian Gao inspired the project", "object-oriented design patterns", "multithreading"]
     },
     "kossel_printer" => {
       media: [
@@ -66,7 +69,8 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/kossel_printer/kossel_3.jpg",
         "/assets/img/projects/kossel_printer/kossel_7.jpg",
         "/assets/img/projects/kossel_printer/kossel_6.jpg"
-      ]
+      ],
+      facts: ["linear rails", "custom dual-fan effector", "self-replicating"]
     },
     "msp430_dev" => {
       media: [
@@ -74,7 +78,7 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/msp430_dev/msp430_devboard_2.jpg",
         "/assets/img/projects/msp430_dev/cover.jpg"
       ],
-      facts: ["Tsinghua University", "Smart Lamp hardware and firmware"]
+      facts: ["MSP430F2132", "Tsinghua University", "Smart Lamp hardware and firmware", "RGB LED controller"]
     },
     "nes_emulator" => {
       media: [
@@ -99,7 +103,7 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/simplewatch/smartwatch_5.jpg"
       ],
       intro_links: ["https://github.com/boningdong/SimpleWatch"],
-      facts: ["The project remained unfinished"]
+      facts: ["color LCD screen", "capacitive touch interface", "heart-rate tracking", "The project remained unfinished"]
     },
     "smartlamp" => {
       media: [
@@ -110,7 +114,7 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/smartlamp/smartlamp_4.jpg"
       ],
       intro_links: ["https://github.com/boningdong/Smart-Lamp"],
-      facts: ["Dr. Lintao Tang", "Tsinghua University"]
+      facts: ["high-school friends and teachers", "Dr. Lintao Tang", "Tsinghua University", "capacitive touch interface and Bluetooth"]
     },
     "spl_visualization" => {
       media: [
@@ -121,7 +125,97 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/spl_visualization/spl_visualization_3.png"
       ],
       intro_links: ["https://github.com/boningdong/MAT259-3D-Visualization"],
-      main_links: ["https://editor.p5js.org/boningUCSB/full/EsJxpC1m"]
+      main_links: ["https://editor.p5js.org/boningUCSB/full/EsJxpC1m"],
+      facts: ["MAT 259", "Seattle Public Library checkout data", "interactive 3D visualization", "W, A, S, and D keys"]
+    }
+  }.freeze
+  PROJECT_METADATA = {
+    "ar_domino" => {
+      "title" => "AR Domino",
+      "subtitle" => "An augmented-reality domino game built with Unity.",
+      "date" => Date.new(2021, 5, 1),
+      "cover" => "/assets/img/projects/ar_domino/cover.jpg",
+      "external-link" => "https://github.com/boningdong/AR-Domino",
+      "tags" => %w[unity ar game software]
+    },
+    "areusafe" => {
+      "title" => "AreUSafe",
+      "subtitle" => "An Android app for exploring city safety information.",
+      "date" => Date.new(2017, 5, 1),
+      "cover" => "/assets/img/projects/areusafe/cover.png",
+      "tags" => %w[software java android]
+    },
+    "chatbot" => {
+      "title" => "AI Chatbot Avatar",
+      "subtitle" => "A 3D AI avatar for interactive story creation.",
+      "date" => Date.new(2022, 4, 21),
+      "cover" => "/assets/img/projects/chatbot/cover.png",
+      "tags" => %w[unity ai game software]
+    },
+    "drsstc" => {
+      "title" => "Dual Resonant Solid State Tesla Coil",
+      "subtitle" => "A high-frequency, high-voltage transformer that plays music with lightning.",
+      "date" => Date.new(2018, 5, 21),
+      "cover" => "/assets/img/projects/drsstc/cover.jpg",
+      "external-link" => "https://github.com/boningdong/DRSSTC",
+      "featured" => true,
+      "featured-order" => 2,
+      "tags" => %w[hardware pcb]
+    },
+    "ecosystem" => {
+      "title" => "Java Ecosystem Simulator",
+      "subtitle" => "An ecosystem simulator for exploring individual and group behavior.",
+      "date" => Date.new(2018, 7, 24),
+      "cover" => "/assets/img/projects/ecosystem/cover.png",
+      "external-link" => "https://github.com/boningdong/JavaEcoSimulator",
+      "tags" => %w[software java]
+    },
+    "kossel_printer" => {
+      "title" => "Kossel 3D Printer",
+      "subtitle" => "A self-built, high-precision delta 3D printer.",
+      "date" => Date.new(2016, 8, 18),
+      "cover" => "/assets/img/projects/kossel_printer/cover.jpg",
+      "tags" => %w[hardware 3dprinter mechanical]
+    },
+    "msp430_dev" => {
+      "title" => "MSP430 Development Board",
+      "subtitle" => "A custom MSP430 development board for embedded prototyping.",
+      "date" => Date.new(2016, 4, 24),
+      "cover" => "/assets/img/projects/msp430_dev/cover.jpg",
+      "tags" => %w[hardware firmware embedded c pcb]
+    },
+    "nes_emulator" => {
+      "title" => "NES Emulator Project",
+      "subtitle" => "A custom game console that runs NES software on an STM32.",
+      "date" => Date.new(2019, 5, 8),
+      "cover" => "/assets/img/projects/nes_emulator/cover.jpg",
+      "external-link" => "https://github.com/boningdong/STM32-NES-Console-Hardware",
+      "tags" => %w[hardware system-design firmware embedded c pcb]
+    },
+    "simplewatch" => {
+      "title" => "Simple Watch",
+      "subtitle" => "A compact smartwatch designed from circuit board to firmware.",
+      "date" => Date.new(2018, 8, 25),
+      "cover" => "/assets/img/projects/simplewatch/cover.jpg",
+      "external-link" => "https://github.com/boningdong/SimpleWatch",
+      "tags" => %w[hardware system-design firmware embedded c pcb]
+    },
+    "smartlamp" => {
+      "title" => "Smart Lamp",
+      "subtitle" => "A Bluetooth-controlled smart lamp designed from hardware to enclosure.",
+      "date" => Date.new(2016, 7, 21),
+      "cover" => "/assets/img/projects/smartlamp/cover-product.png",
+      "external-link" => "https://github.com/boningdong/Smart-Lamp",
+      "tags" => %w[hardware system-design firmware embedded c pcb]
+    },
+    "spl_visualization" => {
+      "title" => "Programming Languages Trend",
+      "subtitle" => "A visualization of Seattle Public Library checkout data.",
+      "date" => Date.new(2020, 2, 12),
+      "cover" => "/assets/img/projects/spl_visualization/cover.png",
+      "featured" => true,
+      "featured-order" => 3,
+      "tags" => %w[software ar]
     }
   }.freeze
 
@@ -148,6 +242,15 @@ class ProjectCollectionSourceTest < TinyTestCase
     end
   end
 
+  def test_every_legacy_project_preserves_its_frontmatter_contract
+    PROJECT_METADATA.each do |slug, expected|
+      frontmatter, _body = project_parts(slug)
+      expected.each do |key, value|
+        assert_equal value, frontmatter.fetch(key), "#{slug} #{key}"
+      end
+    end
+  end
+
   def test_every_legacy_project_preserves_its_authored_media_sequence
     PROJECT_PRESERVATION.each do |slug, preservation|
       assert_equal preservation.fetch(:media), authored_media_sources(project_body(slug)), slug
@@ -169,6 +272,18 @@ class ProjectCollectionSourceTest < TinyTestCase
       assert_accessible_image_lines(mutated_body)
     end
     assert failure, "expected an empty image alt to fail the accessibility contract"
+  end
+
+  def test_accessibility_contract_rejects_an_inline_markdown_image
+    mutated_body = project_body("ar_domino").sub(
+      "\n![Annotated AR Domino placement interface]",
+      "\nThe interface is shown in ![Annotated AR Domino placement interface]"
+    )
+
+    failure = capture_assertion_failure do
+      assert_accessible_image_lines(mutated_body)
+    end
+    assert failure, "expected an inline Markdown image to fail the figure contract"
   end
 
   def test_preserved_destinations_remain_in_their_required_authoring_regions
@@ -220,7 +335,7 @@ class ProjectCollectionSourceTest < TinyTestCase
   end
 
   def authored_image_lines(body)
-    body.scan(/^\s*!\[[^\n]*\]\([^\n]+\)\s*$/)
+    body.lines.select { |line| line.match?(/!\[[^\]]*\]\([^\n]*\)/) }
   end
 
   def assert_accessible_image_lines(body)
