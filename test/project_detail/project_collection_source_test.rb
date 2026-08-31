@@ -14,6 +14,7 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/ar_domino/domino_storytelling.jpg"
       ],
       intro_links: ["https://github.com/boningdong/AR-Domino"],
+      main_links: ["https://youtu.be/WEThYat87RQ"],
       facts: ["placement and chain reaction", "Unity and ARKit", "tracked physical objects as platforms"]
     },
     "areusafe" => {
@@ -44,6 +45,7 @@ class ProjectCollectionSourceTest < TinyTestCase
         "/assets/img/projects/drsstc/teslacoil_5.jpg"
       ],
       intro_links: ["https://github.com/boningdong/DRSSTC"],
+      main_links: ["https://youtu.be/fd-R-8HahTA"],
       facts: [
         "UCSB IEEE team project from Spring 2018",
         "personal experience with and interest in Tesla coils",
@@ -217,7 +219,7 @@ class ProjectCollectionSourceTest < TinyTestCase
       "featured-order" => 3,
       "tags" => %w[software ar]
     }
-  }.freeze
+  }.transform_values { |metadata| { "layout" => "project-detail" }.merge(metadata) }.freeze
   OPTIONAL_METADATA_KEYS = %w[external-link featured featured-order].freeze
 
   def assert_equal(expected, actual, message = nil)
@@ -250,12 +252,11 @@ class ProjectCollectionSourceTest < TinyTestCase
     end
   end
 
-  def test_frontmatter_contract_rejects_spurious_optional_metadata
+  def test_frontmatter_contract_rejects_unexpected_metadata
     frontmatter, _body = project_parts("areusafe")
     mutated_frontmatter = frontmatter.merge(
-      "external-link" => "https://example.com/unrelated-source",
-      "featured" => true,
-      "featured-order" => 1
+      "hero" => "/assets/img/projects/areusafe/hero.jpg",
+      "project_detail" => { "navigation" => "auto" }
     )
 
     failure = capture_assertion_failure do
@@ -267,6 +268,12 @@ class ProjectCollectionSourceTest < TinyTestCase
   def test_every_legacy_project_preserves_its_authored_media_sequence
     PROJECT_PRESERVATION.each do |slug, preservation|
       assert_equal preservation.fetch(:media), authored_media_sources(project_body(slug)), slug
+    end
+  end
+
+  def test_every_legacy_project_preserves_its_ordered_authored_link_ledger
+    PROJECT_PRESERVATION.each do |slug, preservation|
+      assert_authored_link_ledger(slug, project_body(slug), preservation)
     end
   end
 
@@ -297,6 +304,28 @@ class ProjectCollectionSourceTest < TinyTestCase
       assert_accessible_image_lines(mutated_body)
     end
     assert failure, "expected an inline Markdown image to fail the figure contract"
+  end
+
+  def test_link_ledger_rejects_a_spurious_intro_link
+    mutated_body = project_body("chatbot").sub(
+      "\n# Overview",
+      "\n[Unrelated source](https://example.com/unrelated-source)\n\n# Overview"
+    )
+
+    failure = capture_assertion_failure do
+      assert_authored_link_ledger("chatbot", mutated_body, PROJECT_PRESERVATION.fetch("chatbot"))
+    end
+    assert failure, "expected a spurious Intro link to fail the link ledger"
+  end
+
+  def test_link_ledger_rejects_a_duplicated_main_link
+    demo = "[View the interactive p5.js demo](https://editor.p5js.org/boningUCSB/full/EsJxpC1m)"
+    mutated_body = project_body("spl_visualization").sub(demo, "#{demo}\n\n#{demo}")
+
+    failure = capture_assertion_failure do
+      assert_authored_link_ledger("spl_visualization", mutated_body, PROJECT_PRESERVATION.fetch("spl_visualization"))
+    end
+    assert failure, "expected a duplicated Main Content link to fail the link ledger"
   end
 
   def test_preserved_destinations_remain_in_their_required_authoring_regions
@@ -350,6 +379,8 @@ class ProjectCollectionSourceTest < TinyTestCase
   def assert_frontmatter_contract(slug, frontmatter)
     expected = PROJECT_METADATA.fetch(slug)
 
+    assert_equal expected.keys.sort, frontmatter.keys.sort, "#{slug} frontmatter keys"
+
     expected.each do |key, value|
       assert_equal value, frontmatter.fetch(key), "#{slug} #{key}"
     end
@@ -359,6 +390,13 @@ class ProjectCollectionSourceTest < TinyTestCase
 
       refute frontmatter.key?(key), "expected #{slug} not to define #{key}"
     end
+  end
+
+  def assert_authored_link_ledger(slug, body, preservation)
+    intro, main_content = intro_and_main_content(body)
+
+    assert_equal preservation.fetch(:intro_links, []), authored_link_destinations(intro), "#{slug} Intro links"
+    assert_equal preservation.fetch(:main_links, []), authored_link_destinations(main_content), "#{slug} Main Content links"
   end
 
   def authored_image_lines(body)
@@ -386,6 +424,10 @@ class ProjectCollectionSourceTest < TinyTestCase
     body.scan(/!\[[^\]]+\]\(([^\s)]+)(?:\s+"[^\"]+")?\)|::: video-embed\s*\n\[[^\]]+\]\(([^\s)]+)/m).map do |image_source, video_source|
       image_source || video_source
     end
+  end
+
+  def authored_link_destinations(text)
+    text.scan(/(?<!!)\[[^\]]+\]\(([^\s)]+)(?:\s+"[^\"]*")?\)/).flatten
   end
 
   def intro_and_main_content(body)
