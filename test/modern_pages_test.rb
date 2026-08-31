@@ -4,6 +4,30 @@ require "yaml"
 
 ROOT = File.expand_path("..", __dir__)
 
+RETIRED_PATHS = %w[
+  _layouts/project-post.html
+  _layouts/default.html
+  _includes/header.html
+].freeze
+
+RETIRED_PATH_FAMILIES = {
+  "showcase includes" => "_includes/showcase/**/*",
+  "showcase stylesheet entries" => "assets/css/showcase/**/*",
+  "showcase Sass partials" => "_sass/showcase/**/*"
+}.freeze
+
+LEGACY_SOURCE_PATTERNS = {
+  "project-post layout" => /(?:^|\n)[ \t]*layout:[ \t]*["']?project-post["']?[ \t]*(?:#.*)?(?:\n|\z)/,
+  "default layout" => /(?:^|\n)[ \t]*layout:[ \t]*["']?default["']?[ \t]*(?:#.*)?(?:\n|\z)/,
+  "project-post Liquid branch" => /page\.layout[^\n]*["']project-post["']/,
+  "showcase include" => /\{%[ \t]*include[ \t]+showcase\//,
+  "showcase stylesheet" => %r{(?:/)?assets/css/showcase/|@(?:use|import)[ \t]+["'][^"']*showcase/},
+  "Bootstrap dependency" => /(?:bootstrap(?:\.min)?\.(?:css|js)|bootstrapcdn|@(?:use|import)[ \t]+["'][^"']*bootstrap)/i,
+  "jQuery dependency" => /(?:jquery(?:-[\d.]+)?(?:\.min)?\.js|code\.jquery\.com|@(?:use|import)[ \t]+["'][^"']*jquery)/i,
+  "Popper dependency" => /(?:popper(?:\.min)?\.js|cdnjs\.cloudflare\.com\/ajax\/libs\/popper|@(?:use|import)[ \t]+["'][^"']*popper)/i,
+  "project posts stylesheet" => /project-posts\.css/
+}.freeze
+
 class AssertionFailure < StandardError; end
 
 def assert(condition, message)
@@ -28,15 +52,24 @@ def built(path)
   File.read(full_path)
 end
 
-def production_page_and_layout_sources
+def production_source_paths
   config = YAML.safe_load(File.read(File.join(ROOT, "_config.yml")), permitted_classes: [Date, Time], aliases: true)
   collection_names = config.fetch("collections", {}).keys
+  excluded_root_files = config.fetch("exclude", []).select { |path| !path.include?("/") }
   source_paths = Dir[File.join(ROOT, "*.{html,md,markdown}")]
-  source_paths.concat(Dir[File.join(ROOT, "_layouts", "**", "*.html")])
+  source_paths.reject! { |path| excluded_root_files.include?(File.basename(path)) }
+  source_paths.concat(Dir[File.join(ROOT, "_layouts", "**", "*.{html,md,markdown}")])
+  source_paths.concat(Dir[File.join(ROOT, "_includes", "**", "*.{html,liquid,md,markdown}")])
+  source_paths.concat(Dir[File.join(ROOT, "_plugins", "**", "*.{rb,html,liquid}")])
+  source_paths.concat(Dir[File.join(ROOT, "_data", "**", "*.{yml,yaml,json}")])
+  source_paths.concat(Dir[File.join(ROOT, "_sass", "**", "*.{scss,sass,css}")])
+  source_paths.concat(Dir[File.join(ROOT, "assets", "css", "**", "*.{scss,sass,css}")])
+  source_paths.concat(Dir[File.join(ROOT, "assets", "js", "**", "*.{js,mjs,cjs}")])
+  source_paths << File.join(ROOT, "_config.yml")
   collection_names.each do |collection_name|
     source_paths.concat(Dir[File.join(ROOT, "_#{collection_name}", "**", "*.{html,md,markdown}")])
   end
-  source_paths.sort
+  source_paths.select { |path| File.file?(path) }.sort.uniq
 end
 
 def frontmatter_layout(path)
@@ -44,7 +77,15 @@ def frontmatter_layout(path)
   match = source.match(/\A---[ \t]*\r?\n(?<frontmatter>.*?)^---[ \t]*\r?\n/m)
   return unless match
 
-  YAML.safe_load(match[:frontmatter], permitted_classes: [Date, Time], aliases: true).fetch("layout", nil)
+  frontmatter = YAML.safe_load(match[:frontmatter], permitted_classes: [Date, Time], aliases: true) || {}
+  frontmatter.fetch("layout", nil)
+end
+
+def legacy_source_references(path)
+  source = File.read(path)
+  LEGACY_SOURCE_PATTERNS.filter_map do |name, pattern|
+    name if source.match?(pattern)
+  end
 end
 
 tests = {
@@ -65,17 +106,30 @@ tests = {
       )
 
       assert(frontmatter_layout(path) == "project-detail", "expected only the YAML layout field to be read")
+      assert(legacy_source_references(path).empty?, "expected prose not to create a legacy source reference")
+
+      empty_frontmatter_path = File.join(directory, "empty-frontmatter.scss")
+      File.write(empty_frontmatter_path, "---\n---\n.page { color: inherit; }\n")
+      assert(frontmatter_layout(empty_frontmatter_path).nil?, "expected empty frontmatter to have no layout")
     end
   end,
   "production source retires the legacy project page stack" => lambda do
-    %w[_layouts/project-post.html _layouts/default.html _includes/header.html].each do |path|
+    RETIRED_PATHS.each do |path|
       refute File.exist?(File.join(ROOT, path)), "expected #{path} to be retired"
     end
 
-    production_page_and_layout_sources.each do |path|
-      layout = frontmatter_layout(path)
-      refute %w[default project-post].include?(layout), "expected #{path} not to use retired layout #{layout.inspect}"
+    RETIRED_PATH_FAMILIES.each do |family, pattern|
+      matches = Dir[File.join(ROOT, pattern)].select { |path| File.file?(path) }
+      assert(matches.empty?, "expected retired #{family} to be absent: #{matches.join(", ")}")
     end
+
+    references = production_source_paths.flat_map do |path|
+      layout = frontmatter_layout(path)
+      matches = legacy_source_references(path)
+      matches << "frontmatter layout #{layout.inspect}" if %w[default project-post].include?(layout)
+      matches.map { |match| "#{path.delete_prefix("#{ROOT}/")}: #{match}" }
+    end
+    assert(references.empty?, "expected no production references to the retired project stack: #{references.join(", ")}")
   end,
   "homepage uses the dependency-free modern shell" => lambda do
     html = built("index.html")
