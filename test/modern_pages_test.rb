@@ -20,6 +20,7 @@ LEGACY_SOURCE_PATTERNS = {
   "project-post layout" => /(?:^|\n)[ \t]*layout:[ \t]*["']?project-post["']?[ \t]*(?:#.*)?(?:\n|\z)/,
   "default layout" => /(?:^|\n)[ \t]*layout:[ \t]*["']?default["']?[ \t]*(?:#.*)?(?:\n|\z)/,
   "project-post Liquid branch" => /page\.layout[^\n]*["']project-post["']/,
+  "default Liquid branch" => /(?:page\.layout[^\n]*["']default["']|["']default["'][^\n]*page\.layout)/,
   "showcase include" => /\{%[ \t]*include[ \t]+showcase\//,
   "showcase stylesheet" => %r{(?:/)?assets/css/showcase/|@(?:use|import)[ \t]+["'][^"']*showcase/},
   "Bootstrap dependency" => /(?:bootstrap(?:\.min)?\.(?:css|js)|bootstrapcdn|@(?:use|import)[ \t]+["'][^"']*bootstrap)/i,
@@ -111,6 +112,15 @@ tests = {
       empty_frontmatter_path = File.join(directory, "empty-frontmatter.scss")
       File.write(empty_frontmatter_path, "---\n---\n.page { color: inherit; }\n")
       assert(frontmatter_layout(empty_frontmatter_path).nil?, "expected empty frontmatter to have no layout")
+    end
+  end,
+  "production source graph excludes historical design prose" => lambda do
+    fixture_path = File.join(ROOT, "docs", "designs", "__task8_default_layout_prose.md")
+    begin
+      File.write(fixture_path, %({% if page.layout == "default" %}\nHistorical design note.\n{% endif %}\n))
+      refute production_source_paths.include?(fixture_path), "expected historical design prose to stay outside the production graph"
+    ensure
+      File.delete(fixture_path) if File.exist?(fixture_path)
     end
   end,
   "production source retires the legacy project page stack" => lambda do
