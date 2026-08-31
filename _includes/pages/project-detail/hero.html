@@ -1,5 +1,8 @@
 {% assign project_hero = page.hero | default: site.project_detail.default_hero %}
-{% assign project_hero_alt = page.hero_alt | default: page.title | append: " project illustration" %}
+{% assign project_hero_alt = page.hero_alt | default: "" %}
+{% if project_hero_alt == "" %}
+  {% assign project_hero_alt = page.title | append: " project illustration" %}
+{% endif %}
 <header class="project-hero" data-project-hero>
   <img class="project-hero-image" src="{{ project_hero | relative_url }}" alt="{{ project_hero_alt | escape }}" width="3840" height="1280" fetchpriority="high">
   <div class="project-hero-shade" aria-hidden="true"></div>
