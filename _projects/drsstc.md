@@ -13,7 +13,7 @@ tags:
 ---
 Turn power electronics into a musical high-voltage instrument.
 
-This UCSB IEEE team project from Spring 2018 built a Dual Resonant Solid State Tesla Coil (DRSSTC). I introduced the idea to IEEE and led our members in completing the project.
+This UCSB IEEE team project from Spring 2018 built a Dual Resonant Solid State Tesla Coil (DRSSTC). Because of my personal experience with and interest in Tesla coils, I introduced the idea to IEEE and led our members in completing the project.
 
 ::: featured-link
 [View source on GitHub](https://github.com/boningdong/DRSSTC)
