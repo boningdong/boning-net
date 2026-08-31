@@ -218,6 +218,7 @@ class ProjectCollectionSourceTest < TinyTestCase
       "tags" => %w[software ar]
     }
   }.freeze
+  OPTIONAL_METADATA_KEYS = %w[external-link featured featured-order].freeze
 
   def assert_equal(expected, actual, message = nil)
     super(expected, actual)
@@ -245,10 +246,22 @@ class ProjectCollectionSourceTest < TinyTestCase
   def test_every_legacy_project_preserves_its_frontmatter_contract
     PROJECT_METADATA.each do |slug, expected|
       frontmatter, _body = project_parts(slug)
-      expected.each do |key, value|
-        assert_equal value, frontmatter.fetch(key), "#{slug} #{key}"
-      end
+      assert_frontmatter_contract(slug, frontmatter)
     end
+  end
+
+  def test_frontmatter_contract_rejects_spurious_optional_metadata
+    frontmatter, _body = project_parts("areusafe")
+    mutated_frontmatter = frontmatter.merge(
+      "external-link" => "https://example.com/unrelated-source",
+      "featured" => true,
+      "featured-order" => 1
+    )
+
+    failure = capture_assertion_failure do
+      assert_frontmatter_contract("areusafe", mutated_frontmatter)
+    end
+    assert failure, "expected spurious optional metadata to fail the frontmatter contract"
   end
 
   def test_every_legacy_project_preserves_its_authored_media_sequence
@@ -332,6 +345,20 @@ class ProjectCollectionSourceTest < TinyTestCase
 
   def project_parts(slug)
     parse_project(File.join(ROOT, "_projects", "#{slug}.md"))
+  end
+
+  def assert_frontmatter_contract(slug, frontmatter)
+    expected = PROJECT_METADATA.fetch(slug)
+
+    expected.each do |key, value|
+      assert_equal value, frontmatter.fetch(key), "#{slug} #{key}"
+    end
+
+    OPTIONAL_METADATA_KEYS.each do |key|
+      next if expected.key?(key)
+
+      refute frontmatter.key?(key), "expected #{slug} not to define #{key}"
+    end
   end
 
   def authored_image_lines(body)
