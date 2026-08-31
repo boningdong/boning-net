@@ -196,6 +196,7 @@ tests = {
   end,
   "homepage defaults to Artwork and keeps disabled Notes out of the page" => lambda do
     html = built("index.html")
+    hero_html = html[0..html.index("</header>")]
     artwork_tab_position = html.index('id="artwork-tab"')
     projects_tab_position = html.index('id="projects-tab"')
 
@@ -203,7 +204,7 @@ tests = {
     assert_includes html, "Create with care"
     assert_includes html, "Engineering"
     assert_includes html, "Art"
-    refute_includes html, ">Notes<"
+    assert_includes hero_html, "<span>Notes</span>"
     assert_includes html, "Engineer, Programmer, Artist"
     assert_includes html, "I now work as an engineer in Silicon Valley."
     assert_includes html, 'class="work-switcher"'
@@ -217,6 +218,24 @@ tests = {
     assert_includes html, 'class="portrait" src="/assets/img/index/me.jpeg"'
     assert File.file?(File.join(ROOT, "assets/img/index/me.jpeg")), "expected the new square portrait asset"
     refute_includes html, "As engineers, we were going to be in a position to change the world"
+  end,
+  "homepage renders configured selected work in declared order" => lambda do
+    html = built("index.html")
+    artwork_start = html.index('id="artwork-panel"')
+    projects_start = html.index('id="projects-panel"')
+    artwork_html = html[artwork_start...projects_start]
+    projects_html = html[projects_start..]
+
+    assert(artwork_html.scan('class="portfolio-item').length == 3, "expected three selected Artwork cards")
+    assert(projects_html.scan('class="portfolio-item').length == 3, "expected three selected Project cards")
+
+    artwork_titles = ["Snow Scene", "Geralt of Rivia - The Witcher 3", "Watercolor Scenery"]
+    artwork_positions = artwork_titles.map { |title| artwork_html.index("<strong>#{title}</strong>") }
+    assert(artwork_positions.all? && artwork_positions == artwork_positions.sort, "expected configured Artwork order")
+
+    project_titles = ["AR Domino", "Scopen", "AI Chatbot Avatar"]
+    project_positions = project_titles.map { |title| projects_html.index("<strong>#{title}</strong>") }
+    assert(project_positions.all? && project_positions == project_positions.sort, "expected configured Project order")
   end,
   "Projects page is collection backed" => lambda do
     html = built("projects.html")

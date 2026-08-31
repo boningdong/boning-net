@@ -4,11 +4,22 @@ hero:
   meta:
     - Engineering
     - Art
+    - Notes
 
 about:
   kicker: About me
   title: Engineer, Programmer, Artist
   description: Born and raised in Beijing, China, I now work as an engineer in Silicon Valley. Engineering is my life, and drawing is my love. They may seem like opposites, but to me they are deeply connected—different ways of understanding an idea and giving it form.
+
+selected_work:
+  artwork:
+    - snow_scene
+    - the_witcher
+    - scene_watercolor
+  projects:
+    - ar_domino
+    - scopen
+    - chatbot
 
 skills:
   - title: Hardware

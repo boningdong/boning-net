@@ -1,5 +1,3 @@
-{% assign home_projects = site.projects | sort: "date" | reverse %}
-{% assign home_artwork = site.artwork | sort: "date" | reverse %}
 <section class="home-work design-section" id="work">
   <div class="design-wrap">
     <div class="section-head-row">
@@ -15,7 +13,9 @@
     </div>
     <section class="work-panel active" id="artwork-panel" role="tabpanel" aria-labelledby="artwork-tab">
       <div class="work-layout layout-bento">
-        {% for artwork in home_artwork limit: 3 %}
+        {% for artwork_slug in site.data.home.selected_work.artwork %}
+          {% assign artwork = site.artwork | where: "slug", artwork_slug | first %}
+          {% if artwork %}
           {% assign item_class = "item-tertiary" %}
           {% if forloop.index == 1 %}{% assign item_class = "item-feature" %}{% endif %}
           {% if forloop.index == 2 %}{% assign item_class = "item-secondary" %}{% endif %}
@@ -31,13 +31,16 @@
               <em>Artwork · {{ artwork.date | date: "%Y" }}</em>
             </div>
           </a>
+          {% endif %}
         {% endfor %}
       </div>
       <a class="text-link" href="{{ '/artwork.html' | relative_url }}">View all artwork</a>
     </section>
     <section class="work-panel" id="projects-panel" role="tabpanel" aria-labelledby="projects-tab" hidden>
       <div class="work-layout layout-bento">
-        {% for project in home_projects limit: 3 %}
+        {% for project_slug in site.data.home.selected_work.projects %}
+          {% assign project = site.projects | where: "slug", project_slug | first %}
+          {% if project %}
           {% assign item_class = "item-tertiary" %}
           {% if forloop.index == 1 %}{% assign item_class = "item-feature" %}{% endif %}
           {% if forloop.index == 2 %}{% assign item_class = "item-secondary" %}{% endif %}
@@ -53,6 +56,7 @@
               <em>Project · {{ project.date | date: "%Y" }}</em>
             </div>
           </a>
+          {% endif %}
         {% endfor %}
       </div>
       <a class="text-link" href="{{ '/projects.html' | relative_url }}">View all projects</a>

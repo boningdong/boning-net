@@ -146,7 +146,23 @@ featured_experiences:
     cta: Visit Company
 ```
 
-The homepage hero and about copy are stored in `hero` and `about`. Projects and Artwork are read directly from their Jekyll collections.
+The homepage hero and about copy are stored in `hero` and `about`.
+
+`selected_work` fixes the three Artwork and Project cards shown on the homepage. Each value is the collection Markdown filename without its extension, and list order maps to the feature, secondary, and tertiary card positions:
+
+```yaml
+selected_work:
+  artwork:
+    - snow_scene
+    - the_witcher
+    - scene_watercolor
+  projects:
+    - ar_domino
+    - scopen
+    - chatbot
+```
+
+Changing a collection item's date does not affect this selection. Keep exactly three valid slugs in each list.
 
 `notes_preview` controls the temporary Notes preview. Set `enabled: false` to omit it and automatically restore three-part section numbering before deployment:
 
