@@ -25,13 +25,15 @@ Optional frontmatter:
 
 ```yaml
 external-link: https://github.com/example/project
-banner: /assets/img/projects/example_banner.jpg
+hero: /assets/img/projects/example_hero.png
+hero_alt: Description of the project hero image
 ```
 
 Notes:
 - `tags` must match `tag-id` values from `_tags/*.md`.
 - `cover` is used on the projects index card.
-- `banner` is used on the project detail hero. If omitted, the default projects banner is used.
+- `hero` overrides the Project Detail hero image. If it is omitted, the Hero uses `site.project_detail.default_hero`.
+- `hero_alt` describes the hero image. If it is omitted, the Hero uses the project title followed by ` project illustration`.
 
 Every project uses the [Project Detail author guide](project-detail/README.md) for its Markdown and component contract, including Intro placement, H1 chapters, navigation options, typed directives, structured people data, Markdown figures, and the raw HTML policy.
 

@@ -25,6 +25,10 @@ project_detail:
 
 The `project_detail` value, when present, must be a mapping. Both supported options are optional: `navigation` accepts `auto` or `none` and defaults to `auto`, while `intro_style` accepts `featured` or `plain` and defaults to `featured`. Unknown keys, including misspellings, and invalid values stop the Jekyll build instead of being ignored.
 
+## Hero Metadata
+
+Use optional top-level `hero` and `hero_alt` frontmatter to override the Project Detail Hero image and its alternative text. `hero` defaults to `site.project_detail.default_hero`, preserving the default Hero presentation when no project-specific image is needed. `hero_alt` defaults to the project title followed by ` project illustration`. `cover` remains the project index-card image; it does not control the Hero.
+
 ## Project Intro
 
 Visible Markdown before the first level-one heading is the Project Intro.

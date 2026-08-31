@@ -17,6 +17,8 @@ title: Example Project
 subtitle: A concise project summary.
 date: 2026-08-27
 cover: /assets/img/projects/example/cover.png
+hero: /assets/img/projects/example/hero.png
+hero_alt: Example Project in use
 tags:
   - hardware
 project_detail:
@@ -26,6 +28,8 @@ project_detail:
 ```
 
 Remove obsolete presentation-only frontmatter rather than copying generated chapter or component data into the source.
+
+`cover` remains the project index-card image. Use `hero` and `hero_alt` only when a project-specific Hero image and alternative text are needed; otherwise the configured default Hero is used.
 
 ## 3. Establish Intro and Chapters
 

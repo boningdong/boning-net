@@ -85,6 +85,26 @@ class DocumentationTest < TinyTestCase
     end
   end
 
+  def test_permanent_project_docs_describe_the_supported_hero_keys
+    schema = read("docs/content-schema.md")
+
+    assert_includes schema, "hero: /assets/img/projects/example_hero.png"
+    assert_includes schema, "hero_alt: Description of the project hero image"
+    assert_includes schema, "site.project_detail.default_hero"
+    refute_includes schema, "banner:"
+    refute_includes schema, "banner_alt:"
+  end
+
+  def test_instruction_files_do_not_describe_the_retired_site_graph
+    %w[AGENTS.md CLAUDE.md].each do |path|
+      text = read(path)
+
+      ["Vanilla JS with jQuery", "Bootstrap integration", "index/", "showcase/", "header.html", "assets/css/: Organized by page type"].each do |token|
+        refute_includes text, token
+      end
+    end
+  end
+
   private
 
   def component_paths
