@@ -95,6 +95,16 @@ class DocumentationTest < TinyTestCase
     refute_includes schema, "banner_alt:"
   end
 
+  def test_permanent_project_docs_describe_normalized_hero_alt_behavior
+    ["docs/content-schema.md", "docs/project-detail/README.md"].each do |path|
+      text = read(path)
+
+      assert_includes text.downcase, "omitted, empty, or whitespace-only"
+      assert_includes text, "` project illustration`"
+      assert_includes text, "trimmed"
+    end
+  end
+
   def test_instruction_files_do_not_describe_the_retired_site_graph
     %w[AGENTS.md CLAUDE.md].each do |path|
       text = read(path)

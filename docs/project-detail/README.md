@@ -27,7 +27,7 @@ The `project_detail` value, when present, must be a mapping. Both supported opti
 
 ## Hero Metadata
 
-Use optional top-level `hero` and `hero_alt` frontmatter to override the Project Detail Hero image and its alternative text. `hero` defaults to `site.project_detail.default_hero`, preserving the default Hero presentation when no project-specific image is needed. `hero_alt` defaults to the project title followed by ` project illustration`. `cover` remains the project index-card image; it does not control the Hero.
+Use optional top-level `hero` and `hero_alt` frontmatter to override the Project Detail Hero image and its alternative text. `hero` defaults to `site.project_detail.default_hero`, preserving the default Hero presentation when no project-specific image is needed. Omitted, empty, or whitespace-only `hero_alt` values use the project title followed by ` project illustration`; supplied values are trimmed and then used exactly. `cover` remains the project index-card image; it does not control the Hero.
 
 ## Project Intro
 

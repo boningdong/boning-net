@@ -33,7 +33,7 @@ Notes:
 - `tags` must match `tag-id` values from `_tags/*.md`.
 - `cover` is used on the projects index card.
 - `hero` overrides the Project Detail hero image. If it is omitted, the Hero uses `site.project_detail.default_hero`.
-- `hero_alt` describes the hero image. If it is omitted, the Hero uses the project title followed by ` project illustration`.
+- `hero_alt` describes the hero image. Omitted, empty, or whitespace-only values use the project title followed by ` project illustration`; supplied values are trimmed and then used exactly.
 
 Every project uses the [Project Detail author guide](project-detail/README.md) for its Markdown and component contract, including Intro placement, H1 chapters, navigation options, typed directives, structured people data, Markdown figures, and the raw HTML policy.
 
