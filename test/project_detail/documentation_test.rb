@@ -99,7 +99,15 @@ class DocumentationTest < TinyTestCase
     %w[AGENTS.md CLAUDE.md].each do |path|
       text = read(path)
 
-      ["Vanilla JS with jQuery", "Bootstrap integration", "index/", "showcase/", "header.html", "assets/css/: Organized by page type"].each do |token|
+      [
+        "Vanilla JS with jQuery",
+        "Bootstrap integration",
+        "JavaScript handles interactive elements like project/artwork showcase toggles",
+        "`header.html`: Shared page metadata",
+        "`index/`: Homepage components (navbar, showcase, skills, timeline)",
+        "`showcase/`: Project/artwork gallery components",
+        "`assets/css/`: Organized by page type (index/, showcase/)"
+      ].each do |token|
         refute_includes text, token
       end
     end
