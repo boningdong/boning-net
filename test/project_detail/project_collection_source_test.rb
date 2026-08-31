@@ -144,13 +144,7 @@ class ProjectCollectionSourceTest < TinyTestCase
   def test_every_authored_media_item_has_accessible_copy
     PROJECT_PATHS.each do |path|
       _frontmatter, body = parse_project(path)
-      authored_image_lines(body).each do |line|
-        match = line.match(/^\s*!\[([^\]]+)\]\([^\s)]+\s+"([^\"]+)"\)\s*$/)
-        assert(match, line)
-        assert match[1].match?(/\S/), line
-        assert match[2].match?(/\S/), line
-        refute match[2].match?(/[.!?]\z/), line
-      end
+      assert_accessible_image_lines(body)
     end
   end
 
@@ -166,6 +160,15 @@ class ProjectCollectionSourceTest < TinyTestCase
     assert_raises(AssertionFailure) do
       assert_equal PROJECT_PRESERVATION.fetch("ar_domino").fetch(:media), authored_media_sources(mutated_body)
     end
+  end
+
+  def test_accessibility_contract_rejects_an_empty_image_alt
+    mutated_body = project_body("ar_domino").sub("![Annotated AR Domino placement interface]", "![]")
+
+    failure = capture_assertion_failure do
+      assert_accessible_image_lines(mutated_body)
+    end
+    assert failure, "expected an empty image alt to fail the accessibility contract"
   end
 
   def test_preserved_destinations_remain_in_their_required_authoring_regions
@@ -217,7 +220,24 @@ class ProjectCollectionSourceTest < TinyTestCase
   end
 
   def authored_image_lines(body)
-    body.scan(/^\s*!\[[^\n]+\]\([^\n]+\)\s*$/)
+    body.scan(/^\s*!\[[^\n]*\]\([^\n]+\)\s*$/)
+  end
+
+  def assert_accessible_image_lines(body)
+    authored_image_lines(body).each do |line|
+      match = line.match(/^\s*!\[([^\]]+)\]\([^\s)]+\s+"([^\"]+)"\)\s*$/)
+      assert(match, line)
+      assert match[1].match?(/\S/), line
+      assert match[2].match?(/\S/), line
+      refute match[2].match?(/[.!?]\z/), line
+    end
+  end
+
+  def capture_assertion_failure
+    yield
+    nil
+  rescue AssertionFailure => error
+    error
   end
 
   def authored_media_sources(body)
