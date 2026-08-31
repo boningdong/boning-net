@@ -9,7 +9,7 @@ class HeroTest < TinyTestCase
   ROOT = File.expand_path("../..", __dir__)
 
   def test_explicit_hero_alt_renders_exactly_as_authored
-    html = render_hero(title: "Layout fixture", hero_alt: "Handheld measurement instrument")
+    html = render_hero(title: "Layout fixture", hero_alt: "  Handheld measurement instrument  ")
 
     assert_equal "Handheld measurement instrument", rendered_hero_alt(html)
   end
@@ -18,6 +18,14 @@ class HeroTest < TinyTestCase
     html = render_hero(title: "Layout fixture")
 
     assert_equal "Layout fixture project illustration", rendered_hero_alt(html)
+  end
+
+  def test_empty_and_whitespace_only_hero_alt_use_the_title_based_fallback
+    ["", " \t \n "].each do |hero_alt|
+      html = render_hero(title: "Layout fixture", hero_alt: hero_alt)
+
+      assert_equal "Layout fixture project illustration", rendered_hero_alt(html)
+    end
   end
 
   private
