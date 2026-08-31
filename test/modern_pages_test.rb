@@ -1,4 +1,5 @@
 require "date"
+require "fileutils"
 require "tmpdir"
 require "yaml"
 
@@ -53,22 +54,22 @@ def built(path)
   File.read(full_path)
 end
 
-def production_source_paths
-  config = YAML.safe_load(File.read(File.join(ROOT, "_config.yml")), permitted_classes: [Date, Time], aliases: true)
+def production_source_paths(root = ROOT)
+  config = YAML.safe_load(File.read(File.join(root, "_config.yml")), permitted_classes: [Date, Time], aliases: true)
   collection_names = config.fetch("collections", {}).keys
   excluded_root_files = config.fetch("exclude", []).select { |path| !path.include?("/") }
-  source_paths = Dir[File.join(ROOT, "*.{html,md,markdown}")]
+  source_paths = Dir[File.join(root, "*.{html,md,markdown}")]
   source_paths.reject! { |path| excluded_root_files.include?(File.basename(path)) }
-  source_paths.concat(Dir[File.join(ROOT, "_layouts", "**", "*.{html,md,markdown}")])
-  source_paths.concat(Dir[File.join(ROOT, "_includes", "**", "*.{html,liquid,md,markdown}")])
-  source_paths.concat(Dir[File.join(ROOT, "_plugins", "**", "*.{rb,html,liquid}")])
-  source_paths.concat(Dir[File.join(ROOT, "_data", "**", "*.{yml,yaml,json}")])
-  source_paths.concat(Dir[File.join(ROOT, "_sass", "**", "*.{scss,sass,css}")])
-  source_paths.concat(Dir[File.join(ROOT, "assets", "css", "**", "*.{scss,sass,css}")])
-  source_paths.concat(Dir[File.join(ROOT, "assets", "js", "**", "*.{js,mjs,cjs}")])
-  source_paths << File.join(ROOT, "_config.yml")
+  source_paths.concat(Dir[File.join(root, "_layouts", "**", "*.{html,md,markdown}")])
+  source_paths.concat(Dir[File.join(root, "_includes", "**", "*.{html,liquid,md,markdown}")])
+  source_paths.concat(Dir[File.join(root, "_plugins", "**", "*.{rb,html,liquid}")])
+  source_paths.concat(Dir[File.join(root, "_data", "**", "*.{yml,yaml,json}")])
+  source_paths.concat(Dir[File.join(root, "_sass", "**", "*.{scss,sass,css}")])
+  source_paths.concat(Dir[File.join(root, "assets", "css", "**", "*.{scss,sass,css}")])
+  source_paths.concat(Dir[File.join(root, "assets", "js", "**", "*.{js,mjs,cjs}")])
+  source_paths << File.join(root, "_config.yml")
   collection_names.each do |collection_name|
-    source_paths.concat(Dir[File.join(ROOT, "_#{collection_name}", "**", "*.{html,md,markdown}")])
+    source_paths.concat(Dir[File.join(root, "_#{collection_name}", "**", "*.{html,md,markdown}")])
   end
   source_paths.select { |path| File.file?(path) }.sort.uniq
 end
@@ -115,12 +116,37 @@ tests = {
     end
   end,
   "production source graph excludes historical design prose" => lambda do
-    fixture_path = File.join(ROOT, "docs", "designs", "__task8_default_layout_prose.md")
-    begin
-      File.write(fixture_path, %({% if page.layout == "default" %}\nHistorical design note.\n{% endif %}\n))
-      refute production_source_paths.include?(fixture_path), "expected historical design prose to stay outside the production graph"
-    ensure
-      File.delete(fixture_path) if File.exist?(fixture_path)
+    Dir.mktmpdir("production-source-graph") do |source_root|
+      historical_path = File.join(source_root, "docs", "designs", "historical-note.md")
+      include_path = File.join(source_root, "_includes", "active.html")
+      FileUtils.mkdir_p(File.dirname(historical_path))
+      FileUtils.mkdir_p(File.dirname(include_path))
+      File.write(File.join(source_root, "_config.yml"), "collections: {}\nexclude: []\n")
+      File.write(historical_path, %({% if page.layout == "default" %}\nHistorical design note.\n{% endif %}\n))
+      File.write(include_path, "<main>Active production include</main>\n")
+
+      source_paths = production_source_paths(source_root)
+      assert(source_paths.include?(include_path), "expected active includes in the production graph")
+      refute(source_paths.include?(historical_path), "expected historical design prose outside the production graph")
+    end
+  end,
+  "legacy source matcher recognizes default layout Liquid branches" => lambda do
+    cases = {
+      "left-hand double quotes" => ['{% if page.layout == "default" %}', true],
+      "left-hand single quotes" => ["{%if page.layout=='default'%}", true],
+      "left-hand spaced comparison" => ["{% if page.layout    ==    'default' %}", true],
+      "right-hand double quotes" => ['{% if "default" == page.layout %}', true],
+      "right-hand single quotes" => ["{%if'default'==page.layout%}", true],
+      "generic prose" => ["Use the default configuration for new project pages.", false]
+    }
+
+    Dir.mktmpdir("legacy-layout-matcher") do |directory|
+      cases.each do |name, (source, expected_match)|
+        path = File.join(directory, "#{name.tr(' ', '-')}.html")
+        File.write(path, "#{source}\n")
+        actual_match = legacy_source_references(path).include?("default Liquid branch")
+        assert(actual_match == expected_match, "expected #{name} to match=#{expected_match}, got #{actual_match}")
+      end
     end
   end,
   "production source retires the legacy project page stack" => lambda do
