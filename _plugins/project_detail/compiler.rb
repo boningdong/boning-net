@@ -26,6 +26,7 @@ module BoningNet
         :intro_markdown,
         :chapters,
         :navigation_enabled,
+        :corner_navigation_enabled,
         :intro_style,
         :blocks,
         :intro_parts,
@@ -79,6 +80,7 @@ module BoningNet
           intro_markdown: replace_sentinels(chapter_result.intro_markdown, includes),
           chapters: chapter_result.chapters,
           navigation_enabled: chapter_result.navigation_enabled,
+          corner_navigation_enabled: chapter_result.corner_navigation_enabled,
           intro_style: chapter_result.intro_style,
           blocks: context.blocks,
           intro_parts: intro_parts(chapter_result.intro_markdown, includes)

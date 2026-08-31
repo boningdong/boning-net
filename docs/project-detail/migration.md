@@ -51,7 +51,7 @@ How the physical system works.
 Subsection details.
 ```
 
-Delete duplicated navigation arrays or chapter lists. With `navigation: auto`, the compiler derives both responsive navigation presentations from the H1 sequence.
+Delete duplicated navigation arrays or chapter lists. With `navigation: auto`, the compiler derives the desktop chapter list from one H1 and adds Corner Navigation when two or more H1 chapters exist.
 
 ## 4. Replace Structural HTML
 

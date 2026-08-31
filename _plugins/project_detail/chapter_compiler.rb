@@ -11,6 +11,7 @@ module BoningNet
       :intro_markdown,
       :chapters,
       :navigation_enabled,
+      :corner_navigation_enabled,
       :intro_style,
       keyword_init: true
     )
@@ -70,7 +71,8 @@ module BoningNet
           content: output,
           intro_markdown: visible_intro,
           chapters: chapters,
-          navigation_enabled: @navigation == "auto" && chapters.length >= 2,
+          navigation_enabled: @navigation == "auto" && chapters.any?,
+          corner_navigation_enabled: @navigation == "auto" && chapters.length >= 2,
           intro_style: @intro_style
         )
       end
@@ -83,6 +85,7 @@ module BoningNet
           intro_markdown: nil,
           chapters: [],
           navigation_enabled: false,
+          corner_navigation_enabled: false,
           intro_style: @intro_style
         )
       end

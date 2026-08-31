@@ -65,6 +65,7 @@ project_detail_generated:
       id: context
       title: Context
   navigation_enabled: false
+  corner_navigation_enabled: false
   intro_style: featured
   blocks:
     project-detail-block-1:
@@ -83,7 +84,7 @@ This shape is internal build output. Authors must not place it in frontmatter or
 
 `ChapterCompiler` uses Kramdown's document and table-of-contents structures to identify level-one headings and Kramdown-compatible IDs. Content before the first H1 becomes Intro when visible. Main Content is wrapped in semantic `.project-chapter` sections without changing the authored heading hierarchy.
 
-Navigation is enabled only when the validated setting is `auto` and at least two chapters exist. Desktop and Corner Navigation consume the same chapter array. Authored explicit H1 IDs use a restricted ASCII grammar, duplicate explicit IDs are rejected before rendering, and every generated HTML attribute boundary escapes the resulting chapter metadata. Kramdown-generated IDs remain unchanged.
+With `navigation: auto`, one H1 enables desktop chapter navigation, while two or more H1 chapters enable both desktop and Corner Navigation from the same chapter array. Zero H1 chapters create neither navigation presentation. With `navigation: none`, both presentations remain disabled regardless of chapter count. These presentation flags do not change the desktop reading rail: Main Content keeps its right-hand grid column even when the chapter-list column is empty. Authored explicit H1 IDs use a restricted ASCII grammar, duplicate explicit IDs are rejected before rendering, and every generated HTML attribute boundary escapes the resulting chapter metadata. Kramdown-generated IDs remain unchanged.
 
 ## Rendering Ownership
 

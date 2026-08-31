@@ -24,6 +24,7 @@ class ProjectDetailProcessorTest < TinyTestCase
 
     assert_equal 2, result.chapters.length
     refute result.navigation_enabled
+    refute result.corner_navigation_enabled
     assert_includes result.content, 'data-project-chapter="context"'
     assert_includes result.content, "A short intro."
   end
@@ -42,6 +43,7 @@ class ProjectDetailProcessorTest < TinyTestCase
 
     assert_equal "featured", result.intro_style
     assert result.navigation_enabled
+    assert result.corner_navigation_enabled
   end
 
   def test_document_adapter_reports_physical_lines_after_frontmatter
@@ -104,6 +106,7 @@ class ProjectDetailProcessorTest < TinyTestCase
     default_generated = default_document.data.fetch("project_detail_generated")
     assert_equal "featured", default_generated.fetch("intro_style")
     assert default_generated.fetch("navigation_enabled")
+    assert default_generated.fetch("corner_navigation_enabled")
 
     configured_document = project_document(
       "project_detail" => { "navigation" => "none", "intro_style" => "plain" }
@@ -112,6 +115,7 @@ class ProjectDetailProcessorTest < TinyTestCase
     configured_generated = configured_document.data.fetch("project_detail_generated")
     assert_equal "plain", configured_generated.fetch("intro_style")
     refute configured_generated.fetch("navigation_enabled")
+    refute configured_generated.fetch("corner_navigation_enabled")
   end
 
   private

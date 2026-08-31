@@ -43,7 +43,7 @@ This short second paragraph can add essential context.
 The first chapter begins here.
 ```
 
-With `intro_style: featured`, the Intro is extracted into the featured Bridge presentation. With `intro_style: plain`, it remains ordinary rendered Markdown immediately before the first chapter. Blank lines and HTML comments alone do not create an Intro. If the document begins with an H1, no Intro is rendered. If the document has no H1, all content renders as ordinary Main Content and no chapter navigation is created.
+With `intro_style: featured`, the Intro is extracted into the featured Bridge presentation. With `intro_style: plain`, it remains ordinary rendered Markdown immediately before the first chapter. Blank lines and HTML comments alone do not create an Intro. If the document begins with an H1, no Intro is rendered. If the document has no H1, all content renders as ordinary Main Content.
 
 ## H1 Chapters
 
@@ -67,7 +67,9 @@ Kramdown generates an anchor when no explicit ID is present. Use `{#stable-id}` 
 
 ## Navigation
 
-With `navigation: auto`, two or more H1 chapters produce desktop chapter navigation and the mobile Corner Navigation from the same generated chapter data. Zero or one H1 produces no navigation. With `navigation: none`, neither navigation presentation is rendered, but H1 chapters remain semantic anchored sections.
+The desktop reading rail is stable across every Project Detail page: Main Content keeps the same right-hand column even when no chapter list is rendered. On mobile, the rail collapses to the normal single-column reading flow.
+
+With `navigation: auto`, Zero H1 chapters render no chapter list, one H1 renders the desktop chapter navigation, and two or more H1 chapters render both desktop chapter navigation and the mobile Corner Navigation. With `navigation: none`, neither navigation presentation is rendered, but the desktop reading rail remains stable and H1 chapters remain semantic anchored sections.
 
 Navigation links and chapter content work before JavaScript runs. JavaScript only adds active-chapter tracking, the mobile Corner interaction, focus handling, and enhanced scrolling.
 

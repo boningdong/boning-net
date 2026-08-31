@@ -1,6 +1,5 @@
 {% assign generated = page.project_detail_generated %}
-{% if generated.navigation_enabled %}
-  {% if include.variant == "desktop" %}
+{% if include.variant == "desktop" and generated.navigation_enabled %}
     <nav class="project-chapter-nav" aria-label="Project chapters" data-project-chapter-nav>
       <p class="project-chapter-nav-label">Chapters</p>
       <ol>
@@ -14,7 +13,7 @@
         {% endfor %}
       </ol>
     </nav>
-  {% elsif include.variant == "corner" %}
+{% elsif include.variant == "corner" and generated.corner_navigation_enabled %}
     <div class="project-corner" data-project-corner hidden>
       <button class="project-corner-trigger" type="button" aria-haspopup="dialog" aria-controls="project-corner-dialog" aria-label="Open project chapters, chapter 1 of {{ generated.chapters.size }}" data-project-corner-trigger>
         <span class="project-corner-glyph" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -37,5 +36,4 @@
         </ol>
       </dialog>
     </div>
-  {% endif %}
 {% endif %}

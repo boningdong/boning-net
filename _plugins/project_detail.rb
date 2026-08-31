@@ -48,6 +48,7 @@ module BoningNet
         "intro_markdown" => result.intro_markdown,
         "chapters" => result.chapters,
         "navigation_enabled" => result.navigation_enabled,
+        "corner_navigation_enabled" => result.corner_navigation_enabled,
         "intro_style" => result.intro_style,
         "blocks" => result.blocks,
         "intro_parts" => result.intro_parts

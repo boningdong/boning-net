@@ -113,18 +113,28 @@ class ChapterCompilerTest < TinyTestCase
     result = compile("Paragraph only.\n")
 
     refute result.navigation_enabled
+    refute result.corner_navigation_enabled
   end
 
-  def test_disables_navigation_for_one_chapter
+  def test_enables_desktop_navigation_for_one_chapter
     result = compile("# Context\nBody\n")
 
-    refute result.navigation_enabled
+    assert result.navigation_enabled
+    refute result.corner_navigation_enabled
   end
 
-  def test_enables_navigation_for_multiple_chapters
+  def test_enables_desktop_and_corner_navigation_for_multiple_chapters
     result = compile("# Context\nBody\n\n# Hardware\nBoard\n")
 
     assert result.navigation_enabled
+    assert result.corner_navigation_enabled
+  end
+
+  def test_navigation_none_disables_both_navigation_presentations
+    result = compile("# Context\nBody\n\n# Hardware\nBoard\n", navigation: "none")
+
+    refute result.navigation_enabled
+    refute result.corner_navigation_enabled
   end
 end
 

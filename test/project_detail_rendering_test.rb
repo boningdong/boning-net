@@ -37,7 +37,7 @@ def built(path)
   File.read(full_path)
 end
 
-def render_project_detail_layout(navigation_enabled:, chapters: nil)
+def render_project_detail_layout(navigation_enabled:, corner_navigation_enabled: false, chapters: nil)
   Dir.mktmpdir("project-detail-layout") do |source|
     destination = File.join(source, "_site")
     layouts = File.join(source, "_layouts")
@@ -63,6 +63,7 @@ def render_project_detail_layout(navigation_enabled:, chapters: nil)
       "title" => "Layout fixture",
       "project_detail_generated" => {
         "navigation_enabled" => navigation_enabled,
+        "corner_navigation_enabled" => corner_navigation_enabled,
         "chapters" => chapters,
         "blocks" => {},
         "intro_style" => "plain"
@@ -175,10 +176,8 @@ stylesheet_tests = {
       css.match?(/\.project-reading\{[^}]*grid-template-columns:176px minmax\(0,\s*1fr\)[^}]*border-top:1px solid var\(--line\)/),
       "expected the approved reading rail"
     )
-    assert(
-      css.match?(/\.project-reading--without-navigation\{grid-template-columns:minmax\(0,\s*1fr\)\}/),
-      "expected Main Content to use the full reading width when navigation is disabled"
-    )
+    refute_includes css, ".project-reading--without-navigation"
+    assert(css.match?(/\.project-main\{[^}]*grid-column:2/), "expected Main Content to stay on the reading rail")
     assert(css.match?(/\.project-chapter\{[^}]*padding:78px 0 94px/), "expected the approved chapter rhythm")
     assert(
       css.match?(/\.project-main h1\{[^}]*font-size:clamp\(36px,4\.3vw,52px\)/),
@@ -252,16 +251,32 @@ tests = {
       refute_includes html, "project-posts.css"
     end
   end,
-  "project detail layout emits the reading modifier only without navigation" => lambda do
-    without_navigation = render_project_detail_layout(navigation_enabled: false)
-    with_navigation = render_project_detail_layout(navigation_enabled: true)
-
-    assert_includes(
-      without_navigation,
-      'class="project-reading design-wrap project-reading--without-navigation"'
+  "project detail keeps the reading rail while navigation adapts to chapter count" => lambda do
+    without_chapters = render_project_detail_layout(
+      navigation_enabled: false,
+      chapters: []
     )
-    refute_includes with_navigation, "project-reading--without-navigation"
-    assert_includes with_navigation, 'class="project-reading design-wrap"'
+    one_chapter = render_project_detail_layout(navigation_enabled: true)
+    multiple_chapters = render_project_detail_layout(
+      navigation_enabled: true,
+      corner_navigation_enabled: true,
+      chapters: [
+        { "id" => "context", "index" => 1, "title" => "Context" },
+        { "id" => "hardware", "index" => 2, "title" => "Hardware" }
+      ]
+    )
+
+    [without_chapters, one_chapter, multiple_chapters].each do |html|
+      assert_includes html, 'class="project-reading design-wrap"'
+      refute_includes html, "project-reading--without-navigation"
+    end
+    refute_includes without_chapters, 'aria-label="Project chapters"'
+    refute_includes without_chapters, "data-project-corner"
+    assert_includes without_chapters, 'class="project-main project-main--without-chapters"'
+    assert_includes one_chapter, 'aria-label="Project chapters"'
+    refute_includes one_chapter, "data-project-corner"
+    assert_includes multiple_chapters, 'aria-label="Project chapters"'
+    assert_includes multiple_chapters, "data-project-corner"
   end,
   "chapter navigation escapes hostile generated metadata at final render boundaries" => lambda do
     hostile_id = 'context" onclick="alert(1)><img src=x onerror=alert(2)>'

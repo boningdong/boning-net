@@ -57,6 +57,20 @@ class DocumentationTest < TinyTestCase
     end
   end
 
+  def test_navigation_docs_separate_desktop_rail_from_mobile_corner_behavior
+    guide = read("docs/project-detail/README.md")
+    architecture = read("docs/project-detail/architecture.md")
+
+    [guide, architecture].each do |text|
+      assert_includes text, "one H1"
+      assert_includes text, "two or more H1"
+      assert_includes text, "Corner Navigation"
+      assert_includes text, "navigation: none"
+    end
+    assert_includes guide, "Zero H1"
+    assert_includes guide, "desktop reading rail"
+  end
+
   def test_permanent_guides_are_cross_linked_from_existing_documentation
     assert_includes read("docs/project-detail/README.md"), "](architecture.md)"
     assert_includes read("docs/project-detail/architecture.md"), "](README.md)"

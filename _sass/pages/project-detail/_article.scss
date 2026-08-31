@@ -5,15 +5,16 @@
   border-top: 1px solid var(--line);
 }
 
-.project-reading--without-navigation {
-  grid-template-columns: minmax(0, 1fr);
-}
-
 .project-main {
+  grid-column: 2;
   min-width: 0;
   color: var(--ink-soft);
   font-size: 17px;
   line-height: 1.68;
+}
+
+.project-main--without-chapters {
+  padding: 78px 0 94px;
 }
 
 .project-main > :first-child,
@@ -116,6 +117,7 @@
   }
 
   .project-main {
+    grid-column: auto;
     width: 100%;
     margin-inline: auto;
   }
@@ -128,6 +130,10 @@
   }
 
   .project-main .project-chapter {
+    padding: 68px 0 78px;
+  }
+
+  .project-main--without-chapters {
     padding: 68px 0 78px;
   }
 
