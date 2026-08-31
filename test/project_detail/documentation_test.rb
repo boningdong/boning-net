@@ -66,6 +66,25 @@ class DocumentationTest < TinyTestCase
                     "](../../project-detail/README.md)"
   end
 
+  def test_permanent_project_authoring_docs_do_not_describe_project_post_as_supported
+    paths = %w[
+      docs/content-schema.md
+      docs/architecture/frontend.md
+      docs/project-detail/README.md
+      docs/project-detail/migration.md
+      docs/project-detail/architecture.md
+      AGENTS.md
+      CLAUDE.md
+    ]
+
+    paths.each do |path|
+      text = File.read(File.join(ROOT, path))
+
+      refute_includes text, "layout: project-post"
+      refute_includes text, "layout: `project-post`"
+    end
+  end
+
   private
 
   def component_paths

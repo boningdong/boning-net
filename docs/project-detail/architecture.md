@@ -4,7 +4,7 @@ This document describes the build-time implementation behind `layout: project-de
 
 ## System Boundary
 
-The system accepts project frontmatter and Markdown, compiles the document during Jekyll's `:documents, :pre_render` hook, and emits complete semantic content plus optional chapter navigation. It runs only when `layout` is `project-detail`. Documents using `layout: project-post` bypass the compiler.
+The system accepts project frontmatter and Markdown, compiles every project document during Jekyll's `:documents, :pre_render` hook, and emits complete semantic content plus optional chapter navigation. Project pages use `layout: project-detail`.
 
 Kramdown remains the Markdown parser. The system adds no client-side Markdown parser, component framework, HTML-parser dependency, or third-party Jekyll plugin. JavaScript does not create project content.
 

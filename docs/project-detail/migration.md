@@ -1,14 +1,14 @@
-# Project Detail Migration Guide
+# Project Detail Migration Reference
 
-Use this guide to convert one legacy `layout: project-post` document to the current [Project Detail authoring contract](README.md). Migration is explicit and project-by-project; leaving a document on `project-post` preserves its legacy rendering and raw HTML behavior.
+All project documents now use the [Project Detail authoring contract](README.md). This completed-migration reference preserves the conversion checklist and source mappings for reviewing historical changes or adapting older content into the current contract.
 
-## 1. Inventory the Existing Page
+## 1. Inventory an Existing Source
 
-Record the existing URL, frontmatter, headings, prose, links, media, videos, and contributor data. Identify author-written layout HTML, Liquid includes, iframe markup, and repeated chapter metadata. Preserve useful content and stable URLs while changing its representation.
+Record the URL, frontmatter, headings, prose, links, media, videos, and contributor data before adapting content. Preserve useful content and stable URLs while changing its representation.
 
-## 2. Select the New Layout
+## 2. Use the Project Layout
 
-Change only the layout switch first and retain normal project metadata:
+Retain normal project metadata and use the collection's single layout:
 
 ```yaml
 ---
@@ -63,7 +63,7 @@ Project Detail rejects author-written HTML except comments. Replace common legac
 | CTA/card anchor HTML | [`featured-link`](components/featured-link.md) |
 | Display title paired with an H1 | [`narrative-title`](components/narrative-title.md) |
 
-Do not replace legacy HTML with hand-written Liquid includes. Includes and component classes are internal implementation.
+Do not replace historical HTML with hand-written Liquid includes. Includes and component classes are internal implementation.
 
 ## 5. Move Repeated People Data to Frontmatter
 
@@ -97,7 +97,7 @@ _projects/example.md:42: video-embed supports only valid YouTube video URLs
 
 Correct the authored Markdown or frontmatter named by the error. Do not edit generated block IDs or include references.
 
-## 7. Verify the Rendered Page
+## 7. Completed Migration Checklist
 
 Confirm all of the following before considering the migration complete:
 
@@ -110,6 +110,6 @@ Confirm all of the following before considering the migration complete:
 - Video embeds, standalone figures, people, captions, and callouts reflow at desktop, tablet, and mobile widths.
 - The page remains readable and anchor links work with JavaScript disabled.
 - No author-written structural HTML or internal Liquid include remains.
-- Unmigrated `layout: project-post` pages still render unchanged.
+- The project uses `layout: project-detail` and contains no author-written structural HTML or internal Liquid include.
 
-Scopen is the initial production example in `_projects/scopen.md`. Its source demonstrates all registered directives plus ordinary standalone figures without exposing the internal rendering pipeline.
+The complete collection is the production reference. Individual sources demonstrate combinations of registered directives and ordinary standalone figures without exposing the internal rendering pipeline.

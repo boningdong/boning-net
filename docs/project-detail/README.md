@@ -1,8 +1,8 @@
 # Project Detail Author Guide
 
-Use this guide when writing a project with `layout: project-detail`. The public authoring API is frontmatter, ordinary Markdown, and the typed directives listed in the [component index](components/README.md). Do not write Liquid includes, generated block IDs, layout HTML, or component class names in project content.
+Use this guide when writing a project. Every project uses `layout: project-detail`. The public authoring API is frontmatter, ordinary Markdown, and the typed directives listed in the [component index](components/README.md). Do not write Liquid includes, generated block IDs, layout HTML, or component class names in project content.
 
-For compiler and rendering internals, see the [technical architecture](architecture.md). For converting an existing project, see the [migration guide](migration.md).
+For compiler and rendering internals, see the [technical architecture](architecture.md). For the completed migration's reference checklist and source mappings, see the [migration guide](migration.md).
 
 ## Start a Project Detail Document
 
@@ -99,7 +99,7 @@ Author-written inline and block HTML is not allowed in content using `layout: pr
 <!-- This editorial note is allowed. -->
 ```
 
-Structural HTML such as `<div>`, `<figure>`, and `<iframe>` stops the build. Author-written Liquid tags and outputs, including `{% include ... %}` and `{{ page.value }}`, also stop the build with their physical source line; only compiler-generated internal Liquid is allowed to execute. Literal Liquid examples remain supported inside backtick or tilde fenced code blocks and render as written without execution. Use ordinary Markdown or a documented component instead. Each typed component body follows its own stricter Content Contract, so a comment inside a component is accepted only when that component explicitly permits it. These restrictions apply only to `layout: project-detail`; legacy `layout: project-post` documents retain their existing behavior.
+Structural HTML such as `<div>`, `<figure>`, and `<iframe>` stops the build. Author-written Liquid tags and outputs, including `{% include ... %}` and `{{ page.value }}`, also stop the build with their physical source line; only compiler-generated internal Liquid is allowed to execute. Literal Liquid examples remain supported inside backtick or tilde fenced code blocks and render as written without execution. Use ordinary Markdown or a documented component instead. Each typed component body follows its own stricter Content Contract, so a comment inside a component is accepted only when that component explicitly permits it.
 
 ## Links and Safety
 

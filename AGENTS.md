@@ -1,7 +1,7 @@
 # AGENTS.md
 This file provides guidance to Codex (Codex.ai/code) when working with code in this repository.
 ## Project Overview
-This is a personal portfolio website built with Jekyll, showcasing engineering projects, artwork, and professional experiences. The site is hosted at https://imboning.com and features a responsive design with separate sections for projects, artwork, and experience timeline.
+This is a personal portfolio website built with Jekyll, showcasing engineering projects, artwork, and professional experiences. Every project page uses the Project Detail authoring contract. The site is hosted at https://imboning.com and features a responsive design with separate sections for projects, artwork, and experience timeline.
 ## Technology Stack
 - **Static Site Generator**: Jekyll 4.4.1
 - **Theme**: Minima with heavy customization
@@ -30,7 +30,7 @@ bundle exec jekyll clean
   - `_experiences/`: Professional work history (6 positions)
   - `_tags/`: Tag definitions for categorizing projects
 ### Layout System
-- **Main Layouts**: `project-post.html` for project details
+- **Main Layouts**: `project-detail.html` for every project detail page
 - **Includes**: Modular components in `_includes/`:
   - `index/`: Homepage components (navbar, showcase, skills, timeline)
   - `showcase/`: Project/artwork gallery components
@@ -53,9 +53,10 @@ The `_config.yml` contains:
 ## Content Managemen
 ### Adding New Projects
 1. Create `.md` file in `_projects/` directory
-2. Use frontmatter with layout: `project-post`
-3. Include required fields: title, subtitle, date, cover image, tags
-4. Add project images to `assets/img/projects/[project-name]/`
+2. Use frontmatter with `layout: project-detail` and include title, subtitle, date, cover image, and tags.
+3. Author a concise Intro before the first H1 when needed; H1 chapters generate the project navigation.
+4. Use ordinary Markdown images for figures and documented typed directives for content Markdown cannot express; do not author structural HTML or Liquid includes.
+5. Add project images to `assets/img/projects/[project-name]/`.
 ### Adding Artwork
 1. Create `.md` file in `_artwork/` directory
 2. Include image location and cover image paths
@@ -69,6 +70,7 @@ The `_config.yml` contains:
 - JavaScript handles interactive elements like project/artwork showcase toggles
 - Responsive design optimized for mobile and desktop viewing
 - Images are served locally from the assets directory
+- Project Detail compiles Markdown, H1 navigation, figures, and typed directives at build time; see `docs/project-detail/README.md` before changing project content.
 ## Code Style Guidelines
 When editing files in this repository, follow these formatting standards:
 ### Line Endings and Whitespace
