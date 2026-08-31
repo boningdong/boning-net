@@ -20,7 +20,7 @@ RETIRED_PATH_FAMILIES = {
 LEGACY_SOURCE_PATTERNS = {
   "project-post layout" => /(?:^|\n)[ \t]*layout:[ \t]*["']?project-post["']?[ \t]*(?:#.*)?(?:\n|\z)/,
   "default layout" => /(?:^|\n)[ \t]*layout:[ \t]*["']?default["']?[ \t]*(?:#.*)?(?:\n|\z)/,
-  "project-post Liquid branch" => /page\.layout[^\n]*["']project-post["']/,
+  "project-post Liquid branch" => /(?:page\.layout[^\n]*["']project-post["']|["']project-post["'][^\n]*page\.layout)/,
   "default Liquid branch" => /(?:page\.layout[^\n]*["']default["']|["']default["'][^\n]*page\.layout)/,
   "showcase include" => /\{%[ \t]*include[ \t]+showcase\//,
   "showcase stylesheet" => %r{(?:/)?assets/css/showcase/|@(?:use|import)[ \t]+["'][^"']*showcase/},
@@ -130,21 +130,28 @@ tests = {
       refute(source_paths.include?(historical_path), "expected historical design prose outside the production graph")
     end
   end,
-  "legacy source matcher recognizes default layout Liquid branches" => lambda do
+  "legacy source matcher recognizes retired layout Liquid branches" => lambda do
     cases = {
       "left-hand double quotes" => ['{% if page.layout == "default" %}', true],
       "left-hand single quotes" => ["{%if page.layout=='default'%}", true],
       "left-hand spaced comparison" => ["{% if page.layout    ==    'default' %}", true],
       "right-hand double quotes" => ['{% if "default" == page.layout %}', true],
       "right-hand single quotes" => ["{%if'default'==page.layout%}", true],
-      "generic prose" => ["Use the default configuration for new project pages.", false]
+      "project-post left-hand double quotes" => ['{% if page.layout == "project-post" %}', true],
+      "project-post left-hand single quotes" => ["{%if page.layout=='project-post'%}", true],
+      "project-post left-hand spaced comparison" => ["{% if page.layout    ==    'project-post' %}", true],
+      "project-post right-hand double quotes" => ['{% if "project-post" == page.layout %}', true],
+      "project-post right-hand single quotes" => ["{%if'project-post'==page.layout%}", true],
+      "generic default prose" => ["Use the default configuration for new project pages.", false],
+      "generic project-post prose" => ["The project-post migration is documented elsewhere.", false]
     }
 
     Dir.mktmpdir("legacy-layout-matcher") do |directory|
       cases.each do |name, (source, expected_match)|
         path = File.join(directory, "#{name.tr(' ', '-')}.html")
         File.write(path, "#{source}\n")
-        actual_match = legacy_source_references(path).include?("default Liquid branch")
+        references = legacy_source_references(path)
+        actual_match = references.include?("default Liquid branch") || references.include?("project-post Liquid branch")
         assert(actual_match == expected_match, "expected #{name} to match=#{expected_match}, got #{actual_match}")
       end
     end
