@@ -275,12 +275,25 @@ tests = {
     refute_includes html, "bootstrap.min.css"
     refute_includes html, "jquery"
   end,
-  "legacy project pages remain on their existing shell" => lambda do
-    html = built("projects/areusafe.html")
+  "every project uses the final project detail rendering contract" => lambda do
+    legacy_slugs = %w[
+      ar_domino areusafe chatbot drsstc ecosystem kossel_printer
+      msp430_dev nes_emulator simplewatch smartlamp spl_visualization
+    ]
 
-    assert_includes html, "bootstrap.min.css"
-    assert_includes html, "jquery"
-    refute_includes html, "data-project-detail"
+    legacy_slugs.each do |slug|
+      html = built("projects/#{slug}.html")
+      assert_includes html, '<body class="modern-page project-detail-page">'
+      assert_includes html, "data-project-detail"
+      assert_includes html, "night-instrument-expanded.png"
+      refute_includes html, "bootstrap.min.css"
+      refute_includes html, "jquery"
+      refute_includes html, "project-photo"
+    end
+
+    assert_includes built("projects/ar_domino.html"), "www.youtube-nocookie.com/embed/WEThYat87RQ"
+    assert_includes built("projects/drsstc.html"), "www.youtube-nocookie.com/embed/fd-R-8HahTA"
+    assert_includes built("projects/spl_visualization.html"), "https://editor.p5js.org/boningUCSB/full/EsJxpC1m"
   end,
   "project detail visual system is compiled" => lambda do
     css = built("assets/css/main.css")
