@@ -1,12 +1,14 @@
 {% assign artwork = include.artwork %}
 {% assign medium = artwork.tags | first %}
-{% capture artwork_meta %}{{ medium | capitalize }} · {{ artwork.date | date: "%Y" }}{% endcapture %}
+{% assign medium_tag = site.tags | where: "tag-id", medium | first %}
+{% assign medium_label = medium_tag.tag-title | default: medium %}
+{% capture artwork_meta %}{{ medium_label }} · {{ artwork.date | date: "%Y" }}{% endcapture %}
 {% if include.duplicate %}
   <div class="artwork-card artwork-rail-card" data-highlight-artwork-duplicate aria-hidden="true" data-highlight-artwork-copy="{{ include.duplicate_group }}">
     {% include components/responsive-image.html src=artwork.cover preset="artwork_rail" alt="" class="artwork-card-media" %}
     <span class="artwork-label">
       <b>{{ artwork.title }}</b>
-      <span>{{ medium }}<br>{{ artwork.date | date: "%Y" }}</span>
+      <span>{{ medium_label }}<br>{{ artwork.date | date: "%Y" }}</span>
     </span>
   </div>
 {% else %}
@@ -18,7 +20,7 @@
     {% endif %}
     <span class="artwork-label">
       <b>{{ artwork.title }}</b>
-      <span>{{ medium }}<br>{{ artwork.date | date: "%Y" }}</span>
+      <span>{{ medium_label }}<br>{{ artwork.date | date: "%Y" }}</span>
     </span>
   </button>
 {% endif %}

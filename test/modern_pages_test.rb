@@ -244,7 +244,7 @@ tests = {
     assert_includes html, 'data-navigation'
     assert_includes html, 'href="/artwork.html" class="active" aria-current="page">Artwork</a>'
     assert_includes html, 'data-artwork-page'
-    assert(html.scan("data-collection-artwork-card").length == 10, "expected 10 collection-backed artwork cards")
+    assert(html.scan("data-collection-artwork-card").length == 15, "expected 15 collection-backed artwork cards")
     assert_includes html, 'data-full="/assets/img/artwork/snow_scene.jpg"'
     refute_includes html, 'masonry.pkgd.min.js'
     refute_includes html, 'bootstrap.min.css'
@@ -266,14 +266,14 @@ tests = {
     refute_includes hero_html, "Studies in light &amp; character"
     refute_includes hero_html, "Graphite"
     refute_includes hero_html, "Charcoal"
-    assert_includes hero_html, '<span class="artwork-hero-index">2015—2020</span>'
+    assert_includes hero_html, '<span class="artwork-hero-index">2015—2026</span>'
     refute_includes hero_html, "works /"
     assert(highlights_position && collection_position && highlights_position < collection_position, "expected Highlights before The Collection")
-    assert(html.scan('data-highlight-artwork-card').length == 4, "expected four interactive Highlights cards")
-    assert(html.scan('data-highlight-artwork-duplicate').length == 8, "expected previous and next duplicate sets around the interactive cards")
-    assert(html.scan('data-highlight-artwork-duplicate aria-hidden="true"').length == 8, "expected every duplicated rail card to be hidden from assistive technology")
-    assert(html.scan('data-highlight-artwork-copy="previous"').length == 4, "expected four previous-cycle cards")
-    assert(html.scan('data-highlight-artwork-copy="next"').length == 4, "expected four next-cycle cards")
+    assert(html.scan('data-highlight-artwork-card').length == 5, "expected five interactive Highlights cards")
+    assert(html.scan('data-highlight-artwork-duplicate').length == 10, "expected previous and next duplicate sets around the interactive cards")
+    assert(html.scan('data-highlight-artwork-duplicate aria-hidden="true"').length == 10, "expected every duplicated rail card to be hidden from assistive technology")
+    assert(html.scan('data-highlight-artwork-copy="previous"').length == 5, "expected five previous-cycle cards")
+    assert(html.scan('data-highlight-artwork-copy="next"').length == 5, "expected five next-cycle cards")
     previous_cycle_position = html.index('data-highlight-artwork-copy="previous"')
     original_cycle_position = html.index('data-highlight-artwork-card')
     next_cycle_position = html.index('data-highlight-artwork-copy="next"')
@@ -287,7 +287,9 @@ tests = {
     assert_includes html, "Snow Scene"
     assert_includes html, "Terminator"
     assert_includes html, "Watercolor Scenery"
-    assert_includes html, "Captain America"
+    assert_includes highlights_html, "Forest Sunset II"
+    assert_includes highlights_html, "The Elder Scroll V"
+    refute_includes highlights_html, "Captain America"
     refute_includes highlights_html, 'loading="lazy"'
     assert_includes html[collection_position..], 'loading="lazy"'
   end,
@@ -296,8 +298,18 @@ tests = {
     filter_source = File.read(File.join(ROOT, "_includes/pages/artwork/filters.html"))
 
     assert_includes html, 'role="group" aria-label="Filter artwork by medium"'
-    assert(html.scan('data-artwork-filter').length == 4, "expected four medium filters")
+    assert(html.scan('data-artwork-filter').length == 6, "expected six medium filters")
     assert_includes html, 'data-filter="all" aria-pressed="true"'
+    assert_includes html, 'data-filter="oil-pastel" aria-pressed="false">Oil Pastel</button>'
+    assert_includes html, 'data-filter="pen-drawing" aria-pressed="false">Pen Drawing</button>'
+    assert_includes html, 'data-medium="oil-pastel" data-full="/assets/img/artwork/jellyfish.jpg" data-title="Jellyfish" data-meta="Oil Pastel · 2024"'
+    assert_includes html, '<span>Oil Pastel<br>2024</span>'
+    assert_includes html, 'data-medium="pen-drawing" data-full="/assets/img/artwork/sf_streetview.jpg" data-title="SF Street View" data-meta="Pen Drawing · 2025"'
+    assert_includes html, '<span>Pen Drawing<br>2025</span>'
+    assert_includes html, 'data-medium="oil-pastel" data-full="/assets/img/artwork/forest_sunset.jpg" data-title="Forest Sunset" data-meta="Oil Pastel · 2026"'
+    assert_includes html, '<span>Oil Pastel<br>2026</span>'
+    assert_includes html, 'data-medium="oil-pastel" data-full="/assets/img/artwork/lake_sunset_view.jpg" data-title="Lake Sunset View" data-meta="Oil Pastel · 2026"'
+    assert_includes html, 'data-medium="oil-pastel" data-full="/assets/img/artwork/forest_sunset_2.jpg" data-title="Forest Sunset II" data-meta="Oil Pastel · 2026"'
     assert_includes html, 'role="status" aria-live="polite"'
     assert_includes html, '<dialog class="artwork-viewer" id="artwork-viewer"'
     assert_includes html, 'aria-labelledby="artwork-viewer-title"'

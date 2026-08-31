@@ -5,6 +5,8 @@ subtitle: An augmented-reality domino game built with Unity.
 date: 2021-05-01
 cover: "/assets/img/projects/ar_domino/cover.jpg"
 external-link: "https://github.com/boningdong/AR-Domino"
+featured: true
+featured-order: 2
 tags:
   - unity
   - ar

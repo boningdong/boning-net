@@ -6,7 +6,7 @@ date: 2018-05-21
 cover: "/assets/img/projects/drsstc/cover.jpg"
 external-link: "https://github.com/boningdong/DRSSTC"
 featured: true
-featured-order: 2
+featured-order: 3
 tags:
     - hardware
     - pcb
