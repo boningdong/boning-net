@@ -6,6 +6,10 @@ def assert(condition, message)
   raise AssertionFailure, message unless condition
 end
 
+def refute(condition, message)
+  assert(!condition, message)
+end
+
 def assert_includes(text, value)
   assert(text.include?(value), "expected output to include #{value.inspect}")
 end
@@ -21,6 +25,18 @@ def built(path)
 end
 
 tests = {
+  "production source retires the legacy project page stack" => lambda do
+    %w[_layouts/project-post.html _layouts/default.html _includes/header.html].each do |path|
+      refute File.exist?(File.join(ROOT, path)), "expected #{path} to be retired"
+    end
+
+    page_and_layout_sources = Dir[File.join(ROOT, "*.html")] + Dir[File.join(ROOT, "_layouts", "**", "*.html")]
+    page_and_layout_sources.each do |path|
+      frontmatter = File.read(path).split(/^---\s*$/, 3)[1].to_s
+      refute_includes frontmatter, "layout: default"
+      refute_includes frontmatter, "layout: project-post"
+    end
+  end,
   "homepage uses the dependency-free modern shell" => lambda do
     html = built("index.html")
 

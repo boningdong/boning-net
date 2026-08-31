@@ -15,6 +15,10 @@ def assert(condition, message)
   raise AssertionFailure, message unless condition
 end
 
+def refute(condition, message)
+  assert(!condition, message)
+end
+
 def assert_includes(text, value)
   assert(text.include?(value), "expected output to include #{value.inspect}")
 end
@@ -235,6 +239,19 @@ stdout, stderr, status = Open3.capture3(
 abort("Jekyll build failed:\n#{stdout}\n#{stderr}") unless status.success?
 
 tests = {
+  "project detail rendering retires legacy dependencies" => lambda do
+    %w[_layouts/project-post.html _layouts/default.html _includes/header.html].each do |path|
+      refute File.exist?(File.join(ROOT, path)), "expected #{path} to be retired"
+    end
+
+    Dir[File.join(ROOT, "_site", "projects", "*.html")].each do |path|
+      html = File.read(path)
+      refute_includes html, "bootstrap"
+      refute_includes html, "jquery"
+      refute_includes html, "popper"
+      refute_includes html, "project-posts.css"
+    end
+  end,
   "project detail layout emits the reading modifier only without navigation" => lambda do
     without_navigation = render_project_detail_layout(navigation_enabled: false)
     with_navigation = render_project_detail_layout(navigation_enabled: true)
