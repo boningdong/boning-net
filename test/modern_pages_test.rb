@@ -214,7 +214,7 @@ tests = {
     assert_includes html, 'class="work-panel active" id="artwork-panel" role="tabpanel" aria-labelledby="artwork-tab"'
     refute_includes html, 'class="home-notes design-section"'
     assert_includes html, "03 / 03"
-    assert_includes html, 'class="text-link" href="/experiences.html">View all experiences</a>'
+    assert_includes html, 'class="text-link" href="/resume.html">View all experiences</a>'
     assert_includes html, 'class="portrait" src="/assets/img/index/me.jpeg"'
     assert File.file?(File.join(ROOT, "assets/img/index/me.jpeg")), "expected the new square portrait asset"
     refute_includes html, "As engineers, we were going to be in a position to change the world"
