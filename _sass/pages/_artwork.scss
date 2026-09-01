@@ -306,13 +306,27 @@ button.artwork-card:hover {
 }
 
 .artwork-collection-grid {
-  columns: var(--artwork-collection-columns);
-  column-gap: var(--card-gap);
+  --artwork-collection-gap: var(--card-gap);
+  display: grid;
+  grid-template-columns: repeat(var(--artwork-collection-columns), minmax(0, 1fr));
+  gap: var(--artwork-collection-gap);
+}
+
+.artwork-collection-grid.is-masonry-ready {
+  position: relative;
+  display: block;
+}
+
+.artwork-collection-grid.is-masonry-ready .artwork-collection-card {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  transition: transform 280ms ease;
 }
 
 .artwork-collection-card {
   width: 100%;
-  margin-bottom: var(--card-gap);
   break-inside: avoid;
 }
 
@@ -502,11 +516,8 @@ button.artwork-card:hover {
   }
 
   .artwork-collection-grid {
-    column-gap: var(--mobile-card-gap);
-  }
-
-  .artwork-collection-card {
-    margin-bottom: var(--mobile-card-gap);
+    --artwork-collection-gap: var(--mobile-card-gap);
+    gap: var(--artwork-collection-gap);
   }
 
   .artwork-viewer-media {

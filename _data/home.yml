@@ -14,12 +14,12 @@ about:
 selected_work:
   artwork:
     - snow_scene
-    - the_witcher
+    - skyrim
     - scene_watercolor
   projects:
-    - ar_domino
     - scopen
-    - chatbot
+    - ar_domino
+    - smartlamp
 
 skills:
   - title: Hardware

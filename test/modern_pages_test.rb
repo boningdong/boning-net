@@ -229,13 +229,19 @@ tests = {
     assert(artwork_html.scan('class="portfolio-item').length == 3, "expected three selected Artwork cards")
     assert(projects_html.scan('class="portfolio-item').length == 3, "expected three selected Project cards")
 
-    artwork_titles = ["Snow Scene", "Geralt of Rivia - The Witcher 3", "Watercolor Scenery"]
+    artwork_titles = ["Snow Scene", "The Elder Scroll V", "Watercolor Scenery"]
     artwork_positions = artwork_titles.map { |title| artwork_html.index("<strong>#{title}</strong>") }
     assert(artwork_positions.all? && artwork_positions == artwork_positions.sort, "expected configured Artwork order")
+    artwork_meta = artwork_html.scan(/<div class="portfolio-meta">.*?<\/a>/m)
+    assert(artwork_meta.length == 3 && artwork_meta.none? { |card| card.include?("<span>") }, "expected Artwork cards to omit subtitles")
 
-    project_titles = ["AR Domino", "Scopen", "AI Chatbot Avatar"]
+    project_titles = ["Scopen", "AR Domino", "Smart Lamp"]
     project_positions = project_titles.map { |title| projects_html.index("<strong>#{title}</strong>") }
     assert(project_positions.all? && project_positions == project_positions.sort, "expected configured Project order")
+    project_meta = projects_html.scan(/<div class="portfolio-meta">.*?<\/a>/m)
+    assert(project_meta.length == 3 && project_meta.none? { |card| card.include?("<span>") }, "expected Project cards to omit subtitles")
+    assert_includes projects_html, "/generated/assets/img/projects/scopen/cover-logo-flat-v2-"
+    assert_includes projects_html, "/generated/assets/img/projects/smartlamp/cover-product-cool-v3-"
   end,
   "Projects page is collection backed" => lambda do
     html = built("projects.html")
@@ -298,6 +304,7 @@ tests = {
     next_cycle_position = html.index('data-highlight-artwork-copy="next"')
     assert(previous_cycle_position < original_cycle_position && original_cycle_position < next_cycle_position, "expected previous, interactive, and next rail cycles in order")
     assert_includes html, '<div class="artwork-rail-shell" data-artwork-rail-shell>'
+    assert_includes html, '<div class="artwork-collection-grid" data-artwork-collection-grid>'
     shell_position = html.index('data-artwork-rail-shell')
     rail_position = html.index('data-artwork-rail tabindex="0"')
     track_position = html.index('data-artwork-track')
@@ -359,11 +366,13 @@ tests = {
     assert_includes css, "padding-inline:max(clamp(72px,10vw,168px),(100vw - 1120px)/2)"
     assert_includes css, ".artwork-rail-track{gap:var(--mobile-card-gap);padding-inline:56px}"
     assert_includes css, ".artwork-rail[data-artwork-rail-ready] .artwork-rail-track{visibility:visible}"
-    assert_includes css, ".artwork-collection-grid{columns:var(--artwork-collection-columns);column-gap:var(--card-gap)}"
+    assert_includes css, ".artwork-collection-grid{--artwork-collection-gap: var(--card-gap);display:grid;grid-template-columns:repeat(var(--artwork-collection-columns), minmax(0, 1fr));gap:var(--artwork-collection-gap)}"
+    assert_includes css, ".artwork-collection-grid.is-masonry-ready{position:relative;display:block}"
+    assert_includes css, ".artwork-collection-grid.is-masonry-ready .artwork-collection-card{position:absolute;top:0;left:0;margin:0;transition:transform 280ms ease}"
     assert_includes css, ".artwork-collection-card .artwork-card-media,.artwork-collection-card img{width:100%;height:auto}"
     assert_includes css, "@media(max-width: 850px){.artwork-page{--artwork-collection-columns: 2}"
     assert_includes css, "@media(max-width: 640px){.artwork-page{--artwork-collection-columns: 1}"
-    assert_includes css, ".artwork-collection-grid{column-gap:var(--mobile-card-gap)}"
+    assert_includes css, ".artwork-collection-grid{--artwork-collection-gap: var(--mobile-card-gap);gap:var(--artwork-collection-gap)}"
     assert_includes css, "@media(prefers-reduced-motion: reduce){.artwork-rail{overflow-x:auto;touch-action:pan-x pan-y}}"
     assert_includes css, "@media(forced-colors: active){.artwork-rail:focus-visible{outline:2px solid CanvasText;outline-offset:-2px;background:none}}"
     assert_includes css, ".artwork-viewer"

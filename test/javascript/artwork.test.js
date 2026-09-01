@@ -26,6 +26,21 @@ test('artwork result labels use correct singular and plural forms', () => {
   assert.equal(formatArtworkCount(10), '10 works');
 });
 
+test('horizontal masonry assigns chronological items across columns before starting the next visual row', () => {
+  const { createHorizontalMasonryLayout } = require(modulePath);
+
+  assert.deepEqual(createHorizontalMasonryLayout([100, 120, 80, 90, 70], 3, 20), {
+    positions: [
+      { column: 0, top: 0 },
+      { column: 1, top: 0 },
+      { column: 2, top: 0 },
+      { column: 0, top: 120 },
+      { column: 1, top: 140 }
+    ],
+    height: 210
+  });
+});
+
 test('viewer content uses the full-resolution source and complete text', () => {
   assert.equal(fs.existsSync(modulePath), true, 'artwork module should exist');
   const { createViewerContent } = require(modulePath);

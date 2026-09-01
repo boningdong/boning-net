@@ -154,12 +154,12 @@ The homepage hero and about copy are stored in `hero` and `about`.
 selected_work:
   artwork:
     - snow_scene
-    - the_witcher
+    - skyrim
     - scene_watercolor
   projects:
     - ar_domino
     - scopen
-    - chatbot
+    - smartlamp
 ```
 
 Changing a collection item's date does not affect this selection. Keep exactly three valid slugs in each list.

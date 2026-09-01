@@ -3,7 +3,7 @@ layout: project-detail
 title: Scopen
 subtitle: A wireless oscilloscope designed to make circuit debugging portable.
 date: 2020-06-15
-cover: /assets/img/projects/scopen/cover-logo.png
+cover: /assets/img/projects/scopen/cover-logo-flat-v2.png
 featured: true
 featured-order: 1
 tags:

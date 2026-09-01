@@ -206,7 +206,7 @@ class ProjectCollectionSourceTest < TinyTestCase
       "title" => "Smart Lamp",
       "subtitle" => "A Bluetooth-controlled smart lamp designed from hardware to enclosure.",
       "date" => Date.new(2016, 7, 21),
-      "cover" => "/assets/img/projects/smartlamp/cover-product.png",
+      "cover" => "/assets/img/projects/smartlamp/cover-product-cool-v3.png",
       "external-link" => "https://github.com/boningdong/Smart-Lamp",
       "tags" => %w[hardware system-design firmware embedded c pcb]
     },

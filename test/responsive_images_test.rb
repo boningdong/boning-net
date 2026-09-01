@@ -71,7 +71,7 @@ class ResponsiveImagesTest < Minitest::Test
     css = File.read(File.join(ROOT, "_site", "assets", "css", "main.css"))
     primary_card = projects_html[/<a class="highlight-card highlight-card--primary".*?<\/a>/m]
 
-    assert_match %r{\A/assets/img/projects/scopen/cover(?:-(?:logo|product|blueprint))?\.png\z}, scopen.fetch("cover")
+    assert_match %r{\A/assets/img/projects/scopen/cover(?:-(?:logo|product|blueprint)(?:-flat-v2)?)?\.png\z}, scopen.fetch("cover")
     assert_operator image_width(File.join(ROOT, scopen.fetch("cover").delete_prefix("/"))), :>=, 1600
     generated_name = File.basename(scopen.fetch("cover"), ".png")
     assert_includes primary_card, "/generated/assets/img/projects/scopen/#{generated_name}-"
@@ -122,22 +122,27 @@ class ResponsiveImagesTest < Minitest::Test
     css = File.read(File.join(ROOT, "_site", "assets", "css", "main.css"))
     home_title = css_declarations(css, ".portfolio-meta strong")
     project_title = css_declarations(css, ".highlight-info h3")
-    home_subtitle = css_declarations(css, ".portfolio-meta span")
-    project_subtitle = css_declarations(css, ".highlight-info p")
     home_meta = css_declarations(css, ".portfolio-meta em")
     project_meta = css_declarations(css, ".highlight-info small")
 
     %w[font-family font-size font-weight line-height letter-spacing].each do |property|
       assert_equal home_title.fetch(property), project_title.fetch(property), "title #{property} should match the homepage Bento cards"
     end
-    %w[color font-size line-height].each do |property|
-      assert_equal home_subtitle.fetch(property), project_subtitle.fetch(property), "subtitle #{property} should match the homepage Bento cards"
-    end
     %w[color font letter-spacing].each do |property|
       assert_equal home_meta.fetch(property), project_meta.fetch(property), "metadata #{property} should match the homepage Bento cards"
     end
-    assert_equal css_declarations(css, ".portfolio-meta").fetch("padding"), css_declarations(css, ".highlight-info").fetch("padding")
+    assert_equal "14px 18px", css_declarations(css, ".portfolio-meta").fetch("padding")
     refute_match(/\.highlight-card--primary \.highlight-info h3\{/, css)
+  end
+
+  def test_home_project_cards_anchor_the_cover_to_the_bottom_edge
+    css = File.read(File.join(ROOT, "_site", "assets", "css", "main.css"))
+    shared_image = css_declarations(css, ".portfolio-visual img")
+    project_image = css_declarations(css, "#projects-panel .portfolio-visual img")
+
+    assert_equal "cover", shared_image.fetch("object-fit")
+    assert_equal "center bottom", project_image.fetch("object-position")
+    refute_match(/#projects-panel \.portfolio-(?:visual img|item:hover \.portfolio-visual img)\{[^}]*transform:/, css)
   end
 
   def test_project_card_sources_are_large_enough_for_their_slots

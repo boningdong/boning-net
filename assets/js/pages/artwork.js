@@ -33,6 +33,24 @@
         };
     }
 
+    function createHorizontalMasonryLayout(itemHeights, columnCount, gap) {
+        var columns = Math.max(1, Math.floor(Number(columnCount) || 1));
+        var spacing = Math.max(0, Number(gap) || 0);
+        var columnHeights = Array(columns).fill(0);
+        var positions = itemHeights.map(function(itemHeight, index) {
+            var column = index % columns;
+            var top = columnHeights[column];
+            columnHeights[column] += Math.max(0, Number(itemHeight) || 0) + spacing;
+            return { column: column, top: top };
+        });
+        var tallestColumn = columnHeights.length ? Math.max.apply(Math, columnHeights) : 0;
+
+        return {
+            positions: positions,
+            height: Math.max(0, tallestColumn - (positions.length ? spacing : 0))
+        };
+    }
+
     function createViewerContent(data) {
         return {
             src: data.full,
@@ -70,7 +88,7 @@
         });
     }
 
-    function initFilters(rootElement) {
+    function initFilters(rootElement, scheduleCollectionLayout) {
         var filterButtons = Array.from(rootElement.querySelectorAll('[data-artwork-filter]'));
         var cards = Array.from(rootElement.querySelectorAll('[data-collection-artwork-card]'));
         var resultCount = rootElement.querySelector('[data-artwork-result-count]');
@@ -91,8 +109,65 @@
                     card.hidden = !state.visible[index];
                 });
                 resultCount.textContent = formatArtworkCount(state.count);
+                scheduleCollectionLayout();
             });
         });
+    }
+
+    function initCollection(rootElement) {
+        var grid = rootElement.querySelector('[data-artwork-collection-grid]');
+        if (!grid || typeof window.requestAnimationFrame !== 'function') return function() {};
+
+        var cards = Array.from(grid.querySelectorAll('[data-collection-artwork-card]'));
+        var scheduledFrame = 0;
+
+        function readPositiveNumber(value, fallback) {
+            var parsed = parseFloat(value);
+            return Number.isFinite(parsed) && parsed > 0 ? parsed : fallback;
+        }
+
+        function layoutCollection() {
+            scheduledFrame = 0;
+            var computedStyle = window.getComputedStyle(grid);
+            var columns = Math.max(1, Math.round(readPositiveNumber(computedStyle.getPropertyValue('--artwork-collection-columns'), 1)));
+            var gap = Math.max(0, parseFloat(computedStyle.getPropertyValue('--artwork-collection-gap')) || 0);
+            var availableWidth = grid.clientWidth;
+            var cardWidth = Math.max(0, (availableWidth - gap * (columns - 1)) / columns);
+            var visibleCards = cards.filter(function(card) { return !card.hidden; });
+
+            visibleCards.forEach(function(card) {
+                card.style.width = cardWidth + 'px';
+            });
+
+            var layout = createHorizontalMasonryLayout(visibleCards.map(function(card) {
+                return card.getBoundingClientRect().height;
+            }), columns, gap);
+
+            visibleCards.forEach(function(card, index) {
+                var position = layout.positions[index];
+                var left = position.column * (cardWidth + gap);
+                card.style.transform = 'translate3d(' + left + 'px,' + position.top + 'px,0)';
+            });
+            grid.style.height = layout.height + 'px';
+            grid.classList.add('is-masonry-ready');
+        }
+
+        function scheduleCollectionLayout() {
+            if (scheduledFrame) window.cancelAnimationFrame(scheduledFrame);
+            scheduledFrame = window.requestAnimationFrame(layoutCollection);
+        }
+
+        cards.forEach(function(card) {
+            var image = card.querySelector('img');
+            if (!image || image.complete) return;
+            image.addEventListener('load', scheduleCollectionLayout, { once: true });
+            image.addEventListener('error', scheduleCollectionLayout, { once: true });
+        });
+        window.addEventListener('resize', scheduleCollectionLayout);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleCollectionLayout);
+        scheduleCollectionLayout();
+
+        return scheduleCollectionLayout;
     }
 
     function initViewer(rootElement) {
@@ -216,7 +291,8 @@
         var rootElement = document.querySelector('[data-artwork-page]');
         if (!rootElement) return;
 
-        initFilters(rootElement);
+        var scheduleCollectionLayout = initCollection(rootElement);
+        initFilters(rootElement, scheduleCollectionLayout);
         initViewer(rootElement);
         initRail(rootElement);
     }
@@ -224,6 +300,7 @@
     return {
         areRailImagesSettled: areRailImagesSettled,
         createFilterState: createFilterState,
+        createHorizontalMasonryLayout: createHorizontalMasonryLayout,
         createViewerContent: createViewerContent,
         formatArtworkCount: formatArtworkCount,
         init: init,
