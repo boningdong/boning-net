@@ -1,9 +1,9 @@
 ---
-layout: project-post
+layout: project-detail
 title: MSP430 Development Board
-subtitle: A development board for MSP430.
+subtitle: A custom MSP430 development board for embedded prototyping.
 date: 2016-04-24
-cover: "/assets/img/projects/msp430_devboard_cover.jpg"
+cover: "/assets/img/projects/msp430_dev/cover.jpg"
 tags:
     - hardware
     - firmware
@@ -11,28 +11,32 @@ tags:
     - c
     - pcb
 ---
-# Descriptions
-The project is an MSP430F2132 development board with an RGB LED controller and extension connectors on it. I designed this development as a development tool board to fulfill my requirement of testing tasks of my Smart Lamp at Tsinghua University.
-<div class="row d-flex">
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_3.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_2.jpg" alt="{{ page.title }} image">
-    </div>
-</div>
+Build the development tool the Smart Lamp needed.
+
+I created this MSP430F2132 development board at Tsinghua University to test Smart Lamp hardware and firmware.
+
+# Board Design
+
+The board includes an RGB LED controller and extension connectors for embedded prototyping.
+
+![Bare development board](/assets/img/projects/msp430_dev/msp430_devboard_3.jpg "Bare development board")
+
+![Assembled development board](/assets/img/projects/msp430_dev/msp430_devboard_2.jpg "Assembled development board")
+
+# Features
+
 This board has the following features:
-- It has a CP2102 USB to Serial chip for firmware uploading
-- Integrates an NXP PCA family chip for RGB LED control.
-- Includes 3 LED for testing the GPIO functions and debugging purpose.
-- Provides power selection jumpers that allow users to power the board using an external debugger.
-- Support both JTAG and Serial protocol to burn the firmware.
-The whole project can be divided into the following phrases:
-    - designing the hardware systems
-    - choosing the components
-    - designing, manufacturing and assembling the  PCBs
-<div class="row d-flex">
-    <div class="col-lg-11">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/msp430_devboard_1.jpg" alt="{{ page.title }} image">
-    </div>
-</div>
+
+- It has a CP2102 USB-to-serial chip for firmware uploading.
+- It integrates an NXP PCA family chip for RGB LED control.
+- It includes three LEDs for testing GPIO functions and debugging.
+- It provides power-selection jumpers that allow users to power the board using an external debugger.
+- It supports both JTAG and serial protocols for burning firmware.
+
+The whole project can be divided into the following development phases:
+
+- Designing the hardware system
+- Choosing the components
+- Designing, manufacturing, and assembling the PCBs
+
+![PCB fabrication stages](/assets/img/projects/msp430_dev/cover.jpg "PCB fabrication stages")

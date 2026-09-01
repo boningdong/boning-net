@@ -1,0 +1,39 @@
+{% if include.job.end-date %}
+  {% assign end_date = include.job.end-date | date: "%b %Y" %}
+{% else %}
+  {% assign end_date = "Now" %}
+{% endif %}
+{% assign detail_id = "experience-details-" | append: include.index %}
+{% assign trigger_id = "experience-toggle-" | append: include.index %}
+<article class="role-card is-open" data-experience-card>
+  <div class="role-summary">
+    <div class="role-logo">
+      {% if include.job.logo %}
+        <img src="{{ include.job.logo | relative_url }}" alt="{{ include.job.company }} logo" loading="lazy">
+      {% else %}
+        <span class="role-logo-fallback" aria-label="{{ include.job.company }}">{{ include.job.company | slice: 0, 2 }}</span>
+      {% endif %}
+    </div>
+    <div class="role-summary-text">
+      <span class="role-company">{{ include.job.company }}</span>
+      <h3 class="role-title">{{ include.job.job-title }}</h3>
+      <p class="role-description">{{ include.job.description }}</p>
+    </div>
+    <span class="role-date">{{ include.job.start-date | date: "%b %Y" }}—{{ end_date }}</span>
+    <button class="role-toggle" id="{{ trigger_id }}" type="button" aria-expanded="true" aria-controls="{{ detail_id }}" data-experience-toggle>
+      <span data-experience-toggle-label>Close</span>
+      <i aria-hidden="true"></i>
+    </button>
+  </div>
+  <div class="role-details" id="{{ detail_id }}" role="region" aria-labelledby="{{ trigger_id }}" aria-hidden="false" data-experience-details>
+    <div class="role-details-inner">
+      <div class="role-detail-copy">
+        <span class="role-detail-eyebrow">Role details</span>
+        <div class="role-detail-body">
+          <p class="role-detail-description">{{ include.job.description }}</p>
+          {{ include.job.content }}
+        </div>
+      </div>
+    </div>
+  </div>
+</article>

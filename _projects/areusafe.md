@@ -1,23 +1,22 @@
 ---
-layout: project-post
+layout: project-detail
 title: AreUSafe
-subtitle: A safety information App.
-date: 2017-5-1
-cover: "/assets/img/projects/areusafe_cover.jpg"
+subtitle: An Android app for exploring city safety information.
+date: 2017-05-01
+cover: "/assets/img/projects/areusafe/cover.png"
 tags:
     - software
     - java
     - android
 ---
-# Descriptions
-Tesla Coil is an Android App that can provide users' safety information of different US cities. The idea of this project is from my friend Tian Gao. In this project, I was in charge of the UI/UX design of the app and the Android end development work. I built this project to learn and get familiar with Android development procedures, and this app is actually my first Android App.
-You can still download this app here:
-[Play Store](https://play.google.com/store/apps/details?id=edu.ucsb.boning.jsontest)
-<div class="row d-flex">
-    <div class="col-md-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe_1.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-md-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/areusafe_2.jpg" alt="{{ page.title }} image">
-    </div>
-</div>
+Safety information for unfamiliar cities, designed for Android.
+
+AreUSafe was my first Android app. Tian Gao proposed the idea, and I handled the UI/UX design and Android client development while learning the Android development process.
+
+# Application
+
+AreUSafe is an Android app that provides safety information for different US cities. You can still download the app here: [Play Store](https://play.google.com/store/apps/details?id=edu.ucsb.boning.jsontest)
+
+![AreUSafe city safety overview](/assets/img/projects/areusafe/areusafe_1.jpg "City safety overview")
+
+![AreUSafe safety information detail](/assets/img/projects/areusafe/areusafe_2.jpg "Safety information detail")

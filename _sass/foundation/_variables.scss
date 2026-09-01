@@ -1,0 +1,45 @@
+$ink: #202a30;
+$ink-soft: #59666d;
+$ink-faint: #829198;
+$steel: #617b86;
+$steel-dark: #405861;
+$paper: #fbfcfc;
+$mist: #f0f3f4;
+$line: #dbe1e3;
+$line-dark: #c7d0d4;
+
+:root {
+  --ink: #{$ink};
+  --ink-soft: #{$ink-soft};
+  --ink-faint: #{$ink-faint};
+  --steel: #{$steel};
+  --steel-dark: #{$steel-dark};
+  --paper: #{$paper};
+  --mist: #{$mist};
+  --line: #{$line};
+  --line-dark: #{$line-dark};
+  --surface-rgb: 248 251 251;
+  --card-surface-rgb: 255 255 255;
+  --card-radius: 26px;
+  --card-gap: 28px;
+  --mobile-card-gap: 21px;
+  --section-space: 112px;
+  --mobile-section-space: 80.64px;
+  --mist-transition-space: 80px;
+  --mobile-mist-transition-space: 57.6px;
+  --hover-lift: 5px;
+  --shadow-alpha: 0.1;
+  --nav-height: 46px;
+  --nav-opacity: 0.48;
+  --nav-blur: 8px;
+  --nav-side-padding: 24px;
+  --nav-highlight: 0.35;
+  --nav-text-alpha: 0.95;
+  --mobile-menu-width: 200px;
+  --home-hero-size: 32px;
+  --home-hero-weight: 480;
+  --font-display: "Instrument Sans", "Avenir Next", sans-serif;
+  --font-body: "Source Sans 3", "Helvetica Neue", sans-serif;
+  --font-utility: "IBM Plex Mono", ui-monospace, monospace;
+  --project-prose-width: 720px;
+}

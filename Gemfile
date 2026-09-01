@@ -6,6 +6,7 @@ gem "jekyll", "~> 4.4.1"
 
 group :jekyll_plugins do
   gem "jekyll-feed", "~> 0.12"
+  gem "jekyll_picture_tag", "~> 2.1"
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

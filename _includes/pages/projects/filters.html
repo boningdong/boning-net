@@ -1,0 +1,25 @@
+{% assign ordered_tags = site.tags | sort: "filter-order" %}
+<div class="project-filter-system">
+  <div class="project-filter-row">
+    <div class="project-filters" aria-label="Filter projects by tag">
+      <button class="filter-pill active" type="button" data-filter="all" aria-pressed="true">All</button>
+      {% for tag in ordered_tags %}
+        {% assign tag_used = false %}
+        {% for project in site.projects %}
+          {% if project.tags contains tag.tag-id %}
+            {% assign tag_used = true %}
+            {% break %}
+          {% endif %}
+        {% endfor %}
+        {% if tag_used %}
+          <button class="filter-pill" type="button" data-filter="{{ tag.tag-id }}" aria-pressed="false">{{ tag.tag-title }}</button>
+        {% endif %}
+      {% endfor %}
+      <button class="filter-pill more-toggle" type="button" aria-expanded="false" data-more-toggle>
+        <span data-more-label>More</span>
+        <i aria-hidden="true">+</i>
+      </button>
+    </div>
+    <span class="project-result-count" aria-live="polite" data-result-count>{{ include.project_count }} projects</span>
+  </div>
+</div>

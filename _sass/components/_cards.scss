@@ -1,0 +1,16 @@
+@use "../foundation/mixins";
+
+.glass-card {
+  @include mixins.glass-surface(0.58, 22px, 0.78);
+  @include mixins.card-motion;
+  overflow: hidden;
+  border-radius: var(--card-radius);
+}
+
+.glass-card:hover {
+  border-color: rgb(255 255 255 / 0.96);
+  box-shadow:
+    inset 0 1px white,
+    0 30px 76px rgb(36 51 58 / 0.16);
+  transform: translateY(calc(-1 * var(--hover-lift)));
+}

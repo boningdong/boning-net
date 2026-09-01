@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "boning-net-artwork-style-preset",
+  "source": "artwork-list-mock-v1",
+  "exportedAt": "2026-08-16T22:03:50Z",
+  "tuning": {
+    "activeOptions": {
+      "rail": "auto",
+      "columns": "3",
+      "caption": "label",
+      "filters": "on",
+      "viewer": "glass"
+    },
+    "ranges": {
+      "highlightHeight": "330"
+    },
+    "fixedInvariants": {
+      "background": "mist",
+      "cardRadius": 26,
+      "cardGap": 28,
+      "hoverLift": 5,
+      "preserveArtworkAspectRatio": true
+    }
+  }
+}

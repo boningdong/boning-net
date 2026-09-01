@@ -1,3 +1,56 @@
+hero:
+  title-primary: Explore with wonder
+  title-secondary: Create with care
+  meta:
+    - Engineering
+    - Art
+    - Notes
+
+about:
+  kicker: About me
+  title: Engineer, Programmer, Artist
+  description: Born and raised in Beijing, China, I now work as an engineer in Silicon Valley. Engineering is my life, and drawing is my love. They may seem like opposites, but to me they are deeply connected—different ways of understanding an idea and giving it form.
+
+selected_work:
+  artwork:
+    - snow_scene
+    - skyrim
+    - scene_watercolor
+  projects:
+    - scopen
+    - ar_domino
+    - smartlamp
+
+skills:
+  - title: Hardware
+    icon: /assets/img/index/hardware.svg
+    items:
+      - PCB Design
+      - Simulation
+      - Soldering
+      - FPGA
+      - MCU
+      - Embedded System Design
+  - title: Software
+    icon: /assets/img/index/software.svg
+    items:
+      - C/C++
+      - Python
+      - Java
+      - C#
+      - HTML/CSS/JS
+      - Android
+      - iOS
+  - title: Art & Design
+    icon: /assets/img/index/art.svg
+    items:
+      - Pencil Drawing
+      - Painting
+      - UX Design
+      - UI Design
+      - Video Editing
+      - 3D Modeling
+
 featured_experiences:
   - company: Apple
     title: Embedded Software Engineer
@@ -18,22 +71,23 @@ featured_experiences:
     url: https://www.karlstorz.com/us/en/
     cta: Visit Karlstorz
 
-work_showcases:
-  artwork:
-    button_label: Artwork
-    quote: '"We must never forget that art is not a form of propaganda; it is a form of truth." — John F. Kennedy'
-    href: /artwork.html
-    cta: More Artwork
-    images:
-      - /assets/img/index/drawing-1.jpg
-      - /assets/img/index/drawing-2.jpg
-      - /assets/img/index/drawing-3.jpg
-  project:
-    button_label: Projects
-    quote: '"As engineers, we were going to be in a position to change the world – not just study it." — Henry Petroski'
-    href: /projects.html
-    cta: More Projects
-    images:
-      - /assets/img/index/project-1.jpg
-      - /assets/img/index/project-2.jpg
-      - /assets/img/index/project-3.jpg
+notes_preview:
+  # Preview only; set to false before deploying without Notes.
+  enabled: false
+  kicker: Ideas in progress
+  badge: Future module
+  title: Notes
+  intro: A future home for technical write-ups, lessons from making, personal growth, and questions that are still unfolding.
+  items:
+    - type: Technology
+      title: What drawing taught me about debugging
+      description: A sample of how technical and visual thinking might meet in the Notes section.
+      date: Sample article
+    - type: Growth
+      title: Learning to build slowly
+      description: A place for lessons that do not fit inside a project description or résumé.
+      date: Sample article
+    - type: Reflection
+      title: Keeping useful questions open
+      description: Shorter reflections can share the same design language without becoming a separate publication.
+      date: Sample article

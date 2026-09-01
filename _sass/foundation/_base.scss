@@ -1,0 +1,57 @@
+@use "mixins";
+
+html {
+  scroll-behavior: smooth;
+}
+
+.modern-page,
+.modern-page *,
+.modern-page *::before,
+.modern-page *::after {
+  box-sizing: border-box;
+}
+
+.modern-page {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+.modern-page a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.modern-page :where(button) {
+  font: inherit;
+}
+
+.modern-page img {
+  display: block;
+  max-width: 100%;
+}
+
+.modern-page [hidden] {
+  display: none !important;
+}
+
+.modern-page :focus-visible {
+  @include mixins.focus-ring;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .modern-page *,
+  .modern-page *::before,
+  .modern-page *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

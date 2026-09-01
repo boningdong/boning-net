@@ -1,0 +1,1216 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boning.net · Interactive design lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400..700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #202a30;
+      --ink-soft: #59666d;
+      --steel: #617b86;
+      --steel-dark: #405861;
+      --paper: #fbfcfc;
+      --mist: #f0f3f4;
+      --line: #dbe1e3;
+      --line-dark: #c7d0d4;
+      --radius: 26px;
+      --shadow: 0 24px 70px rgba(35, 48, 55, .12);
+      --glass: rgba(255, 255, 255, .58);
+      --glass-border: rgba(255, 255, 255, .78);
+      --glass-shadow: inset 0 1px rgba(255,255,255,.88), 0 22px 60px rgba(36,51,58,.1);
+      --hero-size: 38px;
+      --hero-weight: 480;
+      --hero-offset: 34px;
+      --hero-center-offset: 0px;
+      --hero-line-one-offset: 0px;
+      --hero-line-two-offset: 0px;
+      --nav-height: 46px;
+      --nav-opacity: .36;
+      --nav-blur: 7px;
+      --nav-shadow-alpha: .08;
+      --nav-side-padding: 22px;
+      --nav-highlight-alpha: .42;
+      --nav-surface: 226 237 240;
+      --nav-border: 255 255 255;
+      --nav-ink: 39 57 64;
+      --nav-menu-ink: 39 57 64;
+      --nav-text-alpha: 1;
+      --nav-menu-alpha: 1;
+      --nav-shadow-color: 255 255 255;
+      --mobile-menu-width: 250px;
+      --card-radius: 26px;
+      --info-scale: 1;
+      --info-title-size: 18px;
+      --info-body-size: 12px;
+      --info-meta-size: 8px;
+      --info-padding: 17px;
+      --caption-opacity: .72;
+      --caption-blur: 10px;
+      --caption-inset: 14px;
+      --gradient-strength: 72%;
+      --footer-height: 84px;
+      --image-edge-blend: .1;
+      --image-edge-reach: 0px;
+      --image-edge-softness: 34px;
+      --split-surface-rgb: 255 255 255;
+      --split-opacity: .58;
+      --split-blur: 22px;
+      --split-highlight: .78;
+      --split-shadow-alpha: .1;
+      --global-surface-rgb: 226 237 240;
+      --global-card-surface-rgb: 226 237 240;
+      --global-surface-opacity: .48;
+      --global-surface-blur: 14px;
+      --global-edge-highlight: .42;
+      --global-shadow-alpha: .1;
+      --global-corner-radius: 26px;
+      --global-hover-lift: 5px;
+      --global-card-gap: 24px;
+      --global-card-padding: 28px;
+      --global-section-gap: 112px;
+      --section-gap: clamp(72px, 9vw, 118px);
+      --experience-gap: 16px;
+      --skills-gap: 16px;
+      --notes-gap: 14px;
+      --work-gap: 22px;
+      --experience-surface-rgb: 255 255 255;
+      --experience-opacity: .58;
+      --experience-blur: 22px;
+      --experience-highlight: .78;
+      --experience-shadow-alpha: .1;
+      --experience-radius: var(--radius);
+      --experience-lift: 6px;
+      --experience-card-padding: 28px;
+      --skill-surface-rgb: 255 255 255;
+      --skill-opacity: .58;
+      --skill-blur: 20px;
+      --skill-highlight: .78;
+      --skill-shadow-alpha: .1;
+      --skill-radius: var(--radius);
+      --skill-lift: 5px;
+      --skill-card-padding: 30px;
+      --portfolio-surface-rgb: 235 242 243;
+      --portfolio-opacity: var(--caption-opacity);
+      --portfolio-blur: var(--caption-blur);
+      --portfolio-highlight: .78;
+      --portfolio-shadow-alpha: .1;
+      --portfolio-radius: var(--card-radius);
+      --portfolio-lift: 6px;
+      --portfolio-card-padding: var(--info-padding);
+      --note-surface-rgb: 255 255 255;
+      --note-opacity: .065;
+      --note-blur: 18px;
+      --note-highlight: .13;
+      --note-shadow-alpha: .13;
+      --note-radius: 26px;
+      --note-lift: 4px;
+      --note-card-padding: 28px;
+      --nav-surface-effective: var(--nav-surface);
+      --nav-opacity-effective: var(--nav-opacity);
+      --nav-blur-effective: var(--nav-blur);
+      --nav-highlight-effective: var(--nav-highlight-alpha);
+      --nav-shadow-effective: var(--nav-shadow-alpha);
+      --display: "Instrument Sans", "Avenir Next", sans-serif;
+      --body: "Source Sans 3", "Helvetica Neue", sans-serif;
+      --utility: "IBM Plex Mono", ui-monospace, monospace;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; }
+    img { display: block; max-width: 100%; }
+
+    body.global-tint {
+      --nav-surface-effective: var(--global-surface-rgb);
+      --experience-surface-rgb: var(--global-card-surface-rgb);
+      --skill-surface-rgb: var(--global-card-surface-rgb);
+      --portfolio-surface-rgb: var(--global-card-surface-rgb);
+      --split-surface-rgb: var(--global-card-surface-rgb);
+      --note-surface-rgb: var(--global-surface-rgb);
+    }
+    body.global-opacity {
+      --nav-opacity-effective: var(--global-surface-opacity);
+      --experience-opacity: var(--global-surface-opacity);
+      --skill-opacity: var(--global-surface-opacity);
+      --portfolio-opacity: var(--global-surface-opacity);
+      --split-opacity: var(--global-surface-opacity);
+      --note-opacity: calc(var(--global-surface-opacity) * .18);
+    }
+    body.global-blur {
+      --nav-blur-effective: var(--global-surface-blur);
+      --experience-blur: var(--global-surface-blur);
+      --skill-blur: var(--global-surface-blur);
+      --portfolio-blur: var(--global-surface-blur);
+      --split-blur: var(--global-surface-blur);
+      --note-blur: var(--global-surface-blur);
+    }
+    body.global-highlight {
+      --nav-highlight-effective: var(--global-edge-highlight);
+      --experience-highlight: var(--global-edge-highlight);
+      --skill-highlight: var(--global-edge-highlight);
+      --portfolio-highlight: var(--global-edge-highlight);
+      --split-highlight: var(--global-edge-highlight);
+      --note-highlight: calc(var(--global-edge-highlight) * .42);
+    }
+    body.global-shadow {
+      --nav-shadow-effective: var(--global-shadow-alpha);
+      --experience-shadow-alpha: var(--global-shadow-alpha);
+      --skill-shadow-alpha: var(--global-shadow-alpha);
+      --portfolio-shadow-alpha: var(--global-shadow-alpha);
+      --split-shadow-alpha: var(--global-shadow-alpha);
+      --note-shadow-alpha: calc(var(--global-shadow-alpha) * 1.3);
+    }
+    body.global-radius {
+      --experience-radius: var(--global-corner-radius);
+      --skill-radius: var(--global-corner-radius);
+      --portfolio-radius: var(--global-corner-radius);
+      --note-radius: var(--global-corner-radius);
+    }
+    body.global-lift {
+      --experience-lift: var(--global-hover-lift);
+      --skill-lift: var(--global-hover-lift);
+      --portfolio-lift: var(--global-hover-lift);
+      --note-lift: var(--global-hover-lift);
+    }
+    body.global-card-gap {
+      --experience-gap: var(--global-card-gap);
+      --skills-gap: var(--global-card-gap);
+      --notes-gap: var(--global-card-gap);
+    }
+    body.global-card-padding {
+      --experience-card-padding: var(--global-card-padding);
+      --skill-card-padding: var(--global-card-padding);
+      --portfolio-card-padding: var(--global-card-padding);
+      --note-card-padding: var(--global-card-padding);
+    }
+    body.global-section-gap { --section-gap: var(--global-section-gap); }
+
+    .site-nav-shell {
+      position: fixed;
+      z-index: 20;
+      top: 14px;
+      left: 50%;
+      width: min(1120px, calc(100% - 24px));
+      transform: translateX(-50%);
+      pointer-events: none;
+    }
+    .site-nav {
+      position: relative;
+      height: var(--nav-height);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 var(--nav-side-padding);
+      border: 1px solid transparent;
+      border-radius: 999px;
+      background: transparent;
+      color: rgb(var(--nav-ink) / var(--nav-text-alpha));
+      text-shadow: 0 1px 8px rgb(var(--nav-shadow-color) / var(--nav-shadow-alpha));
+      pointer-events: auto;
+      transition: height 180ms ease, background 240ms ease, border-color 240ms ease, box-shadow 240ms ease, backdrop-filter 240ms ease, color 180ms ease;
+    }
+    .site-name { display: flex; align-items: center; overflow: hidden; border: 1px solid transparent; border-radius: 999px; font-family: var(--display); font-size: 13px; font-weight: 650; letter-spacing: -.015em; white-space: nowrap; transition: padding 260ms ease, background 240ms ease, border-color 240ms ease, box-shadow 240ms ease, backdrop-filter 240ms ease; }
+    .site-name-full { display: inline-block; }
+    .nav-links { height: 100%; display: flex; gap: clamp(18px, 2.6vw, 36px); align-items: center; border: 1px solid transparent; border-radius: 999px; font-family: var(--display); font-size: 13px; font-weight: 560; letter-spacing: .005em; transition: padding 240ms ease, background 240ms ease, border-color 240ms ease, box-shadow 240ms ease, backdrop-filter 240ms ease; }
+    .nav-links a { position: relative; padding: 8px 0; color: rgb(var(--nav-ink) / calc(var(--nav-text-alpha) * .78)); transition: color 180ms ease; }
+    .nav-links a::after { content: ""; position: absolute; left: 0; right: 100%; bottom: 2px; height: 1px; background: currentColor; transition: right 180ms ease; }
+    .nav-links a:hover { color: rgb(var(--nav-ink) / var(--nav-text-alpha)); }
+    .nav-links a:hover::after { right: 0; }
+    .mobile-menu-trigger, .mobile-menu-panel { display: none; }
+    .site-nav:not(.surface-visible) { --nav-ink: 247 250 250; --nav-text-alpha: 1; --nav-shadow-color: 0 0 0; --nav-shadow-alpha: .5; mix-blend-mode: normal; }
+    body.nav-fade .site-nav.surface-visible, .mobile-menu-panel { border-color: rgb(var(--nav-border) / var(--nav-highlight-effective)); background: rgb(var(--nav-surface-effective) / var(--nav-opacity-effective)); box-shadow: inset 0 1px rgb(255 255 255 / var(--nav-highlight-effective)), 0 10px 30px rgb(35 49 55 / var(--nav-shadow-effective)); backdrop-filter: blur(var(--nav-blur-effective)) saturate(1.04); -webkit-backdrop-filter: blur(var(--nav-blur-effective)) saturate(1.04); }
+    body.nav-island .site-nav { border-color: transparent; box-shadow: none; }
+    body.nav-island .site-nav.surface-visible .site-name, body.nav-island .site-nav.surface-visible .nav-links, body.nav-island .site-nav.surface-visible .mobile-menu-trigger { border-color: rgb(var(--nav-border) / var(--nav-highlight-effective)); background: rgb(var(--nav-surface-effective) / var(--nav-opacity-effective)); box-shadow: inset 0 1px rgb(255 255 255 / var(--nav-highlight-effective)), 0 10px 30px rgb(35 49 55 / var(--nav-shadow-effective)); backdrop-filter: blur(var(--nav-blur-effective)) saturate(1.04); -webkit-backdrop-filter: blur(var(--nav-blur-effective)) saturate(1.04); }
+    body.nav-island .site-name { height: calc(var(--nav-height) - 6px); padding: 0; }
+    body.nav-island .nav-links { height: calc(var(--nav-height) - 6px); padding: 0; }
+    body.nav-island .site-nav.surface-visible .site-name, body.nav-island .site-nav.surface-visible .nav-links { padding-right: var(--nav-side-padding); padding-left: var(--nav-side-padding); }
+    body.nav-tint-pearl { --nav-surface: 248 251 251; }
+    body.nav-tint-ice { --nav-surface: 226 237 240; }
+    body.nav-tint-smoke { --nav-surface: 89 104 111; }
+    body.nav-tint-ink { --nav-surface: 34 48 54; }
+    body:not(.global-tint).nav-tint-pearl { --nav-surface-effective: 248 251 251; }
+    body:not(.global-tint).nav-tint-ice { --nav-surface-effective: 226 237 240; }
+    body:not(.global-tint).nav-tint-smoke { --nav-surface-effective: 89 104 111; }
+    body:not(.global-tint).nav-tint-ink { --nav-surface-effective: 34 48 54; }
+    body.nav-contrast-auto.nav-tint-pearl, body.nav-contrast-auto.nav-tint-ice, body.nav-contrast-slate { --nav-ink: 39 57 64; --nav-menu-ink: 39 57 64; --nav-shadow-color: 255 255 255; }
+    body.nav-contrast-auto.nav-tint-smoke, body.nav-contrast-auto.nav-tint-ink, body.nav-contrast-white { --nav-ink: 247 250 250; --nav-menu-ink: 247 250 250; --nav-shadow-color: 0 0 0; }
+    body.nav-contrast-black { --nav-ink: 14 20 23; --nav-menu-ink: 14 20 23; --nav-shadow-color: 255 255 255; }
+    body.global-tint.nav-contrast-auto.system-tint-pearl, body.global-tint.nav-contrast-auto.system-tint-ice { --nav-ink: 39 57 64; --nav-menu-ink: 39 57 64; --nav-shadow-color: 255 255 255; }
+    body.global-tint.nav-contrast-auto.system-tint-smoke, body.global-tint.nav-contrast-auto.system-tint-ink { --nav-ink: 247 250 250; --nav-menu-ink: 247 250 250; --nav-shadow-color: 0 0 0; }
+
+    .hero { position: relative; min-height: 100svh; display: grid; place-items: center; overflow: hidden; background: url('/files/banner.jpg') 75% 0 / cover no-repeat; color: white; }
+    .hero::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,15,19,.3), transparent 40%, rgba(7,13,16,.25)); }
+    .hero-copy { position: relative; z-index: 3; width: min(900px, calc(100% - 40px)); text-align: center; animation: arrive 900ms cubic-bezier(.2,.75,.2,1) both; }
+    .hero-copy h1 { margin: 0; font-family: var(--display); font-size: var(--hero-size); font-weight: var(--hero-weight); line-height: 1.06; letter-spacing: -.035em; text-wrap: balance; text-shadow: 0 3px 18px rgba(0,0,0,.66); transform: translateX(var(--hero-center-offset)); transition: font-size 120ms ease, font-weight 120ms ease, letter-spacing 180ms ease, transform 160ms ease; }
+    .hero-copy h1 span { display: block; transition: transform 160ms ease, opacity 180ms ease; }
+    body.hero-offset .hero-copy h1 { width: max-content; max-width: 100%; margin-inline: auto; text-align: center; }
+    body.hero-offset .hero-copy h1 span { text-align: center; }
+    body.hero-offset .hero-copy h1 span:first-child { transform: translateX(calc(0px - var(--hero-offset) + var(--hero-line-one-offset))); }
+    body.hero-offset .hero-copy h1 span:last-child { transform: translateX(calc(var(--hero-offset) + var(--hero-line-two-offset))); }
+    body.hero-center .hero-copy h1 { text-align: center; }
+    body.hero-center .hero-copy h1 span:last-child { opacity: .8; }
+    body.hero-horizon .hero-copy h1 { display: flex; justify-content: center; gap: .95em; white-space: nowrap; letter-spacing: -.025em; }
+    body.hero-horizon .hero-copy h1 span { display: inline; }
+    body.hero-horizon .hero-copy h1 span:last-child { opacity: .84; }
+    body.hero-horizon.hero-divider-line .hero-copy h1, body.hero-horizon.hero-divider-dot .hero-copy h1, body.hero-horizon.hero-divider-slash .hero-copy h1 { align-items: center; gap: .52em; }
+    body.hero-horizon.hero-divider-line .hero-copy h1 span:first-child, body.hero-horizon.hero-divider-dot .hero-copy h1 span:first-child, body.hero-horizon.hero-divider-slash .hero-copy h1 span:first-child { display: inline-flex; align-items: center; gap: .52em; }
+    body.hero-horizon.hero-divider-line .hero-copy h1 span:first-child::after { width: 1px; height: .78em; flex: 0 0 auto; background: linear-gradient(to bottom, transparent, rgba(255,255,255,.74) 20%, rgba(255,255,255,.74) 80%, transparent); box-shadow: 0 0 12px rgba(255,255,255,.22); content: ""; }
+    body.hero-horizon.hero-divider-dot .hero-copy h1 span:first-child::after { width: .14em; height: .14em; flex: 0 0 auto; border-radius: 50%; background: rgba(255,255,255,.72); box-shadow: 0 0 10px rgba(255,255,255,.24); content: ""; }
+    body.hero-horizon.hero-divider-slash .hero-copy h1 span:first-child::after { flex: 0 0 auto; color: rgba(255,255,255,.62); font-size: .72em; font-weight: 300; line-height: 1; text-shadow: 0 2px 12px rgba(0,0,0,.46); content: "/"; transform: translateY(-.03em); }
+    .hero-meta { display: flex; justify-content: center; align-items: center; flex-wrap: wrap; gap: 10px 15px; margin-top: 22px; color: rgba(255,255,255,.9); font-family: var(--utility); font-size: clamp(9px, .92vw, 11.5px); font-weight: 600; letter-spacing: .065em; text-shadow: 0 2px 9px rgba(0,0,0,.92), 0 0 20px rgba(0,0,0,.42); text-transform: uppercase; }
+    .hero-meta i { width: 1px; height: 14px; background: rgba(255,255,255,.56); box-shadow: 0 1px 8px rgba(0,0,0,.55); }
+    body.hero-meta-divider-space .hero-meta { gap: 10px 24px; }
+    body.hero-meta-divider-space .hero-meta i { display: none; }
+    body.hero-meta-divider-dot .hero-meta i { width: 4px; height: 4px; border-radius: 50%; background: rgba(255,255,255,.64); }
+    body.hero-meta-divider-slash .hero-meta i { width: auto; height: auto; background: none; box-shadow: none; color: rgba(255,255,255,.62); font: 400 11px/1 var(--display); }
+    body.hero-meta-divider-slash .hero-meta i::before { content: "/"; }
+    .scroll-cue { position: absolute; z-index: 3; bottom: 26px; left: 50%; display: flex; flex-direction: column; align-items: center; gap: 9px; transform: translateX(-50%); color: rgba(255,255,255,.65); font: 600 8px/1 var(--utility); letter-spacing: .14em; text-transform: uppercase; }
+    .scroll-cue::after { content: ""; width: 1px; height: 28px; background: linear-gradient(rgba(255,255,255,.62), transparent); }
+
+    .wrap { width: min(1120px, calc(100% - 44px)); margin: 0 auto; }
+    .section { padding: var(--section-gap) 0; }
+    .section-kicker { display: block; margin-bottom: 12px; color: var(--steel); font: 600 9px/1 var(--utility); letter-spacing: .15em; text-transform: uppercase; }
+    .section-heading { margin: 0; font-family: var(--display); font-size: clamp(34px, 4.8vw, 58px); font-weight: 650; line-height: .98; letter-spacing: -.055em; text-wrap: balance; }
+    .section-intro { max-width: 600px; margin: 18px 0 0; color: var(--ink-soft); font-size: 16px; line-height: 1.7; }
+
+    .about { background: var(--paper); }
+    .about-grid { display: grid; grid-template-columns: .38fr .62fr; gap: clamp(46px, 8vw, 110px); align-items: center; }
+    .portrait-wrap { position: relative; justify-self: end; width: min(100%, 310px); }
+    .portrait-wrap::before { content: ""; position: absolute; inset: 12px -12px -12px 12px; border: 1px solid var(--line-dark); border-radius: 50%; }
+    .portrait { position: relative; z-index: 2; width: 100%; aspect-ratio: 1; border-radius: 50%; object-fit: cover; box-shadow: var(--shadow); }
+    .about-copy p { max-width: 660px; margin: 22px 0 0; color: var(--ink-soft); font-size: 17px; line-height: 1.72; }
+    .text-link { display: inline-flex; align-items: center; gap: 10px; margin-top: 28px; border-bottom: 1px solid var(--steel); padding-bottom: 5px; color: var(--steel-dark); font: 600 10px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; }
+    .text-link::after { content: "→"; font-size: 14px; transition: transform 180ms ease; }
+    .text-link:hover::after { transform: translateX(4px); }
+
+    .experience { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(145deg, #e9eef0 0%, #f3f5f5 48%, #e6ecee 100%); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .experience::before, .experience::after { content: ""; position: absolute; z-index: -1; border-radius: 50%; filter: blur(4px); pointer-events: none; }
+    .experience::before { width: 520px; height: 520px; top: -230px; right: -120px; background: radial-gradient(circle at 35% 35%, rgba(145,181,192,.36), rgba(145,181,192,0) 68%); }
+    .experience::after { width: 460px; height: 460px; bottom: -240px; left: -120px; background: radial-gradient(circle at 55% 45%, rgba(255,255,255,.88), rgba(255,255,255,0) 70%); }
+    .section-head-row { display: flex; justify-content: space-between; gap: 32px; align-items: end; margin-bottom: 38px; }
+    .section-number { color: #93a2a9; font: 500 10px/1 var(--utility); letter-spacing: .12em; }
+    .experience-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--experience-gap); }
+    .experience-card { display: flex; flex-direction: column; min-height: 445px; overflow: hidden; border: 1px solid rgb(255 255 255 / var(--experience-highlight)); border-radius: var(--experience-radius); background: rgb(var(--experience-surface-rgb) / var(--experience-opacity)); box-shadow: inset 0 1px rgb(255 255 255 / var(--experience-highlight)), 0 22px 60px rgb(36 51 58 / var(--experience-shadow-alpha)); backdrop-filter: blur(var(--experience-blur)) saturate(1.14); -webkit-backdrop-filter: blur(var(--experience-blur)) saturate(1.14); transition: transform 260ms cubic-bezier(.2,.7,.2,1), border-color 220ms ease, box-shadow 220ms ease, border-radius 180ms ease; }
+    .experience-card:hover { transform: translateY(calc(-1 * var(--experience-lift))); border-color: rgba(255,255,255,.96); box-shadow: inset 0 1px white, 0 30px 76px rgb(36 51 58 / calc(var(--experience-shadow-alpha) + .06)); }
+    .logo-box { position: relative; height: 180px; display: grid; place-items: center; padding: 28px 26px 8px; background: radial-gradient(circle at 50% 48%, rgba(255,255,255,.9), rgba(255,255,255,0) 68%); }
+    .logo-box::after { content: ""; position: absolute; left: 28px; right: 28px; bottom: 0; height: 1px; background: linear-gradient(90deg, transparent, rgba(122,143,151,.28), transparent); }
+    .logo-box img { width: 64%; max-width: 155px; max-height: 94px; object-fit: contain; filter: saturate(.82) contrast(1.03); }
+    .experience-body { display: flex; flex-direction: column; flex: 1; padding: min(25px, var(--experience-card-padding)) var(--experience-card-padding) var(--experience-card-padding); }
+    .company { color: var(--steel); font: 600 9px/1 var(--utility); letter-spacing: .12em; text-transform: uppercase; }
+    .experience-card h3 { margin: 13px 0 15px; font-family: var(--display); font-size: clamp(23px, 2vw, 27px); font-weight: 620; line-height: 1.05; letter-spacing: -.045em; }
+    .experience-card p { margin: 0; color: var(--ink-soft); font-size: 14px; line-height: 1.6; }
+    .card-link { margin-top: auto; padding-top: 24px; color: var(--steel-dark); font: 600 9px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; }
+
+    .work { background: var(--paper); }
+    .work .section-head-row { margin-bottom: 0; }
+    .work-switcher { display: flex; justify-content: flex-start; gap: 34px; width: fit-content; margin: 36px 0 42px; }
+    .work-tab { position: relative; border: 0; padding: 8px 2px 11px; background: transparent; color: #7b878c; font: 560 13px/1 var(--display); letter-spacing: -.005em; cursor: pointer; transition: color 180ms ease; }
+    .work-tab::after { content: ""; position: absolute; left: 50%; right: 50%; bottom: 0; height: 1px; background: var(--steel); transition: left 200ms ease, right 200ms ease; }
+    .work-tab:hover { color: #40545c; }
+    .work-tab.active { color: var(--steel-dark); }
+    .work-tab.active::after { left: 0; right: 0; }
+    .work-tab:focus-visible, .preview-option:focus-visible { outline: 2px solid rgba(91,119,129,.5); outline-offset: 4px; }
+    .work-panel { display: none; }
+    .work-panel.active { display: block; animation: panel-in 300ms ease both; }
+
+    .work-layout { display: grid; gap: var(--work-gap); transition: opacity 180ms ease; }
+    body.global-card-gap .layout-bento, body.global-card-gap .layout-triptych { gap: calc(var(--global-card-gap) * .75); }
+    body.global-card-gap .layout-grid, body.global-card-gap .layout-staggered { gap: var(--global-card-gap); }
+    body.global-card-gap .layout-rail { gap: calc(var(--global-card-gap) * 1.25); }
+    .portfolio-item { min-width: 0; color: var(--ink); border-radius: var(--portfolio-radius); transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 220ms ease, border-radius 180ms ease; }
+    .portfolio-visual { position: relative; min-height: 0; overflow: hidden; margin: 0; border: 1px solid rgba(205,215,218,.7); border-radius: var(--portfolio-radius); background: #dce2e4; box-shadow: 0 18px 46px rgba(33,45,51,.1); }
+    .portfolio-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 650ms cubic-bezier(.2,.7,.2,1), filter 260ms ease; }
+    .portfolio-item:hover .portfolio-visual img { transform: scale(1.035); }
+    .portfolio-meta { display: flex; justify-content: space-between; gap: 20px; align-items: end; padding: var(--portfolio-card-padding); }
+    .portfolio-meta strong { display: block; font-family: var(--display); font-size: var(--info-title-size); font-weight: 600; line-height: 1.08; letter-spacing: -.035em; }
+    .portfolio-meta span { display: block; margin-top: 4px; color: #718087; font-size: var(--info-body-size); line-height: 1.3; }
+    .portfolio-meta em { color: #89979d; font: 500 var(--info-meta-size)/1.3 var(--utility); font-style: normal; letter-spacing: .06em; text-align: right; text-transform: uppercase; }
+
+    body.caption-inset .portfolio-item { position: relative; display: grid; grid-template-rows: minmax(0, 1fr); overflow: hidden; border: 1px solid rgb(255 255 255 / var(--portfolio-highlight)); box-shadow: 0 18px 46px rgb(33 45 51 / var(--portfolio-shadow-alpha)); }
+    body.caption-inset .portfolio-visual { grid-area: 1 / 1; height: 100%; border: 0; box-shadow: none; }
+    body.caption-inset .portfolio-meta { position: absolute; z-index: 2; right: var(--caption-inset); bottom: var(--caption-inset); left: var(--caption-inset); border: 1px solid rgb(255 255 255 / var(--portfolio-highlight)); border-radius: max(8px, calc(var(--portfolio-radius) - 8px)); background: rgb(var(--portfolio-surface-rgb) / var(--portfolio-opacity)); box-shadow: inset 0 1px rgb(255 255 255 / var(--portfolio-highlight)), 0 8px 26px rgb(25 39 45 / calc(var(--portfolio-shadow-alpha) + .02)); backdrop-filter: blur(var(--portfolio-blur)) saturate(1.06); -webkit-backdrop-filter: blur(var(--portfolio-blur)) saturate(1.06); }
+
+    body.caption-overlay .portfolio-item { position: relative; display: grid; grid-template-rows: minmax(0, 1fr); overflow: hidden; border: 1px solid rgba(211,220,223,.72); box-shadow: 0 18px 46px rgb(33 45 51 / var(--portfolio-shadow-alpha)); }
+    body.caption-overlay .portfolio-visual { grid-area: 1 / 1; height: 100%; border: 0; box-shadow: none; }
+    body.caption-overlay .portfolio-meta { position: absolute; z-index: 2; right: 0; bottom: 0; left: 0; align-items: end; border-radius: 0 0 var(--portfolio-radius) var(--portfolio-radius); padding-top: 68px; background: linear-gradient(180deg, transparent calc(100% - var(--gradient-strength)), rgb(9 17 21 / var(--caption-opacity))); color: white; text-shadow: 0 2px 12px rgba(0,0,0,.72); }
+    body.caption-overlay .portfolio-meta span { color: rgba(255,255,255,.72); }
+    body.caption-overlay .portfolio-meta em { color: rgba(255,255,255,.64); }
+
+    body.caption-split .portfolio-item { display: grid; grid-template-rows: minmax(0, 1fr) minmax(var(--footer-height), auto); overflow: hidden; border: 1px solid rgb(255 255 255 / var(--split-highlight)); background: rgb(var(--split-surface-rgb) / var(--split-opacity)); box-shadow: inset 0 1px rgb(255 255 255 / var(--split-highlight)), inset 0 -1px rgb(255 255 255 / calc(var(--split-highlight) * .36)), 0 22px 60px rgb(36 51 58 / var(--split-shadow-alpha)); backdrop-filter: blur(var(--split-blur)) saturate(1.14); -webkit-backdrop-filter: blur(var(--split-blur)) saturate(1.14); }
+    body.caption-split .portfolio-visual { border: 0; border-radius: var(--portfolio-radius) var(--portfolio-radius) 0 0; box-shadow: none; }
+    body.caption-split .portfolio-visual::after { content: ""; position: absolute; inset: 0; border-radius: inherit; box-shadow: inset 0 0 var(--image-edge-softness) var(--image-edge-reach) rgb(246 249 249 / var(--image-edge-blend)); pointer-events: none; }
+    body.caption-split .portfolio-meta { position: relative; min-height: var(--footer-height); border-top: 0; padding: max(var(--portfolio-card-padding), 22px); background: rgb(var(--split-surface-rgb) / var(--split-opacity)); }
+    body.caption-split .portfolio-meta::before { content: ""; position: absolute; top: 0; right: 10%; left: 10%; height: 1px; background: linear-gradient(90deg, transparent, rgb(111 137 147 / .34) 22%, rgb(111 137 147 / .34) 78%, transparent); pointer-events: none; }
+    body.caption-split.split-divider-solid .portfolio-meta::before { right: 0; left: 0; background: rgb(111 137 147 / .28); }
+    body.caption-split.split-divider-none .portfolio-meta::before { display: none; }
+    body.caption-split .portfolio-item:hover { transform: translateY(calc(-1 * var(--portfolio-lift))); box-shadow: inset 0 1px white, inset 0 -1px rgb(255 255 255 / .34), 0 30px 76px rgb(36 51 58 / calc(var(--split-shadow-alpha) + .06)); }
+    body.caption-split .portfolio-item:hover .portfolio-visual img { transform: none; }
+
+    .layout-bento { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 235px; }
+    .layout-bento .item-feature { grid-column: span 7; grid-row: span 2; }
+    .layout-bento .item-secondary, .layout-bento .item-tertiary { grid-column: span 5; }
+
+    .layout-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+    .layout-grid .portfolio-visual { aspect-ratio: 1.14; }
+
+    .layout-staggered { grid-template-columns: repeat(12, minmax(0, 1fr)); align-items: start; padding-bottom: 64px; }
+    .layout-staggered .portfolio-item { grid-column: span 4; height: 410px; }
+    .layout-staggered .item-secondary { height: 350px; transform: translateY(62px); }
+    .layout-staggered .item-tertiary { height: 385px; transform: translateY(24px); }
+
+    .layout-rail { display: flex; overflow-x: auto; gap: 18px; margin-right: calc((100vw - min(1120px, calc(100vw - 44px))) / -2); padding: 2px max(22px, calc((100vw - 1120px) / 2)) 18px 0; scroll-padding-left: 0; scroll-snap-type: x mandatory; scrollbar-width: thin; scrollbar-color: #aab9be transparent; }
+    .layout-rail .portfolio-item { flex: 0 0 clamp(320px, 54vw, 590px); height: 390px; scroll-snap-align: start; }
+    .layout-rail .item-secondary, .layout-rail .item-tertiary { flex-basis: clamp(290px, 42vw, 470px); }
+
+    .layout-triptych { grid-template-columns: repeat(12, minmax(0, 1fr)); grid-auto-rows: 420px; }
+    .layout-triptych .item-feature { grid-column: span 5; }
+    .layout-triptych .item-secondary { grid-column: span 3; }
+    .layout-triptych .item-tertiary { grid-column: span 4; }
+
+    .skills { position: relative; isolation: isolate; overflow: hidden; background: linear-gradient(155deg, #edf1f2 0%, #f6f8f8 55%, #e9eef0 100%); border-top: 1px solid var(--line); }
+    .skills::before { content: ""; position: absolute; z-index: -1; width: 620px; height: 620px; top: -300px; left: 18%; border-radius: 50%; background: radial-gradient(circle, rgba(134,172,185,.22), rgba(134,172,185,0) 68%); }
+    .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--skills-gap); margin-top: 38px; }
+    .skill-card { border: 1px solid rgb(255 255 255 / var(--skill-highlight)); border-radius: var(--skill-radius); padding: var(--skill-card-padding); background: rgb(var(--skill-surface-rgb) / var(--skill-opacity)); box-shadow: inset 0 1px rgb(255 255 255 / var(--skill-highlight)), 0 22px 60px rgb(36 51 58 / var(--skill-shadow-alpha)); backdrop-filter: blur(var(--skill-blur)) saturate(1.12); -webkit-backdrop-filter: blur(var(--skill-blur)) saturate(1.12); transition: transform 240ms cubic-bezier(.2,.7,.2,1), box-shadow 240ms ease, border-radius 180ms ease; }
+    .skill-card:hover { transform: translateY(calc(-1 * var(--skill-lift))); box-shadow: inset 0 1px white, 0 28px 72px rgb(36 51 58 / calc(var(--skill-shadow-alpha) + .05)); }
+    .skill-top { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 24px; border-bottom: 1px solid var(--line); }
+    .skill-top img { width: 66px; height: 66px; object-fit: contain; opacity: .86; }
+    .skill-top h3 { margin: 0; font-family: var(--display); font-size: 24px; font-weight: 620; letter-spacing: -.045em; }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 22px; }
+    .skill-list span { border: 1px solid rgba(204,216,220,.76); border-radius: 999px; padding: 8px 10px; background: rgba(255,255,255,.58); box-shadow: inset 0 1px rgba(255,255,255,.8); color: #596b72; font: 500 8px/1 var(--utility); letter-spacing: .035em; }
+
+    .notes { position: relative; isolation: isolate; overflow: hidden; background: radial-gradient(circle at 85% 0%, rgba(90,125,137,.42), transparent 34%), linear-gradient(150deg, #26343a, #1f2b30 70%); color: #f4f7f7; }
+    .notes::before { content: ""; position: absolute; z-index: -1; width: 520px; height: 520px; left: -180px; bottom: -300px; border-radius: 50%; background: radial-gradient(circle, rgba(119,158,171,.2), transparent 68%); }
+    .notes .section-kicker { color: #a8c0c8; }
+    .notes .section-intro { color: #afbdc2; }
+    .notes-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--notes-gap); margin-top: 42px; }
+    .note-card { min-height: 270px; display: flex; flex-direction: column; border: 1px solid rgb(255 255 255 / var(--note-highlight)); border-radius: var(--note-radius); padding: var(--note-card-padding); background: rgb(var(--note-surface-rgb) / var(--note-opacity)); box-shadow: inset 0 1px rgb(255 255 255 / calc(var(--note-highlight) * .62)), 0 22px 55px rgb(3 10 13 / var(--note-shadow-alpha)); backdrop-filter: blur(var(--note-blur)) saturate(1.12); -webkit-backdrop-filter: blur(var(--note-blur)) saturate(1.12); transition: background 180ms ease, transform 220ms ease, border-color 180ms ease, border-radius 180ms ease; }
+    .note-card:hover { transform: translateY(calc(-1 * var(--note-lift))); border-color: rgb(255 255 255 / calc(var(--note-highlight) + .09)); background: rgb(var(--note-surface-rgb) / calc(var(--note-opacity) + .03)); }
+    .note-type { color: #9ab4bd; font: 600 8px/1 var(--utility); letter-spacing: .12em; text-transform: uppercase; }
+    .note-card h3 { margin: 28px 0 14px; font-family: var(--display); font-size: clamp(23px, 2vw, 28px); font-weight: 580; line-height: 1.08; letter-spacing: -.045em; }
+    .note-card p { margin: 0; color: #acbbc0; font-size: 13px; line-height: 1.6; }
+    .note-date { margin-top: auto; padding-top: 26px; color: #82969d; font: 500 8px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; }
+    .planned { display: inline-block; margin-left: 10px; border: 1px solid rgba(255,255,255,.2); border-radius: 999px; padding: 5px 8px; color: #9eb3ba; font: 500 7px/1 var(--utility); letter-spacing: .1em; vertical-align: middle; text-transform: uppercase; }
+
+    .footer { background: #111a1e; color: #eef2f3; text-align: center; }
+    .footer-main { min-height: 340px; display: grid; place-items: center; padding: 70px 24px; }
+    .footer h2 { margin: 0; font-family: var(--display); font-size: clamp(34px, 5vw, 60px); letter-spacing: -.055em; }
+    .footer p { max-width: 560px; margin: 18px auto 0; color: #98a8ae; font-size: 15px; line-height: 1.65; }
+    .footer-links { display: flex; justify-content: center; flex-wrap: wrap; gap: 22px; margin-top: 28px; color: #c4d0d4; font: 500 9px/1 var(--utility); letter-spacing: .06em; text-transform: uppercase; }
+    .copyright { border-top: 1px solid rgba(255,255,255,.08); padding: 20px; color: #607078; font: 500 8px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; }
+
+    .review { padding: 44px 22px 54px; background: #e9edef; text-align: center; }
+    .review p { margin: 0 0 18px; color: #5f6e75; font-size: 13px; }
+    .review-options { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px; }
+    .review-choice { border: 1px solid #cbd5d8; border-radius: 999px; padding: 11px 16px; background: rgba(255,255,255,.7); color: #445860; font: 600 9px/1 var(--utility); letter-spacing: .05em; cursor: pointer; }
+    .review-choice.selected { border-color: #4e727f; background: #4e727f; color: white; }
+
+    .preview-menu { position: fixed; z-index: 60; right: 18px; bottom: 18px; width: 336px; max-height: min(760px, calc(100vh - 36px)); overflow: hidden auto; border: 1px solid rgba(255,255,255,.88); border-radius: 22px; background: rgba(235,242,243,.9); box-shadow: inset 0 1px white, 0 18px 48px rgba(34,49,56,.16); color: #31464e; backdrop-filter: blur(12px) saturate(1.08); -webkit-backdrop-filter: blur(12px) saturate(1.08); }
+    .preview-menu:not([open]) { width: auto; border-radius: 999px; }
+    .preview-menu summary { position: sticky; z-index: 3; top: 0; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; background: rgba(235,242,243,.94); cursor: pointer; list-style: none; }
+    .preview-menu summary:focus-visible { outline: 2px solid rgba(91,119,129,.48); outline-offset: -3px; border-radius: 18px; }
+    .preview-menu:not([open]) summary { gap: 0; padding: 11px 14px; }
+    .preview-menu:not([open]) summary span { display: none; }
+    .preview-menu summary::-webkit-details-marker { display: none; }
+    .preview-menu summary span { color: #789099; font: 600 8px/1 var(--utility); letter-spacing: .12em; text-transform: uppercase; }
+    .preview-menu summary strong { font-family: var(--display); font-size: 13px; font-weight: 600; }
+    .preview-menu summary strong::after { content: "⌃"; display: inline-block; margin-left: 8px; color: #84979e; font-size: 10px; }
+    .preview-menu:not([open]) summary strong::after { content: "⌄"; }
+    .preview-panel { border-top: 1px solid rgba(145,164,171,.22); padding: 14px 16px 18px; }
+    .preview-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 7px; margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(145,164,171,.18); }
+    .preview-action { border: 1px solid rgba(147,165,171,.35); border-radius: 999px; padding: 9px 10px; background: rgba(255,255,255,.46); color: #5f737b; font: 560 10px/1 var(--display); cursor: pointer; }
+    .preview-action.primary { border-color: #667f89; background: #667f89; color: white; }
+    .preview-status { grid-column: 1 / -1; min-height: 10px; color: #71868e; font: 500 8px/1.25 var(--utility); text-align: center; }
+    .global-system { margin: 0 -4px; border: 1px solid rgba(119,145,154,.24); border-radius: 17px; padding: 13px 12px 14px; background: linear-gradient(145deg, rgba(255,255,255,.5), rgba(216,230,234,.28)); box-shadow: inset 0 1px rgba(255,255,255,.72); }
+    .global-system + .preview-group { margin-top: 15px; }
+    .global-system-head { display: flex; justify-content: space-between; gap: 18px; align-items: start; margin-bottom: 12px; }
+    .global-system-head .preview-label { margin: 1px 0 0; color: #5f7780; }
+    .global-system-head p { max-width: 175px; margin: 0; color: #83979e; font: 500 8px/1.35 var(--body); text-align: right; }
+    .global-subhead { display: block; margin: 13px 0 9px; color: #90a1a7; font: 600 7px/1 var(--utility); letter-spacing: .14em; text-transform: uppercase; }
+    .global-control { display: grid; grid-template-columns: 1fr auto auto; gap: 7px 10px; align-items: center; }
+    .global-control + .global-control { margin-top: 10px; }
+    .global-control > label:first-child { color: #526b74; font: 560 10px/1 var(--display); }
+    .global-control output { color: #71868e; font: 500 8px/1 var(--utility); }
+    .global-control > input[type="range"] { grid-column: 1 / -1; width: 100%; height: 3px; margin: 1px 0 2px; border-radius: 999px; appearance: none; background: #c4d1d5; }
+    .global-control > input[type="range"]::-webkit-slider-thumb { width: 15px; height: 15px; border: 2px solid rgba(255,255,255,.94); border-radius: 50%; appearance: none; background: #58727c; box-shadow: 0 2px 8px rgba(44,62,69,.2); cursor: grab; }
+    .global-control select { grid-column: 1 / -1; width: 100%; border: 1px solid rgba(133,154,161,.32); border-radius: 10px; padding: 7px 9px; background: rgba(255,255,255,.58); color: #526971; font: 560 9px/1 var(--display); }
+    .link-toggle { display: inline-flex; align-items: center; gap: 5px; border: 1px solid rgba(126,149,157,.28); border-radius: 999px; padding: 4px 6px; background: rgba(255,255,255,.44); color: #82959c; font: 600 7px/1 var(--utility); letter-spacing: .04em; cursor: pointer; }
+    .link-toggle input { width: 11px; height: 11px; margin: 0; accent-color: #5f7d87; }
+    .link-toggle:has(input:checked) { border-color: rgba(84,115,125,.55); background: #647f89; color: white; }
+    .linked-control { opacity: .48; }
+    .linked-control input, .linked-control button { cursor: not-allowed; }
+    .global-state { display: inline-flex; margin-left: 7px; border-radius: 999px; padding: 3px 6px; background: rgba(99,127,137,.12); color: #69818a; font: 600 7px/1 var(--utility); letter-spacing: .04em; vertical-align: middle; }
+    .global-state[hidden] { display: none; }
+    .preview-group + .preview-group { margin-top: 15px; border-top: 1px solid rgba(145,164,171,.18); padding-top: 15px; }
+    .preview-label { display: block; margin-bottom: 10px; color: #7c9098; font: 600 8px/1 var(--utility); letter-spacing: .12em; text-transform: uppercase; }
+    .preview-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .preview-options.two { grid-template-columns: repeat(2, 1fr); }
+    .preview-options.four { grid-template-columns: repeat(4, 1fr); }
+    .preview-option { border: 1px solid rgba(147,165,171,.32); border-radius: 999px; padding: 8px 5px; background: rgba(255,255,255,.48); color: #62767e; font: 560 10px/1 var(--display); cursor: pointer; }
+    .preview-option.active { border-color: #667f89; background: #667f89; color: white; }
+    .preview-option.text-tone { display: inline-flex; align-items: center; justify-content: center; gap: 5px; }
+    .preview-option.text-tone::before { width: 9px; height: 9px; flex: 0 0 auto; border: 1px solid rgba(83,105,113,.28); border-radius: 50%; background: var(--tone-swatch); box-shadow: inset 0 0 0 1px rgba(255,255,255,.26); content: ""; }
+    .preview-option.text-tone.tone-auto::before { background: linear-gradient(135deg, #f7fafa 0 48%, #273940 52% 100%); }
+    .preview-option.text-tone.active::before { border-color: rgba(255,255,255,.56); }
+    .range-control { display: grid; grid-template-columns: 1fr auto; gap: 8px 12px; align-items: center; }
+    .range-control + .range-control { margin-top: 11px; }
+    .range-control label { color: #61747c; font: 540 10px/1 var(--display); }
+    .range-control output { color: #7c9098; font: 500 8px/1 var(--utility); }
+    .range-control input[type="range"] { grid-column: 1 / -1; width: 100%; height: 3px; margin: 2px 0 4px; border-radius: 999px; appearance: none; background: #cad5d8; accent-color: #667f89; }
+    .range-control input[type="range"]::-webkit-slider-thumb { width: 15px; height: 15px; border: 2px solid rgba(255,255,255,.92); border-radius: 50%; appearance: none; background: #667f89; box-shadow: 0 2px 8px rgba(44,62,69,.18); cursor: grab; }
+    .mode-control { display: none; }
+    body.hero-horizon .hero-divider-control { display: block; }
+    body.caption-split .caption-surface-control { display: none; }
+    body.caption-inset .mode-control.inset-control, body.caption-inset .mode-control.glass-control, body.caption-overlay .mode-control.overlay-control, body.caption-split .mode-control.split-control { display: grid; }
+
+    @keyframes arrive { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes panel-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+
+    @media (max-width: 850px) {
+      .site-nav-shell { width: min(100% - 24px, 1180px); }
+      .site-nav { gap: 10px; padding-left: min(var(--nav-side-padding), 14px); padding-right: min(var(--nav-side-padding), 14px); }
+      .site-name { flex: 0 0 auto; justify-content: center; }
+      .nav-links { flex: 0 1 auto; justify-content: flex-end; gap: clamp(18px, 2.6vw, 36px); margin-left: auto; font-size: 13px; }
+      body.nav-island .site-nav.surface-visible .site-name, body.nav-island .site-nav.surface-visible .nav-links { padding-right: min(var(--nav-side-padding), 18px); padding-left: min(var(--nav-side-padding), 18px); }
+      .about-grid { grid-template-columns: 1fr; gap: 44px; text-align: center; }
+      .portrait-wrap { justify-self: center; width: min(62vw, 280px); }
+      .about-copy p { margin-left: auto; margin-right: auto; }
+      .experience-grid, .skills-grid, .notes-grid { grid-template-columns: 1fr; }
+      .experience-card { min-height: 390px; }
+      .notes-grid { gap: 1px; }
+      .note-card { min-height: 220px; }
+      .layout-bento { grid-auto-rows: 205px; }
+    }
+
+    @media (max-width: 640px) {
+      body.global-section-gap { --section-gap: calc(var(--global-section-gap) * .72); }
+      .hero { min-height: 100svh; background-position: 72% 0; }
+      .site-nav-shell { top: 10px; }
+      .site-nav { height: var(--nav-height); overflow: visible; }
+      .nav-links { display: none; }
+      .mobile-menu-trigger { height: calc(var(--nav-height) - 8px); display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-width: 70px; border: 1px solid transparent; border-radius: 999px; padding: 0 12px; background: transparent; color: inherit; font: 560 13px/1 var(--display); letter-spacing: .005em; text-shadow: inherit; cursor: pointer; transition: color 180ms ease, background 220ms ease, border-color 220ms ease, box-shadow 220ms ease, padding 220ms ease; }
+      .mobile-menu-trigger i { width: 7px; height: 7px; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; opacity: .72; transform: translateY(-2px) rotate(45deg); transition: transform 220ms cubic-bezier(.2,.7,.2,1); }
+      .mobile-menu-trigger:focus-visible { outline: 2px solid rgb(255 255 255 / .7); outline-offset: 2px; }
+      .site-nav-shell.menu-open .mobile-menu-trigger i { transform: translateY(2px) rotate(225deg); }
+      .site-nav-shell.menu-open .site-nav:not(.surface-visible) .mobile-menu-trigger { border-color: rgb(var(--nav-border) / var(--nav-highlight-effective)); background: rgb(var(--nav-surface-effective) / var(--nav-opacity-effective)); color: rgb(var(--nav-menu-ink) / var(--nav-menu-alpha)); box-shadow: inset 0 1px rgb(255 255 255 / var(--nav-highlight-effective)), 0 10px 30px rgb(35 49 55 / var(--nav-shadow-effective)); text-shadow: none; backdrop-filter: blur(var(--nav-blur-effective)) saturate(1.04); -webkit-backdrop-filter: blur(var(--nav-blur-effective)) saturate(1.04); }
+      body.nav-island .site-nav.surface-visible .mobile-menu-trigger { padding-right: min(var(--nav-side-padding), 18px); padding-left: min(var(--nav-side-padding), 18px); }
+      .mobile-menu-panel { position: absolute; top: calc(100% + 8px); right: 0; width: min(var(--mobile-menu-width), calc(100vw - 24px)); display: grid; gap: 2px; visibility: hidden; border: 1px solid rgb(var(--nav-border) / var(--nav-highlight-effective)); border-radius: calc(var(--nav-height) * .48); padding: 8px; color: rgb(var(--nav-menu-ink) / var(--nav-menu-alpha)); text-align: left; text-shadow: none; opacity: 0; pointer-events: none; transform: translateY(-7px) scale(.98); transform-origin: top right; transition: width 180ms ease, opacity 180ms ease, transform 220ms cubic-bezier(.2,.7,.2,1), visibility 180ms ease; }
+      .site-nav-shell.menu-open .mobile-menu-panel { visibility: visible; opacity: 1; pointer-events: auto; transform: translateY(0) scale(1); }
+      .mobile-menu-panel a { display: flex; align-items: center; justify-content: space-between; border-radius: 14px; padding: 12px 13px; color: rgb(var(--nav-menu-ink) / calc(var(--nav-menu-alpha) * .78)); font: 560 13px/1 var(--display); letter-spacing: .005em; transition: color 160ms ease, background 160ms ease, transform 160ms ease; }
+      body.menu-align-left .mobile-menu-panel a { justify-content: flex-start; text-align: left; }
+      body.menu-align-right .mobile-menu-panel a { justify-content: flex-end; text-align: right; }
+      .mobile-menu-panel a:hover, .mobile-menu-panel a:focus-visible { outline: none; background: rgb(var(--nav-menu-ink) / .075); color: rgb(var(--nav-menu-ink) / var(--nav-menu-alpha)); transform: translateX(2px); }
+      body.menu-align-right .mobile-menu-panel a:hover, body.menu-align-right .mobile-menu-panel a:focus-visible { transform: translateX(-2px); }
+      .hero-copy h1 { font-size: min(var(--hero-size), 8.2vw); line-height: 1.05; }
+      .hero-copy h1 { transform: translateX(clamp(-8vw, var(--hero-center-offset), 8vw)); }
+      body.hero-offset .hero-copy h1 { max-width: 100%; }
+      body.hero-offset .hero-copy h1 span:first-child { transform: translateX(clamp(-8vw, calc(0px - var(--hero-offset) + var(--hero-line-one-offset)), 8vw)); }
+      body.hero-offset .hero-copy h1 span:last-child { transform: translateX(clamp(-8vw, calc(var(--hero-offset) + var(--hero-line-two-offset)), 8vw)); }
+      body.hero-horizon .hero-copy h1 { display: block; white-space: normal; }
+      body.hero-horizon .hero-copy h1 span { display: block; }
+      body.hero-horizon.hero-divider-line .hero-copy h1 span:first-child, body.hero-horizon.hero-divider-dot .hero-copy h1 span:first-child, body.hero-horizon.hero-divider-slash .hero-copy h1 span:first-child { display: block; }
+      body.hero-horizon.hero-divider-line .hero-copy h1 span:first-child::after, body.hero-horizon.hero-divider-dot .hero-copy h1 span:first-child::after, body.hero-horizon.hero-divider-slash .hero-copy h1 span:first-child::after { display: none; }
+      body .hero .hero-meta i { display: none; }
+      .hero-meta { display: grid; gap: 8px; }
+      .hero-meta i { display: none; }
+      .section-head-row { align-items: start; }
+      .work-switcher { gap: 28px; margin-top: 30px; margin-bottom: 34px; }
+      .work-tab { font-size: 12px; }
+      .layout-bento, .layout-grid, .layout-staggered, .layout-triptych { grid-template-columns: 1fr; grid-auto-rows: auto; padding-bottom: 0; }
+      .layout-bento .item-feature, .layout-bento .item-secondary, .layout-bento .item-tertiary, .layout-staggered .portfolio-item, .layout-triptych .portfolio-item { grid-column: auto; grid-row: auto; height: auto; transform: none; }
+      .portfolio-visual, .layout-grid .portfolio-visual { aspect-ratio: 1.22; }
+      .layout-rail { margin-right: -22px; padding-right: 22px; }
+      .layout-rail .portfolio-item, .layout-rail .item-secondary, .layout-rail .item-tertiary { flex-basis: 82vw; height: 360px; }
+      body.global-card-gap .experience-grid, body.global-card-gap .skills-grid, body.global-card-gap .notes-grid { gap: max(10px, calc(var(--global-card-gap) * .75)); }
+      .portfolio-meta { align-items: start; }
+      .portfolio-meta em { max-width: 120px; }
+      .skill-top { align-items: flex-end; }
+      .preview-menu { right: 10px; bottom: 10px; width: min(336px, calc(100% - 20px)); max-height: calc(100svh - 20px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body class="nav-fade nav-tint-ice nav-contrast-auto menu-align-left menu-width-balanced hero-offset hero-divider-off hero-meta-divider-line caption-overlay split-divider-gradient">
+  <div class="site-nav-shell">
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="site-name" href="#home" aria-label="Home"><span class="site-name-full">Boning Dong</span></a>
+      <div class="nav-links"><a href="#work" onclick="setWorkByName('projects')">Projects</a><a href="#work" onclick="setWorkByName('artwork')">Artwork</a><a href="#work" onclick="setWorkByName('album')">Album</a><a href="#notes">Notes</a><a href="#experience">Experiences</a></div>
+      <button class="mobile-menu-trigger" type="button" aria-expanded="false" aria-controls="mobile-navigation" aria-haspopup="true" onclick="toggleMobileMenu()"><span>Menu</span><i aria-hidden="true"></i></button>
+    </nav>
+    <div class="mobile-menu-panel" id="mobile-navigation" aria-hidden="true">
+      <a href="#work" onclick="setWorkByName('projects'); closeMobileMenu()">Projects</a>
+      <a href="#work" onclick="setWorkByName('artwork'); closeMobileMenu()">Artwork</a>
+      <a href="#work" onclick="setWorkByName('album'); closeMobileMenu()">Album</a>
+      <a href="#notes" onclick="closeMobileMenu()">Notes</a>
+      <a href="#experience" onclick="closeMobileMenu()">Experiences</a>
+    </div>
+  </div>
+
+  <header class="hero" id="home">
+    <div class="hero-copy">
+      <h1><span>Explore with wonder</span><span>Create with care</span></h1>
+      <div class="hero-meta"><span>Systems in motion</span><i></i><span>Images in focus</span><i></i><span>Ideas in progress</span></div>
+    </div>
+    <a class="scroll-cue" href="#about">Explore</a>
+  </header>
+
+  <main>
+    <section class="section about" id="about">
+      <div class="wrap about-grid">
+        <div class="portrait-wrap"><img class="portrait" src="/files/me5.jpg" alt="Boning Dong"></div>
+        <div class="about-copy">
+          <span class="section-kicker">About me</span>
+          <h2 class="section-heading">Engineer, programmer, painter, and designer.</h2>
+          <p>Engineering is my life, and drawing is my love. They may look like opposites, but to me they are deeply connected—different ways of understanding an idea and giving it form.</p>
+          <a class="text-link" href="#footer">Contact me</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section experience" id="experience">
+      <div class="wrap">
+        <div class="section-head-row"><div><span class="section-kicker">Where I have worked</span><h2 class="section-heading">Experiences</h2></div><span class="section-number">01 / 04</span></div>
+        <div class="experience-grid">
+          <article class="experience-card"><div class="logo-box"><img src="/files/apple.png" alt="Apple"></div><div class="experience-body"><span class="company">Apple</span><h3>Embedded Software Engineer</h3><p>Embedded software work supporting products at the intersection of hardware, sensors, and operating systems.</p><a class="card-link" href="#">Visit Apple →</a></div></article>
+          <article class="experience-card"><div class="logo-box"><img src="/files/microsoft.png" alt="Microsoft"></div><div class="experience-body"><span class="company">Microsoft</span><h3>Firmware Engineering Intern</h3><p>Developed SmartUEFI, a toolset designed to improve firmware development and parameter-tuning workflows.</p><a class="card-link" href="#">Visit Microsoft →</a></div></article>
+          <article class="experience-card"><div class="logo-box"><img src="/files/karlstorz.png" alt="Karl Storz"></div><div class="experience-body"><span class="company">Karl Storz</span><h3>Component Engineering Intern</h3><p>Debugged PCB assemblies and documented electrical and mechanical components for medical systems.</p><a class="card-link" href="#">Visit Karl Storz →</a></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work" id="work">
+      <div class="wrap">
+        <div class="section-head-row"><div><span class="section-kicker">Selected work</span><h2 class="section-heading">Ideas, given form.</h2></div><span class="section-number">02 / 04</span></div>
+        <div class="work-switcher" role="tablist" aria-label="Work type">
+          <button class="work-tab active" data-work="projects" type="button" onclick="setWork(this,'projects')">Projects</button>
+          <button class="work-tab" data-work="artwork" type="button" onclick="setWork(this,'artwork')">Artwork</button>
+          <button class="work-tab" data-work="album" type="button" onclick="setWork(this,'album')">Album</button>
+        </div>
+        <div class="work-panel active" id="projects-panel">
+          <div class="work-layout layout-bento">
+            <a class="portfolio-item item-feature" href="#"><figure class="portfolio-visual"><img src="/files/project-1.jpg" alt="ScopeN wireless oscilloscope"></figure><div class="portfolio-meta"><div><strong>ScopeN</strong><span>A wireless oscilloscope</span></div><em>Embedded systems · 2020</em></div></a>
+            <a class="portfolio-item item-secondary" href="#"><figure class="portfolio-visual"><img src="/files/project-2.jpg" alt="Dual resonant solid state Tesla coil"></figure><div class="portfolio-meta"><div><strong>DRSSTC Tesla Coil</strong><span>High-voltage engineering</span></div><em>Hardware · 2018</em></div></a>
+            <a class="portfolio-item item-tertiary" href="#"><figure class="portfolio-visual"><img src="/files/project-3.jpg" alt="MSP430 development board"></figure><div class="portfolio-meta"><div><strong>MSP430 Dev Board</strong><span>PCB and firmware platform</span></div><em>Embedded · 2016</em></div></a>
+          </div>
+          <a class="text-link" href="#">View all projects</a>
+        </div>
+        <div class="work-panel" id="artwork-panel">
+          <div class="work-layout layout-bento">
+            <a class="portfolio-item item-feature" href="#"><figure class="portfolio-visual"><img src="/files/drawing-1.jpg" alt="The Elder Scroll V pencil artwork"></figure><div class="portfolio-meta"><div><strong>The Elder Scroll V</strong><span>Pencil landscape study</span></div><em>Pencil · 2017</em></div></a>
+            <a class="portfolio-item item-secondary" href="#"><figure class="portfolio-visual"><img src="/files/drawing-2.jpg" alt="Geralt of Rivia pencil artwork"></figure><div class="portfolio-meta"><div><strong>Geralt of Rivia</strong><span>The Witcher 3</span></div><em>Pencil · 2016</em></div></a>
+            <a class="portfolio-item item-tertiary" href="#"><figure class="portfolio-visual"><img src="/files/drawing-3.jpg" alt="Doctor Strange pencil artwork"></figure><div class="portfolio-meta"><div><strong>Dr. Strange</strong><span>Character study</span></div><em>Pencil · 2017</em></div></a>
+          </div>
+          <a class="text-link" href="#">View all artwork</a>
+        </div>
+        <div class="work-panel" id="album-panel">
+          <div class="work-layout layout-bento">
+            <a class="portfolio-item item-feature" href="#"><figure class="portfolio-visual"><img src="/files/banner.jpg" alt="Mountain landscape study"></figure><div class="portfolio-meta"><div><strong>Into the Mountains</strong><span>Landscape and distance</span></div><em>Album study · Future</em></div></a>
+            <a class="portfolio-item item-secondary" href="#"><figure class="portfolio-visual"><img src="/files/me5.jpg" alt="Portrait study"></figure><div class="portfolio-meta"><div><strong>Portraits in Passing</strong><span>People and quiet moments</span></div><em>Portrait · Future</em></div></a>
+            <a class="portfolio-item item-tertiary" href="#"><figure class="portfolio-visual"><img src="/files/project-2.jpg" alt="High voltage experiment"></figure><div class="portfolio-meta"><div><strong>Light in the Workshop</strong><span>Experiments after dark</span></div><em>Process · Future</em></div></a>
+          </div>
+          <a class="text-link" href="#">View the future album</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section skills">
+      <div class="wrap">
+        <div class="section-head-row"><div><span class="section-kicker">Tools and practices</span><h2 class="section-heading">Skills</h2></div><span class="section-number">03 / 04</span></div>
+        <div class="skills-grid">
+          <article class="skill-card"><div class="skill-top"><h3>Hardware</h3><img src="/files/hardware.svg" alt=""></div><div class="skill-list"><span>PCB Design</span><span>Simulation</span><span>Soldering</span><span>FPGA</span><span>MCU</span><span>Embedded Systems</span></div></article>
+          <article class="skill-card"><div class="skill-top"><h3>Software</h3><img src="/files/software.svg" alt=""></div><div class="skill-list"><span>C / C++</span><span>Python</span><span>Java</span><span>C#</span><span>Web</span><span>Android</span><span>iOS</span></div></article>
+          <article class="skill-card"><div class="skill-top"><h3>Art & Design</h3><img src="/files/art.svg" alt=""></div><div class="skill-list"><span>Drawing</span><span>Painting</span><span>Photography</span><span>UI / UX</span><span>Video</span><span>3D Modeling</span></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section notes" id="notes">
+      <div class="wrap">
+        <div class="section-head-row"><div><span class="section-kicker">Ideas in progress <span class="planned">Future module</span></span><h2 class="section-heading">Notes</h2><p class="section-intro">A future home for technical write-ups, lessons from making, personal growth, and questions that are still unfolding.</p></div><span class="section-number">04 / 04</span></div>
+        <div class="notes-grid">
+          <article class="note-card"><span class="note-type">Technology</span><h3>What drawing taught me about debugging</h3><p>A sample of how technical and visual thinking might meet in the Notes section.</p><span class="note-date">Sample article</span></article>
+          <article class="note-card"><span class="note-type">Growth</span><h3>Learning to build slowly</h3><p>A place for lessons that do not fit inside a project description or résumé.</p><span class="note-date">Sample article</span></article>
+          <article class="note-card"><span class="note-type">Reflection</span><h3>Keeping useful questions open</h3><p>Shorter reflections can share the same design language without becoming a separate publication.</p><span class="note-date">Sample article</span></article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer" id="footer">
+    <div class="footer-main"><div><h2>Let's connect.</h2><p>Projects, artwork, photography, ideas—or simply something interesting worth talking about.</p><div class="footer-links"><a href="#">Email</a><a href="#">GitHub</a><a href="#">Instagram</a><a href="#">LinkedIn</a></div></div></div>
+    <div class="copyright">Designed by Boning Dong</div>
+  </footer>
+
+  <section class="review">
+    <p>看完整页后，哪句话最接近你的判断？点击只是记录方向，也可以直接回到对话里描述。</p>
+    <div class="review-options">
+      <button class="review-choice" data-choice="homepage-v3-close" onclick="toggleSelect(this)">方向接近，可以继续细化</button>
+      <button class="review-choice" data-choice="homepage-v3-work-bento" onclick="toggleSelect(this)">Work 区域喜欢 Bento</button>
+      <button class="review-choice" data-choice="homepage-v3-needs-type-work" onclick="toggleSelect(this)">结构可以，字体需要调整</button>
+    </div>
+  </section>
+
+  <details class="preview-menu">
+    <summary><span>Interactive design lab</span><strong>Tune</strong></summary>
+    <div class="preview-panel">
+      <div class="preview-actions">
+        <button class="preview-action" type="button" onclick="resetTuning()">Reset</button>
+        <button class="preview-action primary" type="button" onclick="saveTuningDefault()">Save default</button>
+        <button class="preview-action" type="button" onclick="document.getElementById('preset-file-input').click()">Import preset</button>
+        <button class="preview-action" type="button" onclick="exportTuningPreset()">Export preset</button>
+        <input id="preset-file-input" type="file" accept="application/json,.json" hidden onchange="importTuningPreset(this)">
+        <span class="preview-status" id="preview-status" aria-live="polite"></span>
+      </div>
+      <div class="preview-group global-system">
+        <div class="global-system-head"><span class="preview-label">Global design system</span><p>Link only the properties that should speak with one voice.</p></div>
+        <span class="global-subhead">Surface</span>
+        <div class="global-control">
+          <label for="global-tint">Tint</label><output id="global-tint-value">Ice</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="tint" aria-label="Apply Tint globally" onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <select id="global-tint" onchange="setGlobalTintValue(this.value)"><option value="pearl">Pearl</option><option value="ice" selected>Ice</option><option value="smoke">Smoke</option><option value="ink">Ink</option></select>
+        </div>
+        <div class="global-control">
+          <label for="global-opacity">Opacity</label><output id="global-opacity-value">48%</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="opacity" aria-label="Apply Surface opacity globally" onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <input id="global-opacity" type="range" min="15" max="90" value="48" oninput="setGlobalScaledVariable('--global-surface-opacity',this.value,100,'global-opacity-value','%')">
+        </div>
+        <div class="global-control">
+          <label for="global-blur">Blur</label><output id="global-blur-value">14px</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="blur" aria-label="Apply Surface blur globally" onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <input id="global-blur" type="range" min="0" max="24" value="14" oninput="setGlobalDesignVariable('--global-surface-blur',this.value+'px','global-blur-value',this.value+'px')">
+        </div>
+        <div class="global-control">
+          <label for="global-highlight">Edge highlight</label><output id="global-highlight-value">42%</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="highlight" aria-label="Apply Edge highlight globally" onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <input id="global-highlight" type="range" min="0" max="80" value="42" oninput="setGlobalScaledVariable('--global-edge-highlight',this.value,100,'global-highlight-value','%')">
+        </div>
+        <div class="global-control">
+          <label for="global-shadow">Shadow strength</label><output id="global-shadow-value">10%</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="shadow" aria-label="Apply Shadow strength globally" onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <input id="global-shadow" type="range" min="0" max="30" value="10" oninput="setGlobalScaledVariable('--global-shadow-alpha',this.value,100,'global-shadow-value','%')">
+        </div>
+        <div class="global-control">
+          <label for="global-radius">Corner radius</label><output id="global-radius-value">26px</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="radius" aria-label="Apply Corner radius globally" onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <input id="global-radius" type="range" min="12" max="38" value="26" oninput="setGlobalDesignVariable('--global-corner-radius',this.value+'px','global-radius-value',this.value+'px')">
+        </div>
+        <div class="global-control">
+          <label for="global-lift">Hover lift</label><output id="global-lift-value">5px</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="lift" aria-label="Apply Hover lift globally" onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <input id="global-lift" type="range" min="0" max="10" value="5" oninput="setGlobalDesignVariable('--global-hover-lift',this.value+'px','global-lift-value',this.value+'px')">
+        </div>
+        <span class="global-subhead">Rhythm</span>
+        <div class="global-control">
+          <label for="global-card-gap">Card spacing</label><output id="global-card-gap-value">24px</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="card-gap" aria-label="Apply Card spacing globally" checked onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <input id="global-card-gap" type="range" min="10" max="40" value="24" oninput="setGlobalDesignVariable('--global-card-gap',this.value+'px','global-card-gap-value',this.value+'px')">
+        </div>
+        <div class="global-control">
+          <label for="global-card-padding">Card padding</label><output id="global-card-padding-value">28px</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="card-padding" aria-label="Apply Card padding globally" onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <input id="global-card-padding" type="range" min="16" max="40" value="28" oninput="setGlobalDesignVariable('--global-card-padding',this.value+'px','global-card-padding-value',this.value+'px')">
+        </div>
+        <div class="global-control">
+          <label for="global-section-gap">Section spacing</label><output id="global-section-gap-value">112px</output>
+          <label class="link-toggle"><input type="checkbox" data-global-link="section-gap" aria-label="Apply Section spacing globally" checked onchange="toggleGlobalBinding(this.dataset.globalLink,this.checked)"><span>Global</span></label>
+          <input id="global-section-gap" type="range" min="72" max="144" step="4" value="112" oninput="setGlobalDesignVariable('--global-section-gap',this.value+'px','global-section-gap-value',this.value+'px')">
+        </div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Navigation structure</span>
+        <div class="preview-options two">
+          <button class="preview-option active" type="button" onclick="setNavMode(this,'fade')">Fade</button>
+          <button class="preview-option" type="button" onclick="setNavMode(this,'island')">Dual islands</button>
+        </div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Dropdown alignment</span>
+        <div class="preview-options two">
+          <button class="preview-option active" data-preset="menu-align:left" type="button" onclick="setMenuAlignment(this,'left')">Left</button>
+          <button class="preview-option" data-preset="menu-align:right" type="button" onclick="setMenuAlignment(this,'right')">Right</button>
+        </div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Dropdown width</span>
+        <div class="preview-options">
+          <button class="preview-option" data-preset="menu-width:compact" type="button" onclick="setMenuWidth(this,'compact')">Compact</button>
+          <button class="preview-option active" data-preset="menu-width:balanced" type="button" onclick="setMenuWidth(this,'balanced')">Balanced</button>
+          <button class="preview-option" data-preset="menu-width:spacious" type="button" onclick="setMenuWidth(this,'spacious')">Spacious</button>
+        </div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Navigation tint</span>
+        <div class="preview-options four" id="nav-tint-options">
+          <button class="preview-option" type="button" onclick="setNavTint(this,'pearl')">Pearl</button>
+          <button class="preview-option active" type="button" onclick="setNavTint(this,'ice')">Ice</button>
+          <button class="preview-option" type="button" onclick="setNavTint(this,'smoke')">Smoke</button>
+          <button class="preview-option" type="button" onclick="setNavTint(this,'ink')">Ink</button>
+        </div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Navigation text</span>
+        <div class="preview-options four">
+          <button class="preview-option text-tone tone-auto active" type="button" onclick="setNavContrast(this,'auto')">Auto</button>
+          <button class="preview-option text-tone" style="--tone-swatch:#f7fafa" type="button" onclick="setNavContrast(this,'white')">White</button>
+          <button class="preview-option text-tone" style="--tone-swatch:#273940" type="button" onclick="setNavContrast(this,'slate')">Slate</button>
+          <button class="preview-option text-tone" style="--tone-swatch:#0e1417" type="button" onclick="setNavContrast(this,'black')">Black</button>
+        </div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Navigation tuning</span>
+        <div class="range-control"><label for="nav-text-alpha">Text opacity</label><output id="nav-text-alpha-value">100%</output><input id="nav-text-alpha" type="range" min="45" max="100" value="100" oninput="setNavTextOpacity(this.value)"></div>
+        <div class="range-control"><label for="nav-height">Height</label><output id="nav-height-value">46px</output><input id="nav-height" type="range" min="44" max="60" value="46" oninput="setDesignVariable('--nav-height',this.value+'px','nav-height-value',this.value+'px')"></div>
+        <div class="range-control"><label for="nav-opacity">Surface opacity</label><output id="nav-opacity-value">36%</output><input id="nav-opacity" type="range" min="15" max="80" value="36" oninput="setScaledVariable('--nav-opacity',this.value,100,'nav-opacity-value','%')"></div>
+        <div class="range-control"><label for="nav-blur">Surface blur</label><output id="nav-blur-value">7px</output><input id="nav-blur" type="range" min="0" max="20" value="7" oninput="setDesignVariable('--nav-blur',this.value+'px','nav-blur-value',this.value+'px')"></div>
+        <div class="range-control"><label for="nav-shadow">Shadow strength</label><output id="nav-shadow-value">8%</output><input id="nav-shadow" type="range" min="0" max="30" value="8" oninput="setScaledVariable('--nav-shadow-alpha',this.value,100,'nav-shadow-value','%')"></div>
+        <div class="range-control"><label for="nav-padding">Inner side padding</label><output id="nav-padding-value">22px</output><input id="nav-padding" type="range" min="8" max="60" value="22" oninput="setDesignVariable('--nav-side-padding',this.value+'px','nav-padding-value',this.value+'px')"></div>
+        <div class="range-control"><label for="nav-highlight">Edge highlight</label><output id="nav-highlight-value">42%</output><input id="nav-highlight" type="range" min="0" max="80" value="42" oninput="setScaledVariable('--nav-highlight-alpha',this.value,100,'nav-highlight-value','%')"></div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Hero composition</span>
+        <div class="preview-options">
+          <button class="preview-option active" type="button" onclick="setHeroMode(this,'offset')">Offset</button>
+          <button class="preview-option" type="button" onclick="setHeroMode(this,'center')">Center</button>
+          <button class="preview-option" type="button" onclick="setHeroMode(this,'horizon')">Horizon</button>
+        </div>
+      </div>
+      <div class="preview-group mode-control hero-divider-control">
+        <span class="preview-label">Horizon title divider</span>
+        <div class="preview-options four">
+          <button class="preview-option active" data-preset="hero-divider:off" type="button" onclick="setHeroDivider(this,'off')">Off</button>
+          <button class="preview-option" data-preset="hero-divider:line" type="button" onclick="setHeroDivider(this,'line')">Line</button>
+          <button class="preview-option" data-preset="hero-divider:dot" type="button" onclick="setHeroDivider(this,'dot')">Dot</button>
+          <button class="preview-option" data-preset="hero-divider:slash" type="button" onclick="setHeroDivider(this,'slash')">Slash</button>
+        </div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Subtitle divider</span>
+        <div class="preview-options four">
+          <button class="preview-option" data-preset="hero-meta-divider:space" type="button" onclick="setHeroMetaDivider(this,'space')">Space</button>
+          <button class="preview-option" data-preset="hero-meta-divider:dot" type="button" onclick="setHeroMetaDivider(this,'dot')">Dot</button>
+          <button class="preview-option" data-preset="hero-meta-divider:slash" type="button" onclick="setHeroMetaDivider(this,'slash')">Slash</button>
+          <button class="preview-option active" data-preset="hero-meta-divider:line" type="button" onclick="setHeroMetaDivider(this,'line')">Line</button>
+        </div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Hero typography</span>
+        <div class="range-control"><label for="hero-size">Title size</label><output id="hero-size-value">38px</output><input id="hero-size" type="range" min="30" max="42" value="38" oninput="setDesignVariable('--hero-size',this.value+'px','hero-size-value',this.value+'px')"></div>
+        <div class="range-control"><label for="hero-weight">Title weight</label><output id="hero-weight-value">480</output><input id="hero-weight" type="range" min="400" max="520" step="10" value="480" oninput="setDesignVariable('--hero-weight',this.value,'hero-weight-value',this.value)"></div>
+        <div class="range-control"><label for="hero-offset">Line spread</label><output id="hero-offset-value">34px</output><input id="hero-offset" type="range" min="0" max="80" step="2" value="34" oninput="setDesignVariable('--hero-offset',this.value+'px','hero-offset-value',this.value+'px')"></div>
+        <div class="range-control"><label for="hero-center-offset">Whole title offset</label><output id="hero-center-offset-value">0px</output><input id="hero-center-offset" type="range" min="-80" max="80" step="2" value="0" oninput="setDesignVariable('--hero-center-offset',this.value+'px','hero-center-offset-value',this.value+'px')"></div>
+        <div class="range-control"><label for="hero-line-one-offset">First line trim</label><output id="hero-line-one-offset-value">0px</output><input id="hero-line-one-offset" type="range" min="-60" max="60" step="2" value="0" oninput="setDesignVariable('--hero-line-one-offset',this.value+'px','hero-line-one-offset-value',this.value+'px')"></div>
+        <div class="range-control"><label for="hero-line-two-offset">Second line trim</label><output id="hero-line-two-offset-value">0px</output><input id="hero-line-two-offset" type="range" min="-60" max="60" step="2" value="0" oninput="setDesignVariable('--hero-line-two-offset',this.value+'px','hero-line-two-offset-value',this.value+'px')"></div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Card information</span>
+        <div class="preview-options">
+          <button class="preview-option" type="button" onclick="setCaptionMode(this,'inset')">Inset glass</button>
+          <button class="preview-option active" type="button" onclick="setCaptionMode(this,'overlay')">Image caption</button>
+          <button class="preview-option" type="button" onclick="setCaptionMode(this,'split')">Split card</button>
+        </div>
+      </div>
+      <div class="preview-group">
+        <span class="preview-label">Card tuning</span>
+        <div class="range-control"><label for="card-radius">Card radius</label><output id="card-radius-value">26px</output><input id="card-radius" type="range" min="14" max="36" value="26" oninput="setDesignVariable('--card-radius',this.value+'px','card-radius-value',this.value+'px')"></div>
+        <div class="range-control"><label for="info-scale">Information scale</label><output id="info-scale-value">100%</output><input id="info-scale" type="range" min="80" max="125" value="100" oninput="setInfoScale(this.value)"></div>
+        <div class="range-control"><label for="info-padding">Information padding</label><output id="info-padding-value">17px</output><input id="info-padding" type="range" min="10" max="28" value="17" oninput="setDesignVariable('--info-padding',this.value+'px','info-padding-value',this.value+'px')"></div>
+        <div class="range-control caption-surface-control"><label for="caption-opacity">Surface opacity</label><output id="caption-opacity-value">72%</output><input id="caption-opacity" type="range" min="25" max="90" value="72" oninput="setScaledVariable('--caption-opacity',this.value,100,'caption-opacity-value','%')"></div>
+        <div class="range-control mode-control glass-control"><label for="caption-blur">Surface blur</label><output id="caption-blur-value">10px</output><input id="caption-blur" type="range" min="0" max="20" value="10" oninput="setDesignVariable('--caption-blur',this.value+'px','caption-blur-value',this.value+'px')"></div>
+        <div class="range-control mode-control inset-control"><label for="caption-inset">Inner inset</label><output id="caption-inset-value">14px</output><input id="caption-inset" type="range" min="4" max="30" value="14" oninput="setDesignVariable('--caption-inset',this.value+'px','caption-inset-value',this.value+'px')"></div>
+        <div class="range-control mode-control overlay-control"><label for="gradient-strength">Gradient reach</label><output id="gradient-strength-value">72%</output><input id="gradient-strength" type="range" min="25" max="90" value="72" oninput="setDesignVariable('--gradient-strength',this.value+'%','gradient-strength-value',this.value+'%')"></div>
+        <div class="range-control mode-control split-control"><label for="footer-height">Footer height</label><output id="footer-height-value">84px</output><input id="footer-height" type="range" min="60" max="140" value="84" oninput="setDesignVariable('--footer-height',this.value+'px','footer-height-value',this.value+'px')"></div>
+        <div class="range-control mode-control split-control"><label for="split-opacity">Split glass opacity</label><output id="split-opacity-value">58%</output><input id="split-opacity" type="range" min="25" max="90" value="58" oninput="setScaledVariable('--split-opacity',this.value,100,'split-opacity-value','%')"></div>
+        <div class="range-control mode-control split-control"><label for="split-blur">Split glass blur</label><output id="split-blur-value">22px</output><input id="split-blur" type="range" min="0" max="32" value="22" oninput="setDesignVariable('--split-blur',this.value+'px','split-blur-value',this.value+'px')"></div>
+        <div class="range-control mode-control split-control"><label for="image-edge-blend">Image edge blend</label><output id="image-edge-blend-value">10%</output><input id="image-edge-blend" type="range" min="0" max="50" value="10" oninput="setScaledVariable('--image-edge-blend',this.value,100,'image-edge-blend-value','%')"></div>
+        <div class="range-control mode-control split-control"><label for="image-edge-reach">Edge blend reach</label><output id="image-edge-reach-value">0px</output><input id="image-edge-reach" type="range" min="0" max="64" step="2" value="0" oninput="setDesignVariable('--image-edge-reach',this.value+'px','image-edge-reach-value',this.value+'px')"></div>
+        <div class="range-control mode-control split-control"><label for="image-edge-softness">Edge softness</label><output id="image-edge-softness-value">34px</output><input id="image-edge-softness" type="range" min="8" max="100" step="2" value="34" oninput="setDesignVariable('--image-edge-softness',this.value+'px','image-edge-softness-value',this.value+'px')"></div>
+        <div class="mode-control split-control">
+          <span class="preview-label">Image / footer divider</span>
+          <div class="preview-options">
+            <button class="preview-option active" type="button" onclick="setSplitDivider(this,'gradient')">Gradient</button>
+            <button class="preview-option" type="button" onclick="setSplitDivider(this,'solid')">Hairline</button>
+            <button class="preview-option" type="button" onclick="setSplitDivider(this,'none')">None</button>
+          </div>
+        </div>
+        </div>
+      <div class="preview-group">
+        <span class="preview-label">Work layout</span>
+        <div class="preview-options">
+          <button class="preview-option active" type="button" onclick="setWorkLayout(this,'bento')">Bento</button>
+          <button class="preview-option" type="button" onclick="setWorkLayout(this,'grid')">Grid</button>
+          <button class="preview-option" type="button" onclick="setWorkLayout(this,'staggered')">Staggered</button>
+          <button class="preview-option" type="button" onclick="setWorkLayout(this,'rail')">Rail</button>
+          <button class="preview-option" type="button" onclick="setWorkLayout(this,'triptych')">Triptych</button>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <script>
+    function setWork(button, name) {
+      document.querySelectorAll('.work-tab').forEach(function (tab) { tab.classList.remove('active'); });
+      document.querySelectorAll('.work-panel').forEach(function (panel) { panel.classList.remove('active'); });
+      button.classList.add('active');
+      document.getElementById(name + '-panel').classList.add('active');
+    }
+
+    function setWorkByName(name) {
+      setWork(document.querySelector('.work-tab[data-work="' + name + '"]'), name);
+    }
+
+    function activateOption(button) {
+      button.closest('.preview-options').querySelectorAll('.preview-option').forEach(function (option) { option.classList.remove('active'); });
+      button.classList.add('active');
+    }
+
+    function setWorkLayout(button, name) {
+      document.querySelectorAll('.work-layout').forEach(function (layout) {
+        layout.classList.remove('layout-bento', 'layout-grid', 'layout-staggered', 'layout-rail', 'layout-triptych');
+        layout.classList.add('layout-' + name);
+      });
+      activateOption(button);
+    }
+
+    function setNavMode(button, name) {
+      document.body.classList.remove('nav-fade', 'nav-island');
+      document.body.classList.add('nav-' + name);
+      activateOption(button);
+    }
+
+    function setNavTint(button, name) {
+      document.body.classList.remove('nav-tint-pearl', 'nav-tint-ice', 'nav-tint-smoke', 'nav-tint-ink');
+      document.body.classList.add('nav-tint-' + name);
+      activateOption(button);
+    }
+
+    function setNavContrast(button, name) {
+      document.body.classList.remove('nav-contrast-auto', 'nav-contrast-light', 'nav-contrast-dark', 'nav-contrast-white', 'nav-contrast-slate', 'nav-contrast-black');
+      document.body.classList.add('nav-contrast-' + name);
+      activateOption(button);
+    }
+
+    function setMenuAlignment(button, name) {
+      document.body.classList.remove('menu-align-left', 'menu-align-right');
+      document.body.classList.add('menu-align-' + name);
+      activateOption(button);
+    }
+
+    function setMenuWidth(button, name) {
+      const widths = { compact: '200px', balanced: '250px', spacious: '300px' };
+      document.body.classList.remove('menu-width-compact', 'menu-width-balanced', 'menu-width-spacious');
+      document.body.classList.add('menu-width-' + name);
+      document.documentElement.style.setProperty('--mobile-menu-width', widths[name]);
+      activateOption(button);
+    }
+
+    function setHeroMode(button, name) {
+      document.body.classList.remove('hero-offset', 'hero-center', 'hero-horizon');
+      document.body.classList.add('hero-' + name);
+      activateOption(button);
+    }
+
+    function setHeroDivider(button, name) {
+      document.body.classList.remove('hero-divider-off', 'hero-divider-line', 'hero-divider-dot', 'hero-divider-slash');
+      document.body.classList.add('hero-divider-' + name);
+      activateOption(button);
+    }
+
+    function setHeroMetaDivider(button, name) {
+      document.body.classList.remove('hero-meta-divider-space', 'hero-meta-divider-dot', 'hero-meta-divider-slash', 'hero-meta-divider-line');
+      document.body.classList.add('hero-meta-divider-' + name);
+      activateOption(button);
+    }
+
+    function setCaptionMode(button, name) {
+      document.body.classList.remove('caption-inset', 'caption-overlay', 'caption-split');
+      document.body.classList.add('caption-' + name);
+      activateOption(button);
+    }
+
+    function setSplitDivider(button, name) {
+      document.body.classList.remove('split-divider-gradient', 'split-divider-solid', 'split-divider-none');
+      document.body.classList.add('split-divider-' + name);
+      activateOption(button);
+    }
+
+    function setDesignVariable(property, value, outputId, outputValue) {
+      document.documentElement.style.setProperty(property, value);
+      document.getElementById(outputId).textContent = outputValue;
+    }
+
+    function setScaledVariable(property, value, divisor, outputId, suffix) {
+      document.documentElement.style.setProperty(property, Number(value) / divisor);
+      document.getElementById(outputId).textContent = value + suffix;
+    }
+
+    function setNavTextOpacity(value) {
+      const alpha = Number(value) / 100;
+      document.documentElement.style.setProperty('--nav-text-alpha', alpha);
+      document.documentElement.style.setProperty('--nav-menu-alpha', alpha);
+      document.getElementById('nav-text-alpha-value').textContent = value + '%';
+    }
+
+    function setGlobalDesignVariable(property, value, outputId, outputValue) {
+      document.documentElement.style.setProperty(property, value);
+      document.getElementById(outputId).textContent = outputValue;
+    }
+
+    function setGlobalScaledVariable(property, value, divisor, outputId, suffix) {
+      document.documentElement.style.setProperty(property, Number(value) / divisor);
+      document.getElementById(outputId).textContent = value + suffix;
+    }
+
+    const globalTintValues = {
+      pearl: { surface: '248 251 251', card: '248 251 251' },
+      ice: { surface: '226 237 240', card: '226 237 240' },
+      smoke: { surface: '89 104 111', card: '174 184 188' },
+      ink: { surface: '34 48 54', card: '125 139 145' }
+    };
+
+    function setGlobalTintValue(name) {
+      document.documentElement.style.setProperty('--global-surface-rgb', globalTintValues[name].surface);
+      document.documentElement.style.setProperty('--global-card-surface-rgb', globalTintValues[name].card);
+      document.getElementById('global-tint-value').textContent = name.charAt(0).toUpperCase() + name.slice(1);
+      document.body.classList.remove('system-tint-pearl', 'system-tint-ice', 'system-tint-smoke', 'system-tint-ink');
+      document.body.classList.add('system-tint-' + name);
+    }
+
+    const globalBindingRegistry = {
+      tint: { className: 'global-tint', localControls: ['nav-tint-options'] },
+      opacity: { className: 'global-opacity', localControls: ['nav-opacity', 'caption-opacity', 'split-opacity'] },
+      blur: { className: 'global-blur', localControls: ['nav-blur', 'caption-blur', 'split-blur'] },
+      highlight: { className: 'global-highlight', localControls: ['nav-highlight'] },
+      shadow: { className: 'global-shadow', localControls: ['nav-shadow'] },
+      radius: { className: 'global-radius', localControls: ['card-radius'] },
+      lift: { className: 'global-lift', localControls: [] },
+      'card-gap': { className: 'global-card-gap', localControls: [] },
+      'card-padding': { className: 'global-card-padding', localControls: ['info-padding'] },
+      'section-gap': { className: 'global-section-gap', localControls: [] }
+    };
+
+    function setLocalControlLinked(control, linked) {
+      const inputs = control.matches('input,button') ? [control] : Array.from(control.querySelectorAll('input,button'));
+      inputs.forEach(function (input) {
+        input.disabled = linked;
+        input.setAttribute('aria-disabled', String(linked));
+      });
+      const group = control.closest('.range-control') || control.closest('.preview-group');
+      if (!group) return;
+      group.classList.toggle('linked-control', linked);
+      let marker = group.querySelector('.global-state');
+      if (!marker) {
+        marker = document.createElement('span');
+        marker.className = 'global-state';
+        marker.textContent = 'Global';
+        const label = group.querySelector('label, .preview-label');
+        if (label) label.appendChild(marker);
+      }
+      marker.hidden = !linked;
+    }
+
+    function syncGlobalBindings() {
+      document.querySelectorAll('[data-global-link]').forEach(function (checkbox) {
+        const binding = globalBindingRegistry[checkbox.dataset.globalLink];
+        if (!binding) return;
+        document.body.classList.toggle(binding.className, checkbox.checked);
+        binding.localControls.forEach(function (id) {
+          const control = document.getElementById(id);
+          if (control) setLocalControlLinked(control, checkbox.checked);
+        });
+      });
+    }
+
+    function toggleGlobalBinding(key, checked) {
+      const checkbox = document.querySelector('[data-global-link="' + key + '"]');
+      if (checkbox) checkbox.checked = checked;
+      syncGlobalBindings();
+    }
+
+    function setInfoScale(value) {
+      const scale = Number(value) / 100;
+      document.documentElement.style.setProperty('--info-scale', scale);
+      document.documentElement.style.setProperty('--info-title-size', (18 * scale).toFixed(1) + 'px');
+      document.documentElement.style.setProperty('--info-body-size', (12 * scale).toFixed(1) + 'px');
+      document.documentElement.style.setProperty('--info-meta-size', (8 * scale).toFixed(1) + 'px');
+      document.getElementById('info-scale-value').textContent = value + '%';
+    }
+
+    const tuningStorageKey = 'boning-design-lab-default-v1';
+    let statusTimer;
+
+    function captureTuningState() {
+      return {
+        activeOptions: Array.from(document.querySelectorAll('.preview-option.active')).map(function (button) { return button.dataset.preset || button.textContent.trim(); }),
+        ranges: Object.fromEntries(Array.from(document.querySelectorAll('.range-control input[type="range"], .global-control input[type="range"]')).map(function (input) { return [input.id, input.value]; })),
+        globalLinks: Object.fromEntries(Array.from(document.querySelectorAll('[data-global-link]')).map(function (input) { return [input.dataset.globalLink, input.checked]; })),
+        globalTint: document.getElementById('global-tint').value,
+        work: document.querySelector('.work-tab.active').dataset.work
+      };
+    }
+
+    function applyTuningState(state) {
+      if (!state) return;
+      (state.activeOptions || []).forEach(function (label) {
+        const button = Array.from(document.querySelectorAll('.preview-option')).find(function (option) { return option.dataset.preset === label || option.textContent.trim() === label; });
+        if (button) button.click();
+      });
+      Object.entries(state.ranges || {}).forEach(function (entry) {
+        const input = document.getElementById(entry[0]);
+        if (!input) return;
+        input.value = entry[1];
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+      });
+      if (state.globalTint) {
+        document.getElementById('global-tint').value = state.globalTint;
+        setGlobalTintValue(state.globalTint);
+      }
+      Object.entries(state.globalLinks || {}).forEach(function (entry) {
+        const checkbox = document.querySelector('[data-global-link="' + entry[0] + '"]');
+        if (checkbox) checkbox.checked = Boolean(entry[1]);
+      });
+      syncGlobalBindings();
+      if (state.work) setWorkByName(state.work);
+      syncNavigationSurface();
+    }
+
+    function showTuningStatus(message) {
+      const status = document.getElementById('preview-status');
+      status.textContent = message;
+      clearTimeout(statusTimer);
+      statusTimer = setTimeout(function () { status.textContent = ''; }, 2200);
+    }
+
+    function saveTuningDefault() {
+      localStorage.setItem(tuningStorageKey, JSON.stringify(captureTuningState()));
+      showTuningStatus('Saved · this setup will return after refresh');
+    }
+
+    function buildTuningPreset(exportedAt) {
+      return {
+        schemaVersion: 1,
+        kind: 'boning-net-style-preset',
+        source: 'homepage-mock-v3',
+        exportedAt: exportedAt.toISOString(),
+        tuning: captureTuningState()
+      };
+    }
+
+    function formatPresetFilename(date) {
+      const pad = function (value) { return String(value).padStart(2, '0'); };
+      return 'boning-net-style-preset-' + date.getFullYear() + '-' + pad(date.getMonth() + 1) + '-' + pad(date.getDate()) + '-' + pad(date.getHours()) + pad(date.getMinutes()) + '.json';
+    }
+
+    function isPresetRecord(value) {
+      return Boolean(value) && typeof value === 'object' && !Array.isArray(value);
+    }
+
+    function parseTuningPreset(text) {
+      const preset = JSON.parse(text);
+      const tuning = preset && preset.tuning;
+      const valid = preset && preset.schemaVersion === 1 && preset.kind === 'boning-net-style-preset' && isPresetRecord(tuning) && Array.isArray(tuning.activeOptions) && isPresetRecord(tuning.ranges) && isPresetRecord(tuning.globalLinks) && typeof tuning.globalTint === 'string' && typeof tuning.work === 'string';
+      if (!valid) throw new Error('Invalid preset');
+      return tuning;
+    }
+
+    async function importTuningPreset(input) {
+      const file = input.files && input.files[0];
+      if (!file) return;
+      const previousState = captureTuningState();
+      try {
+        applyTuningState(parseTuningPreset(await file.text()));
+        showTuningStatus('Imported · preset applied, not saved');
+      } catch (error) {
+        applyTuningState(previousState);
+        showTuningStatus('Import failed · invalid preset file');
+      } finally {
+        input.value = '';
+      }
+    }
+
+    function exportTuningPreset() {
+      try {
+        if (!window.Blob || !window.URL || !window.URL.createObjectURL) throw new Error('Browser download unavailable');
+        const now = new Date();
+        const blob = new Blob([JSON.stringify(buildTuningPreset(now), null, 2) + '\n'], { type: 'application/json' });
+        const objectUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = objectUrl;
+        link.download = formatPresetFilename(now);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        setTimeout(function () { URL.revokeObjectURL(objectUrl); }, 0);
+        showTuningStatus('Exported · preset downloaded');
+      } catch (error) {
+        showTuningStatus('Export failed · browser download unavailable');
+      }
+    }
+
+    function resetTuning() {
+      localStorage.removeItem(tuningStorageKey);
+      applyTuningState(hardCodedTuning);
+      showTuningStatus('Reset · restored the original defaults');
+    }
+
+    const siteNavShell = document.querySelector('.site-nav-shell');
+    const siteNav = document.querySelector('.site-nav');
+    const hero = document.querySelector('.hero');
+    const mobileMenuTrigger = document.querySelector('.mobile-menu-trigger');
+    const mobileMenuPanel = document.querySelector('.mobile-menu-panel');
+
+    function setMobileMenu(open, restoreFocus) {
+      siteNavShell.classList.toggle('menu-open', open);
+      mobileMenuTrigger.setAttribute('aria-expanded', String(open));
+      mobileMenuPanel.setAttribute('aria-hidden', String(!open));
+      if (!open && restoreFocus) mobileMenuTrigger.focus();
+    }
+
+    function toggleMobileMenu() {
+      setMobileMenu(!siteNavShell.classList.contains('menu-open'));
+    }
+
+    function closeMobileMenu(restoreFocus) {
+      setMobileMenu(false, restoreFocus);
+    }
+
+    document.addEventListener('click', function (event) {
+      if (siteNavShell.classList.contains('menu-open') && !siteNavShell.contains(event.target)) closeMobileMenu();
+    });
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && siteNavShell.classList.contains('menu-open')) closeMobileMenu(true);
+    });
+    window.addEventListener('resize', function () {
+      if (window.innerWidth > 640 && siteNavShell.classList.contains('menu-open')) closeMobileMenu();
+    });
+
+    function syncNavigationSurface() {
+      const heroBoundary = hero.getBoundingClientRect().bottom;
+      const navBoundary = siteNav.getBoundingClientRect().bottom;
+      siteNav.classList.toggle('over-hero', heroBoundary > navBoundary);
+      siteNav.classList.toggle('over-content', heroBoundary <= navBoundary);
+      siteNav.classList.toggle('scrolled', window.scrollY > 20);
+      siteNav.classList.toggle('surface-visible', window.scrollY > 24);
+    }
+    window.addEventListener('scroll', syncNavigationSurface, { passive: true });
+    setGlobalTintValue(document.getElementById('global-tint').value);
+    syncGlobalBindings();
+    const hardCodedTuning = captureTuningState();
+    try {
+      applyTuningState(JSON.parse(localStorage.getItem(tuningStorageKey)));
+    } catch (error) {
+      localStorage.removeItem(tuningStorageKey);
+    }
+    syncNavigationSurface();
+  </script>
+</body>
+</html>

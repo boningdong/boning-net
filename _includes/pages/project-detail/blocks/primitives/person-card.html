@@ -1,0 +1,11 @@
+{%- if include.item.url -%}
+<a class="project-person-card project-media-link" href="{{ include.item.url | escape }}">
+  <img src="{{ include.item.image.src | relative_url | escape }}" alt="{{ include.item.image.alt | escape }}">
+  <span class="project-person-copy"><strong>{{ include.item.name | escape }}</strong><span>{{ include.item.role | escape }}</span></span>
+</a>
+{%- else -%}
+<article class="project-person-card">
+  <img src="{{ include.item.image.src | relative_url | escape }}" alt="{{ include.item.image.alt | escape }}">
+  <div class="project-person-copy"><h3>{{ include.item.name | escape }}</h3><p>{{ include.item.role | escape }}</p></div>
+</article>
+{%- endif -%}

@@ -1,0 +1,13 @@
+{% assign picture_source = include.src | remove_first: "/" %}
+{% assign picture_alt = include.alt | default: "" | escape %}
+{% assign picture_class = include.class | default: "responsive-picture" %}
+{% case include.preset %}
+  {% when "large_card" %}
+    {% picture large_card "{{ picture_source }}" --picture class="{{ picture_class }}" --img alt="{{ picture_alt }}" loading="lazy" decoding="async" %}
+  {% when "grid_card" %}
+    {% picture grid_card "{{ picture_source }}" --picture class="{{ picture_class }}" --img alt="{{ picture_alt }}" loading="lazy" decoding="async" %}
+  {% when "artwork_rail" %}
+    {% picture artwork_rail "{{ picture_source }}" --picture class="{{ picture_class }}" --img alt="{{ picture_alt }}" decoding="async" %}
+  {% else %}
+    {% picture missing_responsive_image_preset "{{ picture_source }}" %}
+{% endcase %}

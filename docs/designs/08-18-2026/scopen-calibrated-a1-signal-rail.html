@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Signal Rail project detail mock for Scopen, a wireless oscilloscope.">
+  <title>Scopen / Signal Rail - Project Detail Mock</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400..700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="calibrated-case-study.css">
+</head>
+<body class="signal-page" data-intro-variant="compact" data-hero-variant="project" data-mobile-nav="index">
+  <a class="skip-link" href="#content">Skip to project</a>
+  <span class="nav-reveal-sentinel" data-nav-sentinel aria-hidden="true"></span>
+  <div class="nav-shell">
+    <nav class="site-nav" aria-label="Primary navigation" data-nav>
+      <a class="site-name" href="../../../index.html">Boning Dong</a>
+      <div class="nav-links">
+        <a class="active" href="../../../projects.html">Projects</a>
+        <a href="../../../artwork.html">Artwork</a>
+        <a href="../../../index.html#about">About</a>
+        <a href="../../../resume.html">Resume</a>
+      </div>
+      <button class="menu-trigger" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-trigger>Menu</button>
+    </nav>
+    <div class="mobile-menu" id="mobile-menu" aria-hidden="true" data-mobile-menu>
+      <a href="../../../projects.html">Projects</a>
+      <a href="../../../artwork.html">Artwork</a>
+      <a href="../../../index.html#about">About</a>
+      <a href="../../../resume.html">Resume</a>
+    </div>
+  </div>
+
+  <header class="hero-dark" data-hero>
+    <img src="../../../assets/img/projects/scopen/cover-blueprint.png" alt="Scopen wireless oscilloscope shown over its technical blueprint" data-hero-image>
+    <div class="hero-content">
+      <a class="hero-back" href="../../../projects.html">All projects</a>
+      <h1>Scopen <span>A wireless oscilloscope designed to make circuit debugging portable.</span></h1>
+      <p class="hero-meta"><span>UCSB CE capstone</span><span>2020</span><span>Hardware / Firmware / Industrial design</span></p>
+    </div>
+  </header>
+
+  <aside class="intro-design-lab" aria-label="Project detail design controls" data-intro-switcher>
+    <div class="intro-design-lab-head"><strong>Project detail</strong><span>Mock control</span></div>
+    <div class="design-control-group">
+      <span class="design-control-label">Hero</span>
+      <div class="intro-design-controls hero-design-controls">
+        <button type="button" aria-label="Project image" title="Project image" aria-pressed="true" data-hero-choice="project">Own</button>
+        <button type="button" aria-label="Night 1 / Instrument" title="Night 1 / Instrument" aria-pressed="false" data-hero-choice="night-01">N1</button>
+        <button type="button" aria-label="Night 2 / Rocket" title="Night 2 / Rocket" aria-pressed="false" data-hero-choice="night-rocket">N2</button>
+        <button type="button" aria-label="Night 3 / Circuit board" title="Night 3 / Circuit board" aria-pressed="false" data-hero-choice="night-pcb">N3</button>
+        <button type="button" aria-label="Night 4 / Gyroscope" title="Night 4 / Gyroscope" aria-pressed="false" data-hero-choice="night-gyroscope">N4</button>
+        <button type="button" aria-label="Night 5 / Physics field" title="Night 5 / Physics field" aria-pressed="false" data-hero-choice="night-field">N5</button>
+        <button type="button" aria-label="Light 1 / Instrument" title="Light 1 / Instrument" aria-pressed="false" data-hero-choice="light-01">L1</button>
+        <button type="button" aria-label="Light 2 / Rocket" title="Light 2 / Rocket" aria-pressed="false" data-hero-choice="light-rocket">L2</button>
+        <button type="button" aria-label="Light 3 / Circuit board" title="Light 3 / Circuit board" aria-pressed="false" data-hero-choice="light-pcb">L3</button>
+        <button type="button" aria-label="Light 4 / Optics" title="Light 4 / Optics" aria-pressed="false" data-hero-choice="light-optics">L4</button>
+        <button type="button" aria-label="Light 5 / Physics field" title="Light 5 / Physics field" aria-pressed="false" data-hero-choice="light-field">L5</button>
+      </div>
+    </div>
+    <div class="design-control-group">
+      <span class="design-control-label">Mobile chapters</span>
+      <div class="intro-design-controls mobile-nav-design-controls">
+        <button type="button" aria-pressed="true" data-nav-choice="index">Index</button>
+        <button type="button" aria-pressed="false" data-nav-choice="select">Select</button>
+        <button type="button" aria-pressed="false" data-nav-choice="ribbon">Ribbon</button>
+        <button type="button" aria-pressed="false" data-nav-choice="counter">Counter</button>
+        <button type="button" aria-pressed="false" data-nav-choice="chips">Chips</button>
+        <button type="button" aria-pressed="false" data-nav-choice="edge">Edge</button>
+        <button type="button" aria-pressed="false" data-nav-choice="bottom">Bottom</button>
+        <button type="button" aria-pressed="false" data-nav-choice="progress">Progress</button>
+      </div>
+    </div>
+    <div class="design-control-group">
+      <span class="design-control-label">Project note</span>
+      <div class="intro-design-controls">
+        <button type="button" aria-pressed="false" data-intro-choice="narrative">Lead</button>
+        <button type="button" aria-pressed="false" data-intro-choice="auto">Auto</button>
+        <button type="button" aria-pressed="true" data-intro-choice="compact">Bridge</button>
+      </div>
+    </div>
+    <p class="intro-design-description" data-intro-description>Bridge · smallest footprint, using existing opening copy</p>
+  </aside>
+
+  <main id="content">
+    <section class="project-intro page-wrap" aria-labelledby="project-thesis">
+      <div class="intro-shell">
+        <div class="intro-copy">
+          <span class="eyebrow" data-intro-kicker>Project thesis</span>
+          <h2 id="project-thesis">A lab instrument that fits in your pocket.</h2>
+          <p>Scopen began with a practical frustration: oscilloscopes are indispensable but rarely close at hand. We designed an affordable wireless probe that captures a signal, processes it on-device, and streams the samples to a desktop interface.</p>
+          <a class="text-link" href="https://youtu.be/ieGTWUUsJ_8">Watch the presentation</a>
+        </div>
+        <aside class="intro-auto" aria-label="Automatically derived project information">
+          <span class="intro-auto-label">Generated from this page</span>
+          <dl class="intro-auto-list">
+            <div class="intro-auto-item"><dt>Updated</dt><dd><time datetime="2020-06">June 2020</time></dd></div>
+            <div class="intro-auto-item"><dt>Chapters</dt><dd><span data-section-count>5</span> sections</dd></div>
+            <div class="intro-auto-item"><dt>Reading</dt><dd><span data-reading-time>6</span> min</dd></div>
+          </dl>
+          <p class="intro-auto-note">No project-specific facts or tags. Values come from date and rendered content.</p>
+        </aside>
+      </div>
+    </section>
+
+    <div class="signal-layout page-wrap">
+      <aside class="signal-index" aria-label="Project chapters">
+        <span class="eyebrow">Project signal</span>
+        <button class="signal-mobile-trigger" type="button" aria-expanded="false" aria-controls="project-chapters" data-signal-trigger>
+          <span class="signal-trigger-copy"><small>Chapter</small><strong data-signal-current>Context</strong></span>
+          <span class="signal-mobile-count" data-signal-count>01 / 05</span>
+          <span class="signal-mobile-progress" aria-hidden="true" data-signal-progress><i></i><i></i><i></i><i></i><i></i></span>
+        </button>
+        <nav class="signal-track" id="project-chapters" data-signal-track>
+          <a class="active" href="#context">Context</a>
+          <a href="#hardware">Hardware</a>
+          <a href="#firmware">Firmware</a>
+          <a href="#software">Software</a>
+          <a href="#team">Team</a>
+        </nav>
+      </aside>
+
+      <article class="signal-content">
+        <section class="signal-chapter" id="context" data-chapter>
+          <span class="eyebrow">Context</span>
+          <h2 class="chapter-heading">From bench equipment to a portable system.</h2>
+          <div class="prose">
+            <p>Our goal was not to reproduce every feature of a laboratory oscilloscope. We focused on the essential loop: condition the analog input, sample it reliably, move the data without blocking the system, and make the waveform clear in the desktop interface.</p>
+            <p>The complete product had to be small enough to hold like a probe and simple enough to assemble ourselves.</p>
+          </div>
+          <div class="media-frame wide-image contain full-bleed">
+            <img src="../../../assets/img/projects/scopen/scopen_poster.jpg" alt="Scopen project poster showing the portable oscilloscope system">
+          </div>
+          <div class="figure-caption"><span>Overview / System</span><span>The probe, communication path, and software interface as one product.</span></div>
+        </section>
+
+        <section class="signal-chapter" id="hardware" data-chapter>
+          <span class="eyebrow">Hardware</span>
+          <h2 class="chapter-heading">Two systems, one very narrow board.</h2>
+          <p class="chapter-lead">The analog front end isolates and scales the incoming signal. The controller side samples that output, stores data in external SRAM, reads touch input, and manages the wireless link.</p>
+          <div class="signal-callout">
+            <strong>2.45 × 0.73 in</strong>
+            <p>Placing components on both sides of a six-layer PCB gave the complete electrical system a footprint smaller than a stick of gum.</p>
+          </div>
+          <div class="split-media">
+            <div>
+              <div class="media-frame contain"><img src="../../../assets/img/projects/scopen/scopen_pcb_top.png" alt="Top side of the Scopen printed circuit board"></div>
+              <div class="figure-caption"><span>Hardware / 01</span><span>PCB top</span></div>
+            </div>
+            <div>
+              <div class="media-frame contain"><img src="../../../assets/img/projects/scopen/scopen_pcb_bottom.png" alt="Bottom side of the Scopen printed circuit board"></div>
+              <div class="figure-caption"><span>Hardware / 02</span><span>PCB bottom</span></div>
+            </div>
+          </div>
+          <div class="media-frame wide-image contain full-bleed">
+            <img src="../../../assets/img/projects/scopen/scopen_afe.jpg" alt="Scopen analog front end block diagram">
+          </div>
+          <div class="figure-caption"><span>Hardware / 03</span><span>Analog front end: isolation, gain selection, and differential output.</span></div>
+        </section>
+
+        <section class="signal-chapter" id="firmware" data-chapter>
+          <span class="eyebrow">Firmware</span>
+          <h2 class="chapter-heading">Keep sampling deterministic. Move everything else around it.</h2>
+          <div class="prose">
+            <p>Interrupt timing was not predictable enough for the sampling requirement. We used the STM32 high-resolution timer to trigger the ADC directly, then DMA moved each completed buffer into external SRAM.</p>
+            <p>Five FreeRTOS tasks separated communication from product logic. Semaphores protected the shared SPI interface and coordinated the data queues.</p>
+          </div>
+          <div class="media-frame wide-image contain full-bleed">
+            <img src="../../../assets/img/projects/scopen/scopen_adc_sampling.jpg" alt="Timer-triggered ADC sampling and DMA data flow diagram">
+          </div>
+          <div class="figure-caption"><span>Firmware / 01</span><span>HRTIM triggers both ADCs while DMA handles memory transfer.</span></div>
+          <div class="media-frame wide-image contain full-bleed">
+            <img src="../../../assets/img/projects/scopen/scopen_thread_manage.png" alt="Scopen firmware task and semaphore diagram">
+          </div>
+          <div class="figure-caption"><span>Firmware / 02</span><span>Tasks and semaphores coordinate sampling, communication, and commands.</span></div>
+        </section>
+
+        <section class="signal-chapter" id="software" data-chapter>
+          <span class="eyebrow">Software + ID</span>
+          <h2 class="chapter-heading">Make the system feel like an instrument.</h2>
+          <div class="prose">
+            <p>The Java desktop client follows a model-view-controller structure and draws the instrument controls directly. A dark interface keeps the waveform visually dominant.</p>
+            <p>We modeled the enclosure in Fusion 360, printed it, and assembled the full system to test the interaction at product scale, not only on the bench.</p>
+          </div>
+          <div class="media-frame wide-image">
+            <img src="../../../assets/img/projects/scopen/scopen_software_interface.jpg" alt="Scopen desktop software showing an oscilloscope waveform">
+          </div>
+          <div class="figure-caption"><span>Software / 01</span><span>Desktop interface built with Java Swing.</span></div>
+          <div class="media-frame wide-image">
+            <img src="../../../assets/img/projects/scopen/scopen_id_blue.png" alt="Blue Scopen industrial design render">
+          </div>
+          <div class="figure-caption"><span>Industrial design / 01</span><span>The enclosure translates the stacked electronics into a handheld probe.</span></div>
+        </section>
+
+        <section class="signal-chapter" id="team" data-chapter>
+          <span class="eyebrow">Team</span>
+          <h2 class="chapter-heading">Built across disciplines.</h2>
+          <div class="team-grid">
+            <a class="team-member" href="https://www.linkedin.com/in/byron-aguilar-a139057b/">
+              <img src="../../../assets/img/people/byron.png" alt="Byron Aguilar">
+              <span><strong>Byron Aguilar</strong><span>Computer engineering</span></span>
+            </a>
+            <a class="team-member" href="https://www.linkedin.com/in/boning-dong">
+              <img src="../../../assets/img/people/boning.png" alt="Boning Dong">
+              <span><strong>Boning Dong</strong><span>Computer engineering</span></span>
+            </a>
+            <a class="team-member" href="https://www.linkedin.com/in/cesar-gonzalez-0098341b0/">
+              <img src="../../../assets/img/people/cesar.png" alt="Cesar Gonzalez">
+              <span><strong>Cesar Gonzalez</strong><span>Computer engineering</span></span>
+            </a>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+
+  <section class="project-outro">
+    <div class="page-wrap outro-grid">
+      <div><span class="eyebrow">Next project</span><h2>Smart Lamp / A light that responds to its environment.</h2></div>
+      <a class="project-cta" href="#">View project</a>
+    </div>
+  </section>
+  <footer class="site-footer"><span>Engineering, artwork, and ideas made carefully.</span><a href="../../../index.html">Return home</a></footer>
+
+  <script>
+    const nav = document.querySelector("[data-nav]");
+    const navSentinel = document.querySelector("[data-nav-sentinel]");
+    const trigger = document.querySelector("[data-menu-trigger]");
+    const menu = document.querySelector("[data-mobile-menu]");
+    const track = document.querySelector("[data-signal-track]");
+    const signalIndex = document.querySelector(".signal-index");
+    const signalTrigger = document.querySelector("[data-signal-trigger]");
+    const signalCurrent = document.querySelector("[data-signal-current]");
+    const signalCount = document.querySelector("[data-signal-count]");
+    const signalProgressSteps = [...document.querySelectorAll("[data-signal-progress] i")];
+    const chapterLinks = [...track.querySelectorAll("a")];
+    const chapters = [...document.querySelectorAll("[data-chapter]")];
+    const introSection = document.querySelector(".project-intro");
+    const introKicker = document.querySelector("[data-intro-kicker]");
+    const introChoices = [...document.querySelectorAll("[data-intro-choice]")];
+    const introDescription = document.querySelector("[data-intro-description]");
+    const hero = document.querySelector("[data-hero]");
+    const heroImage = document.querySelector("[data-hero-image]");
+    const heroChoices = [...document.querySelectorAll("[data-hero-choice]")];
+    const mobileNavChoices = [...document.querySelectorAll("[data-nav-choice]")];
+    const sectionCount = document.querySelector("[data-section-count]");
+    const readingTime = document.querySelector("[data-reading-time]");
+    const introVariants = {
+      narrative: {
+        kicker: "Project thesis",
+        description: "No new fields · existing opening copy only"
+      },
+      auto: {
+        kicker: "Project thesis",
+        description: "Date, chapter count, and reading time are generated"
+      },
+      compact: {
+        kicker: "Project note",
+        description: "Bridge · smallest footprint, using existing opening copy"
+      }
+    };
+    const heroVariants = {
+      project: {
+        src: "../../../assets/img/projects/scopen/cover-blueprint.png",
+        alt: "Scopen wireless oscilloscope shown over its technical blueprint",
+        focal: ["50% 48%", "58% 50%", "62% 50%"]
+      },
+      "night-01": {
+        src: "../../../assets/img/showcase/project-detail-defaults/blueprint-night.png",
+        alt: "Abstract exploded instrument drawing on a dark blueprint field",
+        focal: ["50% 50%", "68% 50%", "73% 50%"]
+      },
+      "night-rocket": {
+        src: "../../../assets/img/showcase/project-detail-defaults/night-rocket.png",
+        alt: "Exploded rocket propulsion assembly on a dark blueprint field",
+        focal: ["52% 50%", "70% 50%", "74% 50%"]
+      },
+      "night-pcb": {
+        src: "../../../assets/img/showcase/project-detail-defaults/night-pcb-v2.png",
+        alt: "Abstract circuit topology floating on a dark blueprint field",
+        focal: ["72% 50%", "72% 50%", "74% 50%"]
+      },
+      "night-gyroscope": {
+        src: "../../../assets/img/showcase/project-detail-defaults/night-gyroscope-v2.png",
+        alt: "Abstract gyroscopic axes and orbital geometry on a dark blueprint field",
+        focal: ["73% 54%", "73% 54%", "74% 54%"]
+      },
+      "night-field": {
+        src: "../../../assets/img/showcase/project-detail-defaults/night-field-v2.png",
+        alt: "Abstract magnetic field lines and wave trace on a dark blueprint field",
+        focal: ["75% 50%", "75% 50%", "76% 50%"]
+      },
+      "light-01": {
+        src: "../../../assets/img/showcase/project-detail-defaults/drafting-light.png",
+        alt: "Abstract exploded instrument drawing on pale drafting paper",
+        focal: ["50% 50%", "68% 50%", "74% 50%"]
+      },
+      "light-rocket": {
+        src: "../../../assets/img/showcase/project-detail-defaults/light-rocket-v2.png",
+        alt: "Abstract propulsion modules floating on pale drafting paper",
+        focal: ["72% 50%", "72% 50%", "73% 50%"]
+      },
+      "light-pcb": {
+        src: "../../../assets/img/showcase/project-detail-defaults/light-pcb-v2.png",
+        alt: "Abstract circuit topology and die outline on pale drafting paper",
+        focal: ["70% 50%", "70% 50%", "71% 50%"]
+      },
+      "light-optics": {
+        src: "../../../assets/img/showcase/project-detail-defaults/light-optics-v2.png",
+        alt: "Abstract optical arcs and ray paths on pale drafting paper",
+        focal: ["71% 50%", "71% 50%", "72% 50%"]
+      },
+      "light-field": {
+        src: "../../../assets/img/showcase/project-detail-defaults/light-field.png",
+        alt: "Experimental wave and magnetic field apparatus on pale drafting paper",
+        focal: ["52% 50%", "73% 50%", "77% 50%"]
+      }
+    };
+    const mobileNavVariants = new Set(["index", "select", "ribbon", "counter", "chips", "edge", "bottom", "progress"]);
+
+    const navObserver = new IntersectionObserver(([entry]) => {
+      nav.classList.toggle("surface-visible", !entry.isIntersecting);
+    });
+    navObserver.observe(navSentinel);
+
+    trigger.addEventListener("click", () => {
+      const open = document.body.classList.toggle("menu-open");
+      trigger.setAttribute("aria-expanded", String(open));
+      menu.setAttribute("aria-hidden", String(!open));
+    });
+
+    const setActiveChapter = (activeChapter) => {
+      const index = chapters.indexOf(activeChapter);
+      chapterLinks.forEach((link, linkIndex) => link.classList.toggle("active", linkIndex === index));
+      track.style.setProperty("--progress", `${(index / (chapters.length - 1)) * 100}%`);
+      signalCurrent.textContent = chapterLinks[index].textContent;
+      signalCount.textContent = `${String(index + 1).padStart(2, "0")} / ${String(chapters.length).padStart(2, "0")}`;
+      signalProgressSteps.forEach((step, stepIndex) => step.classList.toggle("active", stepIndex <= index));
+    };
+
+    setActiveChapter(chapters[0]);
+    const chapterObserver = new IntersectionObserver((entries) => {
+      const activeEntry = entries
+        .filter((entry) => entry.isIntersecting)
+        .sort((a, b) => Math.abs(a.boundingClientRect.top - 220) - Math.abs(b.boundingClientRect.top - 220))[0];
+      if (activeEntry) setActiveChapter(activeEntry.target);
+    }, { rootMargin: "-18% 0px -68% 0px" });
+    chapters.forEach((chapter) => chapterObserver.observe(chapter));
+
+    sectionCount.textContent = String(chapters.length);
+    const wordCount = document.querySelector(".signal-content").textContent.trim().split(/\s+/).length;
+    readingTime.textContent = String(Math.max(1, Math.ceil(wordCount / 200)));
+
+    const setIntroVariant = (variant, updateUrl = true) => {
+      const selected = introVariants[variant] ? variant : "compact";
+      document.body.dataset.introVariant = selected;
+      introKicker.textContent = introVariants[selected].kicker;
+      introDescription.textContent = introVariants[selected].description;
+      introChoices.forEach((choice) => choice.setAttribute("aria-pressed", String(choice.dataset.introChoice === selected)));
+      introSection.classList.remove("is-switching");
+      void introSection.offsetWidth;
+      introSection.classList.add("is-switching");
+
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("intro", selected);
+        window.history.replaceState({}, "", url);
+      }
+    };
+
+    const setHeroVariant = (variant, updateUrl = true) => {
+      const normalized = variant === "night" ? "night-01" : variant === "light" ? "light-01" : variant;
+      const selected = heroVariants[normalized] ? normalized : "project";
+      const nextHero = heroVariants[selected];
+      document.body.dataset.heroVariant = selected;
+      heroImage.src = nextHero.src;
+      heroImage.alt = nextHero.alt;
+      hero.style.setProperty("--hero-focal-desktop", nextHero.focal[0]);
+      hero.style.setProperty("--hero-focal-tablet", nextHero.focal[1]);
+      hero.style.setProperty("--hero-focal-mobile", nextHero.focal[2]);
+      heroChoices.forEach((choice) => choice.setAttribute("aria-pressed", String(choice.dataset.heroChoice === selected)));
+
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("hero", selected);
+        window.history.replaceState({}, "", url);
+      }
+    };
+
+    const setMobileNavVariant = (variant, updateUrl = true) => {
+      const selected = mobileNavVariants.has(variant) ? variant : "index";
+      document.body.dataset.mobileNav = selected;
+      signalIndex.classList.remove("is-open");
+      signalTrigger.setAttribute("aria-expanded", "false");
+      mobileNavChoices.forEach((choice) => choice.setAttribute("aria-pressed", String(choice.dataset.navChoice === selected)));
+
+      if (updateUrl) {
+        const url = new URL(window.location.href);
+        url.searchParams.set("nav", selected);
+        window.history.replaceState({}, "", url);
+      }
+    };
+
+    signalTrigger.addEventListener("click", () => {
+      const open = signalIndex.classList.toggle("is-open");
+      signalTrigger.setAttribute("aria-expanded", String(open));
+    });
+
+    chapterLinks.forEach((link) => link.addEventListener("click", () => {
+      signalIndex.classList.remove("is-open");
+      signalTrigger.setAttribute("aria-expanded", "false");
+    }));
+
+    introChoices.forEach((choice) => choice.addEventListener("click", () => setIntroVariant(choice.dataset.introChoice)));
+    heroChoices.forEach((choice) => choice.addEventListener("click", () => setHeroVariant(choice.dataset.heroChoice)));
+    mobileNavChoices.forEach((choice) => choice.addEventListener("click", () => setMobileNavVariant(choice.dataset.navChoice)));
+    const initialUrl = new URL(window.location.href);
+    setIntroVariant(initialUrl.searchParams.get("intro") || "compact", false);
+    setHeroVariant(initialUrl.searchParams.get("hero") || "project", false);
+    setMobileNavVariant(initialUrl.searchParams.get("nav") || "index", false);
+  </script>
+</body>
+</html>

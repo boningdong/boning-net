@@ -1,0 +1,15 @@
+- institution: UC Santa Barbara
+  mark: UCSB
+  degree: Master’s degree
+  field: Computer Engineering
+  period: "2021"
+  details:
+    - GPA 3.88
+
+- institution: UC Santa Barbara
+  mark: UCSB
+  degree: Bachelor’s degree
+  field: Computer Engineering
+  period: 2016–2020
+  details:
+    - GPA 3.95

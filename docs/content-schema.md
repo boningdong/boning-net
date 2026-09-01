@@ -11,7 +11,7 @@ Required frontmatter:
 
 ```yaml
 ---
-layout: project-post
+layout: project-detail
 title: Project title
 subtitle: Short project description
 date: 2024-01-01
@@ -25,13 +25,17 @@ Optional frontmatter:
 
 ```yaml
 external-link: https://github.com/example/project
-banner: /assets/img/projects/example_banner.jpg
+hero: /assets/img/projects/example_hero.png
+hero_alt: Description of the project hero image
 ```
 
 Notes:
 - `tags` must match `tag-id` values from `_tags/*.md`.
 - `cover` is used on the projects index card.
-- `banner` is used on the project detail hero. If omitted, the default projects banner is used.
+- `hero` overrides the Project Detail hero image. If it is omitted, the Hero uses `site.project_detail.default_hero`.
+- `hero_alt` describes the hero image. Omitted, empty, or whitespace-only values use the project title followed by ` project illustration`; supplied values are trimmed and then used exactly.
+
+Every project uses the [Project Detail author guide](project-detail/README.md) for its Markdown and component contract, including Intro placement, H1 chapters, navigation options, typed directives, structured people data, Markdown figures, and the raw HTML policy.
 
 ## Artwork
 
@@ -53,6 +57,8 @@ tags:
 Notes:
 - `location` is the full-size modal image.
 - `cover` is the masonry grid thumbnail.
+- `tags` must match `tag-id` values from `_tags/*.md`; the first tag is displayed as the artwork medium.
+- Artwork filters are generated from the shared tag registry and only include tags used by at least one artwork. Adding artwork with an existing tag requires no template changes; define a new `_tags/*.md` entry only when introducing a new medium.
 
 ## Experiences
 
@@ -78,7 +84,30 @@ end-date: 2024-12-01
 
 Notes:
 - `shown: true` controls whether the entry appears on the experiences page.
+- The experiences page filters to `shown: true` and sorts entries by `start-date` in descending order.
 - If `end-date` is omitted, the page displays `Now`.
+- The Markdown body is rendered as the role detail and remains readable when JavaScript is unavailable.
+
+## Education Data
+
+Location: `_data/education.yml`
+
+Required fields:
+
+```yaml
+- institution: UC Santa Barbara
+  mark: UCSB
+  degree: Master’s degree
+  field: Computer Engineering
+  period: "2021"
+  details: []
+```
+
+Notes:
+- `mark` is the short institution label shown in the card's brand mark.
+- `period` is display text and may be a single year or a range.
+- `details` is an array of optional credential notes such as GPA or student organizations.
+- Education entries are rendered in data-file order and do not create detail pages or permalinks.
 
 ## Tags
 
@@ -97,7 +126,8 @@ tag-color:
 ```
 
 Notes:
-- `tag-id` is the stable value referenced by project frontmatter.
+- `tag-id` is the stable value referenced by project and artwork frontmatter.
+- Project and Artwork filters each show only registry entries used by their own collection.
 - `tag-color.top` and `tag-color.bottom` are used by the shared tag badge include.
 
 ## Homepage Data
@@ -116,15 +146,36 @@ featured_experiences:
     cta: Visit Company
 ```
 
-`work_showcases` drives the homepage artwork/projects toggle:
+The homepage hero and about copy are stored in `hero` and `about`.
+
+`selected_work` fixes the three Artwork and Project cards shown on the homepage. Each value is the collection Markdown filename without its extension, and list order maps to the feature, secondary, and tertiary card positions:
 
 ```yaml
-work_showcases:
+selected_work:
   artwork:
-    button_label: Artwork
-    quote: Quote shown above the images.
-    href: /artwork.html
-    cta: More Artwork
-    images:
-      - /assets/img/index/example.jpg
+    - snow_scene
+    - skyrim
+    - scene_watercolor
+  projects:
+    - ar_domino
+    - scopen
+    - smartlamp
+```
+
+Changing a collection item's date does not affect this selection. Keep exactly three valid slugs in each list.
+
+`notes_preview` controls the temporary Notes preview. Set `enabled: false` to omit it and automatically restore three-part section numbering before deployment:
+
+```yaml
+notes_preview:
+  enabled: true
+  kicker: Ideas in progress
+  badge: Future module
+  title: Notes
+  intro: Preview introduction.
+  items:
+    - type: Technology
+      title: Sample note
+      description: Placeholder summary.
+      date: Sample article
 ```

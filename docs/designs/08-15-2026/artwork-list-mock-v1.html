@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Artwork — Collection tune mock</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@480;560;580;620;650&family=Source+Sans+3:wght@400;500&display=swap');
+    :root {
+      --ink: #202a30;
+      --ink-soft: #607078;
+      --paper: #fbfcfc;
+      --mist: #eef2f3;
+      --line: #dbe2e4;
+      --steel: #6f838b;
+      --steel-dark: #48616b;
+      --radius: 26px;
+      --card-gap: 28px;
+      --mobile-card-gap: 21px;
+      --section-space: 112px;
+      --mobile-section-space: 81px;
+      --transition-space: 80px;
+      --lift: 5px;
+      --shadow-alpha: .1;
+      --highlight-height: 330px;
+      --collection-columns: 3;
+      --display: "Instrument Sans", "Avenir Next", sans-serif;
+      --body: "Source Sans 3", "Helvetica Neue", sans-serif;
+      --utility: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; overflow-x: hidden; background: var(--mist); color: var(--ink); font-family: var(--body); -webkit-font-smoothing: antialiased; }
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    img { display: block; max-width: 100%; }
+    .design-wrap { width: min(1120px, calc(100% - 48px)); margin-inline: auto; }
+    .site-nav-shell { position: fixed; z-index: 30; top: 14px; left: 50%; width: min(1120px, calc(100% - 24px)); transform: translateX(-50%); pointer-events: none; }
+    .site-nav { display: flex; align-items: center; justify-content: space-between; height: 46px; padding: 0 24px; border: 1px solid transparent; border-radius: 999px; color: white; text-shadow: 0 1px 8px rgb(0 0 0 / .5); pointer-events: auto; transition: color 180ms ease, background 240ms ease, border-color 240ms ease, box-shadow 240ms ease, backdrop-filter 240ms ease; }
+    .site-nav.surface-visible { border-color: rgb(255 255 255 / .35); background: rgb(248 251 251 / .48); box-shadow: inset 0 1px rgb(255 255 255 / .35), 0 10px 30px rgb(35 49 55 / .1); color: rgb(14 20 23 / .95); text-shadow: none; backdrop-filter: blur(8px) saturate(1.04); }
+    .site-name { font: 650 13px/1 var(--display); letter-spacing: -.015em; }
+    .nav-links { display: flex; align-items: center; height: 100%; gap: clamp(18px, 2.6vw, 36px); font: 560 13px/1 var(--display); }
+    .nav-links a { position: relative; padding: 8px 0; opacity: .76; }
+    .nav-links a.active, .nav-links a:hover { opacity: 1; }
+    .nav-links a::after { position: absolute; right: 100%; bottom: 2px; left: 0; height: 1px; background: currentColor; content: ""; transition: right 180ms ease; }
+    .nav-links a.active::after, .nav-links a:hover::after { right: 0; }
+    .menu-trigger { display: none; border: 0; background: transparent; }
+    .artwork-hero { position: relative; display: grid; place-items: center; min-height: 60svh; overflow: hidden; background: #27343a; color: white; }
+    .artwork-hero > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; object-fit: cover; object-position: center 47%; filter: saturate(.86) contrast(1.03); }
+    .artwork-hero::before, .artwork-hero::after { position: absolute; z-index: 1; inset: 0; content: ""; pointer-events: none; }
+    .artwork-hero::before { background: linear-gradient(90deg, rgb(10 18 22 / .34), rgb(10 18 22 / .08)); }
+    .artwork-hero::after { background: linear-gradient(180deg, rgb(9 16 20 / .04), rgb(9 16 20 / .02) 55%, rgb(9 16 20 / .34)); }
+    .hero-copy { position: relative; z-index: 2; width: min(1120px, calc(100% - 48px)); padding-top: 38px; text-align: center; }
+    .hero-copy h1 { margin: 0; font: 480 clamp(28px, 3vw, 32px)/1 var(--display); letter-spacing: -.045em; text-shadow: 0 3px 22px rgb(0 0 0 / .32); }
+    .hero-copy i { margin-inline: .22em; color: rgb(255 255 255 / .7); font-style: normal; font-weight: 400; }
+    .hero-copy p { margin: 18px 0 0; color: rgb(255 255 255 / .84); font: 600 10px/1.2 var(--utility); letter-spacing: .14em; text-shadow: 0 2px 12px rgb(0 0 0 / .5); text-transform: uppercase; }
+    .hero-copy p span + span::before { margin-inline: 13px; color: rgb(255 255 255 / .55); content: "/"; }
+    .hero-index { position: absolute; z-index: 2; right: 24px; bottom: 22px; color: rgb(255 255 255 / .65); font: 500 9px/1 var(--utility); letter-spacing: .12em; text-transform: uppercase; }
+    .content { position: relative; overflow: hidden; background: radial-gradient(circle at 78% 15%, rgb(255 255 255 / .72), transparent 34%), var(--mist); }
+    .section-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 32px; margin-bottom: 42px; }
+    .section-kicker { display: block; margin-bottom: 13px; color: var(--steel); font: 600 9px/1 var(--utility); letter-spacing: .13em; text-transform: uppercase; }
+    .section-heading { margin: 0; font: 650 clamp(34px, 4vw, 50px)/.98 var(--display); letter-spacing: -.055em; }
+    .section-number { align-self: flex-start; color: #93a2a8; font: 500 9px/1 var(--utility); letter-spacing: .12em; }
+    .highlights { padding: var(--section-space) 0 0; }
+    .rail-viewport { position: relative; width: 100%; overflow: hidden; padding: 12px 0 34px; }
+    .rail-viewport::before, .rail-viewport::after { position: absolute; z-index: 4; top: 0; bottom: 0; width: max(24px, calc((100vw - 1120px) / 2)); content: ""; pointer-events: none; }
+    .rail-viewport::before { left: 0; background: linear-gradient(90deg, var(--mist), transparent); }
+    .rail-viewport::after { right: 0; background: linear-gradient(-90deg, var(--mist), transparent); }
+    .rail-track { display: flex; align-items: flex-start; width: max-content; gap: var(--card-gap); padding-inline: max(24px, calc((100vw - 1120px) / 2)); animation: gallery-drift 46s linear infinite; will-change: transform; }
+    .rail-viewport:hover .rail-track, .rail-viewport:focus-within .rail-track { animation-play-state: paused; }
+    body.rail-manual .rail-viewport { overflow-x: auto; scrollbar-width: thin; scrollbar-color: #a7b5ba transparent; }
+    body.rail-manual .rail-track { animation: none; }
+    .art-card { position: relative; display: block; min-width: 0; overflow: hidden; border: 1px solid rgb(255 255 255 / .78); border-radius: var(--radius); background: rgb(255 255 255 / .58); box-shadow: inset 0 1px rgb(255 255 255 / .9), 0 22px 55px rgb(35 49 55 / var(--shadow-alpha)); transition: transform 220ms ease, box-shadow 220ms ease; }
+    .art-card:hover { box-shadow: inset 0 1px rgb(255 255 255 / .95), 0 28px 65px rgb(35 49 55 / .15); transform: translateY(calc(-1 * var(--lift))); }
+    .art-card picture { display: block; overflow: hidden; background: #e3e8e9; }
+    .rail-card { flex: 0 0 auto; }
+    .rail-card picture, .rail-card img { width: auto; height: var(--highlight-height); }
+    .rail-card img { max-width: none; object-fit: contain; }
+    .art-label { display: flex; align-items: end; justify-content: space-between; gap: 22px; padding: 18px 20px 20px; border-top: 1px solid rgb(255 255 255 / .82); }
+    .art-label b { display: block; font: 580 18px/1.08 var(--display); letter-spacing: -.035em; }
+    .art-label span { color: #718188; font: 600 8px/1.35 var(--utility); letter-spacing: .08em; text-align: right; text-transform: uppercase; }
+    body.caption-inset .art-card .art-label, body.caption-focus .art-card .art-label { position: absolute; z-index: 2; right: 14px; bottom: 14px; left: 14px; border: 1px solid rgb(255 255 255 / .6); border-radius: 18px; background: rgb(248 251 251 / .72); box-shadow: inset 0 1px rgb(255 255 255 / .7), 0 8px 26px rgb(25 39 45 / .12); backdrop-filter: blur(14px) saturate(1.06); }
+    body.caption-focus .art-card .art-label { opacity: 0; transform: translateY(6px); transition: opacity 180ms ease, transform 180ms ease; }
+    body.caption-focus .art-card:hover .art-label, body.caption-focus .art-card:focus-visible .art-label { opacity: 1; transform: none; }
+    .rail-card .art-label { min-width: 100%; }
+    .collection { padding: var(--transition-space) 0 var(--section-space); }
+    .collection-head { margin-bottom: 22px; }
+    .filter-system { display: flex; align-items: center; justify-content: space-between; gap: 24px; margin-bottom: 34px; }
+    .filters { display: flex; flex-wrap: wrap; gap: 9px; }
+    .filter-pill { border: 1px solid #d4dee1; border-radius: 999px; padding: 9px 13px; background: rgb(255 255 255 / .48); color: #6c7d84; font: 560 11px/1 var(--display); cursor: pointer; transition: border-color 160ms ease, background 160ms ease, color 160ms ease, transform 160ms ease; }
+    .filter-pill:hover { border-color: #aabcc2; transform: translateY(-1px); }
+    .filter-pill.active { border-color: #536c76; background: #536c76; color: white; }
+    .result-count { color: #829198; font: 500 9px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+    body.filters-off .filter-system { justify-content: flex-end; }
+    body.filters-off .filters { display: none; }
+    .collection-grid { columns: var(--collection-columns); column-gap: var(--card-gap); }
+    .collection-card { width: 100%; margin-bottom: var(--card-gap); break-inside: avoid; cursor: zoom-in; }
+    .collection-card img { width: 100%; height: auto; }
+    .collection-card[hidden] { display: none; }
+    .page-footer { padding: 68px 24px; background: #243238; color: rgb(255 255 255 / .72); text-align: center; }
+    .page-footer strong { color: white; font: 620 15px/1 var(--display); }
+    .page-footer p { margin: 10px 0 0; font-size: 13px; }
+    .viewer { width: min(1000px, calc(100% - 34px)); max-width: none; max-height: calc(100svh - 34px); overflow: hidden; border: 1px solid rgb(255 255 255 / .78); border-radius: var(--radius); padding: 0; background: rgb(245 249 250 / .74); box-shadow: 0 36px 100px rgb(12 20 24 / .35); backdrop-filter: blur(24px) saturate(1.08); }
+    .viewer::backdrop { background: rgb(12 18 21 / .74); backdrop-filter: blur(8px); }
+    .viewer-layout { display: grid; grid-template-columns: minmax(0, 1fr) 240px; max-height: calc(100svh - 36px); }
+    .viewer-media { display: grid; place-items: center; min-height: 60svh; overflow: auto; padding: 24px; background: #e8edee; }
+    .viewer-media img { width: auto; height: auto; max-width: 100%; max-height: calc(100svh - 84px); object-fit: contain; }
+    .viewer-copy { display: flex; flex-direction: column; padding: 28px 24px; }
+    .viewer-copy small { color: var(--steel); font: 600 8px/1 var(--utility); letter-spacing: .1em; text-transform: uppercase; }
+    .viewer-copy h3 { margin: 12px 0 6px; font: 620 26px/1.05 var(--display); letter-spacing: -.045em; }
+    .viewer-copy p { margin: 0; color: var(--ink-soft); font-size: 14px; }
+    .viewer-close { margin-top: auto; border: 1px solid #cad6d9; border-radius: 999px; padding: 10px 12px; background: rgb(255 255 255 / .5); color: var(--steel-dark); font: 600 9px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+    body.viewer-full .viewer { width: 100vw; max-height: 100svh; border: 0; border-radius: 0; background: #11191c; }
+    body.viewer-full .viewer-layout { grid-template-columns: minmax(0, 1fr) 280px; min-height: 100svh; max-height: 100svh; color: white; }
+    body.viewer-full .viewer-media { min-height: 100svh; background: #11191c; }
+    body.viewer-full .viewer-copy { background: #1c282d; }
+    body.viewer-full .viewer-copy p, body.viewer-full .viewer-copy small { color: rgb(255 255 255 / .64); }
+    .tune-panel { position: fixed; z-index: 80; right: 20px; bottom: 18px; width: min(330px, calc(100vw - 28px)); font-family: var(--display); }
+    .tune-toggle { display: flex; align-items: center; justify-content: space-between; width: 100%; border: 1px solid rgb(255 255 255 / .74); border-radius: 999px; padding: 12px 16px; background: rgb(248 251 251 / .78); box-shadow: inset 0 1px white, 0 14px 36px rgb(35 49 55 / .14); backdrop-filter: blur(18px); cursor: pointer; }
+    .tune-toggle span:first-child { font-size: 12px; font-weight: 620; }
+    .tune-toggle span:last-child { color: #71858d; font: 600 8px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; }
+    .tune-body { display: none; max-height: min(70svh, 650px); overflow-y: auto; margin-top: 8px; border: 1px solid rgb(255 255 255 / .74); border-radius: 24px; padding: 18px; background: rgb(248 251 251 / .88); box-shadow: inset 0 1px white, 0 20px 50px rgb(35 49 55 / .17); backdrop-filter: blur(22px); }
+    .tune-panel.open .tune-body { display: block; }
+    .tune-group + .tune-group { margin-top: 18px; }
+    .tune-label { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; color: #6f8289; font: 600 8px/1 var(--utility); letter-spacing: .1em; text-transform: uppercase; }
+    .tune-options { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tune-option { border: 1px solid #d5dfe2; border-radius: 999px; padding: 7px 9px; background: rgb(255 255 255 / .5); color: #6c7d84; font: 560 10px/1 var(--display); cursor: pointer; }
+    .tune-option.active { border-color: #536c76; background: #536c76; color: white; }
+    .tune-range { width: 100%; accent-color: #536c76; }
+    .preset-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 18px; }
+    .preset-action { border: 1px solid #c7d3d7; border-radius: 999px; padding: 11px 10px; background: rgb(255 255 255 / .54); color: #516a73; font: 600 8px/1 var(--utility); letter-spacing: .07em; text-transform: uppercase; cursor: pointer; }
+    .export-preset { border-color: #2e424b; background: #2e424b; color: white; }
+    .tune-status { min-height: 13px; margin: 8px 0 0; color: #6e8189; font: 500 8px/1.4 var(--utility); text-align: center; }
+    .preset-dialog { width: min(680px, calc(100% - 28px)); max-width: none; border: 1px solid rgb(255 255 255 / .78); border-radius: 24px; padding: 22px; background: rgb(248 251 251 / .92); box-shadow: 0 30px 90px rgb(12 20 24 / .32); backdrop-filter: blur(22px); }
+    .preset-dialog::backdrop { background: rgb(12 18 21 / .58); backdrop-filter: blur(6px); }
+    .preset-dialog h3 { margin: 0; font: 620 24px/1 var(--display); letter-spacing: -.04em; }
+    .preset-dialog p { margin: 8px 0 16px; color: var(--ink-soft); font-size: 13px; }
+    .preset-json { width: 100%; min-height: 360px; resize: vertical; border: 1px solid #ccd7da; border-radius: 16px; padding: 15px; background: #f4f7f7; color: #31474f; font: 500 11px/1.55 var(--utility); }
+    .preset-dialog-close { display: block; margin: 14px 0 0 auto; border: 0; border-radius: 999px; padding: 10px 16px; background: #2e424b; color: white; font: 600 9px/1 var(--utility); letter-spacing: .08em; text-transform: uppercase; cursor: pointer; }
+    @keyframes gallery-drift { to { transform: translateX(calc(-50% - (var(--card-gap) / 2))); } }
+    @media (max-width: 850px) {
+      .site-nav-shell { top: 10px; }
+      .nav-links { display: none; }
+      .menu-trigger { display: inline-flex; align-items: center; height: 38px; padding: 0 10px; color: inherit; font: 560 13px/1 var(--display); }
+      .artwork-hero { min-height: 54svh; }
+      .hero-copy h1 { max-width: 320px; margin-inline: auto; line-height: 1.16; }
+      .hero-copy p { display: grid; gap: 7px; }
+      .hero-copy p span + span::before { display: none; }
+      .hero-index { display: none; }
+      .section-head { gap: 18px; }
+      .highlights { padding-top: var(--mobile-section-space); }
+      .collection { padding-top: 58px; padding-bottom: var(--mobile-section-space); }
+      .collection-grid { column-gap: var(--mobile-card-gap); }
+      .collection-card { margin-bottom: var(--mobile-card-gap); }
+      .viewer-layout { grid-template-columns: 1fr; overflow-y: auto; }
+      .viewer-media { min-height: 0; }
+      .viewer-copy { min-height: 180px; }
+      .viewer-close { margin-top: 24px; }
+    }
+    @media (max-width: 600px) {
+      :root { --collection-columns: 2; }
+      .design-wrap { width: min(100% - 28px, 1120px); }
+      .section-head { margin-bottom: 30px; }
+      .filter-system { align-items: flex-end; }
+      .result-count { padding-bottom: 2px; }
+      .rail-track { gap: var(--mobile-card-gap); padding-inline: 14px; }
+      .rail-card picture, .rail-card img { height: min(var(--highlight-height), 290px); }
+      .art-label { padding: 14px 15px 16px; }
+      .art-label b { font-size: 15px; }
+      .art-label span { font-size: 7px; }
+      .tune-panel { right: 14px; bottom: 12px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .rail-track { animation: none; }
+      .rail-viewport { overflow-x: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body class="caption-label rail-auto filters-on viewer-glass">
+  <div class="site-nav-shell">
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="site-name" href="#top">Boning Dong</a>
+      <div class="nav-links"><a href="#">Home</a><a href="#">Projects</a><a class="active" href="#top">Artwork</a><a href="#">Resume</a></div>
+      <button class="menu-trigger" type="button">Menu</button>
+    </nav>
+  </div>
+
+  <header class="artwork-hero" id="top">
+    <img src="../../../assets/img/showcase/artwork-banner.jpg" alt="A colorful digital artwork scene">
+    <div class="hero-copy">
+      <h1><span>Artwork</span><i aria-hidden="true">—</i><span>Studies in light &amp; character</span></h1>
+      <p><span>Graphite</span><span>Charcoal</span><span>Watercolor</span></p>
+    </div>
+    <span class="hero-index">10 works / 2015—2020</span>
+  </header>
+
+  <main class="content">
+    <section class="highlights" aria-labelledby="highlights-title">
+      <div class="design-wrap section-head">
+        <div><span class="section-kicker">A closer look</span><h2 class="section-heading" id="highlights-title">Highlights</h2></div>
+        <span class="section-number">01 / 02</span>
+      </div>
+      <div class="rail-viewport" aria-label="Highlighted artwork">
+        <div class="rail-track">
+          <a class="art-card rail-card" href="#" data-title="Snow Scene" data-meta="Pencil · 2020" data-full="../../../assets/img/artwork/snow_scene.jpg"><picture><img src="../../../assets/img/artwork/covers/snow_scene.jpg" alt="Snow Scene pencil drawing"></picture><span class="art-label"><b>Snow Scene</b><span>Pencil<br>2020</span></span></a>
+          <a class="art-card rail-card" href="#" data-title="Terminator" data-meta="Charcoal · 2015" data-full="../../../assets/img/artwork/terminator.jpg"><picture><img src="../../../assets/img/artwork/covers/terminator.jpg" alt="Terminator charcoal portrait"></picture><span class="art-label"><b>Terminator</b><span>Charcoal<br>2015</span></span></a>
+          <a class="art-card rail-card" href="#" data-title="Watercolor Scenery" data-meta="Watercolor · 2018" data-full="../../../assets/img/artwork/scene_watercolor.jpg"><picture><img src="../../../assets/img/artwork/covers/scene_watercolor.jpg" alt="Watercolor landscape"></picture><span class="art-label"><b>Watercolor Scenery</b><span>Watercolor<br>2018</span></span></a>
+          <a class="art-card rail-card" href="#" data-title="Captain America" data-meta="Pencil · 2016" data-full="../../../assets/img/artwork/captain_america.jpg"><picture><img src="../../../assets/img/artwork/covers/captain_america.jpg" alt="Captain America pencil drawing"></picture><span class="art-label"><b>Captain America</b><span>Pencil<br>2016</span></span></a>
+          <a class="art-card rail-card" href="#" data-title="Snow Scene" data-meta="Pencil · 2020" data-full="../../../assets/img/artwork/snow_scene.jpg" aria-hidden="true" tabindex="-1"><picture><img src="../../../assets/img/artwork/covers/snow_scene.jpg" alt=""></picture><span class="art-label"><b>Snow Scene</b><span>Pencil<br>2020</span></span></a>
+          <a class="art-card rail-card" href="#" data-title="Terminator" data-meta="Charcoal · 2015" data-full="../../../assets/img/artwork/terminator.jpg" aria-hidden="true" tabindex="-1"><picture><img src="../../../assets/img/artwork/covers/terminator.jpg" alt=""></picture><span class="art-label"><b>Terminator</b><span>Charcoal<br>2015</span></span></a>
+          <a class="art-card rail-card" href="#" data-title="Watercolor Scenery" data-meta="Watercolor · 2018" data-full="../../../assets/img/artwork/scene_watercolor.jpg" aria-hidden="true" tabindex="-1"><picture><img src="../../../assets/img/artwork/covers/scene_watercolor.jpg" alt=""></picture><span class="art-label"><b>Watercolor Scenery</b><span>Watercolor<br>2018</span></span></a>
+          <a class="art-card rail-card" href="#" data-title="Captain America" data-meta="Pencil · 2016" data-full="../../../assets/img/artwork/captain_america.jpg" aria-hidden="true" tabindex="-1"><picture><img src="../../../assets/img/artwork/covers/captain_america.jpg" alt=""></picture><span class="art-label"><b>Captain America</b><span>Pencil<br>2016</span></span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="collection design-wrap" aria-labelledby="collection-title">
+      <div class="section-head collection-head">
+        <div><span class="section-kicker">The archive</span><h2 class="section-heading" id="collection-title">The Collection</h2></div>
+        <span class="section-number">02 / 02</span>
+      </div>
+      <div class="filter-system">
+        <div class="filters" aria-label="Filter artwork by medium">
+          <button class="filter-pill active" type="button" data-filter="all">All</button>
+          <button class="filter-pill" type="button" data-filter="pencil">Pencil</button>
+          <button class="filter-pill" type="button" data-filter="charcoal">Charcoal</button>
+          <button class="filter-pill" type="button" data-filter="watercolor">Watercolor</button>
+        </div>
+        <span class="result-count"><span id="visible-count">10</span> works</span>
+      </div>
+      <div class="collection-grid">
+        <a class="art-card collection-card" href="#" data-medium="pencil" data-title="Snow Scene" data-meta="Pencil · 2020" data-full="../../../assets/img/artwork/snow_scene.jpg"><picture><img src="../../../assets/img/artwork/covers/snow_scene.jpg" alt="Snow Scene pencil drawing"></picture><span class="art-label"><b>Snow Scene</b><span>Pencil<br>2020</span></span></a>
+        <a class="art-card collection-card" href="#" data-medium="watercolor" data-title="Watercolor Scenery" data-meta="Watercolor · 2018" data-full="../../../assets/img/artwork/scene_watercolor.jpg"><picture><img src="../../../assets/img/artwork/covers/scene_watercolor.jpg" alt="Watercolor landscape"></picture><span class="art-label"><b>Watercolor Scenery</b><span>Watercolor<br>2018</span></span></a>
+        <a class="art-card collection-card" href="#" data-medium="pencil" data-title="The Elder Scroll V" data-meta="Pencil · 2017" data-full="../../../assets/img/artwork/skyrim.jpg"><picture><img src="../../../assets/img/artwork/covers/skyrim.jpg" alt="The Elder Scroll V pencil drawing"></picture><span class="art-label"><b>The Elder Scroll V</b><span>Pencil<br>2017</span></span></a>
+        <a class="art-card collection-card" href="#" data-medium="pencil" data-title="Dr. Strange" data-meta="Pencil · 2017" data-full="../../../assets/img/artwork/dr_strange.jpg"><picture><img src="../../../assets/img/artwork/covers/dr_strange.jpg" alt="Dr. Strange pencil drawing"></picture><span class="art-label"><b>Dr. Strange</b><span>Pencil<br>2017</span></span></a>
+        <a class="art-card collection-card" href="#" data-medium="pencil" data-title="Mr. White" data-meta="Pencil · 2017" data-full="../../../assets/img/artwork/mr_white.jpg"><picture><img src="../../../assets/img/artwork/covers/mr_white.jpg" alt="Mr. White pencil portrait"></picture><span class="art-label"><b>Mr. White</b><span>Pencil<br>2017</span></span></a>
+        <a class="art-card collection-card" href="#" data-medium="pencil" data-title="Geralt of Rivia" data-meta="Pencil · 2016" data-full="../../../assets/img/artwork/the_witcher.jpg"><picture><img src="../../../assets/img/artwork/covers/the_witcher.jpg" alt="Geralt of Rivia pencil drawing"></picture><span class="art-label"><b>Geralt of Rivia</b><span>Pencil<br>2016</span></span></a>
+        <a class="art-card collection-card" href="#" data-medium="pencil" data-title="Captain America" data-meta="Pencil · 2016" data-full="../../../assets/img/artwork/captain_america.jpg"><picture><img src="../../../assets/img/artwork/covers/captain_america.jpg" alt="Captain America pencil drawing"></picture><span class="art-label"><b>Captain America</b><span>Pencil<br>2016</span></span></a>
+        <a class="art-card collection-card" href="#" data-medium="charcoal" data-title="Nathan Drake" data-meta="Charcoal · 2016" data-full="../../../assets/img/artwork/uncharted.jpg"><picture><img src="../../../assets/img/artwork/covers/uncharted.jpg" alt="Nathan Drake charcoal portrait"></picture><span class="art-label"><b>Nathan Drake</b><span>Charcoal<br>2016</span></span></a>
+        <a class="art-card collection-card" href="#" data-medium="charcoal" data-title="Terminator" data-meta="Charcoal · 2015" data-full="../../../assets/img/artwork/terminator.jpg"><picture><img src="../../../assets/img/artwork/covers/terminator.jpg" alt="Terminator charcoal portrait"></picture><span class="art-label"><b>Terminator</b><span>Charcoal<br>2015</span></span></a>
+        <a class="art-card collection-card" href="#" data-medium="pencil" data-title="Robert Downey Jr." data-meta="Pencil · 2015" data-full="../../../assets/img/artwork/robert.jpg"><picture><img src="../../../assets/img/artwork/covers/robert.jpg" alt="Robert Downey Jr. pencil portrait"></picture><span class="art-label"><b>Robert Downey Jr.</b><span>Pencil<br>2015</span></span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="page-footer"><strong>Boning Dong</strong><p>Engineer, artist, and curious maker.</p></footer>
+
+  <dialog class="viewer" id="art-viewer">
+    <div class="viewer-layout">
+      <div class="viewer-media"><img id="viewer-image" src="../../../assets/img/artwork/snow_scene.jpg" alt=""></div>
+      <div class="viewer-copy"><small id="viewer-meta">Pencil · 2020</small><h3 id="viewer-title">Snow Scene</h3><p>Shown at its full aspect ratio.</p><button class="viewer-close" type="button">Close viewer</button></div>
+    </div>
+  </dialog>
+
+  <dialog class="preset-dialog" id="preset-dialog"><h3>Artwork preset JSON</h3><p>Select the complete preset below, or use Download JSON in a regular browser.</p><textarea class="preset-json" aria-label="Artwork preset JSON" readonly></textarea><button class="preset-dialog-close" type="button">Close JSON</button></dialog>
+
+  <aside class="tune-panel" aria-label="Artwork design controls">
+    <button class="tune-toggle" type="button" aria-expanded="false"><span>Tune Artwork</span><span>Open +</span></button>
+    <div class="tune-body">
+      <div class="tune-group"><div class="tune-label"><span>Highlight motion</span></div><div class="tune-options"><button class="tune-option active" type="button" data-control="rail" data-value="auto">Auto drift</button><button class="tune-option" type="button" data-control="rail" data-value="manual">Manual</button></div></div>
+      <div class="tune-group"><label class="tune-label" for="highlight-height"><span>Highlight height</span><output id="highlight-height-output">330px</output></label><input class="tune-range" id="highlight-height" type="range" min="240" max="420" step="10" value="330"></div>
+      <div class="tune-group"><div class="tune-label"><span>Collection columns</span></div><div class="tune-options"><button class="tune-option" type="button" data-control="columns" data-value="2">2</button><button class="tune-option active" type="button" data-control="columns" data-value="3">3</button><button class="tune-option" type="button" data-control="columns" data-value="4">4</button></div></div>
+      <div class="tune-group"><div class="tune-label"><span>Caption</span></div><div class="tune-options"><button class="tune-option active" type="button" data-control="caption" data-value="label">Museum label</button><button class="tune-option" type="button" data-control="caption" data-value="inset">Glass inset</button><button class="tune-option" type="button" data-control="caption" data-value="focus">On focus</button></div></div>
+      <div class="tune-group"><div class="tune-label"><span>Medium filters</span></div><div class="tune-options"><button class="tune-option active" type="button" data-control="filters" data-value="on">Visible</button><button class="tune-option" type="button" data-control="filters" data-value="off">Hidden</button></div></div>
+      <div class="tune-group"><div class="tune-label"><span>Viewer</span></div><div class="tune-options"><button class="tune-option active" type="button" data-control="viewer" data-value="glass">Glass dialog</button><button class="tune-option" type="button" data-control="viewer" data-value="full">Full bleed</button></div></div>
+      <div class="preset-actions"><button class="preset-action view-preset" type="button">View JSON</button><button class="preset-action export-preset" type="button">Download JSON</button></div>
+      <p class="tune-status" aria-live="polite"></p>
+    </div>
+  </aside>
+
+  <script>
+    (() => {
+      const body = document.body;
+      const nav = document.querySelector('.site-nav');
+      const panel = document.querySelector('.tune-panel');
+      const panelToggle = document.querySelector('.tune-toggle');
+      const tuneStatus = document.querySelector('.tune-status');
+      const range = document.querySelector('#highlight-height');
+      const rangeOutput = document.querySelector('#highlight-height-output');
+      const viewer = document.querySelector('#art-viewer');
+      const viewerImage = document.querySelector('#viewer-image');
+      const viewerTitle = document.querySelector('#viewer-title');
+      const viewerMeta = document.querySelector('#viewer-meta');
+      const presetDialog = document.querySelector('#preset-dialog');
+      const presetJson = document.querySelector('.preset-json');
+      const choices = { rail: 'auto', columns: '3', caption: 'label', filters: 'on', viewer: 'glass' };
+
+      const syncNav = () => nav.classList.toggle('surface-visible', window.scrollY > 36);
+      syncNav();
+      window.addEventListener('scroll', syncNav, { passive: true });
+
+      panelToggle.addEventListener('click', () => {
+        const open = panel.classList.toggle('open');
+        panelToggle.setAttribute('aria-expanded', String(open));
+        panelToggle.lastElementChild.textContent = open ? 'Close −' : 'Open +';
+      });
+
+      document.querySelectorAll('.tune-option').forEach((button) => {
+        button.addEventListener('click', () => {
+          const control = button.dataset.control;
+          const value = button.dataset.value;
+          choices[control] = value;
+          button.parentElement.querySelectorAll('.tune-option').forEach((item) => item.classList.toggle('active', item === button));
+          if (control === 'rail') {
+            body.classList.toggle('rail-manual', value === 'manual');
+            body.classList.toggle('rail-auto', value === 'auto');
+          }
+          if (control === 'columns') document.documentElement.style.setProperty('--collection-columns', value);
+          if (control === 'caption') {
+            body.classList.remove('caption-label', 'caption-inset', 'caption-focus');
+            body.classList.add(`caption-${value}`);
+          }
+          if (control === 'filters') {
+            body.classList.toggle('filters-off', value === 'off');
+            body.classList.toggle('filters-on', value === 'on');
+          }
+          if (control === 'viewer') {
+            body.classList.toggle('viewer-full', value === 'full');
+            body.classList.toggle('viewer-glass', value === 'glass');
+          }
+        });
+      });
+
+      range.addEventListener('input', () => {
+        document.documentElement.style.setProperty('--highlight-height', `${range.value}px`);
+        rangeOutput.value = `${range.value}px`;
+      });
+
+      const cards = [...document.querySelectorAll('.collection-card')];
+      document.querySelectorAll('.filter-pill').forEach((button) => {
+        button.addEventListener('click', () => {
+          document.querySelectorAll('.filter-pill').forEach((item) => item.classList.toggle('active', item === button));
+          const filter = button.dataset.filter;
+          let count = 0;
+          cards.forEach((card) => {
+            const visible = filter === 'all' || card.dataset.medium === filter;
+            card.hidden = !visible;
+            if (visible) count += 1;
+          });
+          document.querySelector('#visible-count').textContent = String(count);
+        });
+      });
+
+      document.querySelectorAll('.art-card:not([aria-hidden="true"])').forEach((card) => {
+        card.addEventListener('click', (event) => {
+          event.preventDefault();
+          viewerImage.src = card.dataset.full;
+          viewerImage.alt = card.dataset.title;
+          viewerTitle.textContent = card.dataset.title;
+          viewerMeta.textContent = card.dataset.meta;
+          viewer.showModal();
+        });
+      });
+      document.querySelector('.viewer-close').addEventListener('click', () => viewer.close());
+      viewer.addEventListener('click', (event) => { if (event.target === viewer) viewer.close(); });
+
+      const buildPreset = () => ({
+          schemaVersion: 1,
+          kind: 'boning-net-artwork-style-preset',
+          source: 'artwork-list-mock-v1',
+          exportedAt: new Date().toISOString(),
+          tuning: {
+            activeOptions: { ...choices },
+            ranges: { highlightHeight: range.value },
+            fixedInvariants: {
+              background: 'mist',
+              cardRadius: 26,
+              cardGap: 28,
+              hoverLift: 5,
+              preserveArtworkAspectRatio: true
+            }
+          }
+        });
+
+      document.querySelector('.view-preset').addEventListener('click', () => {
+        presetJson.value = JSON.stringify(buildPreset(), null, 2) + '\n';
+        presetDialog.showModal();
+        presetJson.focus();
+        presetJson.select();
+        tuneStatus.textContent = 'Preset JSON generated';
+      });
+      document.querySelector('.preset-dialog-close').addEventListener('click', () => presetDialog.close());
+
+      document.querySelector('.export-preset').addEventListener('click', () => {
+        const preset = buildPreset();
+        const blob = new Blob([JSON.stringify(preset, null, 2) + '\n'], { type: 'application/json' });
+        const objectUrl = URL.createObjectURL(blob);
+        const anchor = document.createElement('a');
+        anchor.href = objectUrl;
+        anchor.download = 'finalized-artwork-style.json';
+        document.body.appendChild(anchor);
+        anchor.click();
+        anchor.remove();
+        setTimeout(() => URL.revokeObjectURL(objectUrl), 0);
+        tuneStatus.textContent = 'Download requested · use Copy JSON if preview blocks it';
+      });
+    })();
+  </script>
+</body>
+</html>

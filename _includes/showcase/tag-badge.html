@@ -1,6 +1,0 @@
-{% assign tag = site.tags | where:"tag-id", include.tag_id | first %}
-{% if tag %}
-<span class="badge project-tag project-tag-{{ tag.tag-id }}">
-  {{ tag.tag-title }}
-</span>
-{% endif %}

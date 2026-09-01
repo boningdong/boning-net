@@ -1,0 +1,14 @@
+{% assign newest_project = include.projects | first %}
+{% assign oldest_project = include.projects | last %}
+<header class="projects-hero" id="top">
+  <img class="projects-hero-image" src="{{ '/assets/img/showcase/projects-banner-hd-v2.jpg' | relative_url }}" alt="Hand-drawn engineering sketches on dark blue blueprint paper" fetchpriority="high">
+  <div class="projects-hero-copy">
+    <h1>
+      <span>Projects</span>
+      <span class="projects-hero-separator" aria-hidden="true">-</span>
+      <span>Ideas made tangible</span>
+    </h1>
+    <p><span>Hardware</span><span>Software</span><span>Experiments</span></p>
+  </div>
+  <span class="projects-hero-index">{{ oldest_project.date | date: "%Y" }}—{{ newest_project.date | date: "%Y" }}</span>
+</header>

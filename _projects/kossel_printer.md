@@ -1,43 +1,40 @@
 ---
-layout: project-post
+layout: project-detail
 title: Kossel 3D Printer
-subtitle: A self-made high precision 3D printer.
+subtitle: A self-built, high-precision delta 3D printer.
 date: 2016-08-18
-cover: "/assets/img/projects/kossel_cover.jpg"
+cover: "/assets/img/projects/kossel_printer/cover.jpg"
 tags:
     - hardware
     - 3dprinter
     - mechanical
 ---
-# Description
-Kossel is a parametric delta robot 3D printer, built-in 2012 by Johann in Seattle, USA, based on his Rostock prototype. It is named after Albrecht Kossel, German biochemist and pioneer in the study of genetics. The philosophy of Kossel 3D printer is to enable itself to print other Kossel 3D printer, in other words, self-producing. It is this idea that inspired me to build my own Kossel 3D printer.
-<div class="row d-flex">
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_1.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_9.jpg" alt="{{ page.title }} image">
-    </div>
-</div>
-I initially have a Kossel 3D printer, but because of its low print quality, I determined to use this printer to build another one. For the new 3D printer, I replaced the original roller wheel slide blocks to linear rail slide blocks to increase the accuracy. In addition to that, I 3D modeled a customized effector to mount two fans.
+Rebuild a delta printer around precision instead of compromise.
+
+I rebuilt an existing Kossel printer with linear rails and a custom dual-fan effector to improve print quality.
+
+# Context
+
+Kossel is a parametric delta robot 3D printer, built in 2012 by Johann in Seattle, USA, based on his Rostock prototype. It is named after Albrecht Kossel, a German biochemist and pioneer in the study of genetics. The philosophy of the Kossel 3D printer is to enable it to print other Kossel 3D printers—in other words, to be self-replicating. This idea inspired me to build my own Kossel 3D printer.
+
+![Original Kossel printer](/assets/img/projects/kossel_printer/kossel_1.jpg "Original Kossel printer")
+
+# Build
+
+I initially had a Kossel 3D printer, but its low print quality motivated me to use it to build another one. For the new printer, I replaced the original roller-wheel slide blocks with linear rail slide blocks to increase accuracy. I also modeled a custom effector that mounts two fans.
+
+![Rebuilt printer frame](/assets/img/projects/kossel_printer/kossel_9.jpg "Rebuilt printer frame")
+
 Here are some of the parts I modeled and printed:
-<div class="row d-flex">
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_2.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_4.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_5.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_3.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_7.jpg" alt="{{ page.title }} image">
-    </div>
-    <div class="col-lg-6">
-        <img class="project-photo mx-auto my-2 my-md-4" src="{{ site.baseurl }}/assets/img/projects/kossel_6.jpg" alt="{{ page.title }} image">
-    </div>
-</div>
+
+![Extruder assembly](/assets/img/projects/kossel_printer/kossel_2.jpg "Extruder assembly")
+
+![Spool holder](/assets/img/projects/kossel_printer/kossel_4.jpg "Spool holder")
+
+![Electronics enclosure](/assets/img/projects/kossel_printer/kossel_5.jpg "Electronics enclosure")
+
+![USB and power ports](/assets/img/projects/kossel_printer/kossel_3.jpg "USB and power ports")
+
+![Dual-fan effector model](/assets/img/projects/kossel_printer/kossel_7.jpg "Dual-fan effector model")
+
+![Dual-fan effector](/assets/img/projects/kossel_printer/kossel_6.jpg "Dual-fan effector")

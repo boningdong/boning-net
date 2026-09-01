@@ -1,0 +1,39 @@
+{% assign generated = page.project_detail_generated %}
+{% if include.variant == "desktop" and generated.navigation_enabled %}
+    <nav class="project-chapter-nav" aria-label="Project chapters" data-project-chapter-nav>
+      <p class="project-chapter-nav-label">Chapters</p>
+      <ol>
+        {% for chapter in generated.chapters %}
+          <li>
+            <a href="#{{ chapter.id | escape }}" data-project-chapter-link="{{ chapter.id | escape }}"{% if forloop.first %} aria-current="location"{% endif %}>
+              <span>{{ chapter.index | prepend: "0" | slice: -2, 2 }}</span>
+              {{ chapter.title | escape }}
+            </a>
+          </li>
+        {% endfor %}
+      </ol>
+    </nav>
+{% elsif include.variant == "corner" and generated.corner_navigation_enabled %}
+    <div class="project-corner" data-project-corner hidden>
+      <button class="project-corner-trigger" type="button" aria-haspopup="dialog" aria-controls="project-corner-dialog" aria-label="Open project chapters, chapter 1 of {{ generated.chapters.size }}" data-project-corner-trigger>
+        <span class="project-corner-glyph" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span data-project-corner-count>1 / {{ generated.chapters.size }}</span>
+      </button>
+      <dialog class="project-corner-dialog" id="project-corner-dialog" aria-labelledby="project-corner-title" data-project-corner-dialog>
+        <div class="project-corner-dialog-head">
+          <h2 id="project-corner-title">Contents</h2>
+          <button type="button" aria-label="Close project chapters" data-project-corner-close><span aria-hidden="true"></span></button>
+        </div>
+        <ol>
+          {% for chapter in generated.chapters %}
+            <li>
+              <a href="#{{ chapter.id | escape }}" data-project-chapter-link="{{ chapter.id | escape }}"{% if forloop.first %} aria-current="location"{% endif %}>
+                <small>{{ chapter.index | prepend: "0" | slice: -2, 2 }}</small>
+                <span>{{ chapter.title | escape }}</span>
+              </a>
+            </li>
+          {% endfor %}
+        </ol>
+      </dialog>
+    </div>
+{% endif %}

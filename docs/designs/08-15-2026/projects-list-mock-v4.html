@@ -1,0 +1,484 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Projects · Boning Dong</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Instrument+Sans:wght@400..700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink:#202a30;
+      --ink-soft:#607078;
+      --paper:#fbfcfc;
+      --mist:#f0f3f4;
+      --line:#dbe2e4;
+      --radius:26px;
+      --card-gap:28px;
+      --mobile-card-gap:calc(var(--card-gap) * .75);
+      --section-space:112px;
+      --mobile-section-space:calc(var(--section-space) * .72);
+      --mist-continuity-space:80px;
+      --mobile-mist-continuity-space:calc(var(--mist-continuity-space) * .72);
+      --lift:5px;
+      --surface:248 251 251;
+      --surface-opacity:.7;
+      --card-surface:255 255 255;
+      --card-opacity:.58;
+      --card-blur:22px;
+      --highlight:.35;
+      --shadow-alpha:.1;
+      --nav-height:46px;
+      --nav-opacity:.48;
+      --nav-blur:8px;
+      --nav-padding:24px;
+      --page-hero-side-shade:.34;
+      --page-hero-edge-shade:.08;
+      --page-hero-top-shade:.04;
+      --page-hero-mid-shade:.02;
+      --page-hero-bottom-shade:.34;
+      --project-card-height:450px;
+      --project-footer-padding:22px;
+      --description-tags-gap:16px;
+      --display:"Instrument Sans","Avenir Next",sans-serif;
+      --body:"Source Sans 3","Helvetica Neue",sans-serif;
+      --utility:"IBM Plex Mono",ui-monospace,monospace;
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);-webkit-font-smoothing:antialiased;transition:background 220ms ease}
+    body.background-mist{background:#f1f4f4}
+    .archive-band{position:relative;isolation:isolate;overflow:hidden;border-top:1px solid transparent;border-bottom:1px solid transparent;transition:background 220ms ease,border-color 220ms ease}
+    .archive-band::before{position:absolute;z-index:-1;inset:0;background:radial-gradient(circle at 76% 22%,rgb(255 255 255/.68),transparent 36%);content:"";opacity:0;transition:opacity 220ms ease;pointer-events:none}
+    body.background-sectioned .archive-band{border-color:rgb(178 193 198/.22);background:linear-gradient(155deg,#edf1f2 0%,#f6f8f8 55%,#e9eef0 100%)}
+    body.background-sectioned .archive-band::before{opacity:1}
+    body.background-mist main > .section:first-child{padding-bottom:0}
+    body.background-mist .archive-band{border-width:0}
+    body.background-mist .archive-section{padding-top:var(--mist-continuity-space)}
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    img{display:block;width:100%;height:100%;object-fit:cover}
+
+    .nav-shell{position:fixed;z-index:20;top:14px;left:50%;width:min(1120px,calc(100% - 24px));transform:translateX(-50%);pointer-events:none}
+    .site-nav{position:relative;height:var(--nav-height);display:flex;align-items:center;justify-content:space-between;width:100%;padding:0 var(--nav-padding);border:1px solid transparent;border-radius:999px;background:transparent;color:#f7fafa;text-shadow:0 1px 8px rgb(0 0 0/.5);pointer-events:auto;transition:background 240ms ease,border-color 240ms ease,box-shadow 240ms ease,backdrop-filter 240ms ease,color 180ms ease}
+    .site-nav.surface-visible{border-color:rgb(255 255 255/var(--highlight));background:rgb(var(--surface)/var(--nav-opacity));box-shadow:inset 0 1px rgb(255 255 255/var(--highlight)),0 10px 30px rgb(35 49 55/var(--shadow-alpha));color:rgb(14 20 23/.95);text-shadow:none;backdrop-filter:blur(var(--nav-blur)) saturate(1.04);-webkit-backdrop-filter:blur(var(--nav-blur)) saturate(1.04)}
+    .site-name{font-family:var(--display);font-size:13px;font-weight:650;letter-spacing:-.015em;white-space:nowrap}
+    .nav-links{height:100%;display:flex;align-items:center;gap:clamp(18px,2.6vw,36px);font-family:var(--display);font-size:13px;font-weight:560;letter-spacing:.005em}
+    .nav-links a{position:relative;padding:8px 0;color:inherit;opacity:.75;transition:opacity 180ms ease}
+    .nav-links a:hover,.nav-links a.active{opacity:1}
+    .nav-links a::after{position:absolute;right:100%;bottom:2px;left:0;height:1px;background:currentColor;content:"";transition:right 180ms ease}
+    .nav-links a:hover::after,.nav-links a.active::after{right:0}
+    .menu-trigger,.menu-panel{display:none}
+
+    .page-hero{position:relative;min-height:60svh;display:grid;place-items:center;overflow:hidden;background:linear-gradient(90deg,rgb(10 18 22/var(--page-hero-side-shade)),rgb(10 18 22/var(--page-hero-edge-shade))),url('/files/project-1.jpg') center 46%/cover no-repeat;color:#fff}
+    .page-hero::after{position:absolute;inset:0;background:linear-gradient(180deg,rgb(9 16 20/var(--page-hero-top-shade)) 0%,rgb(9 16 20/var(--page-hero-mid-shade)) 55%,rgb(9 16 20/var(--page-hero-bottom-shade)) 100%);content:""}
+    .hero-copy{position:relative;z-index:1;width:min(1120px,calc(100% - 48px));padding-top:38px;text-align:center}
+    .hero-title{margin:0;font-family:var(--display);font-size:clamp(28px,3vw,32px);font-weight:480;line-height:1;letter-spacing:-.045em;text-shadow:0 3px 22px rgb(0 0 0/.32)}
+    .hero-separator{display:inline-block;margin:0 .22em;color:rgb(255 255 255/.7);font-weight:400}
+    .hero-meta{margin:18px 0 0;color:rgb(255 255 255/.84);font:600 10px/1.2 var(--utility);letter-spacing:.14em;text-transform:uppercase;text-shadow:0 2px 12px rgb(0 0 0/.5)}
+    .hero-meta span+span::before{margin:0 13px;color:rgb(255 255 255/.55);content:"/"}
+    .hero-index{position:absolute;right:24px;bottom:22px;z-index:1;color:rgb(255 255 255/.65);font:500 9px/1 var(--utility);letter-spacing:.12em;text-transform:uppercase}
+
+    main{overflow:hidden}
+    .section{width:min(1120px,calc(100% - 48px));margin:0 auto;padding:var(--section-space) 0}
+    .section-head{display:flex;align-items:flex-end;justify-content:space-between;gap:32px;margin-bottom:38px}
+    .section-kicker{display:block;margin-bottom:13px;color:#70848c;font:600 9px/1 var(--utility);letter-spacing:.13em;text-transform:uppercase}
+    .section-title{margin:0;font-family:var(--display);font-size:clamp(34px,4vw,50px);font-weight:650;line-height:.98;letter-spacing:-.055em}
+    .section-note{max-width:430px;margin:0;color:var(--ink-soft);font-size:15px;line-height:1.6}
+    .section-number{align-self:flex-start;color:#93a2a8;font:500 9px/1 var(--utility);letter-spacing:.12em}
+
+    .featured-grid{display:grid;grid-template-columns:1.65fr 1fr;grid-template-rows:repeat(2,260px);gap:var(--card-gap)}
+    .project-card{position:relative;display:block;overflow:hidden;border:1px solid rgb(255 255 255/.72);border-radius:var(--radius);background:rgb(var(--surface)/.58);box-shadow:inset 0 1px rgb(255 255 255/.82),0 22px 55px rgb(35 49 55/var(--shadow-alpha));transform:translateY(0);transition:transform 220ms ease,box-shadow 220ms ease}
+    .project-card:hover{box-shadow:inset 0 1px rgb(255 255 255/.9),0 28px 65px rgb(35 49 55/.15);transform:translateY(calc(-1 * var(--lift)))}
+    .project-card::after{position:absolute;inset:28% 0 0;background:linear-gradient(180deg,transparent 0%,rgb(6 12 15/.78) 100%);content:"";pointer-events:none}
+    .project-card img{transition:transform 600ms cubic-bezier(.2,.7,.2,1),filter 260ms ease}
+    .project-card:hover img{transform:scale(1.018)}
+    .project-info{position:absolute;right:0;bottom:0;left:0;z-index:1;padding:24px 26px;color:#fff}
+    .project-info small{display:block;margin-bottom:8px;color:rgb(255 255 255/.68);font:600 8px/1 var(--utility);letter-spacing:.13em;text-transform:uppercase}
+    .project-info h3{margin:0;font-family:var(--display);font-size:24px;font-weight:580;line-height:1.05;letter-spacing:-.04em}
+    .project-info p{margin:8px 0 0;color:rgb(255 255 255/.76);font-size:13px;line-height:1.35}
+    .featured-primary{grid-row:1/3}
+    .featured-primary img{object-fit:contain;background:#f8fafb;padding:4%}
+    .featured-primary::after{inset:45% 0 0}
+    .featured-primary .project-info h3{font-size:clamp(28px,3vw,38px)}
+
+    .archive-head{align-items:center;margin-bottom:22px}
+    .filter-system{margin-bottom:34px}
+    .filter-row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px}
+    .filters{display:flex;flex-wrap:wrap;align-items:center;gap:9px;max-width:760px}
+    .filter{border:1px solid #d4dee1;border-radius:999px;padding:9px 13px;background:rgb(255 255 255/.48);color:#6c7d84;font:560 11px/1 var(--display);cursor:pointer;transition:border-color 160ms ease,background 160ms ease,color 160ms ease,transform 160ms ease}
+    .filter:hover{border-color:#aabcc2;transform:translateY(-1px)}
+    .filter.active{border-color:#536c76;background:#536c76;color:#fff}
+    .more-toggle{display:inline-flex;align-items:center;gap:7px}
+    .more-toggle span{font-size:12px;transition:transform 180ms ease}
+    .more-toggle[aria-expanded="true"] span{transform:rotate(45deg)}
+    .result-count{color:#829198;font:500 9px/1 var(--utility);letter-spacing:.08em;text-transform:uppercase;white-space:nowrap}
+    .archive-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--card-gap)}
+    .archive-card{position:relative;min-width:0;height:var(--project-card-height);display:flex;flex-direction:column;overflow:hidden;border:1px solid rgb(255 255 255/.78);border-radius:var(--radius);background:rgb(var(--card-surface)/var(--card-opacity));box-shadow:inset 0 1px rgb(255 255 255/.9),0 22px 55px rgb(35 49 55/var(--shadow-alpha));backdrop-filter:blur(var(--card-blur)) saturate(1.08);-webkit-backdrop-filter:blur(var(--card-blur)) saturate(1.08);transition:height 180ms ease,transform 220ms ease,box-shadow 220ms ease}
+    .archive-card:hover{box-shadow:inset 0 1px rgb(255 255 255/.95),0 28px 65px rgb(35 49 55/.15);transform:translateY(calc(-1 * var(--lift)))}
+    .archive-image{position:relative;height:220px;flex:0 0 220px;overflow:hidden;background:#eef2f3}
+    .archive-copy{position:relative;display:flex;flex:1;flex-direction:column;padding:var(--project-footer-padding);border-top:1px solid rgb(255 255 255/.82);box-shadow:inset 0 1px rgb(112 133 141/.08);transition:padding 180ms ease}
+    .archive-copy::before{position:absolute;top:-1px;right:9%;left:9%;height:1px;background:linear-gradient(90deg,transparent,rgb(103 125 134/.3),transparent);content:""}
+    .archive-meta{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:8px;color:#7b8b92;font:600 8px/1 var(--utility);letter-spacing:.1em;text-transform:uppercase}
+    .archive-copy h3{margin:0;font-family:var(--display);font-size:20px;font-weight:580;line-height:1.08;letter-spacing:-.035em}
+    .archive-copy p{margin:7px 0 var(--description-tags-gap);color:#6c7b82;font-size:13px;line-height:1.4;transition:margin 180ms ease}
+    .card-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto}
+    .card-tag{border:1px solid #d6dfe2;border-radius:999px;padding:5px 8px;color:#687a82;font:600 7px/1 var(--utility);letter-spacing:.06em;text-transform:uppercase}
+    .card-tag.more{border-color:transparent;padding-right:2px;color:#8b989e}
+    .archive-card[hidden]{display:none}
+
+    .tune-panel{position:fixed;right:20px;bottom:18px;z-index:40;width:min(310px,calc(100vw - 28px));font-family:var(--display)}
+    .tune-panel summary{width:max-content;margin-left:auto;list-style:none;border:1px solid rgb(255 255 255/.8);border-radius:999px;padding:12px 17px;background:rgb(248 251 251/.76);box-shadow:inset 0 1px rgb(255 255 255/.9),0 12px 34px rgb(35 49 55/.12);color:#40545d;font-size:12px;font-weight:600;cursor:pointer;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+    .tune-panel summary::-webkit-details-marker{display:none}
+    .tune-body{position:absolute;right:0;bottom:calc(100% + 9px);width:100%;border:1px solid rgb(255 255 255/.82);border-radius:24px;padding:16px;background:rgb(248 251 251/.86);box-shadow:inset 0 1px rgb(255 255 255/.95),0 24px 65px rgb(35 49 55/.16);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+    .tune-actions{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:15px}
+    .tune-action,.tune-option{border:1px solid #d5dfe2;border-radius:10px;padding:8px;background:rgb(255 255 255/.5);color:#587079;font-size:9px;font-weight:600;cursor:pointer}
+    .tune-action.primary,.tune-option.active{border-color:#5d747d;background:#5d747d;color:#fff}
+    .tune-status{grid-column:1/-1;min-height:12px;color:#778990;font:500 8px/1.2 var(--utility);text-align:center}
+    .tune-group+.tune-group{margin-top:15px;padding-top:15px;border-top:1px solid #dde4e6}
+    .tune-label{display:block;margin-bottom:9px;color:#708188;font:600 8px/1 var(--utility);letter-spacing:.1em;text-transform:uppercase}
+    .tune-options{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+    .tune-options.four{grid-template-columns:repeat(4,1fr)}
+    .tune-range{display:grid;grid-template-columns:1fr auto;gap:7px;align-items:center}
+    .tune-range+.tune-range{margin-top:11px}
+    .tune-range label{color:#61747c;font-size:10px;font-weight:540}
+    .tune-range output{color:#7c9098;font:500 8px/1 var(--utility)}
+    .tune-range input{grid-column:1/-1;width:100%;height:3px;margin:2px 0 4px;appearance:none;border-radius:999px;background:#cad5d8;accent-color:#667f89}
+    .tune-range input::-webkit-slider-thumb{width:15px;height:15px;appearance:none;border:2px solid rgb(255 255 255/.92);border-radius:50%;background:#667f89;box-shadow:0 2px 8px rgb(44 62 69/.18)}
+
+    .page-footer{margin-top:0;padding:74px 24px;background:#162126;color:#e9eeef;text-align:center}
+    .page-footer p{margin:0;color:#aab8bd;font-size:13px}
+    .page-footer a{display:inline-block;margin-top:16px;border-bottom:1px solid rgb(255 255 255/.4);font:600 9px/2 var(--utility);letter-spacing:.12em;text-transform:uppercase}
+
+    @media(max-width:850px){
+      .featured-grid{grid-template-columns:1.35fr 1fr;grid-template-rows:repeat(2,220px)}
+      .archive-grid{grid-template-columns:repeat(2,1fr)}
+      .section-head{align-items:flex-start}
+    }
+    @media(max-width:640px){
+      .nav-shell{top:10px}
+      .nav-links{display:none}
+      .menu-trigger{display:inline-flex;align-items:center;justify-content:center;height:38px;min-width:70px;border:1px solid transparent;border-radius:999px;padding:0 12px;background:transparent;color:inherit;font:560 13px/1 var(--display)}
+      .page-hero{min-height:54svh;background-position:44% center}
+      .hero-title{max-width:300px;margin:auto;line-height:1.15}
+      .hero-meta span{display:block}
+      .hero-meta span+span::before{display:none}
+      .hero-meta{display:grid;gap:7px}
+      .hero-index{display:none}
+      .section{width:min(100% - 28px,1120px);padding:var(--mobile-section-space) 0}
+      body.background-mist .archive-section{padding-top:var(--mobile-mist-continuity-space)}
+      .section-head{display:block;margin-bottom:28px}
+      .section-note{margin-top:18px}
+      .section-number{display:none}
+      .featured-grid{display:grid;grid-template-columns:1fr;grid-template-rows:360px 220px 220px;gap:var(--mobile-card-gap)}
+      .featured-primary{grid-row:auto}
+      .archive-head{display:grid;gap:24px}
+      .filter-row{display:block}
+      .filters{max-width:100%;gap:9px;overflow-x:auto}
+      .result-count{display:block;margin-top:12px;padding:0}
+      .archive-grid{grid-template-columns:1fr;gap:var(--mobile-card-gap)}
+      .archive-card{height:auto;min-height:var(--project-card-height)}
+      .archive-image{height:auto;flex-basis:auto;aspect-ratio:1.35/1}
+    }
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important}}
+  </style>
+</head>
+<body class="background-mist">
+  <div class="nav-shell">
+    <nav class="site-nav" aria-label="Primary navigation">
+      <a class="site-name" href="homepage-mock-v3.html">Boning Dong</a>
+      <div class="nav-links">
+        <a class="active" href="#top">Projects</a>
+        <a href="#">Artwork</a>
+        <a href="#">Album</a>
+        <a href="homepage-mock-v3.html#notes">Notes</a>
+        <a href="#">Experiences</a>
+      </div>
+      <button class="menu-trigger" type="button">Menu</button>
+    </nav>
+  </div>
+
+  <header class="page-hero" id="top">
+    <div class="hero-copy">
+      <h1 class="hero-title"><span>Projects</span><span class="hero-separator" aria-hidden="true">-</span><span>Ideas made tangible</span></h1>
+      <p class="hero-meta"><span>Systems</span><span>Tools</span><span>Experiments</span></p>
+    </div>
+    <span class="hero-index">Selected work / 2016—2022</span>
+  </header>
+
+  <main>
+    <section class="section">
+      <div class="section-head">
+        <div><span class="section-kicker">A closer look</span><h2 class="section-title">Highlights</h2></div>
+        <span class="section-number">01 / 02</span>
+      </div>
+      <div class="featured-grid">
+        <a class="project-card featured-primary" href="#" aria-label="View Scopen">
+          <img src="/files/projects-scopen.png" alt="Scopen wireless oscilloscope">
+          <div class="project-info"><small>Embedded systems · 2020</small><h3>Scopen</h3><p>A wireless oscilloscope shaped like a pen.</p></div>
+        </a>
+        <a class="project-card" href="#" aria-label="View AI Chatbot Avatar">
+          <img src="/files/projects-chatbot.jpg" alt="AI Chatbot Avatar">
+          <div class="project-info"><small>AI + Unity · 2022</small><h3>AI Chatbot Avatar</h3><p>Interactive story creation through a 3D character.</p></div>
+        </a>
+        <a class="project-card" href="#" aria-label="View AR Domino">
+          <img src="/files/projects-domino.jpg" alt="AR Domino">
+          <div class="project-info"><small>AR + Game · 2021</small><h3>AR Domino</h3><p>A physical-feeling domino system built in Unity.</p></div>
+        </a>
+      </div>
+    </section>
+
+    <div class="archive-band">
+    <section class="section archive-section">
+      <div class="section-head archive-head">
+        <div><span class="section-kicker">The archive</span><h2 class="section-title">Projects</h2></div>
+        <span class="section-number">02 / 02</span>
+      </div>
+      <div class="filter-system">
+        <div class="filter-row">
+          <div class="filters" role="tablist" aria-label="Filter projects by tag">
+            <button class="filter tag-filter active" type="button" data-filter="all">All</button>
+            <button class="filter tag-filter" type="button" data-filter="hardware">Hardware</button>
+            <button class="filter tag-filter" type="button" data-filter="software">Software</button>
+            <button class="filter tag-filter" type="button" data-filter="embedded">Embedded</button>
+            <button class="filter tag-filter" type="button" data-filter="pcb">PCB</button>
+            <button class="filter tag-filter" type="button" data-filter="firmware">Firmware</button>
+            <button class="filter tag-filter" type="button" data-filter="c">C</button>
+            <button class="filter tag-filter" type="button" data-filter="system-design">System design</button>
+            <button class="filter tag-filter" type="button" data-filter="java">Java</button>
+            <button class="filter tag-filter" type="button" data-filter="unity">Unity</button>
+            <button class="filter tag-filter" type="button" data-filter="ar">AR</button>
+            <button class="filter tag-filter" type="button" data-filter="game">Game</button>
+            <button class="filter tag-filter" type="button" data-filter="ai">AI</button>
+            <button class="filter tag-filter" type="button" data-filter="android">Android</button>
+            <button class="filter tag-filter" type="button" data-filter="mechanical">Mechanical</button>
+            <button class="filter tag-filter" type="button" data-filter="3dprinter">3D printer</button>
+            <button class="filter more-toggle" type="button" aria-expanded="false">More <span aria-hidden="true">+</span></button>
+          </div>
+          <span class="result-count" aria-live="polite">12 projects</span>
+        </div>
+      </div>
+      <div class="archive-grid">
+        <a class="archive-card" href="#" data-tags="hardware system-design firmware embedded c pcb java"><div class="archive-image"><img src="/files/projects-scopen.png" alt="Scopen wireless oscilloscope"></div><div class="archive-copy"><div class="archive-meta"><span>Embedded systems</span><span>2020</span></div><h3>Scopen</h3><p>A wireless oscilloscope shaped like a pen.</p><div class="card-tags"><span class="card-tag">Hardware</span><span class="card-tag">Embedded</span><span class="card-tag">PCB</span><span class="card-tag more">+4</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="unity ai game software"><div class="archive-image"><img src="/files/projects-chatbot.jpg" alt="AI Chatbot Avatar"></div><div class="archive-copy"><div class="archive-meta"><span>AI + Unity</span><span>2022</span></div><h3>AI Chatbot Avatar</h3><p>A 3D avatar for interactive story creation.</p><div class="card-tags"><span class="card-tag">Unity</span><span class="card-tag">AI</span><span class="card-tag">Software</span><span class="card-tag more">+1</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="unity ar game software"><div class="archive-image"><img src="/files/projects-domino.jpg" alt="AR Domino"></div><div class="archive-copy"><div class="archive-meta"><span>AR + Game</span><span>2021</span></div><h3>AR Domino</h3><p>A physical-feeling domino system built in Unity.</p><div class="card-tags"><span class="card-tag">AR</span><span class="card-tag">Unity</span><span class="card-tag">Game</span><span class="card-tag more">+1</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="hardware pcb"><div class="archive-image"><img src="/files/projects-tesla.jpg" alt="Tesla coil"></div><div class="archive-copy"><div class="archive-meta"><span>Hardware</span><span>2018</span></div><h3>Dual Resonant Tesla Coil</h3><p>High-frequency engineering capable of playing music with lightning.</p><div class="card-tags"><span class="card-tag">Hardware</span><span class="card-tag">PCB</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="software ar"><div class="archive-image"><img src="/files/projects-trends.png" alt="Programming language trend visualization"></div><div class="archive-copy"><div class="archive-meta"><span>Data visualization</span><span>2020</span></div><h3>Programming Languages Trend</h3><p>A visual study of Seattle Library circulation data.</p><div class="card-tags"><span class="card-tag">Software</span><span class="card-tag">AR</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="hardware system-design firmware embedded c pcb"><div class="archive-image"><img src="/files/projects-nes.jpg" alt="NES emulator console"></div><div class="archive-copy"><div class="archive-meta"><span>Embedded systems</span><span>2019</span></div><h3>NES Emulator</h3><p>A custom console that runs classic NES games.</p><div class="card-tags"><span class="card-tag">Hardware</span><span class="card-tag">Embedded</span><span class="card-tag">Firmware</span><span class="card-tag more">+3</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="hardware system-design firmware embedded c pcb"><div class="archive-image"><img src="/files/projects-watch.jpg" alt="Simple Watch"></div><div class="archive-copy"><div class="archive-meta"><span>Wearable hardware</span><span>2018</span></div><h3>Simple Watch</h3><p>A smartwatch designed across hardware, firmware, and form.</p><div class="card-tags"><span class="card-tag">Hardware</span><span class="card-tag">Embedded</span><span class="card-tag">PCB</span><span class="card-tag more">+3</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="software java"><div class="archive-image"><img src="/files/projects-ecosystem.jpg" alt="Java ecosystem simulator"></div><div class="archive-copy"><div class="archive-meta"><span>Simulation</span><span>2018</span></div><h3>Java Ecosystem Simulator</h3><p>An experiment in individual and group relationships.</p><div class="card-tags"><span class="card-tag">Software</span><span class="card-tag">Java</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="hardware 3dprinter mechanical"><div class="archive-image"><img src="/files/projects-kossel.jpg" alt="Kossel 3D printer"></div><div class="archive-copy"><div class="archive-meta"><span>Mechanical</span><span>2016</span></div><h3>Kossel 3D Printer</h3><p>A self-built delta printer tuned for precision.</p><div class="card-tags"><span class="card-tag">Hardware</span><span class="card-tag">Mechanical</span><span class="card-tag">3D printer</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="hardware firmware embedded c pcb"><div class="archive-image"><img src="/files/projects-msp430.jpg" alt="MSP430 development board"></div><div class="archive-copy"><div class="archive-meta"><span>PCB + Firmware</span><span>2016</span></div><h3>MSP430 Development Board</h3><p>A compact platform for embedded development.</p><div class="card-tags"><span class="card-tag">Hardware</span><span class="card-tag">Firmware</span><span class="card-tag">PCB</span><span class="card-tag more">+2</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="software java android"><div class="archive-image"><img src="/files/projects-areusafe.jpg" alt="AreUSafe app"></div><div class="archive-copy"><div class="archive-meta"><span>Android</span><span>2017</span></div><h3>AreUSafe</h3><p>A mobile interface for finding safety information.</p><div class="card-tags"><span class="card-tag">Software</span><span class="card-tag">Java</span><span class="card-tag">Android</span></div></div></a>
+        <a class="archive-card" href="#" data-tags="hardware system-design firmware embedded c pcb"><div class="archive-image"><img src="/files/projects-smartlamp.jpg" alt="Smart Lamp"></div><div class="archive-copy"><div class="archive-meta"><span>Connected hardware</span><span>2016</span></div><h3>Smart Lamp</h3><p>A Bluetooth-controlled lamp built from electronics to enclosure.</p><div class="card-tags"><span class="card-tag">Hardware</span><span class="card-tag">Embedded</span><span class="card-tag">PCB</span><span class="card-tag more">+3</span></div></div></a>
+      </div>
+    </section>
+    </div>
+  </main>
+
+  <details class="tune-panel">
+    <summary>Tune</summary>
+    <div class="tune-body">
+      <div class="tune-actions">
+        <button class="tune-action" type="button" onclick="resetProjectsTuning()">Reset</button>
+        <button class="tune-action primary" type="button" onclick="saveProjectsDefault()">Save default</button>
+        <button class="tune-action" type="button" onclick="document.getElementById('projects-preset-input').click()">Import JSON</button>
+        <button class="tune-action" type="button" onclick="exportProjectsPreset()">Export JSON</button>
+        <input id="projects-preset-input" type="file" accept="application/json,.json" hidden onchange="importProjectsPreset(this)">
+        <span class="tune-status" id="tune-status" aria-live="polite"></span>
+      </div>
+      <div class="tune-group">
+        <span class="tune-label">Page background</span>
+        <div class="tune-options">
+          <button class="tune-option" type="button" data-background="paper" onclick="setProjectsBackground(this,'paper')">Paper</button>
+          <button class="tune-option active" type="button" data-background="mist" onclick="setProjectsBackground(this,'mist')">Mist</button>
+          <button class="tune-option" type="button" data-background="sectioned" onclick="setProjectsBackground(this,'sectioned')">Sectioned</button>
+        </div>
+      </div>
+      <div class="tune-group">
+        <span class="tune-label">Visible tag pills</span>
+        <div class="tune-options four">
+          <button class="tune-option" type="button" data-visible-tags="3" onclick="setVisibleTags(this,3)">3</button>
+          <button class="tune-option" type="button" data-visible-tags="4" onclick="setVisibleTags(this,4)">4</button>
+          <button class="tune-option" type="button" data-visible-tags="5" onclick="setVisibleTags(this,5)">5</button>
+          <button class="tune-option active" type="button" data-visible-tags="6" onclick="setVisibleTags(this,6)">6</button>
+        </div>
+      </div>
+      <div class="tune-group">
+        <div class="tune-range"><label for="project-card-height">Card height</label><output id="project-card-height-value">450px</output><input id="project-card-height" type="range" min="400" max="520" step="10" value="450" oninput="setProjectsRange('--project-card-height',this.value+'px','project-card-height-value',this.value+'px')"></div>
+        <div class="tune-range"><label for="project-footer-padding">Footer padding</label><output id="project-footer-padding-value">22px</output><input id="project-footer-padding" type="range" min="14" max="32" value="22" oninput="setProjectsRange('--project-footer-padding',this.value+'px','project-footer-padding-value',this.value+'px')"></div>
+        <div class="tune-range"><label for="description-tags-gap">Description–tags gap</label><output id="description-tags-gap-value">16px</output><input id="description-tags-gap" type="range" min="8" max="40" step="2" value="16" oninput="setProjectsRange('--description-tags-gap',this.value+'px','description-tags-gap-value',this.value+'px')"></div>
+      </div>
+    </div>
+  </details>
+
+  <footer class="page-footer"><p>Engineering, artwork, and ideas—made carefully.</p><a href="homepage-mock-v3.html">Return home</a></footer>
+
+  <script>
+    const nav=document.querySelector('.site-nav');
+    function syncNav(){nav.classList.toggle('surface-visible',window.scrollY>24)}
+    window.addEventListener('scroll',syncNav,{passive:true});
+    syncNav();
+    const projectCards=Array.from(document.querySelectorAll('.archive-card'));
+    const resultCount=document.querySelector('.result-count');
+    const tagFilters=Array.from(document.querySelectorAll('.tag-filter'));
+    const moreToggle=document.querySelector('.more-toggle');
+    const projectsStorageKey='boning-projects-design-lab-default-v1';
+    let visibleTagSetting=6;
+    let tagsExpanded=false;
+    let projectsStatusTimer;
+
+    function applyProjectFilter(button){
+      const tag=button.dataset.filter;
+      document.querySelectorAll('.filter[data-filter]').forEach(function(item){item.classList.remove('active')});
+      button.classList.add('active');
+      let visible=0;
+      projectCards.forEach(function(card){
+        const matches=tag==='all'||card.dataset.tags.split(' ').includes(tag);
+        card.hidden=!matches;
+        if(matches) visible+=1;
+      });
+      resultCount.textContent=visible+(visible===1?' project':' projects');
+    }
+
+    document.querySelectorAll('.filter[data-filter]').forEach(function(button){
+      button.addEventListener('click',function(){applyProjectFilter(button)});
+    });
+
+    function effectiveVisibleTags(){
+      if(window.innerWidth<=640)return Math.min(visibleTagSetting,3);
+      if(window.innerWidth<=850)return Math.min(visibleTagSetting,4);
+      return visibleTagSetting;
+    }
+
+    function renderTagPills(){
+      const visibleFilters=Math.max(2,effectiveVisibleTags())-1;
+      tagFilters.forEach(function(button,index){button.hidden=!tagsExpanded&&index>=visibleFilters});
+      const activeIndex=tagFilters.findIndex(function(button){return button.classList.contains('active')});
+      moreToggle.classList.toggle('active',!tagsExpanded&&activeIndex>=visibleFilters);
+      moreToggle.setAttribute('aria-expanded',String(tagsExpanded));
+      moreToggle.childNodes[0].nodeValue=tagsExpanded?'Less ':'More ';
+    }
+
+    moreToggle.addEventListener('click',function(){
+      tagsExpanded=!tagsExpanded;
+      renderTagPills();
+    });
+    window.addEventListener('resize',renderTagPills);
+
+    function setProjectsBackground(button,name){
+      document.body.classList.remove('background-paper','background-mist','background-sectioned');
+      document.body.classList.add('background-'+name);
+      document.querySelectorAll('[data-background]').forEach(function(option){option.classList.remove('active')});
+      button.classList.add('active');
+    }
+
+    function setVisibleTags(button,count){
+      visibleTagSetting=Number(count);
+      document.querySelectorAll('[data-visible-tags]').forEach(function(option){option.classList.remove('active')});
+      button.classList.add('active');
+      renderTagPills();
+    }
+
+    function setProjectsRange(property,value,outputId,outputValue){
+      document.documentElement.style.setProperty(property,value);
+      document.getElementById(outputId).textContent=outputValue;
+    }
+
+    function captureProjectsTuning(){
+      const background=['paper','mist','sectioned'].find(function(name){return document.body.classList.contains('background-'+name)})||'sectioned';
+      return {
+        background:background,
+        visibleTags:visibleTagSetting,
+        ranges:{
+          cardHeight:document.getElementById('project-card-height').value,
+          footerPadding:document.getElementById('project-footer-padding').value,
+          descriptionTagsGap:document.getElementById('description-tags-gap').value
+        }
+      };
+    }
+
+    function applyProjectsTuning(state){
+      if(!state)return;
+      const backgroundButton=document.querySelector('[data-background="'+state.background+'"]');
+      if(backgroundButton)setProjectsBackground(backgroundButton,state.background);
+      const visibleButton=document.querySelector('[data-visible-tags="'+state.visibleTags+'"]');
+      if(visibleButton)setVisibleTags(visibleButton,Number(state.visibleTags));
+      const ranges=state.ranges||{};
+      const bindings=[
+        ['project-card-height',ranges.cardHeight,'--project-card-height','project-card-height-value','px'],
+        ['project-footer-padding',ranges.footerPadding,'--project-footer-padding','project-footer-padding-value','px'],
+        ['description-tags-gap',ranges.descriptionTagsGap,'--description-tags-gap','description-tags-gap-value','px']
+      ];
+      bindings.forEach(function(binding){
+        if(binding[1]===undefined)return;
+        const input=document.getElementById(binding[0]);
+        input.value=binding[1];
+        setProjectsRange(binding[2],input.value+binding[4],binding[3],input.value+binding[4]);
+      });
+    }
+
+    function showProjectsStatus(message){
+      const status=document.getElementById('tune-status');
+      status.textContent=message;
+      clearTimeout(projectsStatusTimer);
+      projectsStatusTimer=setTimeout(function(){status.textContent=''},2400);
+    }
+
+    function saveProjectsDefault(){
+      localStorage.setItem(projectsStorageKey,JSON.stringify(captureProjectsTuning()));
+      showProjectsStatus('Saved · returns after refresh');
+    }
+
+    function resetProjectsTuning(){
+      localStorage.removeItem(projectsStorageKey);
+      applyProjectsTuning(hardCodedProjectsTuning);
+      showProjectsStatus('Reset · original defaults restored');
+    }
+
+    function exportProjectsPreset(){
+      const preset={schemaVersion:1,kind:'boning-net-projects-style-preset',source:'projects-list-hierarchy-v4',exportedAt:new Date().toISOString(),tuning:captureProjectsTuning()};
+      const blob=new Blob([JSON.stringify(preset,null,2)],{type:'application/json'});
+      const url=URL.createObjectURL(blob);
+      const link=document.createElement('a');
+      link.href=url;
+      link.download='boning-projects-style-preset.json';
+      link.click();
+      setTimeout(function(){URL.revokeObjectURL(url)},0);
+      showProjectsStatus('Exported · JSON downloaded');
+    }
+
+    function parseProjectsPreset(text){
+      const preset=JSON.parse(text);
+      if(preset.schemaVersion!==1||preset.kind!=='boning-net-projects-style-preset'||!preset.tuning)throw new Error('Unsupported Projects preset');
+      return preset.tuning;
+    }
+
+    async function importProjectsPreset(input){
+      const file=input.files&&input.files[0];
+      if(!file)return;
+      const previous=captureProjectsTuning();
+      try{
+        applyProjectsTuning(parseProjectsPreset(await file.text()));
+        showProjectsStatus('Imported · review before saving');
+      }catch(error){
+        applyProjectsTuning(previous);
+        showProjectsStatus('Import failed · invalid Projects preset');
+      }finally{
+        input.value='';
+      }
+    }
+
+    renderTagPills();
+    const hardCodedProjectsTuning=captureProjectsTuning();
+    try{
+      const savedProjectsTuning=localStorage.getItem(projectsStorageKey);
+      if(savedProjectsTuning)applyProjectsTuning(JSON.parse(savedProjectsTuning));
+    }catch(error){
+      localStorage.removeItem(projectsStorageKey);
+      applyProjectsTuning(hardCodedProjectsTuning);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,26 @@
+{% assign artwork = include.artwork %}
+{% assign medium = artwork.tags | first %}
+{% assign medium_tag = site.tags | where: "tag-id", medium | first %}
+{% assign medium_label = medium_tag.tag-title | default: medium %}
+{% capture artwork_meta %}{{ medium_label }} · {{ artwork.date | date: "%Y" }}{% endcapture %}
+{% if include.duplicate %}
+  <div class="artwork-card artwork-rail-card" data-highlight-artwork-duplicate aria-hidden="true" data-highlight-artwork-copy="{{ include.duplicate_group }}">
+    {% include components/responsive-image.html src=artwork.cover preset="artwork_rail" alt="" class="artwork-card-media" %}
+    <span class="artwork-label">
+      <b>{{ artwork.title }}</b>
+      <span>{{ medium_label }}<br>{{ artwork.date | date: "%Y" }}</span>
+    </span>
+  </div>
+{% else %}
+  <button class="artwork-card{% if include.context == 'highlight' %} artwork-rail-card{% else %} artwork-collection-card{% endif %}" type="button" data-artwork-trigger{% if include.context == 'highlight' %} data-highlight-artwork-card{% else %} data-collection-artwork-card data-medium="{{ medium }}"{% endif %} data-full="{{ artwork.location | relative_url }}" data-title="{{ artwork.title | escape }}" data-meta="{{ artwork_meta | strip | escape }}" aria-label="View {{ artwork.title | escape }}">
+    {% if include.context == "highlight" %}
+      {% include components/responsive-image.html src=artwork.cover preset="artwork_rail" alt=artwork.title class="artwork-card-media" %}
+    {% else %}
+      {% include components/responsive-image.html src=artwork.cover preset="grid_card" alt=artwork.title class="artwork-card-media" %}
+    {% endif %}
+    <span class="artwork-label">
+      <b>{{ artwork.title }}</b>
+      <span>{{ medium_label }}<br>{{ artwork.date | date: "%Y" }}</span>
+    </span>
+  </button>
+{% endif %}

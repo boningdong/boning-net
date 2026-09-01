@@ -1,0 +1,20 @@
+---
+layout: modern
+body_class: project-detail-page
+nav_active: projects
+footer_variant: compact
+scripts:
+  - /assets/js/pages/project-detail.js
+---
+<main class="project-detail" data-project-detail>
+  {% include pages/project-detail/hero.html %}
+  {% include pages/project-detail/intro.html %}
+  {% assign generated = page.project_detail_generated %}
+  <div class="project-reading design-wrap">
+    {% include pages/project-detail/chapter-navigation.html variant="desktop" %}
+    <article class="project-main{% if generated.chapters.size == 0 %} project-main--without-chapters{% endif %}" data-project-main>
+      {{ content }}
+    </article>
+  </div>
+  {% include pages/project-detail/chapter-navigation.html variant="corner" %}
+</main>
