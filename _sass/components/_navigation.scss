@@ -104,6 +104,7 @@
 @media (max-width: 640px) {
   .site-nav-shell {
     top: 10px;
+    width: min(1120px, calc(100% - 2 * var(--page-gutter)));
   }
 
   .site-nav {
