@@ -220,6 +220,10 @@
         var railImages = Array.from(track.querySelectorAll('img'));
         var motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
         var hovering = false;
+        var touching = false;
+        var position = 0;
+        var writtenPosition = 0;
+        var railWidth = rail.clientWidth;
         var focused = false;
         var initialized = false;
         var manualPauseUntil = 0;
@@ -246,12 +250,14 @@
 
         function frame(timestamp) {
             var elapsed = lastFrame ? Math.min(timestamp - lastFrame, 50) : 0;
-            var paused = hovering || focused || timestamp < manualPauseUntil;
+            var paused = hovering || focused || touching || timestamp < manualPauseUntil;
             var width = cycleWidth();
             var start = cycleStart();
 
             if (!initialized && railReady() && width > 0 && start > 0) {
-                rail.scrollLeft = start;
+                position = start;
+                rail.scrollLeft = position;
+                writtenPosition = rail.scrollLeft;
                 initialized = true;
                 rail.setAttribute('data-artwork-rail-ready', '');
                 lastFrame = timestamp;
@@ -260,27 +266,51 @@
             }
 
             if (initialized && shouldAutoDrift({ reducedMotion: motionQuery.matches, paused: paused })) {
-                rail.scrollLeft = wrapRailPosition(rail.scrollLeft + driftSpeed * elapsed / 1000, width, start);
+                // Keep fractional movement even if the browser rounds scrollLeft.
+                position = wrapRailPosition(position + driftSpeed * elapsed / 1000, width, start);
+                rail.scrollLeft = position;
+                writtenPosition = rail.scrollLeft;
+            } else if (initialized && !paused) {
+                position = wrapRailPosition(position, width, start);
+                rail.scrollLeft = position;
+                writtenPosition = rail.scrollLeft;
             }
             lastFrame = timestamp;
             window.requestAnimationFrame(frame);
         }
 
-        rail.addEventListener('pointerenter', function() { hovering = true; });
+        rail.addEventListener('pointerenter', function(event) {
+            hovering = event.pointerType === 'mouse';
+        });
         rail.addEventListener('pointerleave', function() { hovering = false; });
-        rail.addEventListener('focusin', function() { focused = true; });
+        rail.addEventListener('focusin', function(event) {
+            focused = event.target.matches(':focus-visible');
+        });
         rail.addEventListener('focusout', function(event) {
-            focused = Boolean(event.relatedTarget && rail.contains(event.relatedTarget));
+            focused = Boolean(event.relatedTarget && rail.contains(event.relatedTarget) && event.relatedTarget.matches(':focus-visible'));
         });
         rail.addEventListener('wheel', pauseForManualInput, { passive: true });
         rail.addEventListener('pointerdown', pauseForManualInput, { passive: true });
-        rail.addEventListener('touchstart', pauseForManualInput, { passive: true });
+        rail.addEventListener('touchstart', function() {
+            touching = true;
+            hovering = false;
+            focused = false;
+            pauseForManualInput();
+        }, { passive: true });
+        function endTouch(event) {
+            touching = event.touches.length > 0;
+            pauseForManualInput();
+        }
+        rail.addEventListener('touchend', endTouch, { passive: true });
+        rail.addEventListener('touchcancel', endTouch, { passive: true });
         rail.addEventListener('scroll', function() {
-            if (!initialized || !motionQuery.matches) return;
-            var normalized = normalizeManualRailPosition(rail.scrollLeft, cycleWidth(), cycleStart(), true);
-            if (Math.abs(normalized - rail.scrollLeft) > 0.5) rail.scrollLeft = normalized;
+            if (!initialized || rail.scrollLeft === writtenPosition) return;
+            position = rail.scrollLeft;
+            pauseForManualInput();
         }, { passive: true });
         window.addEventListener('resize', function() {
+            if (railWidth === rail.clientWidth) return;
+            railWidth = rail.clientWidth;
             initialized = false;
             rail.removeAttribute('data-artwork-rail-ready');
         });

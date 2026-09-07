@@ -33,7 +33,28 @@
         });
     }
 
+    function initHero() {
+        var hero = document.querySelector('.home-hero');
+        if (!hero) return;
+        var viewportWidth = 0;
+
+        function freezeHeight() {
+            var viewport = window.visualViewport;
+            if (viewport && viewport.scale !== 1) return;
+            var mobile = window.innerWidth <= 640 || window.matchMedia('(pointer: coarse)').matches;
+            if (mobile && viewportWidth === window.innerWidth) return;
+            viewportWidth = window.innerWidth;
+            var height = viewport ? viewport.height : window.innerHeight;
+            hero.style.setProperty('--home-viewport-height', height + 'px');
+        }
+
+        freezeHeight();
+        // Toolbar resizes change height only; rotation changes the layout width.
+        window.addEventListener('resize', freezeHeight);
+    }
+
     function init() {
+        initHero();
         var tabList = document.querySelector('[data-home-tabs]');
         if (!tabList) return;
 

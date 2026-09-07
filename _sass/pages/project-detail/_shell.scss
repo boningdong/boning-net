@@ -191,7 +191,7 @@
   }
 
   .project-hero-inner {
-    width: min(1120px, calc(100% - 28px));
+    width: min(1120px, calc(100% - 2 * var(--page-gutter)));
     padding: 104px 0 42px;
   }
 

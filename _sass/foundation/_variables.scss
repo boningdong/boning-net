@@ -43,3 +43,9 @@ $line-dark: #c7d0d4;
   --font-utility: "IBM Plex Mono", ui-monospace, monospace;
   --project-prose-width: 720px;
 }
+
+@media (max-width: 640px) {
+  :root {
+    --page-gutter: 24px;
+  }
+}

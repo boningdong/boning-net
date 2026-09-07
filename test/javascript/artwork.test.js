@@ -88,3 +88,66 @@ test('rail initialization waits for settled images but accepts failed images', (
   assert.equal(areRailImagesSettled([{ complete: true, naturalWidth: 400 }, { complete: false, naturalWidth: 0 }]), false);
   assert.equal(areRailImagesSettled([{ complete: true, naturalWidth: 400 }, { complete: true, naturalWidth: 0 }]), true);
 });
+
+
+function createRailHarness() {
+  const vm = require('node:vm');
+  const listeners = {};
+  let nextFrame;
+  let now = 0;
+  let scrollLeft = 0;
+  const rail = {
+    clientWidth: 390,
+    get scrollLeft() { return scrollLeft; },
+    set scrollLeft(value) { scrollLeft = Math.round(value); },
+    querySelector: () => ({
+      querySelector: selector => ({ offsetLeft: selector.includes('previous') ? 0 : selector.includes('next') ? 2000 : 1000 }),
+      querySelectorAll: () => []
+    }),
+    addEventListener: (name, callback) => { listeners[name] = callback; },
+    setAttribute() {}, removeAttribute() {}, contains: () => false
+  };
+  const root = { querySelector: selector => selector === '[data-artwork-rail]' ? rail : null, querySelectorAll: () => [] };
+  const document = { readyState: 'complete', querySelector: selector => selector === '[data-artwork-page]' ? root : null };
+  const window = { requestAnimationFrame: callback => { nextFrame = callback; },
+    matchMedia: () => ({ matches: false }), addEventListener() {} };
+  vm.runInNewContext(fs.readFileSync(modulePath, 'utf8'), { window, document, performance: { now: () => now } });
+  function frame(time) { now = time; nextFrame(time); }
+  frame(1);
+  return { rail, listeners, frame };
+}
+
+test('rail accumulates subpixel drift even when browser rounds scrollLeft', () => {
+  const { rail, frame } = createRailHarness();
+  for (let time = 17; time < 1000; time += 16) frame(time);
+  assert.ok(rail.scrollLeft >= 1017);
+});
+
+test('touch hover does not latch pause and a held touch pauses until release', () => {
+  const { rail, listeners, frame } = createRailHarness();
+  listeners.pointerenter({ pointerType: 'touch' });
+  frame(51);
+  assert.ok(rail.scrollLeft > 1000);
+  listeners.touchstart({ touches: [{}] });
+  const held = rail.scrollLeft;
+  frame(3000);
+  assert.equal(rail.scrollLeft, held);
+  listeners.touchend({ touches: [] });
+  frame(4000);
+  assert.equal(rail.scrollLeft, held);
+  frame(4900);
+  assert.ok(rail.scrollLeft > held);
+});
+
+test('manual momentum extends pause and autoplay resumes from the manual position', () => {
+  const { rail, listeners, frame } = createRailHarness();
+  listeners.touchstart({ touches: [{}] });
+  listeners.touchend({ touches: [] });
+  frame(1500);
+  rail.scrollLeft = 1250;
+  listeners.scroll();
+  frame(2500);
+  assert.equal(rail.scrollLeft, 1250);
+  frame(3400);
+  assert.ok(rail.scrollLeft > 1250 && rail.scrollLeft < 1260);
+});

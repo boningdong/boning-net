@@ -355,7 +355,7 @@ tests = {
     assert_includes css, ".artwork-page"
     assert_includes css, ".artwork-page{--artwork-highlight-height: 330px;--artwork-collection-columns: 3"
     assert_includes css, ".artwork-rail-card"
-    assert_includes css, ".artwork-rail{position:relative;width:100%;overflow-x:hidden"
+    assert_includes css, ".artwork-rail{position:relative;width:100%;overflow-x:auto"
     assert_includes css, "padding:12px 0 80px;margin-bottom:-46px"
     assert_includes css, ".artwork-rail::-webkit-scrollbar{display:none}"
     assert_includes css, ".artwork-rail:focus-visible"
@@ -373,7 +373,7 @@ tests = {
     assert_includes css, "@media(max-width: 850px){.artwork-page{--artwork-collection-columns: 2}"
     assert_includes css, "@media(max-width: 640px){.artwork-page{--artwork-collection-columns: 1}"
     assert_includes css, ".artwork-collection-grid{--artwork-collection-gap: var(--mobile-card-gap);gap:var(--artwork-collection-gap)}"
-    assert_includes css, "@media(prefers-reduced-motion: reduce){.artwork-rail{overflow-x:auto;touch-action:pan-x pan-y}}"
+    assert_includes css, "touch-action:pan-x pan-y pinch-zoom"
     assert_includes css, "@media(forced-colors: active){.artwork-rail:focus-visible{outline:2px solid CanvasText;outline-offset:-2px;background:none}}"
     assert_includes css, ".artwork-viewer"
   end,

@@ -404,6 +404,10 @@
 }
 
 @media (max-width: 640px) {
+  .projects-hero-copy {
+    width: calc(100% - 2 * var(--page-gutter));
+  }
+
   .projects-hero-image {
     object-position: 44% center;
   }

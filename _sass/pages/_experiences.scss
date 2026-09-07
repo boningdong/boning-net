@@ -546,6 +546,10 @@
 }
 
 @media (max-width: 640px) {
+  .experiences-hero-copy {
+    width: calc(100% - 2 * var(--page-gutter));
+  }
+
   .experiences-hero-copy h1 {
     max-width: 320px;
     margin-inline: auto;

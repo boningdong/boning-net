@@ -2,7 +2,8 @@
   position: relative;
   display: grid;
   place-items: center;
-  min-height: 100svh;
+  min-height: 100vh;
+  min-height: var(--home-viewport-height, 100svh);
   overflow: hidden;
   background: #293238;
   color: white;
@@ -642,6 +643,10 @@
 }
 
 @media (max-width: 640px) {
+  .home-hero-copy {
+    width: calc(100% - 2 * var(--page-gutter));
+  }
+
   .home-hero-image {
     object-position: 72% 0;
   }
